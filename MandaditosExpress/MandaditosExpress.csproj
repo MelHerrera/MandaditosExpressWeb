@@ -174,8 +174,30 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Asistente.cs" />
+    <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Costo.cs" />
+    <Compile Include="Models\Cotizacion.cs" />
+    <Compile Include="Models\Credito.cs" />
+    <Compile Include="Models\DetalleDeSeguimiento.cs" />
+    <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
+    <Compile Include="Models\Envio.cs" />
+    <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
+    <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
+    <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MandaditosDB.cs" />
+    <Compile Include="Models\Moneda.cs" />
+    <Compile Include="Models\Motocicleta.cs" />
+    <Compile Include="Models\Motorizado.cs" />
+    <Compile Include="Models\Pago.cs" />
+    <Compile Include="Models\Persona.cs" />
+    <Compile Include="Models\Salario.cs" />
+    <Compile Include="Models\Seguimiento.cs" />
+    <Compile Include="Models\Servicio.cs" />
+    <Compile Include="Models\TipoDePago.cs" />
+    <Compile Include="Models\TipoDeServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
