@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace MandaditosExpress.Models
 {
     public class MandaditosDB:DbContext
     {
-        public MandaditosDB() : base("name=MandaditosDB"){
+        public MandaditosDB() : base("name=DataConnection")
+        {
         }
 
         public virtual DbSet<Pago> Pagos { get; set; }
@@ -25,5 +27,10 @@ namespace MandaditosExpress.Models
         public virtual DbSet<Credito> Creditos { get; set; }
         public virtual DbSet<HistorialSeguimiento> HistorialSeguimientos { get; set; }
         public virtual DbSet<Persona> Personas { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 }

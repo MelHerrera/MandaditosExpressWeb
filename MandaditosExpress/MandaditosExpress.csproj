@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -112,12 +118,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -170,10 +170,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Asistente.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -208,6 +210,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\plugins\dataTables\dataTables.bootstrap.css" />
+    <Content Include="Content\plugins\dataTables\dataTables.responsive.css" />
+    <Content Include="Content\plugins\dataTables\jquery.dataTables.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome\css\font-awesome.css" />
@@ -264,6 +269,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\plugins\chartJs\Chart.min.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.responsive.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.tableTools.min.js" />
+    <Content Include="Scripts\plugins\dataTables\jquery.dataTables.js" />
     <Content Include="Scripts\plugins\flot\curvedLines.js" />
     <Content Include="Scripts\plugins\flot\excanvas.min.js" />
     <Content Include="Scripts\plugins\flot\jquery.flot.js" />
@@ -407,6 +416,12 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_TopNavbar.cshtml" />
     <Content Include="Views\Shared\_RightSidebar.cshtml" />
+    <Content Include="Views\Personas\Create.cshtml" />
+    <Content Include="Views\Personas\Delete.cshtml" />
+    <Content Include="Views\Personas\Details.cshtml" />
+    <Content Include="Views\Personas\Edit.cshtml" />
+    <Content Include="Views\Personas\Index.cshtml" />
+    <Content Include="Scripts\plugins\dataTables\i18n\es_es.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

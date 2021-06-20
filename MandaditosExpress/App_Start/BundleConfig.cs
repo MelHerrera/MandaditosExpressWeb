@@ -51,6 +51,16 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/peity").Include(
                       "~/Scripts/plugins/peity/jquery.peity.min.js"));
 
+            // dataTables 
+            bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
+                      "~/Scripts/plugins/dataTables/jquery.dataTables.js",
+                      "~/Scripts/plugins/dataTables/dataTables.bootstrap.js",
+                      "~/Scripts/plugins/dataTables/dataTables.responsive.js",
+                      "~/Scripts/plugins/dataTables/jquery.dataTables.min.css"));
+
+
+            //Styles
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/animate.css",
@@ -60,6 +70,12 @@ namespace MandaditosExpress
             // Font Awesome icons
             bundles.Add(new StyleBundle("~/font-awesome/css").Include(
                       "~/fonts/font-awesome/css/font-awesome.min.css", new CssRewriteUrlTransform()));
+
+            // dataTables css styles
+            bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
+                      "~/Content/plugins/dataTables/dataTables.bootstrap.css",
+                      "~/Content/plugins/dataTables/dataTables.responsive.css",
+                      "~/Content/plugins/dataTables/dataTables.tableTools.min.css"));
         }
     }
 }
