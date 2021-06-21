@@ -1,0 +1,154 @@
+﻿@model MandaditosExpress.Models.Motorizado
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Motorizado</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.EsAfiliado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EsAfiliado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoDeAfiliado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoDeAfiliado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDeAfiliacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaDeAfiliacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaIngresoDelMotorizado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaIngresoDelMotorizado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoDeMotorizado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoDeMotorizado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CorreoElectronico)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CorreoElectronico)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrimerNombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrimerNombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SegundoNombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SegundoNombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrimerApellido)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrimerApellido)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SegundoApellido)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SegundoApellido)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Telefono)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Foto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Foto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Sexo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Sexo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Cedula)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaIngreso)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaIngreso)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

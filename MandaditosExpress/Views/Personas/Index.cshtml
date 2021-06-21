@@ -37,7 +37,7 @@
                         @Html.DisplayNameFor(model => model.Cedula)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.FechaIngresoDeLaPersona)
+                        @Html.DisplayNameFor(model => model.FechaIngreso)
                     </th>
                     <th>Opciones</th>
                 </tr>
@@ -68,11 +68,11 @@
                             @Html.DisplayFor(modelItem => item.Cedula)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.FechaIngresoDeLaPersona)
+                            @Html.DisplayFor(modelItem => item.FechaIngreso)
                         </td>
                         <td style="white-space:nowrap;">
-                            <a class="btn btn-primary" href="@Url.Action("Edit",new { id = item.PersonaId})"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-info" href="@Url.Action("Details",new {id = item.PersonaId})"><i class="fa fa-info-circle"></i></a>
+                            <a class="btn btn-primary" href="@Url.Action("Edit",new { id = item.Id})"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-info" href="@Url.Action("Details",new {id = item.Id})"><i class="fa fa-info-circle"></i></a>
                         </td>
                     </tr>
                 }

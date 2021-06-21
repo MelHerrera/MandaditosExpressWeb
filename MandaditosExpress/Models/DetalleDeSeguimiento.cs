@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models
 {
+    [Table("DetallesDeSeguimiento")]
+
     public class DetalleDeSeguimiento
     {
         [Key]

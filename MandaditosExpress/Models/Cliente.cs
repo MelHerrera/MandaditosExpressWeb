@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models
 {
+    [Table("Clientes")]
     public class Cliente:Persona
     {
         public Cliente()
@@ -13,13 +15,11 @@ namespace MandaditosExpress.Models
             this.Creditos = new HashSet<Credito>();
         }
 
-        [Key]
-        public int ClienteId { get; set; }
-
         public bool EsEmpresa { get; set; }
 
         public string NombreDeLaEmpresa { get; set; }
 
+        [StringLength(14)]//J0130000006891
         public string RUC { get; set; }
 
         public DateTime FechaIngresoDelCliente { get; set; }

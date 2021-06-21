@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 using System;
 
 namespace MandaditosExpress.Models
 {
+    [Table("Motorizados")]
     public class Motorizado:Persona
     {
         public Motorizado()
@@ -13,8 +16,6 @@ namespace MandaditosExpress.Models
             this.Envios = new HashSet<Envio>();
         }
 
-        [Key]
-        public int MotorizadoId { get; set; }
         public bool EsAfiliado { get; set; }
         public short EstadoDeAfiliado { get; set; }
         public DateTime FechaDeAfiliacion { get; set; }

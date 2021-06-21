@@ -32,5 +32,11 @@ namespace MandaditosExpress.Models
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<MandaditosExpress.Models.Cliente> Clientes { get; set; }
+
+        public System.Data.Entity.DbSet<MandaditosExpress.Models.Asistente> Asistentes { get; set; }
+
+        public System.Data.Entity.DbSet<MandaditosExpress.Models.Motorizado> Motorizadoes { get; set; }
     }
 }

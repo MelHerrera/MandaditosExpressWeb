@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models
 {
+    [Table("Asistentes")]
     public class Asistente:Persona
     {
+
         public Asistente()
         {
             this.Envios = new HashSet<Envio>();
         }
-
-        [Key]
-        public int AsistenteId { get; set; }
-
 
         public DateTime FechaIngresoDeAsistente { get; set; }
         public bool EstadoDeAsistente { get; set; }

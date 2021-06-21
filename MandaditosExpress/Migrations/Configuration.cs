@@ -20,7 +20,7 @@ namespace MandaditosExpress.Migrations
             //  to avoid creating duplicate seed data. E.g.
             //
             context.Personas.AddOrUpdate(
-              p => p.PersonaId,
+              p => p.Id,
              new Models.Persona
              {
                  PrimerNombre = "Andrew",
@@ -32,8 +32,8 @@ namespace MandaditosExpress.Migrations
                  Sexo = "Masculino",
                  Cedula = "001-110294-5000F",
                  Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                 Foto = Byte.MaxValue,
-                 FechaIngresoDeLaPersona = DateTime.Now
+                 Foto = null,
+                 FechaIngreso = DateTime.Now
              },
               new Models.Persona
               {
@@ -46,8 +46,8 @@ namespace MandaditosExpress.Migrations
                   Sexo = "Masculino",
                   Cedula = "001-110294-5000F",
                   Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                  Foto = Byte.MaxValue,
-                  FechaIngresoDeLaPersona = DateTime.Now
+                  Foto = null,
+                  FechaIngreso = DateTime.Now
               },
                    new Models.Persona
                    {
@@ -60,8 +60,8 @@ namespace MandaditosExpress.Migrations
                        Sexo = "Masculino",
                        Cedula = "001-110294-5000F",
                        Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                       Foto = Byte.MaxValue,
-                       FechaIngresoDeLaPersona = DateTime.Now
+                       Foto = null,
+                       FechaIngreso = DateTime.Now
                    }
             );
 
