@@ -16,11 +16,19 @@ namespace MandaditosExpress.Models
             this.Envios = new HashSet<Envio>();
         }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name ="¿Es Afiliado?")]
         public bool EsAfiliado { get; set; }
+
+        [Display(Name = "Estado de Afiliación")]
         public short EstadoDeAfiliado { get; set; }
+
+        [Display(Name = "Fecha de Afiliación")]
         public DateTime FechaDeAfiliacion { get; set; }
-        public DateTime FechaIngresoDelMotorizado { get; set; }
-        public bool EstadoDeMotorizado { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Estado")]
+        public bool EstadoDelMotorizado { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Motocicleta> Motocicletas { get; set; }

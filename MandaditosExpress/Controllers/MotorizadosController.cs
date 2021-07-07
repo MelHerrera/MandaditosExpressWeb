@@ -17,7 +17,7 @@ namespace MandaditosExpress.Controllers
         // GET: Motorizados
         public ActionResult Index()
         {
-            return View(db.Motorizadoes.ToList());
+            return View(db.Motorizados.ToList());
         }
 
         // GET: Motorizados/Details/5
@@ -27,7 +27,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Motorizado motorizado = db.Motorizadoes.Find(id);
+            Motorizado motorizado = db.Motorizados.Find(id);
             if (motorizado == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Motorizadoes.Add(motorizado);
+                db.Motorizados.Add(motorizado);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Motorizado motorizado = db.Motorizadoes.Find(id);
+            Motorizado motorizado = db.Motorizados.Find(id);
             if (motorizado == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Motorizado motorizado = db.Motorizadoes.Find(id);
+            Motorizado motorizado = db.Motorizados.Find(id);
             if (motorizado == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Motorizado motorizado = db.Motorizadoes.Find(id);
-            db.Motorizadoes.Remove(motorizado);
+            Motorizado motorizado = db.Motorizados.Find(id);
+            db.Motorizados.Remove(motorizado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

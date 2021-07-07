@@ -1,3 +1,10 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{      
+    if (Request.IsAuthenticated && ViewContext.RouteData.Values["controller"].ToString() != "Home")
+    {
+        Layout = "~/Views/Shared/_Layout_1.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }

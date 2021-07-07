@@ -15,14 +15,15 @@ namespace MandaditosExpress.Models
             this.Creditos = new HashSet<Credito>();
         }
 
+        [Display(Name = "¿Es Empresa?")]
         public bool EsEmpresa { get; set; }
 
+        [Display(Name = "Nombre de Empresa")]
         public string NombreDeLaEmpresa { get; set; }
 
-        [StringLength(14)]//J0130000006891
+        [StringLength(14,ErrorMessage ="Excedio la Longitud Permitida")]//J0130000006891
+        [Display(Name = "Número RUC")]
         public string RUC { get; set; }
-
-        public DateTime FechaIngresoDelCliente { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Envio> Envios { get; set; }

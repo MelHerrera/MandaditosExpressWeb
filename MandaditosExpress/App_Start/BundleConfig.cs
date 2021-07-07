@@ -19,15 +19,28 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            // SlimScroll
+            bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(
+                      "~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"));
+
 
             // Inspinia script
             bundles.Add(new ScriptBundle("~/bundles/inspinia").Include(
-                      "~/Scripts/plugins/metisMenu/metisMenu.min.js",
+                      "~/Scripts/plugins/metisMenu/jquery.metisMenu.js",
                       "~/Scripts/plugins/pace/pace.min.js",
-                      "~/Scripts/app/inspinia.min.js"));
+                      "~/Scripts/app/inspinia.js"));
+
+            //Inspinia Landing Page 
+            bundles.Add(new ScriptBundle("~/bundles/plugins/landing").Include(
+                 "~/Scripts/plugins/metisMenu/jquery.metisMenu.js",
+                "~/Scripts/plugins/pace/pace.min.js",
+                "~/Scripts/plugins/wow/wow.min.js",
+                "~/Scripts/app/inspinia_landing.js",
+                  "~/Scripts/app/inspinia.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/popper.min.js"));
 
 
             // Flot chart
@@ -51,31 +64,39 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/peity").Include(
                       "~/Scripts/plugins/peity/jquery.peity.min.js"));
 
-            // dataTables 
+            // dataTables scripts
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
-                      "~/Scripts/plugins/dataTables/jquery.dataTables.js",
-                      "~/Scripts/plugins/dataTables/dataTables.bootstrap.js",
-                      "~/Scripts/plugins/dataTables/dataTables.responsive.js",
-                      "~/Scripts/plugins/dataTables/jquery.dataTables.min.css"));
+                       "~/Scripts/plugins/dataTables/datatables.min.js",
+                      "~/Scripts/plugins/dataTables/dataTables.bootstrap4.min.js"));
+
+            // WOW 
+            bundles.Add(new ScriptBundle("~/plugins/wow").Include(
+                        "~/Scripts/plugins/wow/wow.min.js"));
 
 
             //Styles
 
+            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
+          "~/Content/bootstrap.min.css",
+          "~/Content/animate.css",
+          "~/Content/landing_style.css"));
+
+            bundles.Add(new StyleBundle("~/Content/site/login").Include(
+                  "~/Content/site_login.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/animate.css",
-                       "~/Content/style.css",
-                      "~/Content/site.css"));
+                       "~/Content/style.css"));
 
             // Font Awesome icons
             bundles.Add(new StyleBundle("~/font-awesome/css").Include(
                       "~/fonts/font-awesome/css/font-awesome.min.css", new CssRewriteUrlTransform()));
 
             // dataTables css styles
-            bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
-                      "~/Content/plugins/dataTables/dataTables.bootstrap.css",
-                      "~/Content/plugins/dataTables/dataTables.responsive.css",
-                      "~/Content/plugins/dataTables/dataTables.tableTools.min.css"));
+            bundles.Add(new StyleBundle("~/Content/dataTablesStyles").Include(
+                      "~/Content/plugins/dataTables/dataTables.min.css"));
+
         }
     }
 }

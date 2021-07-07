@@ -449,7 +449,7 @@ namespace MandaditosExpress.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "HomeUser");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class ClientesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -46,7 +47,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,EsEmpresa,NombreDeLaEmpresa,RUC,FechaIngresoDelCliente,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "Id,EsEmpresa,NombreDeLaEmpresa,RUC,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {

@@ -12,7 +12,7 @@ namespace MandaditosExpress.Models
         }
 
         public virtual DbSet<Pago> Pagos { get; set; }
-        public virtual DbSet<TipoDePago> TipoDePagos { get; set; }
+        public virtual DbSet<TipoDePago> TiposDePago { get; set; }
         public virtual DbSet<Moneda> Monedas { get; set; }
         public virtual DbSet<Motocicleta> Motocicletas { get; set; }
         public virtual DbSet<Envio> Envios { get; set; }
@@ -21,7 +21,7 @@ namespace MandaditosExpress.Models
         public virtual DbSet<HistorialDetalleSeguimiento> HistorialDeSeguimientos { get; set; }
         public virtual DbSet<Cotizacion> Cotizaciones { get; set; }
         public virtual DbSet<Costo> Costos { get; set; }
-        public virtual DbSet<TipoDeServicio> TipoDeServicioSet { get; set; }
+        public virtual DbSet<TipoDeServicio> TiposDeServicio { get; set; }
         public virtual DbSet<Salario> Salarios { get; set; }
         public virtual DbSet<Servicio> Gestiones { get; set; }
         public virtual DbSet<Credito> Creditos { get; set; }
@@ -33,10 +33,10 @@ namespace MandaditosExpress.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public System.Data.Entity.DbSet<MandaditosExpress.Models.Cliente> Clientes { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
-        public System.Data.Entity.DbSet<MandaditosExpress.Models.Asistente> Asistentes { get; set; }
+        public DbSet<Asistente> Asistentes { get; set; }
 
-        public System.Data.Entity.DbSet<MandaditosExpress.Models.Motorizado> Motorizadoes { get; set; }
+        public DbSet<Motorizado> Motorizados { get; set; }
     }
 }
