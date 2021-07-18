@@ -1,13 +1,61 @@
-﻿@model MandaditosExpress.Models.Cliente
+﻿@model MandaditosExpress.Models.ViewModels.ClienteViewModel
 
 @{
     ViewBag.Title = "Agregar Cliente";
 }
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+@section Styles {
+    @Styles.Render("~/Content/site/register")
+}
 
+@if (Request.IsAuthenticated)
+{
+    <style>
+        .main {
+            background: #f8f8f8;
+            padding: 10px 0px 10px 0px;
+        }
 
+        .register {
+            width: 1100px;
+            background: #fff;
+            margin: 0 auto;
+            box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
+            -webkit-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
+            -o-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
+            -ms-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
+            border-radius: 20px;
+            -moz-border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -o-border-radius: 20px;
+            -ms-border-radius: 20px
+        }
+    </style>
+}
+else
+{
+    <style>
+
+        .landing-page .navbar-default .nav li a {
+            color: #000;
+            font-family: 'Open Sans', helvetica, arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .landing-page .navbar-fixed-top {
+            border-bottom: 1px solid #e7eaec !important;
+            background-color: #ffffff;
+        }
+    </style>
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+@if (Request.IsAuthenticated)
+{
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Agregar Clientes</h2>
@@ -27,156 +75,200 @@
             </ol>
         </div>
     </div>
+}
 
-    <div class="container">
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="ibox ">
-                        <div class="ibox-content">
-                            @using (Html.BeginForm())
-                            {
-                                @Html.AntiForgeryToken()
 
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="main">
+    <section class="signup">
+        <div class="container">
+            <div class="register">
+                <div class="signup-content">
+                    <div class="signup-form">
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
+                        @using (Html.BeginForm("Create", "Clientes", FormMethod.Post, new { @class = "register-form", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.PrimerNombre, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PrimerNombre, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.SegundoNombre, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.SegundoNombre, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.SegundoNombre, "", new { @class = "text-danger" })
-                                        </div>
 
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.PrimerApellido, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PrimerApellido, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
-                                        </div>
+                            <div class="text-center">
+                                <img src="~/Images/default_profile.png" class="avatar img-circle img-thumbnail" alt="avatar" height="100" width="100">
+                                <h6>Sube tu Foto de Perfil Aquí...</h6>
+                                <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
+                            </div><br>
 
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.SegundoApellido, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.SegundoApellido, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row ">
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.CorreoElectronico, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.CorreoElectronico, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="radioSexo" id="radioHombre" value="Hombre" checked />
-                                                <label class="form-check-label" for="radioHombre">Hombre</label>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="radioSexo" id="radioMujer" value="Mujer" />
-                                                <label class="form-check-label" for="radioMujer">Mujer</label>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
-                                        </div>
+                            <div class=" row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="PrimerNombre"> <i class="fa fa-user" aria-hidden="true"></i></label>
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre" />
+                                        @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                     </div>
 
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            @Html.LabelFor(model => model.EsEmpresa, htmlAttributes: new { @class = "control-label " })
-                                            <div class="custom-checkbox">
-                                                @Html.EditorFor(model => model.EsEmpresa)
-                                                @Html.ValidationMessageFor(model => model.EsEmpresa, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            @Html.LabelFor(model => model.NombreDeLaEmpresa, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.NombreDeLaEmpresa, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.NombreDeLaEmpresa, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            @Html.LabelFor(model => model.RUC, htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.RUC, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.RUC, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.FechaIngreso, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.FechaIngreso, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                                            @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Guardar" class="btn btn-success" />
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="SegundoNombre"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" />
                                     </div>
                                 </div>
                             </div>
-                            }
-                        </div>
 
-                        <div class="ibox-footer">
-                            <div class="col-md-12">
-                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                            <div class=" row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="PrimerApellido"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido" />
+                                        @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="SegundoApellido"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" />
+                                        @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div><br />
+
+                            <div class=" row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
+                                        <input type="text" name="Cedula" placeholder="Cedula" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Telefono"><i class="fa fa-phone"></i></label>
+                                        <input type="text" name="Telefono" placeholder="Celular" />
+                                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1">
+                                    <label class="label-radio-sexo"><strong>Sexo</strong></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="radio" name="Sexo" id="radioHombre" value="Hombre" checked style="display:inline-block;width:auto;" />
+                                        <label for="radioHombre" class="label-radio-sexo">Masculino</label>
+                                        <br />
+                                        <input type="radio" name="Sexo" id="radioMujer" value="Mujer" style="display:inline-block;width:auto;" />
+                                        <label for="radioMujer" class="label-radio-sexo">Femenino</label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
+                            <div class="form-group">
+                                <label for="Direccion"><i class="fa fa-address-book"></i></label>
+                                <input type="text" name="Direccion" placeholder="Dirección" />
+                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="checkbox" name="EsEmpresa" style="display:inline-block;width:auto;" class="chkEmpresa" />
+                                        <label for="EsEmpresa" class="label-esEmpresa">¿Es Empresa?</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 nombreEmpresa">
+                                    <div class="form-group">
+                                        <label for="NombreDeLaEmpresa"><i class="fa fa-apple"></i></label>
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De La Emp..." />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 RUCEmpresa">
+                                    <div class="form-group">
+                                        <label for="RUC"><i class="fa fa-archive"></i></label>
+                                        <input type="text" name="RUC" placeholder="RUC" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
+                                <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" />
+                                @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Password"><i class="fa fa-key"></i></label>
+                                        <input type="password" name="Password" placeholder="Contraseña" />
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ConfirmPassword"><i class="fa fa-ke"></i></label>
+                                        <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña" />
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" name="AceptaTerminos" style="display:inline-block;width:auto;" />
+                                <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
+                                @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group form-button">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-save">  Registrarse</i>
+                                </button>
+                            </div>
+                        }
                     </div>
+                    <div class="signup-image ">
+                        <figure><img src="/Images/signup-image.jpg" alt="sing up image"></figure>
+                        @if (Request.IsAuthenticated == false)
+                        {
+                            <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
+    </section>
+</div>
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Por defecto ocultar estos campos
+            $(".nombreEmpresa").hide();
+            $(".RUCEmpresa").hide();
+
+            var readURL = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('.avatar').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $(".file-upload").on('change', function () {
+                readURL(this);
+            });
+
+            $('.chkEmpresa').change(function () {
+                $(".nombreEmpresa").toggle();
+                $(".RUCEmpresa").toggle();
+            });
+
+        });
+    </script>
+}

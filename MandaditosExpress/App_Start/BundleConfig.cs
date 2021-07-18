@@ -84,6 +84,10 @@ namespace MandaditosExpress
             bundles.Add(new StyleBundle("~/Content/site/login").Include(
                   "~/Content/site_login.css"));
 
+
+            bundles.Add(new StyleBundle("~/Content/site/register").Include(
+                  "~/Content/register_style.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/animate.css",

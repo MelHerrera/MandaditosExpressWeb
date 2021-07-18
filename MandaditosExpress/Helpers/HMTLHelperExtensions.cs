@@ -34,5 +34,11 @@ namespace MandaditosExpress
             return currentAction;
         }
 
+        public static MvcHtmlString DisplayImage(this HtmlHelper html, byte[] image)
+        {
+            var img = string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(image));
+            return new MvcHtmlString("<img src='" + img + "' class='img-circle' height='40' width='40'" + "/>");
+        }
+
     }
 }

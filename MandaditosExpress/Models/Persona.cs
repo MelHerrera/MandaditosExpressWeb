@@ -45,8 +45,9 @@ namespace MandaditosExpress.Models
         [StringLength(9,ErrorMessage ="Excedio la Longitud Permitida")]//Masculino-Femenino
         public string Sexo { get; set; }
 
-        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Required]
         [StringLength(200)]
+        [DataType(DataType.MultilineText)]
         public string Direccion { get; set; }
 
         [StringLength(16)]//132-090994-2000F

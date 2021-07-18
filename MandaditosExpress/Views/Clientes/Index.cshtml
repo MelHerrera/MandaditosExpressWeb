@@ -83,7 +83,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr class="gradeX">
-                                        <td >
+                                        <td class="d-none">
                                             @Html.DisplayFor(modelItem => item.Id)
                                         </td>
                                         <td>
@@ -114,7 +114,16 @@
                                             @Html.DisplayFor(modelItem => item.Telefono)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Foto)
+                                            @if (item.Foto != null)
+                                            {
+                                                @Html.DisplayImage(item.Foto)
+                                            }
+                                            else
+                                            {
+                                            <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40"/>
+                                            }
+
+                                            @*@Html.DisplayFor(modelItem => item.Foto)*@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Sexo)

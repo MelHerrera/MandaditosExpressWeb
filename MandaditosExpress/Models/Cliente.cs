@@ -15,6 +15,7 @@ namespace MandaditosExpress.Models
             this.Creditos = new HashSet<Credito>();
         }
 
+        [Required]
         [Display(Name = "¿Es Empresa?")]
         public bool EsEmpresa { get; set; }
 
