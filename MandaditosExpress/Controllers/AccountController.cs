@@ -391,6 +391,9 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            //Cerrar todas las variables de session
+            Session.Abandon();
+
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

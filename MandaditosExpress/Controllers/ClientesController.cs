@@ -57,8 +57,10 @@ namespace MandaditosExpress.Controllers
         public async Task<ActionResult> Create(ClienteViewModel cliente)
         {
 
-            if(cliente.CorreoElectronico!=null && cliente.Password!=null)
+            if (ModelState.IsValid)
             {
+                if (cliente.CorreoElectronico != null && cliente.Password != null)
+                {
                 var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
                 var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
@@ -66,19 +68,20 @@ namespace MandaditosExpress.Controllers
 
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Enviar correo electrónico con este vínculo
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                    //agregar a su correspondiente rol aqui
-                    //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+                        // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Enviar correo electrónico con este vínculo
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                    //Agregamos el cliente
-                    var cl = new Cliente
+                        //agregar a su correspondiente rol aqui
+                        //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+
+                        //Agregamos el cliente
+                        var cl = new Cliente
                     {
                         CorreoElectronico = cliente.CorreoElectronico,
                         PrimerNombre = cliente.PrimerNombre,
@@ -96,19 +99,23 @@ namespace MandaditosExpress.Controllers
                         RUC = cliente.RUC
                     };
 
-                    if (ModelState.IsValid)
-                    {
+                        if (ModelState.IsValid)
+                        {
                         db.Clientes.Add(cl);
 
-                        if (db.SaveChanges() > 0)
+                            // agregar la validacion del Rol cuando se esten manejando roles en el sistema
+                        if (db.SaveChanges() > 0 && Request.IsAuthenticated)
                         {
-                            return RedirectToAction("Index", "Clientes");
+                                return RedirectToAction("Index", "Clientes");
                         }
-                    }
-                   
+                        else
+                                return RedirectToAction("Login", "Account");
+                        }
+
                 }
                 else
                     AddErrors(result);
+                }
             }
 
             return View(cliente);

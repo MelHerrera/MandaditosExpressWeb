@@ -16,7 +16,7 @@ namespace MandaditosExpress.Models
             this.Envios = new HashSet<Envio>();
         }
 
-        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Required]
         [Display(Name ="¿Es Afiliado?")]
         public bool EsAfiliado { get; set; }
 

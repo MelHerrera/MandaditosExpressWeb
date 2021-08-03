@@ -169,19 +169,19 @@ else
                             <div class=" row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="checkbox" name="EsEmpresa" style="display:inline-block;width:auto;" class="chkEmpresa" />
+                                        <input type="checkbox" name="EsEmpresa" value="true" style="display:inline-block;width:auto;" class="chkEmpresa" />
                                         <label for="EsEmpresa" class="label-esEmpresa">¿Es Empresa?</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 nombreEmpresa">
                                     <div class="form-group">
-                                        <label for="NombreDeLaEmpresa"><i class="fa fa-apple"></i></label>
-                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De La Emp..." />
+                                        <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De Empresa" />
                                     </div>
                                 </div>
                                 <div class="col-md-4 RUCEmpresa">
                                     <div class="form-group">
-                                        <label for="RUC"><i class="fa fa-archive"></i></label>
+                                        <label for="RUC"><i class="fa fa-ticket"></i></label>
                                         <input type="text" name="RUC" placeholder="RUC" />
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@ else
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" name="AceptaTerminos" style="display:inline-block;width:auto;" />
+                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;"/>
                                 <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
                                 @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
                             </div>

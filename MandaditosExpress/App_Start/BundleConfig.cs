@@ -23,6 +23,9 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(
                       "~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"));
 
+            // Js Color Picker
+            bundles.Add(new ScriptBundle("~/plugins/jscolorpicker").Include(
+                      "~/Scripts/plugins/jscolor/jscolor.js"));
 
             // Inspinia script
             bundles.Add(new ScriptBundle("~/bundles/inspinia").Include(

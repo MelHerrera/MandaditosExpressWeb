@@ -15,13 +15,27 @@ namespace MandaditosExpress.Models
 
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Placa { get; set; }
+
+        [Required]
+        [MaxLength(7)]
         public string Color { get; set; }
+
+        [Required]
         public string Modelo { get; set; }
+
+        [Required]
         public short Anio { get; set; }
+
+        [Required]
         public bool EsPropia { get; set; }
+
+        [Required]
         public short Kilometraje { get; set; }
         public DateTime FechaDeIngreso { get; set; }
+
+        [Required]
         public bool EsTemporal { get; set; }
         public DateTime FechaDeValidez { get; set; }
         public int MotorizadoId { get; set; }

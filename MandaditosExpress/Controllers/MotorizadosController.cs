@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class MotorizadosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -36,8 +38,16 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Motorizados/Create
+        [AllowAnonymous]
         public ActionResult Create()
         {
+            var Estados = Enum.GetValues(typeof(EstadoDeAfiliadoEnum));
+
+            if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                ViewBag.EstadoDeAfiliado = Estados;
+            else
+                ViewBag.EstadoDeAfiliado = new List<EstadoDeAfiliadoEnum>() {EstadoDeAfiliadoEnum.Solicitud };
+
             return View();
         }
 
@@ -45,6 +55,7 @@ namespace MandaditosExpress.Controllers
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,EsAfiliado,EstadoDeAfiliado,FechaDeAfiliacion,FechaIngresoDelMotorizado,EstadoDeMotorizado,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Motorizado motorizado)
         {
