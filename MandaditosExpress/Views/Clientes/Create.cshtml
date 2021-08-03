@@ -182,7 +182,7 @@ else
                                 <div class="col-md-4 nombreEmpresa">
                                     <div class="form-group nombreEmpresa-formgroup">
                                         <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
-                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De Empresa" />
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De Empresa" id="NombreDeLaEmpresa" />
                                     </div>
                                     @*@Html.ValidationMessageFor(model => model.NombreDeLaEmpresa, "", new { @class = "text-danger" })*@
                                 </div>
@@ -284,11 +284,9 @@ else
 
             $(".chkEmpresa").on("click", function () {
                 if ($(".chkEmpresa").is(":checked")) {
-                    alert("Checkbox is checked.");
-                    @*var ValidationMessageFor = @Html.ValidationMessageFor(model => model.NombreDeLaEmpresa, "", new { @class = "text-danger" })*@
-                    $(".nombreEmpresa-formgroup").append(ValidationMessageFor);
+                    $("#NombreDeLaEmpresa").attr("required", "true");
                 } else {
-                    alert("Checkbox is unchecked.");
+                    $("#NombreDeLaEmpresa").removeAttr("required");
                 }
             });
 
