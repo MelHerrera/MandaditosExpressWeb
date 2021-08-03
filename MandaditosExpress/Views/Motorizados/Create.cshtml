@@ -98,7 +98,7 @@ else
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Queremos Conocerte!!! Haznos Saber un poco sobre tí</h2>
-                        @using (Html.BeginForm("Create", "Clientes", FormMethod.Post, new { @class = "register-form", enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("Create", "Motorizados", FormMethod.Post, new { @class = "register-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -137,7 +137,7 @@ else
                             <div class=" row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="PrimerApellido"><i class="fa fa-user"></i></label>
+                                        <label for="PrimerApellido"><i class=""></i></label>
                                         <input type="text" name="PrimerApellido" placeholder="Primer Apellido" />
                                         @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                     </div>
@@ -180,14 +180,17 @@ else
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="Direccion"><i class="fa fa-address-book"></i></label>
-                                <input type="text" name="Direccion" placeholder="Dirección" />
-                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Direccion"><i class="fa fa-address-book"  aria-hidden="true"></i></label>
+                                        <input type="text" name="Direccion" placeholder="Dirección" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                </div>
                             </div>
 
                             <div class=" row">
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <input type="checkbox" name="EsAfiliado" value="true" style="display:inline-block;width:auto;" class="chkAfiliado" />
@@ -234,15 +237,15 @@ else
                             <br />
                             <div class=" row">
 
-                                    <div class="col-md-1" style="margin-right:10px; top:5px;">
-                                        <label class="label-radio-sexo"><strong>Color:</strong></label>
+                                <div class="col-md-1" style="margin-right:10px; top:5px;">
+                                    <label class="label-radio-sexo"><strong>Color:</strong></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="#3399FF" name="Color" width="50" height="50" />
+                                        @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="#3399FF" name="Color" width="50" height="50"/>
-                                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+                                </div>
 
 
                                 <div class="col-sm-5">
