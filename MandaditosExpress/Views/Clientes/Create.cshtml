@@ -184,7 +184,6 @@ else
                                         <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
                                         <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre De Empresa" id="NombreDeLaEmpresa" />
                                     </div>
-                                    @*@Html.ValidationMessageFor(model => model.NombreDeLaEmpresa, "", new { @class = "text-danger" })*@
                                 </div>
                                 <div class="col-md-4 RUCEmpresa">
                                     <div class="form-group">
@@ -216,8 +215,8 @@ else
                                     <div class="form-group">
                                         <label for="ConfirmPassword"><i class="fa fa-key"></i></label>
                                         <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña" />
-                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 

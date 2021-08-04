@@ -263,7 +263,8 @@ body {
 }
 
 .signup-content {
-    padding: 15px 0
+    padding: 15px 0;
+    align-items: center;
 }
 
 .signup-form, .signup-image, .signin-form, .signin-image {
