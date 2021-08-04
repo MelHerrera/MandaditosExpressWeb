@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
+using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
@@ -48,7 +49,7 @@ namespace MandaditosExpress.Controllers
             else
                 ViewBag.EstadoDeAfiliado = new List<EstadoDeAfiliadoEnum>() {EstadoDeAfiliadoEnum.Solicitud };
 
-            return View();
+            return View(new MotorizadoViewModel());
         }
 
         // POST: Motorizados/Create
@@ -57,16 +58,20 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,EsAfiliado,EstadoDeAfiliado,FechaDeAfiliacion,FechaIngresoDelMotorizado,EstadoDeMotorizado,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Motorizado motorizado)
+        public ActionResult Create(MotorizadoViewModel motorizado)
         {
             if (ModelState.IsValid)
             {
-                db.Motorizados.Add(motorizado);
+                //db.Motorizados.Add(motorizado);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            else
+            {
+                return View(motorizado);
+            }
 
-            return View(motorizado);
+            //return View(motorizado);
         }
 
         // GET: Motorizados/Edit/5
@@ -134,5 +139,14 @@ namespace MandaditosExpress.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //public List<EstadoDeAfiliadoEnum> ObtenerEstado() {
+        //    //var Estados = Enum.GetValues(typeof(EstadoDeAfiliadoEnum));
+
+        //    //if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        //    //    return Estados;
+        //    //else
+        //    //    return new List<EstadoDeAfiliadoEnum>() { EstadoDeAfiliadoEnum.Solicitud };
+        //}
     }
 }

@@ -25,7 +25,7 @@ namespace MandaditosExpress.Models
         [Required]
         public string Modelo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo Año es obligatorio.")]
         public short Anio { get; set; }
 
         [Required]

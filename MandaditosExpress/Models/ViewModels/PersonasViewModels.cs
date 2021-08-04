@@ -112,6 +112,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Required]
         [StringLength(9, ErrorMessage = "Excedio la Longitud Permitida")]//Masculino-Femenino
+        //[Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]
         public string Sexo { get; set; }
 
         [Required]
@@ -149,7 +150,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         public string Modelo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo Año es obligatorio.")]
         public short Anio { get; set; }
 
         [Required]
