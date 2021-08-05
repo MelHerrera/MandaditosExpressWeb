@@ -79,6 +79,12 @@ namespace MandaditosExpress.Models.ViewModels
 
     public class MotorizadoViewModel
     {
+        public MotorizadoViewModel()
+        {
+            this.Color = "#3399FF";
+            this.EsAfiliado = false;
+        }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Correo Electronico")]

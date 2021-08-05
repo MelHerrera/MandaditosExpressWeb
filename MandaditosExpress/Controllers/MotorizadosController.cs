@@ -42,13 +42,7 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
-            var Estados = Enum.GetValues(typeof(EstadoDeAfiliadoEnum));
-
-            if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                ViewBag.EstadoDeAfiliado = Estados;
-            else
-                ViewBag.EstadoDeAfiliado = new List<EstadoDeAfiliadoEnum>() {EstadoDeAfiliadoEnum.Solicitud };
-
+            ViewBag.EstadoDeAfiliado = ObtenerEstadoAfiliacion();
             return View(new MotorizadoViewModel());
         }
 
@@ -66,12 +60,9 @@ namespace MandaditosExpress.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View(motorizado);
-            }
 
-            //return View(motorizado);
+            ViewBag.EstadoDeAfiliado = ObtenerEstadoAfiliacion();
+            return View(motorizado);
         }
 
         // GET: Motorizados/Edit/5
@@ -140,13 +131,14 @@ namespace MandaditosExpress.Controllers
             base.Dispose(disposing);
         }
 
-        //public List<EstadoDeAfiliadoEnum> ObtenerEstado() {
-        //    //var Estados = Enum.GetValues(typeof(EstadoDeAfiliadoEnum));
+        public List<EstadoDeAfiliadoEnum> ObtenerEstadoAfiliacion()
+        {
+            var Estados =Enum.GetValues(typeof(EstadoDeAfiliadoEnum)).Cast<EstadoDeAfiliadoEnum>().ToList();
 
-        //    //if (Request.IsAuthenticated && User.IsInRole("Admin"))
-        //    //    return Estados;
-        //    //else
-        //    //    return new List<EstadoDeAfiliadoEnum>() { EstadoDeAfiliadoEnum.Solicitud };
-        //}
+            if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                return Estados;
+            else
+                return new List<EstadoDeAfiliadoEnum>() { EstadoDeAfiliadoEnum.Solicitud };
+        }
     }
 }

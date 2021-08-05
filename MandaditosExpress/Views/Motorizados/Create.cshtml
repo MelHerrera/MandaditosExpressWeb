@@ -194,14 +194,14 @@ else
                                     <div class=" row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="checkbox" name="EsAfiliado" value="@Model.EsAfiliado" style="display:inline-block;width:auto;" class="chkAfiliado" />
+                                                <input type="checkbox" name="EsAfiliado" value="true" style="display:inline-block;width:auto;" class="chkAfiliado" />
                                                 <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group EstadoDeAfiliado">
                                             <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
-                                            <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;">
+                                            <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;"  value="@Model.EstadoDeAfiliado" >
                                                 @if (ViewBag.EstadoDeAfiliado != null)
                                                 {
                                                     foreach (var option in ViewBag.EstadoDeAfiliado)
@@ -217,7 +217,7 @@ else
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="Placa"> <i class="fa fa-motorcycle" aria-hidden="true"></i></label>
-                                                <input type="text" name="Placa" placeholder="# de Placa" />
+                                                <input type="text" name="Placa" placeholder="# de Placa" value="@Model.Placa"/>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
                                         </div>
@@ -225,7 +225,7 @@ else
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label for="Modelo"><i class="fa fa-ticket"></i></label>
-                                                <input type="text" name="Modelo" placeholder="Modelo" />
+                                                <input type="text" name="Modelo" placeholder="Modelo" value="@Model.Modelo"/>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
                                         </div>
@@ -233,7 +233,7 @@ else
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="Anio"><i class="fa fa-calendar"></i></label>
-                                                <input type="text" name="Anio" placeholder="Año" />
+                                                <input type="number" name="Anio" placeholder="Año" value="@Model.Anio"/>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
                                         </div>
@@ -247,7 +247,7 @@ else
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="#3399FF" name="Color" width="50" height="50" />
+                                                <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" width="50" height="50" />
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                                         </div>
@@ -255,7 +255,7 @@ else
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
-                                                <input type="number" name="Kilometraje" placeholder="Kilometraje" />
+                                                <input type="number" name="Kilometraje" placeholder="Kilometraje"  value="@Model.Kilometraje" />
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
                                         </div>
@@ -271,10 +271,10 @@ else
 
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input type="radio" name="EsPropia" value="true" style="display:inline-block;width:auto;" />
+                                                <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked/>
                                                 <label for="EsPropia" class="label-agree-term">Si</label>
 
-                                                <input type="radio" name="EsPropia" value="true" style="display:inline-block;width:auto;" />
+                                                <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
                                                 <label for="EsPropia" class="label-agree-term">No</label>
                                             </div>
                                         </div>
