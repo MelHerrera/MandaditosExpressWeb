@@ -103,197 +103,238 @@ else
                                 <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
                             </div><br>
 
-                                  <div class=" row">
-                                      <div class="col-md-12">
-                                          <div class="form-group">
-                                              <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
-                                              <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" value="@Model.CorreoElectronico"/>
-                                              @*@Html.TextBoxFor(m=>m.CorreoElectronico, new {@class=" ",@placeholder= "Correo Electronico"})*@
-                                          </div>
-                                          @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
-                                      </div>
-                                  </div>
-
-                                    <div class=" row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="PrimerNombre"> <i class="fa fa-user" aria-hidden="true"></i></label>
-                                                <input type="text" name="PrimerNombre" placeholder="Primer Nombre" value="@Model.PrimerNombre"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="SegundoNombre"><i class="fa fa-user"></i></label>
-                                                <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" value="@Model.SegundoNombre"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class=" row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="PrimerApellido"><i class="fa fa-user"></i></label>
-                                                <input type="text" name="PrimerApellido" placeholder="Primer Apellido" value="@Model.PrimerApellido"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="SegundoApellido"><i class="fa fa-user"></i></label>
-                                                <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" value="@Model.SegundoApellido"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                        
-                                    <br />
-
-                                    <div class=" row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                                <input type="text" name="Cedula" placeholder="Cedula" value="@Model.Cedula"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Telefono"><i class="fa fa-phone"></i></label>
-                                                <input type="text" name="Telefono" placeholder="Celular" value="@Model.Telefono"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-1">
-                                            <label class="label-radio-sexo"><strong>Sexo</strong></label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <input type="radio" name="Sexo" id="radioHombre" value="Masculino" checked style="display:inline-block;width:auto;" />
-                                                <label for="radioHombre" class="label-radio-sexo">Masculino</label>
-                                                <br />
-                                                <input type="radio" name="Sexo" id="radioMujer"value="Femenino" style="display:inline-block;width:auto;" />
-                                                <label for="radioMujer" class="label-radio-sexo">Femenino</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                                <input type="text" name="Direccion" placeholder="Dirección" value="@Model.Direccion"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <br />
-
-                                    <div class=" row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="checkbox" name="EsAfiliado" value="true" style="display:inline-block;width:auto;" class="chkAfiliado" />
-                                                <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group EstadoDeAfiliado">
-                                            <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
-                                            <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;"  value="@Model.EstadoDeAfiliado" >
-                                                @if (ViewBag.EstadoDeAfiliado != null)
-                                                {
-                                                    foreach (var option in ViewBag.EstadoDeAfiliado)
-                                                    {
-                                                        <option value="@option">@option</option>
-                                                    }
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class=" row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="Placa"> <i class="fa fa-motorcycle" aria-hidden="true"></i></label>
-                                                <input type="text" name="Placa" placeholder="# de Placa" value="@Model.Placa"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="Modelo"><i class="fa fa-ticket"></i></label>
-                                                <input type="text" name="Modelo" placeholder="Modelo" value="@Model.Modelo"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label for="Anio"><i class="fa fa-calendar"></i></label>
-                                                <input type="number" name="Anio" placeholder="Año" value="@Model.Anio"/>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <br />
-
-                                    <div class=" row">
-                                        <div class="col-md-1" style="margin-right:10px; top:5px;">
-                                            <label class="label-radio-sexo"><strong>Color:</strong></label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" width="50" height="50" />
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
-                                                <input type="number" name="Kilometraje" placeholder="Kilometraje"  value="@Model.Kilometraje" />
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
-                                        </div>
-
-                                    </div>
-
-                                    <br />
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="label-esEmpresa">¿Es Propia?</label>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked/>
-                                                <label for="EsPropia" class="label-agree-term">Si</label>
-
-                                                <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
-                                                <label for="EsPropia" class="label-agree-term">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
+                            <div class=" row">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
-                                        <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
-                                        @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
+                                        <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
+                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" value="@Model.CorreoElectronico" />
+                                        @*@Html.TextBoxFor(m=>m.CorreoElectronico, new {@class=" ",@placeholder= "Correo Electronico"})*@
                                     </div>
-
-                                    <div class="form-group form-button">
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="fa fa-save">  Registrarse</i>
-                                        </button>
-                                    </div>
-                                    }
+                                    @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="PrimerNombre"> <i class="fa fa-user" aria-hidden="true"></i></label>
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre" value="@Model.PrimerNombre" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="SegundoNombre"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" value="@Model.SegundoNombre" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="PrimerApellido"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido" value="@Model.PrimerApellido" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="SegundoApellido"><i class="fa fa-user"></i></label>
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" value="@Model.SegundoApellido" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class=" row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
+                                        <input type="text" name="Cedula" placeholder="Cedula" value="@Model.Cedula" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Telefono"><i class="fa fa-phone"></i></label>
+                                        <input type="text" name="Telefono" placeholder="Celular" value="@Model.Telefono" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-1">
+                                    <label class="label-radio-sexo"><strong>Sexo</strong></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="radio" name="Sexo" id="radioHombre" value="Masculino" checked style="display:inline-block;width:auto;" />
+                                        <label for="radioHombre" class="label-radio-sexo">Masculino</label>
+                                        <br />
+                                        <input type="radio" name="Sexo" id="radioMujer" value="Femenino" style="display:inline-block;width:auto;" />
+                                        <label for="radioMujer" class="label-radio-sexo">Femenino</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
+                                        <input type="text" name="Direccion" placeholder="Dirección" value="@Model.Direccion" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class=" row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="checkbox" name="EsAfiliado" value="true" style="display:inline-block;width:auto;" class="chkAfiliado" />
+                                        <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group EstadoDeAfiliado">
+                                    <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
+                                    <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;">
+                                        @if (ViewBag.EstadoDeAfiliado != null)
+                                        {
+                                            foreach (var option in ViewBag.EstadoDeAfiliado)
+                                            {
+                                                var OptionToShort = (short)option;
+
+                                                <option value="@OptionToShort">@option</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Placa"> <i class="fa fa-motorcycle" aria-hidden="true"></i></label>
+                                        <input type="text" name="Placa" placeholder="# de Placa" value="@Model.Placa" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label for="Modelo"><i class="fa fa-ticket"></i></label>
+                                        <input type="text" name="Modelo" placeholder="Modelo" value="@Model.Modelo" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Anio"><i class="fa fa-calendar"></i></label>
+                                        <input type="number" name="Anio" placeholder="Año" value="@Model.Anio" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class=" row">
+                                <div class="col-md-1" style="margin-right:10px; top:5px;">
+                                    <label class="label-radio-sexo"><strong>Color:</strong></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" width="50" height="50" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
+                                        <input type="number" name="Kilometraje" placeholder="Kilometraje" value="@Model.Kilometraje" />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="label-esEmpresa">¿Es Propia?</label>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked />
+                                        <label for="EsPropia" class="label-agree-term">Si</label>
+
+                                        <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
+                                        <label for="EsPropia" class="label-agree-term">No</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="label-esEmpresa">Disponibilidad</label>
+                                </div>
+
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        @if (ViewBag.DisponibilidadTiempo != null)
+                                        {
+                                            foreach (var option in ViewBag.DisponibilidadTiempo)
+                                            {
+                                                var OptionToInt = (int)option;
+
+                                                <input type="radio" name="DisponibilidadTiempo" value="@OptionToInt" style="display:inline-block;width:auto;" />
+                                                <label for="DisponibilidadTiempo" class="label-agree-term">@option</label>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="VelocidadConexion" class="label-agree-term"></label>Velocidad de Conexión
+                                        <select class="form-control" name="VelocidadConexion" style="display:inline-block;width:auto;" value="@Model.VelocidadConexion">
+                                            @if (ViewBag.VelocidadInternet != null)
+                                            {
+                                                foreach (var option in ViewBag.VelocidadInternet)
+                                                {
+                                                    var OptionToShort = (int)option;
+
+                                                    <option value="@OptionToShort">@option</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
+                                <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
+                                @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group form-button">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-save">  Registrarse</i>
+                                </button>
+                            </div>
+                        }
+                    </div>
 
                                 <div class="signup-image">
                                     <figure class="align-content-center"><img src="~/Images/food-delivery.png" alt="singup-image"></figure>

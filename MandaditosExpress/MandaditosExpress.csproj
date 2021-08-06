@@ -189,6 +189,7 @@
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\Credito.cs" />
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
+    <Compile Include="Models\Enum\DisponibilidadTiempoEnum.cs" />
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
     <Compile Include="Models\Enum\VelocidadInternetEnum.cs" />
     <Compile Include="Models\Envio.cs" />

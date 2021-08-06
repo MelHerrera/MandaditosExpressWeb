@@ -42,7 +42,9 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
-            ViewBag.EstadoDeAfiliado = ObtenerEstadoAfiliacion();
+            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
+            ViewBag.DisponibilidadTiempo = ListarDisponibilidadTiempos();
+            ViewBag.VelocidadInternet = ListarVelocidadInternet();
             return View(new MotorizadoViewModel());
         }
 
@@ -61,7 +63,10 @@ namespace MandaditosExpress.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EstadoDeAfiliado = ObtenerEstadoAfiliacion();
+            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
+            ViewBag.DisponibilidadTiempo = ListarDisponibilidadTiempos();
+            ViewBag.VelocidadInternet = ListarDisponibilidadTiempos();
+
             return View(motorizado);
         }
 
@@ -131,14 +136,24 @@ namespace MandaditosExpress.Controllers
             base.Dispose(disposing);
         }
 
-        public List<EstadoDeAfiliadoEnum> ObtenerEstadoAfiliacion()
+        public List<EstadoDeAfiliadoEnum> ListarEstadoAfiliacion()
         {
             var Estados =Enum.GetValues(typeof(EstadoDeAfiliadoEnum)).Cast<EstadoDeAfiliadoEnum>().ToList();
 
-            if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            if (Request.IsAuthenticated/* && User.IsInRole("Admin")*/)
                 return Estados;
             else
                 return new List<EstadoDeAfiliadoEnum>() { EstadoDeAfiliadoEnum.Solicitud };
+        }
+
+        public List<DisponibilidadTiempoEnum> ListarDisponibilidadTiempos()
+        {
+            return Enum.GetValues(typeof(DisponibilidadTiempoEnum)).Cast<DisponibilidadTiempoEnum>().ToList();
+        }
+
+        public List<VelocidadInternetEnum> ListarVelocidadInternet()
+        {
+            return Enum.GetValues(typeof(VelocidadInternetEnum)).Cast<VelocidadInternetEnum>().ToList();
         }
     }
 }

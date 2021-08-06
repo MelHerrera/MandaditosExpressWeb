@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MandaditosExpress.Models.Enum
 {
-    public class VelocidadInternetEnum
+    public enum VelocidadInternetEnum
     {
-
+        Lenta=0,
+        Media=1,
+        Rapida=2,
+        [Display(Name ="Muy Rapida")]
+        MuyRapida=3
     }
 }

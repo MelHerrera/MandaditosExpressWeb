@@ -140,6 +140,16 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Estado de Afiliación")]
         public short EstadoDeAfiliado { get; set; }
 
+        [Required]
+        [MaxLength(6)]
+        [Display(Name = "Velocidad de Conexion a Internet")]
+        public int VelocidadConexion { get; set; }
+
+        [Required]
+        [MaxLength(6)]
+        [Display(Name = "Disponibilidad de Tiempo")]
+        public int DisponibilidadTiempo { get; set; }
+
         [Display(Name = "Fecha de Afiliación")]
         public DateTime FechaDeAfiliacion { get; set; }
 
