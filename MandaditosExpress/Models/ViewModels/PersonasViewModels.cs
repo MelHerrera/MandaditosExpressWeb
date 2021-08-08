@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MandaditosExpress.Models.Enum;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MandaditosExpress.Models.ViewModels
@@ -118,7 +119,6 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Required]
         [StringLength(9, ErrorMessage = "Excedio la Longitud Permitida")]//Masculino-Femenino
-        //[Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]
         public string Sexo { get; set; }
 
         [Required]
@@ -141,14 +141,12 @@ namespace MandaditosExpress.Models.ViewModels
         public short EstadoDeAfiliado { get; set; }
 
         [Required]
-        [MaxLength(6)]
-        [Display(Name = "Velocidad de Conexion a Internet")]
-        public int VelocidadConexion { get; set; }
+        [Display(Name ="Velocidad de Internet")]
+        public int VelocidadDeConexionId { get; set; }
 
         [Required]
-        [MaxLength(6)]
-        [Display(Name = "Disponibilidad de Tiempo")]
-        public int DisponibilidadTiempo { get; set; }
+        [Display(Name ="Disponibilidad")]
+        public int DisponibilidadId { get; set; }
 
         [Display(Name = "Fecha de Afiliación")]
         public DateTime FechaDeAfiliacion { get; set; }
@@ -167,10 +165,10 @@ namespace MandaditosExpress.Models.ViewModels
         public string Modelo { get; set; }
 
         [Required(ErrorMessage = "El campo Año es obligatorio.")]
-        public short Anio { get; set; }
+        public int Anio { get; set; }
 
         [Required]
-        public short Kilometraje { get; set; }
+        public int Kilometraje { get; set; }
         public DateTime FechaDeIngreso { get; set; }
 
         [Required]

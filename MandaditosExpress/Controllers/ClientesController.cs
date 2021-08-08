@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
+using MandaditosExpress.Models.Utileria;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.ViewModels;
@@ -89,7 +89,7 @@ namespace MandaditosExpress.Controllers
                         PrimerApellido = cliente.PrimerApellido,
                         SegundoApellido = cliente.SegundoApellido,
                         Telefono = cliente.Telefono,
-                        Foto = getImageBytes(Request),
+                        Foto =new Utileria().getImageBytes(Request),
                         Sexo = cliente.Sexo,
                         Direccion = cliente.Direccion,
                         Cedula = cliente.Cedula,
@@ -185,21 +185,6 @@ namespace MandaditosExpress.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public Byte[] getImageBytes(HttpRequestBase request)
-        {
-            if (request.Files.Count > 0)
-            {
-                HttpPostedFileBase imagenBase = Request.Files[0];
-
-                if (imagenBase.ContentLength > 0)
-                {
-                WebImage imagen = new WebImage(imagenBase.InputStream);
-                    return imagen.GetBytes();
-                }
-            }
-            return null;
         }
 
         private void AddErrors(IdentityResult result)

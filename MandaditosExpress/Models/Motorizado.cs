@@ -30,15 +30,15 @@ namespace MandaditosExpress.Models
         [Display(Name = "Estado")]
         public bool EstadoDelMotorizado { get; set; }
 
-        [Required]
-        [MaxLength(6)]
-        [Display(Name = "Velocidad de Conexion a Internet")]
-        public int VelocidadConexion { get; set; }
+        [Display(Name = "Velocidad de Internet")]
+        public int VelocidadDeConexionId { get; set; }
 
-        [Required]
-        [MaxLength(6)]
-        [Display(Name = "Disponibilidad de Tiempo")]
-        public int DisponibilidadTiempo { get; set; }
+        [Display(Name = "Disponibilidad")]
+        public int DisponibilidadId { get; set; }
+
+        public virtual VelocidadDeConexion VelocidadDeConexion { get; set; }
+
+        public virtual Disponibilidad Disponibilidad { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Motocicleta> Motocicletas { get; set; }

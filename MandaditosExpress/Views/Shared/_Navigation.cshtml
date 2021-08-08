@@ -32,11 +32,11 @@
                         <span class="text-muted text-xs block">Aqui debe ir su Rol <b class="caret"></b></span>
                     </a>
                     @*<ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
-                            <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
-                            <li><a class="dropdown-item" href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
-                            <li><a class="dropdown-item" href="@Url.Action("Inbox", "Mailbox")">Mailbox</a></li>
-                            <li class="dropdown-divider"></li>
-                        </ul>*@
+                    <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Inbox", "Mailbox")">Mailbox</a></li>
+                    <li class="dropdown-divider"></li>
+                </ul>*@
                 </div>
                 <div class="logo-element">
                     MExpr..
@@ -45,8 +45,10 @@
             <li class="@Html.IsSelected(controller: "HomeUser")">
                 <a href="@Url.Action("Index", "HomeUser")"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Inicio</span></a>
             </li>
+
+            <!--Personas Option-->
             <li class="@Html.IsSelected(controller: "Personas")">
-                <a href="@Url.Action("Index", "Personas")"><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
+                <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse ">
                     <li class="@Html.IsSelected(action: "Index")">
                         <a href="@Url.Action("Index", "Clientes")">Clientes</a>
@@ -59,6 +61,22 @@
                     </li>
                 </ul>
             </li>
+            <!--Catalogos Option-->
+            <li class="@Html.IsSelected(controller: "Personas")">
+                <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse ">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Disponibilidad")">Disponibilidad</a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad de Conexion</a>
+                    </li>
+                    @*<li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Asistentes")">Asistentes</a>
+                    </li>*@
+                </ul>
+            </li>
+
             <li class="@Html.IsSelected(controller: "Layouts")">
                 <a href="@Url.Action("Index", "Layouts")"><i class="fa fa-diamond"></i> <span class="nav-label" data-i18n="nav.layouts">Layouts</span> <span class="label label-primary float-right">NEW</span></a>
             </li>

@@ -34,6 +34,7 @@
                             <li>@Html.ActionLink("Equipo", "Index", "Home", null, null, "team", null, new { @class = "page-scroll" })</li>
                             <li>@Html.ActionLink("Precios", "Index", "Home", null, null, "pricing", null, new { @class = "page-scroll" })</li>
                             <li>@Html.ActionLink("Contacto", "Index", "Home", null, null, "contact", null, new { @class = "page-scroll" })</li>
+                            <li>@Html.ActionLink("Afiliación", "Create", "Motorizados", null, null, "", null, new { @class = "page-scroll" })</li>
                             @if (Request.IsAuthenticated)
                             {
                                 <li>@Html.ActionLink("Iniciar Sesion", "Index", "HomeUser")</li>

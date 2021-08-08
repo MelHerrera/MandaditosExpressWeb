@@ -26,13 +26,13 @@ namespace MandaditosExpress.Models
         public string Modelo { get; set; }
 
         [Required(ErrorMessage = "El campo Año es obligatorio.")]
-        public short Anio { get; set; }
+        public int Anio { get; set; }
 
         [Required]
         public bool EsPropia { get; set; }
 
         [Required]
-        public short Kilometraje { get; set; }
+        public int Kilometraje { get; set; }
         public DateTime FechaDeIngreso { get; set; }
 
         [Required]

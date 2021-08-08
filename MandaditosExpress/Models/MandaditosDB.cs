@@ -26,6 +26,8 @@ namespace MandaditosExpress.Models
         public virtual DbSet<Servicio> Gestiones { get; set; }
         public virtual DbSet<Credito> Creditos { get; set; }
         public virtual DbSet<HistorialSeguimiento> HistorialSeguimientos { get; set; }
+        public virtual DbSet<Disponibilidad> Disponibilidad { get; set; }
+        public virtual DbSet<VelocidadDeConexion> VelocidadDeConexion { get; set; }
         public virtual DbSet<Persona> Personas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

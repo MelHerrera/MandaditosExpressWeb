@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
@@ -42,10 +43,13 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
+            var MotorizadoVM = new MotorizadoViewModel();
+
             ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
-            ViewBag.DisponibilidadTiempo = ListarDisponibilidadTiempos();
-            ViewBag.VelocidadInternet = ListarVelocidadInternet();
-            return View(new MotorizadoViewModel());
+            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion");
+            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion");
+
+            return View(MotorizadoVM);
         }
 
         // POST: Motorizados/Create
@@ -56,16 +60,72 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(MotorizadoViewModel motorizado)
         {
+            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
+            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion", motorizado.DisponibilidadId);
+            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
+
+
             if (ModelState.IsValid)
             {
-                //db.Motorizados.Add(motorizado);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var Motorizado = new Motorizado
+                { CorreoElectronico = motorizado.CorreoElectronico,
+                    PrimerNombre = motorizado.PrimerNombre,
+                    SegundoNombre = motorizado.SegundoNombre,
+                    PrimerApellido = motorizado.PrimerApellido,
+                    SegundoApellido = motorizado.SegundoApellido,
+                    Telefono = motorizado.Telefono,
+                    Foto = new Utileria().getImageBytes(Request),
+                    Sexo = motorizado.Sexo,
+                    Direccion = motorizado.Direccion,
+                    Cedula = motorizado.Cedula,
+                    FechaIngreso = DateTime.Now,
+                    EsAfiliado = motorizado.EsAfiliado,
+                    EstadoDeAfiliado = Request.IsAuthenticated ? motorizado.EstadoDeAfiliado : motorizado.EsAfiliado == false ? (short)EstadoDeAfiliadoEnum.NoAplica : motorizado.EstadoDeAfiliado,
+                    VelocidadDeConexionId = motorizado.VelocidadDeConexionId,
+                    DisponibilidadId = motorizado.DisponibilidadId,
+                    FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
+                };
+                //Console.WriteLine(Motorizado);
+                Motorizado= db.Motorizados.Add(Motorizado);
+
+                if (db.SaveChanges() > 0)
+                {
+                    var Motocicleta = new Motocicleta {
+                    Placa=motorizado.Placa,
+                    Color= motorizado.Color,
+                    Modelo= motorizado.Modelo,
+                    Anio= motorizado.Anio,
+                    EsPropia= motorizado.EsPropia,
+                    Kilometraje= motorizado.Kilometraje,
+                    FechaDeIngreso=DateTime.Now,
+                    EsTemporal=false,
+                    MotorizadoId=Motorizado.Id,
+                    EstadoDeMotocicleta=true,
+                    FechaDeValidez=DateTime.Parse("01/01/1900 00:00:00")
+                    };
+
+                    Console.WriteLine(Motorizado);
+                    Motocicleta = db.Motocicletas.Add(Motocicleta);
+
+                    if(db.SaveChanges()>0)
+                    {
+                        ViewBag.Exito = true;
+                        return View(new MotorizadoViewModel());
+                    }
+                    else
+                    {
+                        db.Motorizados.Remove(Motorizado);
+                        db.Motocicletas.Remove(Motocicleta);
+                        ViewBag.Exito = false;
+
+                        ModelState.AddModelError("", new Exception("Lo sentimos, ocurrio un error"));
+                    }
+                }
             }
 
             ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
-            ViewBag.DisponibilidadTiempo = ListarDisponibilidadTiempos();
-            ViewBag.VelocidadInternet = ListarDisponibilidadTiempos();
+            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion", motorizado.DisponibilidadId);
+            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
 
             return View(motorizado);
         }
@@ -144,16 +204,6 @@ namespace MandaditosExpress.Controllers
                 return Estados;
             else
                 return new List<EstadoDeAfiliadoEnum>() { EstadoDeAfiliadoEnum.Solicitud };
-        }
-
-        public List<DisponibilidadTiempoEnum> ListarDisponibilidadTiempos()
-        {
-            return Enum.GetValues(typeof(DisponibilidadTiempoEnum)).Cast<DisponibilidadTiempoEnum>().ToList();
-        }
-
-        public List<VelocidadInternetEnum> ListarVelocidadInternet()
-        {
-            return Enum.GetValues(typeof(VelocidadInternetEnum)).Cast<VelocidadInternetEnum>().ToList();
         }
     }
 }

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Agregar Motorizado";
+    var Succes = ViewBag.Exito;
 }
 
 @section Styles {
@@ -15,7 +16,7 @@
             background: #f8f8f8;
             padding: 10px 0px 10px 0px;
         }
-        
+
         .register {
             width: 1100px;
             background: #fff;
@@ -61,6 +62,7 @@ else
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 @if (Request.IsAuthenticated)
 {
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -83,7 +85,6 @@ else
         </div>
     </div>
 }
-
 
 <div class="main">
     <section class="signup">
@@ -189,32 +190,6 @@ else
                                 </div>
                             </div>
 
-                            <br />
-
-                            <div class=" row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input type="checkbox" name="EsAfiliado" value="true" style="display:inline-block;width:auto;" class="chkAfiliado" />
-                                        <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group EstadoDeAfiliado">
-                                    <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
-                                    <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;">
-                                        @if (ViewBag.EstadoDeAfiliado != null)
-                                        {
-                                            foreach (var option in ViewBag.EstadoDeAfiliado)
-                                            {
-                                                var OptionToShort = (short)option;
-
-                                                <option value="@OptionToShort">@option</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-
                             <div class=" row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -235,90 +210,101 @@ else
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="Anio"><i class="fa fa-calendar"></i></label>
-                                        <input type="number" name="Anio" placeholder="Año" value="@Model.Anio" />
+                                        <input type="number" name="Anio" placeholder="Año" @*value="@Model.Anio"*@ />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DisponibilidadId, htmlAttributes: new { @class = "control-label label-agree-term" })
+                                        @Html.DropDownList("DisponibilidadId", null, htmlAttributes: new { @class = "form-control", @style = "display:inline-block;width:auto;" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DisponibilidadId, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
+                                        <input type="number" name="Kilometraje" placeholder="Kilometraje" @*value="@Model.Kilometraje"*@ />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.VelocidadDeConexionId, htmlAttributes: new { @class = "control-label label-agree-term" })
+                                        @Html.DropDownList("VelocidadDeConexionId", null, htmlAttributes: new { @class = "form-control col-md-12", @style = "display:inline-block;width:auto;" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.VelocidadDeConexionId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <br />
 
                             <div class=" row">
+                                <div class="col-md-3">
+                                    <label class="label-esEmpresa">¿Es Propia?</label>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="EsPropia" class="label-agree-term">Si</label>
+                                        <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked />
+
+                                        <label for="EsPropia" class="label-agree-term">No</label>
+                                        <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
+                                    </div>
+                                </div>
+
                                 <div class="col-md-1" style="margin-right:10px; top:5px;">
                                     <label class="label-radio-sexo"><strong>Color:</strong></label>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" width="50" height="50" />
+                                        <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" style="border:1px solid #999" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                                 </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
-                                        <input type="number" name="Kilometraje" placeholder="Kilometraje" value="@Model.Kilometraje" />
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
-                                </div>
-
                             </div>
 
                             <br />
 
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="label-esEmpresa">¿Es Propia?</label>
-                                </div>
-
-                                <div class="col-sm-6">
+                            <div class=" row">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked />
-                                        <label for="EsPropia" class="label-agree-term">Si</label>
+                                        <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" checked />
+                                        }
 
-                                        <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
-                                        <label for="EsPropia" class="label-agree-term">No</label>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="label-esEmpresa">Disponibilidad</label>
-                                </div>
-
-                                <div class="col-sm-9">
-                                    <div class="form-group">
-                                        @if (ViewBag.DisponibilidadTiempo != null)
+                                <div class="form-group EstadoDeAfiliado">
+                                    <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
+                                    <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;" value="@Model.EstadoDeAfiliado">
+                                        @if (ViewBag.EstadoDeAfiliado != null)
                                         {
-                                            foreach (var option in ViewBag.DisponibilidadTiempo)
+                                            foreach (var option in ViewBag.EstadoDeAfiliado)
                                             {
-                                                var OptionToInt = (int)option;
+                                                var OptionToShort = (short)option;
 
-                                                <input type="radio" name="DisponibilidadTiempo" value="@OptionToInt" style="display:inline-block;width:auto;" />
-                                                <label for="DisponibilidadTiempo" class="label-agree-term">@option</label>
+                                                <option value="@OptionToShort">@option</option>
                                             }
                                         }
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="VelocidadConexion" class="label-agree-term"></label>Velocidad de Conexión
-                                        <select class="form-control" name="VelocidadConexion" style="display:inline-block;width:auto;" value="@Model.VelocidadConexion">
-                                            @if (ViewBag.VelocidadInternet != null)
-                                            {
-                                                foreach (var option in ViewBag.VelocidadInternet)
-                                                {
-                                                    var OptionToShort = (int)option;
-
-                                                    <option value="@OptionToShort">@option</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
+                                    </select>
                                 </div>
                             </div>
 
@@ -329,22 +315,20 @@ else
                             </div>
 
                             <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-save">  Registrarse</i>
-                                </button>
+                                <button type="submit" class="btn btn-success">Afiliarse</button>
                             </div>
                         }
                     </div>
 
-                                <div class="signup-image">
-                                    <figure class="align-content-center"><img src="~/Images/food-delivery.png" alt="singup-image"></figure>
-                                    @if (!Request.IsAuthenticated)
-                                    {
-                                        <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
-                                    }
-                                </div>
-                            </div>
-                        </div>
+                    <div class="signup-image">
+                        <figure class="align-content-center"><img src="~/Images/food-delivery.png" alt="singup-image"></figure>
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -354,16 +338,41 @@ else
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/jscolorpicker")
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (ViewBag.Exito != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                swal.fire({
+                    title: 'Exito!',
+                    text: 'Se ha enviado con exito su solicitud de Afiliación. Te contactaremos via Celular para darte respuesta!',
+                    type: 'success',
+                    icon:'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    alert("Button Ok clicked");
+                    window.location.href = "@Url.Action("Index", "Home")";
+                });
+
+            });
+        </script>
+    }
+
     <script type="text/javascript">
 
         $(document).ready(function () {
-            //Por defecto ocultar estos campos
-            $(".EstadoDeAfiliado").hide();
+            //validar campo Estado de Afiliacion cuando carge por primera vez el formulario
+            if ($(".chkAfiliado").is(":checked")) {
+                $(".EstadoDeAfiliado").show
+            } else {
+                $(".EstadoDeAfiliado").hide();
+            }
 
             var readURL = function (input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
-
                     reader.onload = function (e) {
                         $('.avatar').attr('src', e.target.result);
                     }
@@ -376,8 +385,13 @@ else
                 readURL(this);
             });
 
-            $('.chkAfiliado').change(function () {
-                $(".EstadoDeAfiliado").toggle();
+            //validar campo Estado de Afiliacion cuando el usuario lo manipule
+            $(".chkAfiliado").on("change", function () {
+                if ($(".chkAfiliado").is(":checked")) {
+                    $(".EstadoDeAfiliado").show();
+                } else {
+                    $(".EstadoDeAfiliado").hide();
+                }
             });
         });
     </script>

@@ -96,45 +96,85 @@ namespace MandaditosExpress.Migrations
                              RUC = "J0130867567891"
                          });
 
-            context.Motorizados.AddOrUpdate(
-                p => p.Id,
-                       new Models.Motorizado
-                       {
-                           PrimerNombre = "Walter",
-                           SegundoNombre = "Lucindro",
-                           PrimerApellido = "Valladares",
-                           SegundoApellido = "Valles",
-                           CorreoElectronico = "Valladares@gmail.com",
-                           Telefono = "87987658",
-                           Sexo = "Masculino",
-                           Cedula = "003-080797-7500F",
-                           Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                           Foto = null,
-                           FechaIngreso = DateTime.Now,
-                           EsAfiliado = true,
-                           FechaDeAfiliacion = DateTime.Now,
-                           EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.Afiliado,
-                           EstadoDelMotorizado = true
-                       },
-                            new Models.Motorizado
-                            {
-                                PrimerNombre = "Hilson",
-                                SegundoNombre = "Partizano",
-                                PrimerApellido = "Bendremhar",
-                                SegundoApellido = "Bounthy",
-                                CorreoElectronico = "Bounthy@gmail.com",
-                                Telefono = "89536536",
-                                Sexo = "Masculino",
-                                Cedula = "021-010191-0000F",
-                                Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                                Foto = null,
-                                FechaIngreso = DateTime.Now,
-                                EsAfiliado = false,
-                                FechaDeAfiliacion =DateTime.Parse("01/01/1998 00:00:00"),//default date 
-                                EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.NoAplica,
-                                EstadoDelMotorizado = true
-                            }
-                       ) ;
+
+            context.Disponibilidad.AddOrUpdate(p => p.Id,
+                  new Models.Disponibilidad
+                  {
+                       Descripcion="Tiempo Completo",
+                       EstadoDeLaDisponibilidad=true
+                  },
+                    new Models.Disponibilidad
+                    {
+                        Descripcion = "Medio Tiempo",
+                        EstadoDeLaDisponibilidad = true
+                    },
+                     new Models.Disponibilidad
+                     {
+                         Descripcion = "Horas Libres",
+                         EstadoDeLaDisponibilidad = true
+                     });
+
+            context.VelocidadDeConexion.AddOrUpdate(p => p.Id,
+      new Models.VelocidadDeConexion
+      {
+          Descripcion = "Lento",
+          Estado=true
+      },
+        new Models.VelocidadDeConexion
+        {
+            Descripcion = "Medio",
+            Estado = true
+        },
+         new Models.VelocidadDeConexion
+         {
+             Descripcion = "Rapido",
+             Estado = true
+         },
+                 new Models.VelocidadDeConexion
+                 {
+                     Descripcion = "Super Rapido",
+                     Estado = true
+                 });
+
+            //context.Motorizados.AddOrUpdate(
+            //    p => p.Id,
+            //           new Models.Motorizado
+            //           {
+            //               PrimerNombre = "Walter",
+            //               SegundoNombre = "Lucindro",
+            //               PrimerApellido = "Valladares",
+            //               SegundoApellido = "Valles",
+            //               CorreoElectronico = "Valladares@gmail.com",
+            //               Telefono = "87987658",
+            //               Sexo = "Masculino",
+            //               Cedula = "003-080797-7500F",
+            //               Direccion = "Laureles Sur calle del ministerio 2 C arriba",
+            //               Foto = null,
+            //               FechaIngreso = DateTime.Now,
+            //               EsAfiliado = true,
+            //               FechaDeAfiliacion = DateTime.Now,
+            //               EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.Afiliado,
+            //               EstadoDelMotorizado = true
+            //           },
+            //                new Models.Motorizado
+            //                {
+            //                    PrimerNombre = "Hilson",
+            //                    SegundoNombre = "Partizano",
+            //                    PrimerApellido = "Bendremhar",
+            //                    SegundoApellido = "Bounthy",
+            //                    CorreoElectronico = "Bounthy@gmail.com",
+            //                    Telefono = "89536536",
+            //                    Sexo = "Masculino",
+            //                    Cedula = "021-010191-0000F",
+            //                    Direccion = "Laureles Sur calle del ministerio 2 C arriba",
+            //                    Foto = null,
+            //                    FechaIngreso = DateTime.Now,
+            //                    EsAfiliado = false,
+            //                    FechaDeAfiliacion =DateTime.Parse("01/01/1900 00:00:00"),//default date 
+            //                    EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.NoAplica,
+            //                    EstadoDelMotorizado = true
+            //                }
+            //           ) ;
         }
     }
 }
