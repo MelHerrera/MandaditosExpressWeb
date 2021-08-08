@@ -343,7 +343,9 @@ else
 
     @if (ViewBag.Exito != null)
     {
-        <script type="text/javascript">
+        if (ViewBag.Exito = true)
+        {
+            <script type="text/javascript">
             $(function () {
                 swal.fire({
                     title: 'Exito!',
@@ -352,12 +354,12 @@ else
                     icon:'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    alert("Button Ok clicked");
                     window.location.href = "@Url.Action("Index", "Home")";
                 });
 
             });
-        </script>
+            </script>
+        }
     }
 
     <script type="text/javascript">
