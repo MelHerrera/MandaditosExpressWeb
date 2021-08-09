@@ -85,7 +85,7 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(costo).State = EntityState.Modified;
+                //db.Entry(costo).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

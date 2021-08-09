@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -43,8 +44,18 @@ namespace MandaditosExpress
             var img = string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(image));
             return new MvcHtmlString("<img src='" + img + "' class='img-circle' height='40' width='40'" + "/>");
             }
-
         }
+
+        public static HtmlString HtmlConvertToJson(this HtmlHelper htmlHelper, object model)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+            return new HtmlString(JsonConvert.SerializeObject(model, settings));
+        }
+
 
     }
 }

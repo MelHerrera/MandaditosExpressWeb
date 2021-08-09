@@ -7,8 +7,15 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
+    <div>
+        <h1>texto de prueba:<span data-bind="value:$root.costos[0].CostoDeGasolina"></span></h1>
+    </div>
+
     <table class="table table-costo">
         <tr>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaDeInicio)
             </th>
@@ -45,14 +52,17 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.Id, new { @class = item.Id })
+                </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaDeInicio, new { @class=item.FechaDeInicio})
+                    @Html.DisplayFor(modelItem => item.FechaDeInicio, new { @class = item.FechaDeInicio })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaDeFin)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CostoDeGasolina)
+                    @Html.DisplayFor(modelItem => item.CostoDeGasolina, new { htmlAttributes = new {data_bind = "value:CostoDeGasolina" } })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
@@ -82,16 +92,18 @@
                     </td>*@
 
                 <td style="white-space:nowrap;">
-                    <a class="btn btn-warning btn-details" href="#"><i class="fa fa-pencil" title="Editar"></i></a>
-                    <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                    <a class="btn btn-danger" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-warning btn-edit" href="#"><i class="fa fa-pencil" title="Editar"></i></a>
+                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                        <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+                    </div>
                 </td>
             </tr>
         }
     </table>
 
     <!-- Modal For Details -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -103,18 +115,82 @@
                 <div class="modal-body">
                     <!--Modal Body-->
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" name="FechaDeInicio">Fecha de Inicio</label>
-                                <input type="date" name="FechaDeInicio" class="form-control" id="FechaDeInicio" disabled/>
+                                <input type="date" name="FechaDeInicio" class="form-control FechaDeInicio" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" name="FechaDeFin">Fecha de Fin</label>
+                                <input type="date" name="FechaDeFin" class="form-control FechaDeFin" />
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="CostoDeGasolina">Costo De Gasolina</label>
+                                <input type="number" name="CostoDeGasolina" class="form-control CostoDeGasolina" data-bind="value:CostoDeGasolina"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="CostoDeAsistencia">Costo De Asistencia</label>
+                                <input type="number" name="CostoDeAsistencia" class="form-control CostoDeAsistencia" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="CostoDeMotorizado">Costo Motorizado</label>
+                                <input type="number" name="CostoDeMotorizado" class="form-control CostoDeMotorizado" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="DistanciaBase">Distancia Base</label>
+                                <input type="number" name="DistanciaBase" class="form-control DistanciaBase" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="PrecioPorKm">Precio Km</label>
+                                <input type="number" name="PrecioPorKm" class="form-control PrecioPorKm" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="EstadoDelCosto">Activo</label>
+                                <input type="checkbox" name="EstadoDelCosto" class="form-control EstadoDelCosto" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="PrecioBaseGestionBancaria">Precio Base de Gestion Bancaria</label>
+                                <input type="number" name="PrecioBaseGestionBancaria" class="form-control PbGestionBancaria" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="PorcentajeBaseGestionBancaria">% de Gestion Bancaria</label>
+                                <input type="number" name="PorcentajeBaseGestionBancaria" class="form-control PorbGestionBancaria" />
+                            </div>
+                        </div>
+                    </div>
+
                     <!--End Modal Body-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Editar</button>
+                    <button type="submit" class="btn btn-primary" data-bind="click:show">Editar</button>
                 </div>
             </div>
         </div>
@@ -123,31 +199,117 @@
 
 @section Scripts{
     @Scripts.Render("~/plugins/moment");
+    @Scripts.Render("~/bundles/jqueryval", "~/Scripts/viewmodels/costosViewModel.js")
+<script src="~/Scripts/viewmodels/costosViewModel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
 
     <script type="text/javascript">
+        var costoViewModel = new costos();
+
+        var vm = function () {
+            var self = this;
+
+            self.costos = ko.observableArray([@Html.HtmlConvertToJson(Model)]);
+            self.Buscar = function (id) {
+                for (var i = 0; i < self.costos.length; i++) {
+                    if (self.costos()[i].Id = id) {
+                        return self.costos()[i] 
+                    }
+                }
+                return -1;
+            }
+        }
 
         $(function () {
-            $(".table-costo tbody").on("click", ".btn-details", function () {
-                let data = $(this)[0].parentElement.parentElement;
-                let cells = data.cells;
-                //convert string to date
-                let date = moment(cells[0].innerText, 'DD-MM-YYYY');
-
-                //input type date only accept date with format yyyy-mm-dd
-                $("#FechaDeInicio").val(formatDate(date));
-
-                $("#detailsModal").modal("show");
+            $(".table-costo tbody").on("click", ".btn-edit", function () {
+                $("#editModal").modal("show");
             });
         });
 
-        function formatDate(normalDate) {
-            var month = normalDate.format('M');
-            var day = normalDate.format('D');
-            var year = normalDate.format('YYYY');
-
-            var dateFormated = moment({ year: year, month: month - 1, day: day }).format("YYYY-MM-DD");
-            return dateFormated;
-        }
+        /* ko.applyBindings(costoViewModel);*/
+        ko.applyBindings(vm);
     </script>
+
+    @*<script type="text/javascript">
+
+            $(function () {
+                $(".table-costo tbody").on("click", ".btn-edit", function () {
+                    let data = $(this)[0].parentElement.parentElement.parentElement;
+                    let cells = data.cells;
+
+                    //table row columns
+                    let dateInicio = cells[1].innerText;
+                    let dateFin = cells[2].innerText;
+                    let costoGasolina = cells[3].innerText;
+                    let costoAsistencia = cells[4].innerText;
+                    let costoMotorizado = cells[5].innerText;
+                    let distancia = cells[6].innerText;
+                    let precioKm = cells[7].innerText;
+                    let estado = cells[8].children[0].checked;
+                    let pbGestionBan = cells[9].innerText;
+                    let porcentajeBase = cells[10].innerText;
+
+                    //convert string to date
+                    let fechaDeInicio = moment(dateInicio, 'DD-MM-YYYY');
+                    let fechaDeFin = moment(dateFin, 'DD-MM-YYYY');
+
+
+                    //input type date only accept date with format yyyy-mm-dd
+                    $(".FechaDeInicio").val(formatDate(fechaDeInicio));
+                    $(".FechaDeFin").val(formatDate(fechaDeFin));
+
+                    $(".CostoDeGasolina").val(costoGasolina);
+                    $(".CostoDeAsistencia").val(costoAsistencia);
+                    $(".CostoDeMotorizado").val(costoMotorizado);
+
+                    $(".DistanciaBase").val(distancia);
+                    $(".PrecioPorKm").val(precioKm);
+                    $(".EstadoDelCosto").prop('checked', estado);
+                    $(".PbGestionBancaria").val(pbGestionBan);
+                    $(".PorbGestionBancaria").val(porcentajeBase);
+
+                    $("#editModal").modal("show");
+                });
+            });
+
+            function sendData() {
+                var costo = new Object();
+
+                costo.FechaDeInicio = $(".FechaDeInicio").val();
+
+                alert(costo.FechaDeInicio);
+
+                if (costo != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "Edit",
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: { costo},
+                        success: function (response) {
+                            if (response != null) {
+                                alert("Successfull!!!");
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                }
+            }
+
+            function formatDate(normalDate) {
+                var month = normalDate.format('M');
+                var day = normalDate.format('D');
+                var year = normalDate.format('YYYY');
+
+                var dateFormated = moment({ year: year, month: month - 1, day: day }).format("YYYY-MM-DD");
+                return dateFormated;
+            }
+        </script>*@
 }

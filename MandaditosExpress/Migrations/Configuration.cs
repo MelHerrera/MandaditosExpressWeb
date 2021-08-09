@@ -115,26 +115,43 @@ namespace MandaditosExpress.Migrations
                      });
 
             context.VelocidadDeConexion.AddOrUpdate(p => p.Id,
-      new Models.VelocidadDeConexion
-      {
-          Descripcion = "Lento",
-          Estado=true
-      },
-        new Models.VelocidadDeConexion
-        {
-            Descripcion = "Medio",
-            Estado = true
-        },
-         new Models.VelocidadDeConexion
-         {
-             Descripcion = "Rapido",
-             Estado = true
-         },
+                new Models.VelocidadDeConexion
+                {
+                    Descripcion = "Lento",
+                    Estado = true
+                },
+                new Models.VelocidadDeConexion
+                {
+                    Descripcion = "Medio",
+                    Estado = true
+                },
+                         new Models.VelocidadDeConexion
+                         {
+                             Descripcion = "Rapido",
+                             Estado = true
+                         },
+
                  new Models.VelocidadDeConexion
                  {
                      Descripcion = "Super Rapido",
                      Estado = true
-                 });
+                 }
+                 );
+
+context.Costos.AddOrUpdate(p => p.Id,
+    new Models.Costo
+    {
+        FechaDeInicio = DateTime.Parse("01/08/2021"),
+        FechaDeFin = DateTime.Parse("31/08/2021"),
+        CostoDeGasolina =20, //float.Parse("20"),
+        CostoDeAsistencia=20,
+        CostoDeMotorizado= 20,
+        DistanciaBase= 3,
+        PrecioPorKm=3,
+        EstadoDelCosto=true,
+        PrecioBaseGestionBancaria=120,
+        PorcentajeBaseGestionBancaria=3
+    });
 
             //context.Motorizados.AddOrUpdate(
             //    p => p.Id,

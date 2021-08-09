@@ -268,6 +268,7 @@
     <Content Include="Scripts\app\inspinia_landing.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\knockout\knockout-3.5.1.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
     <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
@@ -358,6 +359,7 @@
     <Content Include="Scripts\plugins\peity\jquery.peity.min.js" />
     <Content Include="Scripts\plugins\sparkline\jquery.sparkline.min.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\viewmodels\costosViewModel.js" />
     <Content Include="Views\index_!.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
