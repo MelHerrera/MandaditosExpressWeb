@@ -1,0 +1,112 @@
+﻿@model MandaditosExpress.Models.Costo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Costo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDeInicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaDeInicio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDeFin)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaDeFin)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CostoDeGasolina)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CostoDeGasolina)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CostoDeAsistencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CostoDeAsistencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CostoDeMotorizado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CostoDeMotorizado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DistanciaBase)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DistanciaBase)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioPorKm)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrecioPorKm)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoDelCosto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoDelCosto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioBaseGestionBancaria)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrecioBaseGestionBancaria)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PorcentajeBaseGestionBancaria)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PorcentajeBaseGestionBancaria)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

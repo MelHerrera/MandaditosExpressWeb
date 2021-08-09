@@ -1,0 +1,153 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Costo>
+
+@{
+    ViewBag.Title = "Costos";
+}
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-costo">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoDeGasolina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoDeAsistencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoDeMotorizado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistanciaBase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioPorKm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoDelCosto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioBaseGestionBancaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorcentajeBaseGestionBancaria)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeInicio, new { @class=item.FechaDeInicio})
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeFin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoDeGasolina)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoDeMotorizado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistanciaBase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioPorKm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoDelCosto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioBaseGestionBancaria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>*@
+
+                <td style="white-space:nowrap;">
+                    <a class="btn btn-warning btn-details" href="#"><i class="fa fa-pencil" title="Editar"></i></a>
+                    <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                    <a class="btn btn-danger" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <!-- Modal For Details -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar la Información del Costo!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!--Modal Body-->
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label" name="FechaDeInicio">Fecha de Inicio</label>
+                                <input type="date" name="FechaDeInicio" class="form-control" id="FechaDeInicio" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Modal Body-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @Scripts.Render("~/plugins/moment");
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $(".table-costo tbody").on("click", ".btn-details", function () {
+                let data = $(this)[0].parentElement.parentElement;
+                let cells = data.cells;
+                //convert string to date
+                let date = moment(cells[0].innerText, 'DD-MM-YYYY');
+
+                //input type date only accept date with format yyyy-mm-dd
+                $("#FechaDeInicio").val(formatDate(date));
+
+                $("#detailsModal").modal("show");
+            });
+        });
+
+        function formatDate(normalDate) {
+            var month = normalDate.format('M');
+            var day = normalDate.format('D');
+            var year = normalDate.format('YYYY');
+
+            var dateFormated = moment({ year: year, month: month - 1, day: day }).format("YYYY-MM-DD");
+            return dateFormated;
+        }
+    </script>
+}

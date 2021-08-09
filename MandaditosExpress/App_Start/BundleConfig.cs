@@ -19,9 +19,17 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            //JqueryUi
+            bundles.Add(new ScriptBundle("~/plugins/jqueryui").Include(
+                      "~/Scripts/plugins/jquery-ui/jquery-ui.min.js"));
+
             // SlimScroll
             bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(
                       "~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"));
+
+            // SlimScroll
+            bundles.Add(new ScriptBundle("~/plugins/moment").Include(
+                      "~/Scripts/plugins/moment/moment.js"));
 
             // Js Color Picker
             bundles.Add(new ScriptBundle("~/plugins/jscolorpicker").Include(

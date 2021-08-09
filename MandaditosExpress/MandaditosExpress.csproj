@@ -172,12 +172,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\CostosController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MotorizadosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
+    <Compile Include="Controllers\TipoDeServiciosController.cs" />
     <Compile Include="Controllers\VelocidadDeConexionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -279,6 +282,7 @@
     <Content Include="Scripts\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
+    <Content Include="Scripts\plugins\moment\moment.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
     <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Scripts\plugins\wow\wow.min.js" />
@@ -423,6 +427,21 @@
     <Content Include="Views\VelocidadDeConexion\Details.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Edit.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Index.cshtml" />
+    <Content Include="Views\Costos\Create.cshtml" />
+    <Content Include="Views\Costos\Delete.cshtml" />
+    <Content Include="Views\Costos\Details.cshtml" />
+    <Content Include="Views\Costos\Edit.cshtml" />
+    <Content Include="Views\Costos\Index.cshtml" />
+    <Content Include="Views\TipoDeServicios\Create.cshtml" />
+    <Content Include="Views\TipoDeServicios\Delete.cshtml" />
+    <Content Include="Views\TipoDeServicios\Details.cshtml" />
+    <Content Include="Views\TipoDeServicios\Edit.cshtml" />
+    <Content Include="Views\TipoDeServicios\Index.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Delete.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\Servicios\Edit.cshtml" />
+    <Content Include="Views\Servicios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

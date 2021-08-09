@@ -26,7 +26,7 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element text-center">
-                    @Html.DisplayImage(PersonaActual.Foto);
+                    @Html.DisplayImage(PersonaActual.Foto)
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="block m-t-xs font-bold">@PersonaActual.PrimerNombre @PersonaActual.PrimerApellido</span>
                         <span class="text-muted text-xs block">Aqui debe ir su Rol <b class="caret"></b></span>
@@ -66,14 +66,20 @@
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse ">
                     <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Costos")">Costos</a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
                         <a href="@Url.Action("Index", "Disponibilidad")">Disponibilidad</a>
                     </li>
                     <li class="@Html.IsSelected(action: "Index")">
                         <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad de Conexion</a>
                     </li>
-                    @*<li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Asistentes")">Asistentes</a>
-                    </li>*@
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "TipoDeServicios")">Tipo de Servicios</a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Servicios")">Servicios</a>
+                    </li>
                 </ul>
             </li>
 

@@ -1,0 +1,42 @@
+﻿@model MandaditosExpress.Models.TipoDeServicio
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TipoDeServicio</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DescripcionTipoDeServicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DescripcionTipoDeServicio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoTipoDeServicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoTipoDeServicio)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

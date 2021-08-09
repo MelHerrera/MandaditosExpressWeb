@@ -15,6 +15,10 @@ namespace MandaditosExpress.Models
 
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [MaxLength(200)]
         public string DescripcionDelServicio { get; set; }
         public int TipoDeServicioId { get; set; }
         public double MontoTotalDelServicio { get; set; }

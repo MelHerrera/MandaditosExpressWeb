@@ -1,0 +1,48 @@
+﻿@model MandaditosExpress.Models.TipoDeServicio
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>TipoDeServicio</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DescripcionTipoDeServicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DescripcionTipoDeServicio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoTipoDeServicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoTipoDeServicio)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>
