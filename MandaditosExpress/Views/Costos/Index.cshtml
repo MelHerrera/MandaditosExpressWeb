@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Costos";
 }
+@Styles.Render("~/Plugind/switches")
+
 <body>
     <p>
         @Html.ActionLink("Create New", "Create")
@@ -159,7 +161,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label" name="EstadoDelCosto">Activo</label>
-                                <input type="checkbox" name="EstadoDelCosto" class="form-control EstadoDelCosto" />
+                                @*<input type="checkbox" name="EstadoDelCosto" class="form-control EstadoDelCosto" />*@
+                                <input type="checkbox" data-toggle="switchbutton" data-onstyle="info" value="EstadoDelCosto" name="EstadoDelCosto" class="form-control EstadoDelCosto" id="EstadoDelCosto">
                             </div>
                         </div>
                     </div>
@@ -196,40 +199,11 @@
 
 @section Scripts{
     @Scripts.Render("~/plugins/moment");
-    @Scripts.Render("~/bundles/jqueryval", "~/Scripts/viewmodels/costosViewModel.js")
     @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/switch")
 
     <script src="~/Scripts/viewmodels/costosViewModel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-    <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
-
-
-    @*<script type="text/javascript">
-            var costoViewModel = new costos();
-
-            var vm = function () {
-                var self = this;
-
-                self.costos = ko.observableArray([@Html.HtmlConvertToJson(Model)]);
-                self.Buscar = function (id) {
-                    for (var i = 0; i < self.costos.length; i++) {
-                        if (self.costos()[i].Id = id) {
-                            return self.costos()[i]
-                        }
-                    }
-                    return -1;
-                }
-            }
-
-            $(function () {
-                $(".table-costo tbody").on("click", ".btn-edit", function () {
-                    $("#editModal").modal("show");
-                });
-            });
-
-            /* ko.applyBindings(costoViewModel);*/
-            ko.applyBindings(vm);
-        </script>*@
 
     <script type="text/javascript">
 
@@ -238,10 +212,7 @@
 
                     e.preventDefault();
                     let data = $(this)[0].parentElement.parentElement.parentElement;
-                    let cells = data.cells;
-
-                    //console.log(cells);
-                    //console.log(cells[9].innerText);
+                    let cells = data.cells;   
 
                     //table row columns
                     let sequence = cells[0].innerText;
@@ -271,7 +242,7 @@
 
                     $(".DistanciaBase").val(distancia);
                     $(".PrecioPorKm").val(precioKm);
-                    $(".EstadoDelCosto").prop('checked', estado);
+                    document.getElementById('EstadoDelCosto').switchButton(estado == true ? 'on' : 'off')
                     $(".PbGestionBancaria").val(parseFloat(pbGestionBan));
                     $(".PorbGestionBancaria").val(porcentajeBase);
                     $(".sequence").val(sequence);
@@ -294,7 +265,7 @@
             costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
             costo.DistanciaBase = $(".DistanciaBase").val();
             costo.PrecioPorKm = $(".PrecioPorKm").val();
-            costo.EstadoDelCosto = $(".EstadoDelCosto").is("checked");
+            costo.EstadoDelCosto =$(".EstadoDelCosto").prop('checked')
             costo.PrecioBaseGestionBancaria = $(".PbGestionBancaria").val();
             costo.PorcentajeBaseGestionBancaria = $(".PorbGestionBancaria").val();
 
@@ -311,7 +282,11 @@
 
                             $("#editModal").modal("hide");
 
-                            Swal.fire('Exito!', 'Se edito correctamente la información del costo!', 'success');
+                            Swal.fire('Exito!', 'Se edito correctamente la información del costo!', 'success').then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
                         } else {
                             Swal.fire({
                                 icon: 'error',

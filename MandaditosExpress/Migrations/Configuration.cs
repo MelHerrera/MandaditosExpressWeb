@@ -153,6 +153,25 @@ context.Costos.AddOrUpdate(p => p.Id,
         PorcentajeBaseGestionBancaria=3
     });
 
+            context.TiposDeServicio.AddOrUpdate(p => p.Id,
+    new Models.TipoDeServicio
+    {
+        DescripcionTipoDeServicio="Mandaditos",
+        EstadoTipoDeServicio=true
+    });
+            context.TiposDeServicio.AddOrUpdate(p => p.Id,
+new Models.TipoDeServicio
+{
+DescripcionTipoDeServicio = "Gestion de Paquetería",
+EstadoTipoDeServicio = true
+});
+            context.TiposDeServicio.AddOrUpdate(p => p.Id,
+new Models.TipoDeServicio
+{
+DescripcionTipoDeServicio = "Gestion Bancaria",
+EstadoTipoDeServicio = true
+});
+
             //context.Motorizados.AddOrUpdate(
             //    p => p.Id,
             //           new Models.Motorizado

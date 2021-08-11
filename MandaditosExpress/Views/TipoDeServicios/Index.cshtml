@@ -3,12 +3,11 @@
 @{
     ViewBag.Title = "Tipos de Servicios";
 }
-
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -19,27 +18,52 @@
             <th>
                 @Html.DisplayNameFor(model => model.EstadoTipoDeServicio)
             </th>
-            <th></th>
+            <th>Opciones</th>
         </tr>
-    
-    @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DescripcionTipoDeServicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoTipoDeServicio)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-    }
-    
-    </table>
-</body>
+    </thead>
+    <tbody data-bind="foreach:TipoDeServicio">
+        <tr>
+            <td data-bind="text:Id">
+            </td>
+            <td data-bind="text:DescripcionTipoDeServicio">
+            </td>
+            <td>
+                <input type="checkbox" data-bind="checked: EstadoTipoDeServicio" disabled />
+            </td>
+            <td>
+                <a data-bind="attr:{href:'@Url.Action("Edit/")'+Id}" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                <a data-bind="attr:{href:'@Url.Action("Details/")'+Id}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                <a class="btn btn-danger"><i class="fa fa-trash" title="Eliminar" data-bind="clik:$parent.showDeleteModal"></i> Eliminar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
+    <script src="~/Scripts/viewmodels/TiposDeServiciosViewModel.js"></script>
+
+    <script type="text/javascript">
+        /*var tpServicio = new tiposDeServicios();*/
+        var vm = function (tpservicios) {
+            var self = this;
+
+            self.TipoDeServicio = tpservicios;
+            self.showDeleteModal = function () {
+                //$.get($(event.target).attr('href'), function (d) {
+                //    $('.body-content').prepend(d);
+                //    $('#deleteModal').modal('show');
+                //    ko.applyBindings(self, document.getElementById('deleteModal'));
+                //});
+                $('#deleteModal').modal('show');
+                alert("va verga");
+            };
+        };
+
+
+            /* ko.applyBindings(tpServicio);*/
+            ko.applyBindings(vm(@Html.HtmlConvertToJson(Model)));
+    </script>
+
+}

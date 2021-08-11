@@ -363,6 +363,7 @@
     <Content Include="Scripts\plugins\sparkline\jquery.sparkline.min.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\viewmodels\costosViewModel.js" />
+    <Content Include="Scripts\viewmodels\TiposDeServiciosViewModel.js" />
     <Content Include="Views\index_!.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

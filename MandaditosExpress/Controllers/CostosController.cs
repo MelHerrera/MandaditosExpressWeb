@@ -86,7 +86,6 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                costo.EstadoDelCosto = true;
                 db.Entry(costo).State = EntityState.Modified;
                 db.SaveChanges();
                 return View();
