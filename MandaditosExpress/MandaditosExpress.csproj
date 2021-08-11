@@ -230,6 +230,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\landing_style.css" />
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
+    <Content Include="Content\plugins\switch\bootstrap-switch-button.min.css" />
     <Content Include="Content\register_style.css" />
     <Content Include="Content\site_login.css" />
     <Content Include="Content\style.css" />
@@ -286,6 +287,8 @@
     <Content Include="Scripts\plugins\moment\moment.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
     <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\plugins\sweetalert\sweetalert2.all.min.js" />
+    <Content Include="Scripts\plugins\switch\bootstrap-switch-button.min.js" />
     <Content Include="Scripts\plugins\wow\wow.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.svg" />

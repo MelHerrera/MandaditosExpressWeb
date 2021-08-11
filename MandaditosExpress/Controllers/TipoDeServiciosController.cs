@@ -38,7 +38,7 @@ namespace MandaditosExpress.Controllers
         // GET: TipoDeServicios/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new TipoDeServicio());
         }
 
         // POST: TipoDeServicios/Create
@@ -50,7 +50,7 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TiposDeServicio.Add(tipoDeServicio);
+                //db.TiposDeServicio.Add(tipoDeServicio);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

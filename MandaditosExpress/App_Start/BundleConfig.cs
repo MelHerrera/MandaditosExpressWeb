@@ -71,9 +71,18 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/chartJs").Include(
                       "~/Scripts/plugins/chartjs/Chart.min.js"));
 
+
+            // sweet Alert 2
+            bundles.Add(new ScriptBundle("~/plugins/sweetalert").Include(
+                      "~/Scripts/plugins/sweetalert/sweetalert2.all.min.js"));
+
             // Peity
             bundles.Add(new ScriptBundle("~/plugins/peity").Include(
                       "~/Scripts/plugins/peity/jquery.peity.min.js"));
+
+            // Custom switches
+            bundles.Add(new ScriptBundle("~/plugins/switch").Include(
+                      "~/Scripts/plugins/switch/bootstrap-switch-button.min.js"));
 
             // dataTables scripts
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
@@ -111,6 +120,10 @@ namespace MandaditosExpress
             // dataTables css styles
             bundles.Add(new StyleBundle("~/Content/dataTablesStyles").Include(
                       "~/Content/plugins/dataTables/dataTables.min.css"));
+
+            // custom switches 
+            bundles.Add(new StyleBundle("~/Plugind/switches").Include(
+                      "~/Content/plugins/switch/bootstrap-switch-button.min.css"));
 
         }
     }

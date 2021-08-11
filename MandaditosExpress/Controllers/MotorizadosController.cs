@@ -65,7 +65,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
 
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && motorizado.DisponibilidadId>0 && motorizado.VelocidadDeConexionId>0)
             {
                 var Motorizado = new Motorizado
                 { CorreoElectronico = motorizado.CorreoElectronico,
@@ -122,6 +122,8 @@ namespace MandaditosExpress.Controllers
                     }
                 }
             }
+            else
+                ModelState.AddModelError("", new Exception("Lo sentimos, ocurrio un error"));
 
             ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
             ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion", motorizado.DisponibilidadId);

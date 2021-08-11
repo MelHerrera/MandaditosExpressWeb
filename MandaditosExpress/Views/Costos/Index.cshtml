@@ -7,9 +7,6 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <div>
-        <h1>texto de prueba:<span data-bind="value:$root.costos[0].CostoDeGasolina"></span></h1>
-    </div>
 
     <table class="table table-costo">
         <tr>
@@ -46,7 +43,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.PorcentajeBaseGestionBancaria)
             </th>
-            <th></th>
+            <th>Opciones</th>
         </tr>
 
         @foreach (var item in Model)
@@ -56,13 +53,13 @@
                     @Html.DisplayFor(modelItem => item.Id, new { @class = item.Id })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaDeInicio, new { @class = item.FechaDeInicio })
+                    @Html.DisplayFor(modelItem => item.FechaDeInicio)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaDeFin)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CostoDeGasolina, new { htmlAttributes = new {data_bind = "value:CostoDeGasolina" } })
+                    @Html.DisplayFor(modelItem => item.CostoDeGasolina)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
@@ -85,15 +82,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
                 </td>
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>*@
 
                 <td style="white-space:nowrap;">
                     <div class="btn-group btn-group-sm">
-                        <a class="btn btn-warning btn-edit" href="#"><i class="fa fa-pencil" title="Editar"></i></a>
+                        <a class="btn btn-warning btn-edit" href=""><i class="fa fa-pencil" title="Editar"></i></a>
                         <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
                         <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
                     </div>
@@ -115,6 +107,7 @@
                 <div class="modal-body">
                     <!--Modal Body-->
                     <div class="row">
+                        <input type="text" class="form-control sequence" hidden />
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" name="FechaDeInicio">Fecha de Inicio</label>
@@ -133,7 +126,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label" name="CostoDeGasolina">Costo De Gasolina</label>
-                                <input type="number" name="CostoDeGasolina" class="form-control CostoDeGasolina" data-bind="value:CostoDeGasolina"/>
+                                <input type="number" name="CostoDeGasolina" class="form-control CostoDeGasolina" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -189,8 +182,12 @@
                     <!--End Modal Body-->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" data-bind="click:show">Editar</button>
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "edit-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary send-edit">Editar</button>
+                    }
                 </div>
             </div>
         </div>
@@ -200,45 +197,54 @@
 @section Scripts{
     @Scripts.Render("~/plugins/moment");
     @Scripts.Render("~/bundles/jqueryval", "~/Scripts/viewmodels/costosViewModel.js")
-<script src="~/Scripts/viewmodels/costosViewModel.js"></script>
+    @Scripts.Render("~/plugins/sweetalert")
+
+    <script src="~/Scripts/viewmodels/costosViewModel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
 
-    <script type="text/javascript">
-        var costoViewModel = new costos();
-
-        var vm = function () {
-            var self = this;
-
-            self.costos = ko.observableArray([@Html.HtmlConvertToJson(Model)]);
-            self.Buscar = function (id) {
-                for (var i = 0; i < self.costos.length; i++) {
-                    if (self.costos()[i].Id = id) {
-                        return self.costos()[i] 
-                    }
-                }
-                return -1;
-            }
-        }
-
-        $(function () {
-            $(".table-costo tbody").on("click", ".btn-edit", function () {
-                $("#editModal").modal("show");
-            });
-        });
-
-        /* ko.applyBindings(costoViewModel);*/
-        ko.applyBindings(vm);
-    </script>
 
     @*<script type="text/javascript">
+            var costoViewModel = new costos();
+
+            var vm = function () {
+                var self = this;
+
+                self.costos = ko.observableArray([@Html.HtmlConvertToJson(Model)]);
+                self.Buscar = function (id) {
+                    for (var i = 0; i < self.costos.length; i++) {
+                        if (self.costos()[i].Id = id) {
+                            return self.costos()[i]
+                        }
+                    }
+                    return -1;
+                }
+            }
 
             $(function () {
                 $(".table-costo tbody").on("click", ".btn-edit", function () {
+                    $("#editModal").modal("show");
+                });
+            });
+
+            /* ko.applyBindings(costoViewModel);*/
+            ko.applyBindings(vm);
+        </script>*@
+
+    <script type="text/javascript">
+
+            $(function () {
+                $(".table-costo tbody").on("click", ".btn-edit", function (e) {
+
+                    e.preventDefault();
                     let data = $(this)[0].parentElement.parentElement.parentElement;
                     let cells = data.cells;
 
+                    //console.log(cells);
+                    //console.log(cells[9].innerText);
+
                     //table row columns
+                    let sequence = cells[0].innerText;
                     let dateInicio = cells[1].innerText;
                     let dateFin = cells[2].innerText;
                     let costoGasolina = cells[3].innerText;
@@ -266,42 +272,64 @@
                     $(".DistanciaBase").val(distancia);
                     $(".PrecioPorKm").val(precioKm);
                     $(".EstadoDelCosto").prop('checked', estado);
-                    $(".PbGestionBancaria").val(pbGestionBan);
+                    $(".PbGestionBancaria").val(parseFloat(pbGestionBan));
                     $(".PorbGestionBancaria").val(porcentajeBase);
+                    $(".sequence").val(sequence);
 
                     $("#editModal").modal("show");
                 });
             });
 
-            function sendData() {
-                var costo = new Object();
+    $(".send-edit").on("click", function (e) {
 
-                costo.FechaDeInicio = $(".FechaDeInicio").val();
+        e.preventDefault();
 
-                alert(costo.FechaDeInicio);
+            var costo = new Object();
 
-                if (costo != null) {
-                    $.ajax({
-                        type: "POST",
-                        url: "Edit",
-                        contentType: 'application/x-www-form-urlencoded',
-                        data: { costo},
-                        success: function (response) {
-                            if (response != null) {
-                                alert("Successfull!!!");
-                            } else {
-                                alert("Something went wrong");
-                            }
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
+            costo.Id = $(".sequence").val();
+            costo.FechaDeInicio = $(".FechaDeInicio").val();
+            costo.FechaDeFin = $(".FechaDeFin").val();
+            costo.CostoDeGasolina = $(".CostoDeGasolina").val();
+            costo.CostoDeAsistencia = $(".CostoDeAsistencia").val();
+            costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
+            costo.DistanciaBase = $(".DistanciaBase").val();
+            costo.PrecioPorKm = $(".PrecioPorKm").val();
+            costo.EstadoDelCosto = $(".EstadoDelCosto").is("checked");
+            costo.PrecioBaseGestionBancaria = $(".PbGestionBancaria").val();
+            costo.PorcentajeBaseGestionBancaria = $(".PorbGestionBancaria").val();
+
+            let token = $('.edit-form input[name="__RequestVerificationToken"]').val()
+
+            if (costo != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Edit", "Costos")",
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: { __RequestVerificationToken: token, costo },
+                    success: function (response) {
+                        if (response != null) {
+
+                            $("#editModal").modal("hide");
+
+                            Swal.fire('Exito!', 'Se edito correctamente la información del costo!', 'success');
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Algo salio mal, disculpanos!',
+                                footer: 'Consulta con el administrador del sistema.'
+                            })
                         }
+                    },
+                    failure: function (response) {
+                        alert("Consulte con el administrador del sistema sobre el siguiente error:" + response.responseText);
+                    },
+                    error: function (response) {
+                        alert("Consulte con el administrador del sistema sobre el siguiente error:"+response.responseText);
+                    }
                     });
                 }
-            }
+        })
 
             function formatDate(normalDate) {
                 var month = normalDate.format('M');
@@ -310,6 +338,6 @@
 
                 var dateFormated = moment({ year: year, month: month - 1, day: day }).format("YYYY-MM-DD");
                 return dateFormated;
-            }
-        </script>*@
+    }
+    </script>
 }

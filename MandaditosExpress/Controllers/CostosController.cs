@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class CostosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -61,20 +62,20 @@ namespace MandaditosExpress.Controllers
             return View(costo);
         }
 
-        // GET: Costos/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Costo costo = db.Costos.Find(id);
-            if (costo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(costo);
-        }
+        // //GET: Costos/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Costo costo = db.Costos.Find(id);
+        //    if (costo == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(costo);
+        //}
 
         // POST: Costos/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
@@ -85,9 +86,12 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(costo).State = EntityState.Modified;
+                costo.EstadoDelCosto = true;
+                db.Entry(costo).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
+                //var redirectUrl = new UrlHelper().Action("Index", "Costos");
+                //return Json(new { Url = redirectUrl });
             }
             return View(costo);
         }
