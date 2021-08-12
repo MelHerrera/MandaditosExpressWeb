@@ -33,7 +33,7 @@
             <td>
                 <a data-bind="attr:{href:'@Url.Action("Edit/")'+Id}" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
                 <a data-bind="attr:{href:'@Url.Action("Details/")'+Id}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                <a class="btn btn-danger"><i class="fa fa-trash" title="Eliminar" data-bind="clik:$parent.showDeleteModal"></i> Eliminar</a>
+                <a class="btn btn-danger" data-bind="click:showDeleteModal,attr:{href:'@Url.Action("Delete")/'+Id}"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
             </td>
         </tr>
     </tbody>
@@ -41,6 +41,7 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
     <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
     <script src="~/Scripts/viewmodels/TiposDeServiciosViewModel.js"></script>
 
@@ -50,17 +51,18 @@
             var self = this;
 
             self.TipoDeServicio = tpservicios;
-            self.showDeleteModal = function () {
-                //$.get($(event.target).attr('href'), function (d) {
-                //    $('.body-content').prepend(d);
-                //    $('#deleteModal').modal('show');
-                //    ko.applyBindings(self, document.getElementById('deleteModal'));
-                //});
-                $('#deleteModal').modal('show');
-                alert("va verga");
+            self.showDeleteModal = function (data, event) {
+                $.get($(event.target).attr('href'), function (content) {
+                    $('.body-content').prepend(content);
+                    $('#deleteModal').modal('show');
+                    ko.applyBindings(self, document.getElementById('deleteModal'));
+                });
+            };
+
+            self.show = function () {
+                alert("Alert show data delete confirmation");
             };
         };
-
 
             /* ko.applyBindings(tpServicio);*/
             ko.applyBindings(vm(@Html.HtmlConvertToJson(Model)));
