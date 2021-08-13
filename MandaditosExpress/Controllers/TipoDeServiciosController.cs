@@ -51,7 +51,7 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.TiposDeServicio.Add(tipoDeServicio);
+                db.TiposDeServicio.Add(tipoDeServicio);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

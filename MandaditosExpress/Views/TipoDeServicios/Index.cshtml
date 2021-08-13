@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Tipos de Servicios";
 }
+@Styles.Render("~/Plugind/switches")
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -59,8 +61,8 @@
                 });
             };
 
-            self.show = function () {
-                alert("Alert show data delete confirmation");
+            self.reload = function (event) {
+
             };
         };
 
