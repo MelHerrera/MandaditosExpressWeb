@@ -23,7 +23,7 @@ namespace MandaditosExpress.Models
         public virtual DbSet<Costo> Costos { get; set; }
         public virtual DbSet<TipoDeServicio> TiposDeServicio { get; set; }
         public virtual DbSet<Salario> Salarios { get; set; }
-        public virtual DbSet<Servicio> Gestiones { get; set; }
+        public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Credito> Creditos { get; set; }
         public virtual DbSet<HistorialSeguimiento> HistorialSeguimientos { get; set; }
         public virtual DbSet<Disponibilidad> Disponibilidad { get; set; }

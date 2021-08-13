@@ -11,7 +11,6 @@ namespace MandaditosExpress.Models
     {
         public Costo()
         {
-            this.Gestiones = new HashSet<Servicio>();
             this.FechaDeInicio = DateTime.Now;
         }
 
@@ -29,14 +28,16 @@ namespace MandaditosExpress.Models
         public DateTime FechaDeFin { get; set; }
 
         [Required]
+        [MaxLength(200)]
+        [DataType(DataType.MultilineText)]
+        public string  Descripcion { get; set; }
+
         [Display(Name = "Costo por Gasolina")]
         public float CostoDeGasolina { get; set; }
 
-        [Required]
         [Display(Name = "Costo por Asistencia")]
         public float CostoDeAsistencia { get; set; }
 
-        [Required]
         [Display(Name = "Costo por Motorizado")]
         public float CostoDeMotorizado { get; set; }
 
@@ -48,19 +49,20 @@ namespace MandaditosExpress.Models
         [Display(Name = "Precio por Kilometro (C$)")]
         public float PrecioPorKm { get; set; }
 
+        [Display(Name = "Tipo De Servicio")]
+        [Required]
+        public int TipoDeServicioId { get; set; }
+
         [Required]
         [Display(Name = "Estado")]
         public bool EstadoDelCosto { get; set; }
 
-        [Required]
         [Display(Name = "Precio Base por Gestion Bancaria")]
         public decimal PrecioBaseGestionBancaria { get; set; }
 
-        [Required]
         [Display(Name = "% Base por Gestion Bancaria")]
         public int PorcentajeBaseGestionBancaria { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Servicio> Gestiones { get; set; }
+        public virtual TipoDeServicio TipoDeServicio { get; set; }
     }
 }

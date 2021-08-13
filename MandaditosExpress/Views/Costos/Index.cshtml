@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FechaDeInicio)
             </th>
             <th>
@@ -37,6 +40,9 @@
                 @Html.DisplayNameFor(model => model.PrecioPorKm)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TipoDeServicioId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.EstadoDelCosto)
             </th>
             <th>
@@ -50,49 +56,55 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.Id, new { @class = item.Id })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaDeInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaDeFin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostoDeGasolina)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostoDeMotorizado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DistanciaBase)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrecioPorKm)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoDelCosto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrecioBaseGestionBancaria)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
-                </td>
+    <tr>
+        <td hidden>
+            @Html.DisplayFor(modelItem => item.Id, new { @class = item.Id })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CostoDeGasolina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CostoDeMotorizado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DistanciaBase)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioPorKm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoDeServicio.DescripcionTipoDeServicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoDelCosto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioBaseGestionBancaria)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
+        </td>
 
-                <td style="white-space:nowrap;">
-                    <div class="btn-group btn-group-sm">
-                        <a class="btn btn-warning btn-edit" href=""><i class="fa fa-pencil" title="Editar"></i></a>
-                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                        <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
-                    </div>
-                </td>
-            </tr>
+        <td style="white-space:nowrap;">
+            <div class="btn-group btn-group-sm">
+                <a class="btn btn-warning btn-edit" href=""><i class="fa fa-pencil" title="Editar"></i></a>
+                <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+            </div>
+        </td>
+    </tr>
         }
     </table>
 

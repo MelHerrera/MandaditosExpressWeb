@@ -672,7 +672,8 @@
           <Property Name="EstadoDelCosto" Type="Boolean" Nullable="false" />
           <Property Name="PrecioBaseGestionBancaria" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PorcentajeBaseGestionBancaria" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Servicios" Relationship="Self.FK_dbo_Servicios_dbo_Costos_CostoId" FromRole="Costos" ToRole="Servicios" />
+          <NavigationProperty Name="TiposDeServicio" Relationship="Model.TiposDeServicioCostos" FromRole="Costos" ToRole="TiposDeServicio" />
+          <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Cotizaciones">
           <Key>
@@ -689,9 +690,11 @@
           <Property Name="GestionId" Type="Int32" Nullable="false" />
           <Property Name="MontoTotal" Type="Double" Nullable="false" />
           <Property Name="ClienteId" Type="Int32" Nullable="false" />
-          <Property Name="ServicioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Clientes" Relationship="Self.FK_dbo_Cotizaciones_dbo_Clientes_ClienteId" FromRole="Cotizaciones" ToRole="Clientes" />
-          <NavigationProperty Name="Servicios" Relationship="Self.FK_dbo_Cotizaciones_dbo_Servicios_ServicioId" FromRole="Cotizaciones" ToRole="Servicios" />
+          <NavigationProperty Name="TiposDeServicio" Relationship="Model.TiposDeServicioCotizaciones" FromRole="Cotizaciones" ToRole="TiposDeServicio" />
+          <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Servicios" Relationship="Model.ServiciosCotizaciones" FromRole="Cotizaciones" ToRole="Servicios" />
+          <Property Name="ServiciosId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Creditos">
           <Key>
@@ -745,14 +748,16 @@
           <Property Name="ClienteId" Type="Int32" Nullable="false" />
           <Property Name="MotorizadoId" Type="Int32" Nullable="false" />
           <Property Name="Credito" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ServicioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Asistentes" Relationship="Self.FK_dbo_Envios_dbo_Asistentes_AsistenteId" FromRole="Envios" ToRole="Asistentes" />
           <NavigationProperty Name="Clientes" Relationship="Self.FK_dbo_Envios_dbo_Clientes_ClienteId" FromRole="Envios" ToRole="Clientes" />
           <NavigationProperty Name="Motocicletas" Relationship="Self.FK_dbo_Envios_dbo_Motocicletas_MotocicletaId" FromRole="Envios" ToRole="Motocicletas" />
           <NavigationProperty Name="Motorizados" Relationship="Self.FK_dbo_Envios_dbo_Motorizados_MotorizadoId" FromRole="Envios" ToRole="Motorizados" />
-          <NavigationProperty Name="Servicios" Relationship="Self.FK_dbo_Envios_dbo_Servicios_ServicioId" FromRole="Envios" ToRole="Servicios" />
           <NavigationProperty Name="Pagos" Relationship="Self.FK_dbo_Pagos_dbo_Envios_EnvioId" FromRole="Envios" ToRole="Pagos" />
           <NavigationProperty Name="Seguimientos" Relationship="Self.FK_dbo_Seguimientos_dbo_Envios_EnvioId" FromRole="Envios" ToRole="Seguimientos" />
+          <NavigationProperty Name="TiposDeServicio" Relationship="Model.TiposDeServicioEnvios" FromRole="Envios" ToRole="TiposDeServicio" />
+          <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Servicios" Relationship="Model.ServiciosEnvios" FromRole="Envios" ToRole="Servicios" />
+          <Property Name="ServiciosId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="HistorialDetallesDeSeguimiento">
           <Key>
@@ -893,13 +898,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DescripcionDelServicio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TipoDeServicioId" Type="Int32" Nullable="false" />
-          <Property Name="MontoTotalDelServicio" Type="Double" Nullable="false" />
-          <Property Name="CostoId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Costos" Relationship="Self.FK_dbo_Servicios_dbo_Costos_CostoId" FromRole="Servicios" ToRole="Costos" />
-          <NavigationProperty Name="Cotizaciones" Relationship="Self.FK_dbo_Cotizaciones_dbo_Servicios_ServicioId" FromRole="Servicios" ToRole="Cotizaciones" />
-          <NavigationProperty Name="Envios" Relationship="Self.FK_dbo_Envios_dbo_Servicios_ServicioId" FromRole="Servicios" ToRole="Envios" />
-          <NavigationProperty Name="TiposDeServicio" Relationship="Self.FK_dbo_Servicios_dbo_TiposDeServicio_TipoDeServicioId" FromRole="Servicios" ToRole="TiposDeServicio" />
+          <NavigationProperty Name="Envios" Relationship="Model.ServiciosEnvios" FromRole="Servicios" ToRole="Envios" />
+          <NavigationProperty Name="Cotizaciones" Relationship="Model.ServiciosCotizaciones" FromRole="Servicios" ToRole="Cotizaciones" />
         </EntityType>
         <EntityType Name="TiposDePago">
           <Key>
@@ -917,7 +917,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DescripcionTipoDeServicio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EstadoTipoDeServicio" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Servicios" Relationship="Self.FK_dbo_Servicios_dbo_TiposDeServicio_TipoDeServicioId" FromRole="TiposDeServicio" ToRole="Servicios" />
+          <NavigationProperty Name="Costos" Relationship="Model.TiposDeServicioCostos" FromRole="TiposDeServicio" ToRole="Costos" />
+          <NavigationProperty Name="Envios" Relationship="Model.TiposDeServicioEnvios" FromRole="TiposDeServicio" ToRole="Envios" />
+          <NavigationProperty Name="Cotizaciones" Relationship="Model.TiposDeServicioCotizaciones" FromRole="TiposDeServicio" ToRole="Cotizaciones" />
         </EntityType>
         <Association Name="FK_dbo_Asistentes_dbo_Personas_Id">
           <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
@@ -991,34 +993,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Servicios_dbo_Costos_CostoId">
-          <End Role="Costos" Type="Self.Costos" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Servicios" Type="Self.Servicios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Costos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Servicios">
-              <PropertyRef Name="CostoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Cotizaciones_dbo_Servicios_ServicioId">
-          <End Role="Servicios" Type="Self.Servicios" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Cotizaciones" Type="Self.Cotizaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Servicios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Cotizaciones">
-              <PropertyRef Name="ServicioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_DetallesDeSeguimiento_dbo_Seguimientos_SeguimientoId">
           <End Role="Seguimientos" Type="Self.Seguimientos" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1056,20 +1030,6 @@
             </Principal>
             <Dependent Role="Envios">
               <PropertyRef Name="MotorizadoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Envios_dbo_Servicios_ServicioId">
-          <End Role="Servicios" Type="Self.Servicios" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Envios" Type="Self.Envios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Servicios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Envios">
-              <PropertyRef Name="ServicioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1179,20 +1139,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Servicios_dbo_TiposDeServicio_TipoDeServicioId">
-          <End Role="TiposDeServicio" Type="Self.TiposDeServicio" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Servicios" Type="Self.Servicios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TiposDeServicio">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Servicios">
-              <PropertyRef Name="TipoDeServicioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Asistentes" EntityType="Self.Asistentes" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" />
@@ -1237,14 +1183,6 @@
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Envios" EntitySet="Envios" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Servicios_dbo_Costos_CostoId" Association="Self.FK_dbo_Servicios_dbo_Costos_CostoId">
-            <End Role="Costos" EntitySet="Costos" />
-            <End Role="Servicios" EntitySet="Servicios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Cotizaciones_dbo_Servicios_ServicioId" Association="Self.FK_dbo_Cotizaciones_dbo_Servicios_ServicioId">
-            <End Role="Servicios" EntitySet="Servicios" />
-            <End Role="Cotizaciones" EntitySet="Cotizaciones" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_DetallesDeSeguimiento_dbo_Seguimientos_SeguimientoId" Association="Self.FK_dbo_DetallesDeSeguimiento_dbo_Seguimientos_SeguimientoId">
             <End Role="Seguimientos" EntitySet="Seguimientos" />
             <End Role="DetallesDeSeguimiento" EntitySet="DetallesDeSeguimiento" />
@@ -1255,10 +1193,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Envios_dbo_Motorizados_MotorizadoId" Association="Self.FK_dbo_Envios_dbo_Motorizados_MotorizadoId">
             <End Role="Motorizados" EntitySet="Motorizados" />
-            <End Role="Envios" EntitySet="Envios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Envios_dbo_Servicios_ServicioId" Association="Self.FK_dbo_Envios_dbo_Servicios_ServicioId">
-            <End Role="Servicios" EntitySet="Servicios" />
             <End Role="Envios" EntitySet="Envios" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Pagos_dbo_Envios_EnvioId" Association="Self.FK_dbo_Pagos_dbo_Envios_EnvioId">
@@ -1293,11 +1227,87 @@
             <End Role="TiposDePago" EntitySet="TiposDePago" />
             <End Role="Pagos" EntitySet="Pagos" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Servicios_dbo_TiposDeServicio_TipoDeServicioId" Association="Self.FK_dbo_Servicios_dbo_TiposDeServicio_TipoDeServicioId">
+          <AssociationSet Name="TiposDeServicioCostos" Association="Model.TiposDeServicioCostos">
             <End Role="TiposDeServicio" EntitySet="TiposDeServicio" />
+            <End Role="Costos" EntitySet="Costos" />
+          </AssociationSet>
+          <AssociationSet Name="TiposDeServicioEnvios" Association="Model.TiposDeServicioEnvios">
+            <End Role="TiposDeServicio" EntitySet="TiposDeServicio" />
+            <End Role="Envios" EntitySet="Envios" />
+          </AssociationSet>
+          <AssociationSet Name="ServiciosEnvios" Association="Model.ServiciosEnvios">
             <End Role="Servicios" EntitySet="Servicios" />
+            <End Role="Envios" EntitySet="Envios" />
+          </AssociationSet>
+          <AssociationSet Name="TiposDeServicioCotizaciones" Association="Model.TiposDeServicioCotizaciones">
+            <End Role="TiposDeServicio" EntitySet="TiposDeServicio" />
+            <End Role="Cotizaciones" EntitySet="Cotizaciones" />
+          </AssociationSet>
+          <AssociationSet Name="ServiciosCotizaciones" Association="Model.ServiciosCotizaciones">
+            <End Role="Servicios" EntitySet="Servicios" />
+            <End Role="Cotizaciones" EntitySet="Cotizaciones" />
           </AssociationSet>
         </EntityContainer>
+        <Association Name="TiposDeServicioCostos">
+          <End Type="Model.TiposDeServicio" Role="TiposDeServicio" Multiplicity="1" />
+          <End Type="Model.Costos" Role="Costos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposDeServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Costos">
+              <PropertyRef Name="TiposDeServicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TiposDeServicioEnvios">
+          <End Type="Model.TiposDeServicio" Role="TiposDeServicio" Multiplicity="1" />
+          <End Type="Model.Envios" Role="Envios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposDeServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Envios">
+              <PropertyRef Name="TiposDeServicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServiciosEnvios">
+          <End Type="Model.Servicios" Role="Servicios" Multiplicity="1" />
+          <End Type="Model.Envios" Role="Envios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Envios">
+              <PropertyRef Name="ServiciosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TiposDeServicioCotizaciones">
+          <End Type="Model.TiposDeServicio" Role="TiposDeServicio" Multiplicity="1" />
+          <End Type="Model.Cotizaciones" Role="Cotizaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposDeServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizaciones">
+              <PropertyRef Name="TiposDeServicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServiciosCotizaciones">
+          <End Type="Model.Servicios" Role="Servicios" Multiplicity="1" />
+          <End Type="Model.Cotizaciones" Role="Cotizaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizaciones">
+              <PropertyRef Name="ServiciosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1344,6 +1354,7 @@
           <EntitySetMapping Name="Cotizaciones">
             <EntityTypeMapping TypeName="Model.Cotizaciones">
               <MappingFragment StoreEntitySet="Cotizaciones">
+                <ScalarProperty Name="ServiciosId" ColumnName="ServicioId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DescripcionDeCotizacion" ColumnName="DescripcionDeCotizacion" />
                 <ScalarProperty Name="FechaDeLaCotizacion" ColumnName="FechaDeLaCotizacion" />
@@ -1355,7 +1366,6 @@
                 <ScalarProperty Name="GestionId" ColumnName="GestionId" />
                 <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
-                <ScalarProperty Name="ServicioId" ColumnName="ServicioId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1410,7 +1420,6 @@
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
                 <ScalarProperty Name="MotorizadoId" ColumnName="MotorizadoId" />
                 <ScalarProperty Name="Credito" ColumnName="Credito" />
-                <ScalarProperty Name="ServicioId" ColumnName="ServicioId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1543,9 +1552,6 @@
               <MappingFragment StoreEntitySet="Servicios">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DescripcionDelServicio" ColumnName="DescripcionDelServicio" />
-                <ScalarProperty Name="TipoDeServicioId" ColumnName="TipoDeServicioId" />
-                <ScalarProperty Name="MontoTotalDelServicio" ColumnName="MontoTotalDelServicio" />
-                <ScalarProperty Name="CostoId" ColumnName="CostoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

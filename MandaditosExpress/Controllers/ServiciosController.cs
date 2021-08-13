@@ -17,8 +17,7 @@ namespace MandaditosExpress.Controllers
         // GET: Servicios
         public ActionResult Index()
         {
-            var gestiones = db.Gestiones.Include(s => s.Costo).Include(s => s.TipoDeServicio);
-            return View(gestiones.ToList());
+            return View(db.Servicios.ToList());
         }
 
         // GET: Servicios/Details/5
@@ -28,7 +27,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Servicio servicio = db.Gestiones.Find(id);
+            Servicio servicio = db.Servicios.Find(id);
             if (servicio == null)
             {
                 return HttpNotFound();
@@ -39,7 +38,7 @@ namespace MandaditosExpress.Controllers
         // GET: Servicios/Create
         public ActionResult Create()
         {
-            ViewBag.CostoId = new SelectList(db.Costos, "Id", "Id");
+            ViewBag.CostoId = new SelectList(db.Costos, "Id", "Descripcion");
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
             return View();
         }
@@ -53,13 +52,10 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Gestiones.Add(servicio);
+                db.Servicios.Add(servicio);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.CostoId = new SelectList(db.Costos, "Id", "Id", servicio.CostoId);
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio", servicio.TipoDeServicioId);
             return View(servicio);
         }
 
@@ -70,13 +66,12 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Servicio servicio = db.Gestiones.Find(id);
+            Servicio servicio = db.Servicios.Find(id);
             if (servicio == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CostoId = new SelectList(db.Costos, "Id", "Id", servicio.CostoId);
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio", servicio.TipoDeServicioId);
+
             return View(servicio);
         }
 
@@ -93,8 +88,7 @@ namespace MandaditosExpress.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CostoId = new SelectList(db.Costos, "Id", "Id", servicio.CostoId);
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio", servicio.TipoDeServicioId);
+
             return View(servicio);
         }
 
@@ -105,7 +99,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Servicio servicio = db.Gestiones.Find(id);
+            Servicio servicio = db.Servicios.Find(id);
             if (servicio == null)
             {
                 return HttpNotFound();
@@ -118,11 +112,17 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Servicio servicio = db.Gestiones.Find(id);
-            db.Gestiones.Remove(servicio);
+            Servicio servicio = db.Servicios.Find(id);
+            db.Servicios.Remove(servicio);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        //public JsonResult MontoTotal(int TipoDeServicioId,int CostoId )
+        //{
+        //    var TpDeServicio = db.TiposDeServicio.DefaultIfEmpty(null).FirstOrDefault(tp=>tp.Id==TipoDeServicioId);
+        //    var Costo= db.Costos.DefaultIfEmpty(null).FirstOrDefault(tp => tp.Id == CostoId);
+        //}
 
         protected override void Dispose(bool disposing)
         {

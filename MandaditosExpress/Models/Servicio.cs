@@ -19,14 +19,12 @@ namespace MandaditosExpress.Models
         [Required]
         [DataType(DataType.MultilineText)]
         [MaxLength(200)]
+        [Display(Name ="Descripción")]
         public string DescripcionDelServicio { get; set; }
-        public int TipoDeServicioId { get; set; }
-        public double MontoTotalDelServicio { get; set; }
-        public int CostoId { get; set; }
 
-        public virtual Costo Costo { get; set; }
-        public virtual TipoDeServicio TipoDeServicio { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public bool Estado { get; set; }
+
+
         public virtual ICollection<Envio> Envios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cotizacion> Cotizaciones { get; set; }

@@ -138,39 +138,76 @@ namespace MandaditosExpress.Migrations
                  }
                  );
 
-context.Costos.AddOrUpdate(p => p.Id,
+            context.TiposDeServicio.AddOrUpdate(p => p.Id,
+    new Models.TipoDeServicio
+    {
+        Id=1,
+        DescripcionTipoDeServicio = "Mandaditos",
+        EstadoTipoDeServicio = true
+    },
+    new Models.TipoDeServicio
+    {
+        Id=2,
+        DescripcionTipoDeServicio = "Gestion de Paquetería",
+        EstadoTipoDeServicio = true
+    },
+    new Models.TipoDeServicio
+    {
+        Id=3,
+        DescripcionTipoDeServicio = "Gestion Bancaria",
+        EstadoTipoDeServicio = true
+    });
+
+
+
+            context.Costos.AddOrUpdate(p => p.Id,
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
         FechaDeFin = DateTime.Parse("31/08/2021"),
-        CostoDeGasolina =20, //float.Parse("20"),
-        CostoDeAsistencia=20,
-        CostoDeMotorizado= 20,
-        DistanciaBase= 3,
-        PrecioPorKm=3,
-        EstadoDelCosto=true,
-        PrecioBaseGestionBancaria=120,
-        PorcentajeBaseGestionBancaria=3
-    });
-
-            context.TiposDeServicio.AddOrUpdate(p => p.Id,
-    new Models.TipoDeServicio
+        Descripcion = "Costo de Mandaditos",
+        CostoDeGasolina = 20, //float.Parse("20"),
+        CostoDeAsistencia = 20,
+        CostoDeMotorizado = 20,
+        DistanciaBase = 3,
+        PrecioPorKm = 3,
+        TipoDeServicioId = 1,
+        EstadoDelCosto = true,
+        PrecioBaseGestionBancaria = 120,
+        PorcentajeBaseGestionBancaria = 3
+    },
+    new Models.Costo
     {
-        DescripcionTipoDeServicio="Mandaditos",
-        EstadoTipoDeServicio=true
-    });
-            context.TiposDeServicio.AddOrUpdate(p => p.Id,
-new Models.TipoDeServicio
-{
-DescripcionTipoDeServicio = "Gestion de Paquetería",
-EstadoTipoDeServicio = true
-});
-            context.TiposDeServicio.AddOrUpdate(p => p.Id,
-new Models.TipoDeServicio
-{
-DescripcionTipoDeServicio = "Gestion Bancaria",
-EstadoTipoDeServicio = true
-});
+        FechaDeInicio = DateTime.Parse("01/08/2021"),
+        FechaDeFin = DateTime.Parse("31/08/2021"),
+        Descripcion = "Costo de Gestion de Paquetería",
+        CostoDeGasolina = 20, //float.Parse("20"),
+        CostoDeAsistencia = 20,
+        CostoDeMotorizado = 20,
+        DistanciaBase = 3,
+        PrecioPorKm = 3,
+        TipoDeServicioId = 2,
+        EstadoDelCosto = true,
+        PrecioBaseGestionBancaria = 120,
+        PorcentajeBaseGestionBancaria = 3
+    },
+              new Models.Costo
+              {
+                  FechaDeInicio = DateTime.Parse("01/08/2021"),
+                  FechaDeFin = DateTime.Parse("31/08/2021"),
+                  Descripcion = "Costo de Gestion Bancaria",
+                  CostoDeGasolina = 20, //float.Parse("20"),
+                  CostoDeAsistencia = 20,
+                  CostoDeMotorizado = 20,
+                  DistanciaBase = 3,
+                  PrecioPorKm = 3,
+                  TipoDeServicioId = 3,
+                  EstadoDelCosto = true,
+                  PrecioBaseGestionBancaria = 120,
+                  PorcentajeBaseGestionBancaria = 3
+              }
+    );
+
 
             //context.Motorizados.AddOrUpdate(
             //    p => p.Id,

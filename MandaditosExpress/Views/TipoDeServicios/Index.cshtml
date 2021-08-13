@@ -53,16 +53,13 @@
             var self = this;
 
             self.TipoDeServicio = tpservicios;
+
             self.showDeleteModal = function (data, event) {
                 $.get($(event.target).attr('href'), function (content) {
                     $('.body-content').prepend(content);
                     $('#deleteModal').modal('show');
                     ko.applyBindings(self, document.getElementById('deleteModal'));
                 });
-            };
-
-            self.reload = function (event) {
-
             };
         };
 

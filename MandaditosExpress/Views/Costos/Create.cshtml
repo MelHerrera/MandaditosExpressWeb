@@ -39,94 +39,115 @@
                             {
                                 @Html.AntiForgeryToken()
 
-                                <div class="form-horizontal">
-                                    <h4>Ingrese la Información del Costo</h4>
-                                    <hr />
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-horizontal">
+                                <h4>Ingrese la Información del Costo</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            @Html.LabelFor(model => model.FechaDeInicio, htmlAttributes: new { @class = "control-label" })
-                                            <div class="form-group">
-                                                @Html.EditorFor(model => model.FechaDeInicio, new { htmlAttributes = new {@class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.FechaDeInicio, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.FechaDeFin, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.FechaDeFin, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.FechaDeFin, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.CostoDeGasolina, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeGasolina, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.CostoDeGasolina, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.CostoDeAsistencia, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeAsistencia, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.CostoDeAsistencia, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.CostoDeMotorizado, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeMotorizado, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.CostoDeMotorizado, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.DistanciaBase, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.DistanciaBase, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.DistanciaBase, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.PrecioPorKm, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PrecioPorKm, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.PrecioPorKm, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.PrecioBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PrecioBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.PrecioBaseGestionBancaria, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.PorcentajeBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PorcentajeBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control", @type = "number", @max = 100, @min = 1 } })
-                                                @Html.ValidationMessageFor(model => model.PorcentajeBaseGestionBancaria, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
+                            <div class="row">
+                                <div class="col-md-9">
+                                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
                                     <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Guardar" class="btn btn-success" />
+                                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownList("TipoDeServicioId", null, htmlAttributes: new { @class = "form-control TipoDeServicioId" })
+                                        @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.FechaDeInicio, htmlAttributes: new { @class = "control-label" })
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.FechaDeInicio, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FechaDeInicio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.FechaDeFin, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.FechaDeFin, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FechaDeFin, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DistanciaBase, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.DistanciaBase, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 0 } })
+                                        @Html.ValidationMessageFor(model => model.DistanciaBase, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3 CostoDeGasolinaContainer">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CostoDeGasolina, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.CostoDeGasolina, new { htmlAttributes = new { @class = "form-control CostoDeGasolina", @type = "number", @min = 0 } })
+                                            @Html.ValidationMessageFor(model => model.CostoDeGasolina, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 CostoDeAsistenciaContainer">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CostoDeAsistencia, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.CostoDeAsistencia, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia", @type = "number", @min = 0 } })
+                                            @Html.ValidationMessageFor(model => model.CostoDeAsistencia, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 CostoDeMotorizadoContainer">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CostoDeMotorizado, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.CostoDeMotorizado, new { htmlAttributes = new { @class = "form-control CostoDeMotorizado", @type = "number", @min = 0 } })
+                                            @Html.ValidationMessageFor(model => model.CostoDeMotorizado, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PrecioPorKm, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.PrecioPorKm, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                                            @Html.ValidationMessageFor(model => model.PrecioPorKm, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group PBGestionBancariaContainer">
+                                            @Html.LabelFor(model => model.PrecioBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.PrecioBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control PBGestionBancaria", @type = "number", @min = 1 } })
+                                            @*<input type="number" name="PrecioBaseGestionBancaria" value="@Model.PrecioBaseGestionBancaria" class="form-control PBGestionBancaria" min="1"/>*@
+                                            @Html.ValidationMessageFor(model => model.PrecioBaseGestionBancaria, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group PorBGestionBancariaContainer">
+                                            @Html.LabelFor(model => model.PorcentajeBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.PorcentajeBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control PorBGestionBancaria", @type = "number", @max = 100, @min = 0 } })
+                                            @Html.ValidationMessageFor(model => model.PorcentajeBaseGestionBancaria, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Guardar" class="btn btn-success" />
+                                    </div>
+                                </div>
+                            </div>
                             }
                         </div>
 
@@ -142,3 +163,63 @@
         </div>
     </div>
 </body>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            mostrarCampos(obtenerTipoDeServicioId());
+
+            $(".TipoDeServicioId").on("change", function () {
+                mostrarCampos(obtenerTipoDeServicioId());
+            });
+
+        });
+
+        function mostrarCampos(id) {
+            if (id == 3) {//si el tipo de gestion id es el de gestiones bancarias
+
+                //mostrar los campos de la gestion bancaria
+                $(".PorBGestionBancariaContainer").show();
+                $(".PBGestionBancariaContainer").show();
+
+                //los campos mostrados deben ser obligatorios
+                $(".PorBGestionBancaria").attr("required", "true");
+                $(".PBGestionBancaria").attr("required", "true");
+
+                //ocultar los campos de las demas gestiones
+                $(".CostoDeGasolinaContainer").hide();
+                $(".CostoDeAsistenciaContainer").hide();
+                $(".CostoDeMotorizadoContainer").hide();
+
+                ////los campos ocultados no deben ser obligatorios
+                $(".CostoDeGasolina").removeAttr("required");
+                $(".CostoDeAsistencia").removeAttr("required");
+                $(".CostoDeMotorizado").removeAttr("required");
+            } else {
+                //ocultar los campos de la gestion bancaria
+                $(".PorBGestionBancariaContainer").hide();
+                $(".PBGestionBancariaContainer").hide();
+
+                //los campos ocultados no deben ser obligatorios
+                $(".PorBGestionBancaria").removeAttr("required");
+                $(".PBGestionBancaria").removeAttr("required");
+
+                //mostrar los campos de las demas gestiones
+                $(".CostoDeGasolinaContainer").show();
+                $(".CostoDeAsistenciaContainer").show();
+                $(".CostoDeMotorizadoContainer").show();
+
+                //los campos mostrados deben ser obligatorios
+                $(".CostoDeGasolina").attr("required", "true");
+                $(".CostoDeAsistencia").attr("required", "true");
+                $(".CostoDeMotorizado").attr("required", "true");
+            }
+        }
+
+        function obtenerTipoDeServicioId() {
+            return $(".TipoDeServicioId").val();
+        }
+    </script>
+}

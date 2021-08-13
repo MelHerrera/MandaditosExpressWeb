@@ -10,7 +10,7 @@ namespace MandaditosExpress.Models
     {
         public TipoDeServicio()
         {
-            this.Servicios = new HashSet<Servicio>();
+            this.Costos = new HashSet<Costo>();
         }
         [Key]
         public int Id { get; set; }
@@ -24,7 +24,6 @@ namespace MandaditosExpress.Models
         [Display(Name ="Estado")]
         public bool EstadoTipoDeServicio { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Servicio> Servicios { get; set; }
+        public virtual ICollection<Costo> Costos { get; set; }
     }
 }

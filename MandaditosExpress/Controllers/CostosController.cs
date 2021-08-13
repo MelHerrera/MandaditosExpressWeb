@@ -39,7 +39,8 @@ namespace MandaditosExpress.Controllers
         // GET: Costos/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+            return View(new Costo());
         }
 
         // POST: Costos/Create
@@ -47,7 +48,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria")] Costo costo)
+        public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria")] Costo costo)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +60,7 @@ namespace MandaditosExpress.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
             return View(costo);
         }
 
