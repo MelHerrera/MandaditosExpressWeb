@@ -48,12 +48,19 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria")] Costo costo)
+        public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria,PrecioDeRecargo")] Costo costo)
         {
             if (ModelState.IsValid)
             {
-                //activar el costo 
+                //activar el costo actual
                 costo.EstadoDelCosto = true;
+
+                //desactivar el costo de ese mismo tipo que ya estaban, para que no hayan dos costos para el mismo tipo de servicio.
+                var CostosAntiguo = (from c in db.Costos
+                                   where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
+                                   select c).ToList();
+
+                CostosAntiguo.ForEach(x => x.EstadoDelCosto = false);
 
                 db.Costos.Add(costo);
                 db.SaveChanges();
@@ -84,15 +91,13 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria")] Costo costo)
+        public ActionResult Edit([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioBaseGestionBancaria,PorcentajeBaseGestionBancaria,PrecioDeRecargo")] Costo costo)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(costo).State = EntityState.Modified;
                 db.SaveChanges();
                 return View();
-                //var redirectUrl = new UrlHelper().Action("Index", "Costos");
-                //return Json(new { Url = redirectUrl });
             }
             return View(costo);
         }
@@ -121,6 +126,13 @@ namespace MandaditosExpress.Controllers
             db.Costos.Remove(costo);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public JsonResult getTipoDeServicioId(string tp)
+        {
+            TipoDeServicio TipoDeServicio = db.TiposDeServicio.First(x => x.DescripcionTipoDeServicio.Contains(tp) && x.EstadoTipoDeServicio);
+
+            return Json(TipoDeServicio.Id, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

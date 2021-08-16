@@ -11,40 +11,34 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Costo.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DescripcionDelServicio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MontoTotalDelServicio)
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
-            <th></th>
+            <th>Opciones</th>
         </tr>
     
     @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Costo.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDeServicio.DescripcionTipoDeServicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionDelServicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoTotalDelServicio)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionDelServicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+            <a href=" @Url.Action("Delete", new { id = item.Id })" class="btn btn-danger" ><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+        </td>
+    </tr>
     }
     
     </table>

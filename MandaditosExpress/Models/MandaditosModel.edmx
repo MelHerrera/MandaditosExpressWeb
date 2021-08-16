@@ -674,27 +674,25 @@
           <Property Name="PorcentajeBaseGestionBancaria" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TiposDeServicio" Relationship="Model.TiposDeServicioCostos" FromRole="Costos" ToRole="TiposDeServicio" />
           <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
+          <Property Name="PrecioDeRecargo" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Cotizaciones">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DescripcionDeCotizacion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="FechaDeLaCotizacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DireccionDeEntrega" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DireccionDeRecepcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DistanciaEntregaRecep" Type="Double" Nullable="false" />
+          <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionDeCotizacion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="EsUrgente" Type="Boolean" Nullable="false" />
           <Property Name="PrecioDeRecargo" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="GestionId" Type="Int32" Nullable="false" />
-          <Property Name="MontoTotal" Type="Double" Nullable="false" />
           <Property Name="ClienteId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Clientes" Relationship="Self.FK_dbo_Cotizaciones_dbo_Clientes_ClienteId" FromRole="Cotizaciones" ToRole="Clientes" />
           <NavigationProperty Name="TiposDeServicio" Relationship="Model.TiposDeServicioCotizaciones" FromRole="Cotizaciones" ToRole="TiposDeServicio" />
-          <Property Name="TiposDeServicioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Servicios" Relationship="Model.ServiciosCotizaciones" FromRole="Cotizaciones" ToRole="Servicios" />
-          <Property Name="ServiciosId" Type="Int32" Nullable="false" />
+          <Property Name="MontoTotal" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Creditos">
           <Key>
@@ -899,7 +897,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DescripcionDelServicio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Envios" Relationship="Model.ServiciosEnvios" FromRole="Servicios" ToRole="Envios" />
-          <NavigationProperty Name="Cotizaciones" Relationship="Model.ServiciosCotizaciones" FromRole="Servicios" ToRole="Cotizaciones" />
         </EntityType>
         <EntityType Name="TiposDePago">
           <Key>
@@ -1243,10 +1240,6 @@
             <End Role="TiposDeServicio" EntitySet="TiposDeServicio" />
             <End Role="Cotizaciones" EntitySet="Cotizaciones" />
           </AssociationSet>
-          <AssociationSet Name="ServiciosCotizaciones" Association="Model.ServiciosCotizaciones">
-            <End Role="Servicios" EntitySet="Servicios" />
-            <End Role="Cotizaciones" EntitySet="Cotizaciones" />
-          </AssociationSet>
         </EntityContainer>
         <Association Name="TiposDeServicioCostos">
           <End Type="Model.TiposDeServicio" Role="TiposDeServicio" Multiplicity="1" />
@@ -1296,18 +1289,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ServiciosCotizaciones">
-          <End Type="Model.Servicios" Role="Servicios" Multiplicity="1" />
-          <End Type="Model.Cotizaciones" Role="Cotizaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Servicios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Cotizaciones">
-              <PropertyRef Name="ServiciosId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1354,7 +1335,6 @@
           <EntitySetMapping Name="Cotizaciones">
             <EntityTypeMapping TypeName="Model.Cotizaciones">
               <MappingFragment StoreEntitySet="Cotizaciones">
-                <ScalarProperty Name="ServiciosId" ColumnName="ServicioId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DescripcionDeCotizacion" ColumnName="DescripcionDeCotizacion" />
                 <ScalarProperty Name="FechaDeLaCotizacion" ColumnName="FechaDeLaCotizacion" />
@@ -1363,8 +1343,6 @@
                 <ScalarProperty Name="DistanciaEntregaRecep" ColumnName="DistanciaEntregaRecep" />
                 <ScalarProperty Name="EsUrgente" ColumnName="EsUrgente" />
                 <ScalarProperty Name="PrecioDeRecargo" ColumnName="PrecioDeRecargo" />
-                <ScalarProperty Name="GestionId" ColumnName="GestionId" />
-                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
               </MappingFragment>
             </EntityTypeMapping>

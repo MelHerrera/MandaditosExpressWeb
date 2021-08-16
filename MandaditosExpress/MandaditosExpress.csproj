@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CostosController.cs" />
+    <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />
@@ -447,6 +448,7 @@
     <Content Include="Views\Servicios\Details.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
+    <Content Include="Views\Cotizaciones\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

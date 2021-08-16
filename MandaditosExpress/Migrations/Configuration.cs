@@ -174,7 +174,8 @@ namespace MandaditosExpress.Migrations
         TipoDeServicioId = 1,
         EstadoDelCosto = true,
         PrecioBaseGestionBancaria = 120,
-        PorcentajeBaseGestionBancaria = 3
+        PorcentajeBaseGestionBancaria = 3,
+        PrecioDeRecargo=20
     },
     new Models.Costo
     {
@@ -189,7 +190,8 @@ namespace MandaditosExpress.Migrations
         TipoDeServicioId = 2,
         EstadoDelCosto = true,
         PrecioBaseGestionBancaria = 120,
-        PorcentajeBaseGestionBancaria = 3
+        PorcentajeBaseGestionBancaria = 3,
+        PrecioDeRecargo = 20
     },
               new Models.Costo
               {
@@ -204,7 +206,8 @@ namespace MandaditosExpress.Migrations
                   TipoDeServicioId = 3,
                   EstadoDelCosto = true,
                   PrecioBaseGestionBancaria = 120,
-                  PorcentajeBaseGestionBancaria = 3
+                  PorcentajeBaseGestionBancaria = 3,
+                  PrecioDeRecargo = 20
               }
     );
 

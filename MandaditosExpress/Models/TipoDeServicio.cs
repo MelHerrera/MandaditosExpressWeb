@@ -11,6 +11,7 @@ namespace MandaditosExpress.Models
         public TipoDeServicio()
         {
             this.Costos = new HashSet<Costo>();
+            this.Cotizaciones = new HashSet<Cotizacion>();
         }
         [Key]
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace MandaditosExpress.Models
         public bool EstadoTipoDeServicio { get; set; }
 
         public virtual ICollection<Costo> Costos { get; set; }
+
+        public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
     }
 }

@@ -126,14 +126,21 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
+                                        <div class="form-group PrecioDeRecargoContainer">
+                                            @Html.LabelFor(model => model.PrecioDeRecargo, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.PrecioDeRecargo, new { htmlAttributes = new { @class = "form-control PrecioDeRecargo", @type = "number", @min = 0 } })
+                                            @Html.ValidationMessageFor(model => model.PrecioDeRecargo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="form-group PBGestionBancariaContainer">
                                             @Html.LabelFor(model => model.PrecioBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PrecioBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control PBGestionBancaria", @type = "number", @min = 1 } })
-                                            @*<input type="number" name="PrecioBaseGestionBancaria" value="@Model.PrecioBaseGestionBancaria" class="form-control PBGestionBancaria" min="1"/>*@
+                                            @*@Html.EditorFor(model => model.PrecioBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control PBGestionBancaria", @type = "number", @min = 1 } })*@
+                                            <input type="number" name="PrecioBaseGestionBancaria" value="@Model.PrecioBaseGestionBancaria" class="form-control PBGestionBancaria" min="1" />
                                             @Html.ValidationMessageFor(model => model.PrecioBaseGestionBancaria, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group PorBGestionBancariaContainer">
                                             @Html.LabelFor(model => model.PorcentajeBaseGestionBancaria, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.PorcentajeBaseGestionBancaria, new { htmlAttributes = new { @class = "form-control PorBGestionBancaria", @type = "number", @max = 100, @min = 0 } })

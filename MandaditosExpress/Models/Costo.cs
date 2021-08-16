@@ -46,7 +46,7 @@ namespace MandaditosExpress.Models
         public float DistanciaBase { get; set; }
 
         [Required]
-        [Display(Name = "Precio por Kilometro (C$)")]
+        [Display(Name = "Precio por Km (C$)")]
         public float PrecioPorKm { get; set; }
 
         [Display(Name = "Tipo De Servicio")]
@@ -57,11 +57,15 @@ namespace MandaditosExpress.Models
         [Display(Name = "Estado")]
         public bool EstadoDelCosto { get; set; }
 
-        [Display(Name = "Precio Base por Gestion Bancaria")]
+        [Display(Name = "Precio por Gestion Bancaria")]
         public decimal PrecioBaseGestionBancaria { get; set; }
 
-        [Display(Name = "% Base por Gestion Bancaria")]
+        [Display(Name = "% por Gestion Bancaria")]
         public int PorcentajeBaseGestionBancaria { get; set; }
+
+        [Required]
+        [Display(Name = "Precio De Recargo")]
+        public float PrecioDeRecargo { get; set; }
 
         public virtual TipoDeServicio TipoDeServicio { get; set; }
     }

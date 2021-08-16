@@ -1,7 +1,7 @@
 ﻿@model MandaditosExpress.Models.Servicio
 
 @{
-    Layout = null;
+    ViewBag.Title = "Editar el Servicio";
 }
 
 <!DOCTYPE html>
@@ -12,26 +12,11 @@
     <title>Delete</title>
 </head>
 <body>
-    <h3>Are you sure you want to delete this?</h3>
+    <h3>¿Está seguro que desea eliminar este servicio?</h3>
     <div>
         <h4>Servicio</h4>
         <hr />
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Costo.Id)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Costo.Id)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
-            </dd>
     
             <dt>
                 @Html.DisplayNameFor(model => model.DescripcionDelServicio)
@@ -42,11 +27,11 @@
             </dd>
     
             <dt>
-                @Html.DisplayNameFor(model => model.MontoTotalDelServicio)
+                @Html.DisplayNameFor(model => model.Estado)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.MontoTotalDelServicio)
+                @Html.DisplayFor(model => model.Estado)
             </dd>
     
         </dl>

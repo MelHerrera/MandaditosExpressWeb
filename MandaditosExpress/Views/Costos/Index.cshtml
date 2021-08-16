@@ -51,6 +51,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PorcentajeBaseGestionBancaria)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+            </th>
             <th>Opciones</th>
         </tr>
 
@@ -96,6 +99,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
+        </td>
 
         <td style="white-space:nowrap;">
             <div class="btn-group btn-group-sm">
@@ -122,6 +128,16 @@
                     <!--Modal Body-->
                     <div class="row">
                         <input type="text" class="form-control sequence" hidden />
+                        <input type="text" name="TipoDeServicio" class="form-control TipoDeServicio" hidden/>
+
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label class="control-label" name="Descripcion">Descripción</label>
+                                <input type="text" name="Descripcion" class="form-control Descripcion" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" name="FechaDeInicio">Fecha de Inicio</label>
@@ -192,6 +208,12 @@
                                 <input type="number" name="PorcentajeBaseGestionBancaria" class="form-control PorbGestionBancaria" />
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" name="PrecioDeRecargo">Precio de Recargo del envio</label>
+                                <input type="number" name="PrecioDeRecargo" class="form-control PrecioDeRecargo" />
+                            </div>
+                        </div>
                     </div>
 
                     <!--End Modal Body-->
@@ -224,22 +246,27 @@
 
                     e.preventDefault();
                     let data = $(this)[0].parentElement.parentElement.parentElement;
-                    let cells = data.cells;   
+                    let cells = data.cells;
 
                     //table row columns
-                    let sequence = cells[0].innerText;
-                    let dateInicio = cells[1].innerText;
-                    let dateFin = cells[2].innerText;
-                    let costoGasolina = cells[3].innerText;
-                    let costoAsistencia = cells[4].innerText;
-                    let costoMotorizado = cells[5].innerText;
-                    let distancia = cells[6].innerText;
-                    let precioKm = cells[7].innerText;
-                    let estado = cells[8].children[0].checked;
-                    let pbGestionBan = cells[9].innerText;
-                    let porcentajeBase = cells[10].innerText;
 
-                    //convert string to date
+                    let sequence = cells[0].innerText;
+                    let descripcion = cells[1].innerText;
+                    let dateInicio = cells[2].innerText;
+                    let dateFin = cells[3].innerText;
+                    let costoGasolina = cells[4].innerText;
+                    let costoAsistencia = cells[5].innerText;
+                    let costoMotorizado = cells[6].innerText;
+                    let distancia = cells[7].innerText;
+                    let precioKm = cells[8].innerText;
+                    let tipoDeServicio = cells[9].innerText;
+                    let estado = cells[10].children[0].checked;
+                    let pbGestionBan = cells[11].innerText;
+                    let porcentajeBase = cells[12].innerText;
+                    let precioDeRecargo = cells[13].innerText;
+
+                    $(".Descripcion").val(descripcion);
+                       //convert string to date
                     let fechaDeInicio = moment(dateInicio, 'DD-MM-YYYY');
                     let fechaDeFin = moment(dateFin, 'DD-MM-YYYY');
 
@@ -248,16 +275,20 @@
                     $(".FechaDeInicio").val(formatDate(fechaDeInicio));
                     $(".FechaDeFin").val(formatDate(fechaDeFin));
 
+
                     $(".CostoDeGasolina").val(costoGasolina);
                     $(".CostoDeAsistencia").val(costoAsistencia);
                     $(".CostoDeMotorizado").val(costoMotorizado);
 
                     $(".DistanciaBase").val(distancia);
                     $(".PrecioPorKm").val(precioKm);
+                    $(".TipoDeServicio").val(tipoDeServicio);
+
                     document.getElementById('EstadoDelCosto').switchButton(estado == true ? 'on' : 'off')
                     $(".PbGestionBancaria").val(parseFloat(pbGestionBan));
                     $(".PorbGestionBancaria").val(porcentajeBase);
                     $(".sequence").val(sequence);
+                    $(".PrecioDeRecargo").val(precioDeRecargo);
 
                     $("#editModal").modal("show");
                 });
@@ -267,19 +298,31 @@
 
         e.preventDefault();
 
-            var costo = new Object();
+        var costo = new Object();
 
-            costo.Id = $(".sequence").val();
-            costo.FechaDeInicio = $(".FechaDeInicio").val();
-            costo.FechaDeFin = $(".FechaDeFin").val();
-            costo.CostoDeGasolina = $(".CostoDeGasolina").val();
-            costo.CostoDeAsistencia = $(".CostoDeAsistencia").val();
-            costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
-            costo.DistanciaBase = $(".DistanciaBase").val();
-            costo.PrecioPorKm = $(".PrecioPorKm").val();
-            costo.EstadoDelCosto =$(".EstadoDelCosto").prop('checked')
-            costo.PrecioBaseGestionBancaria = $(".PbGestionBancaria").val();
-            costo.PorcentajeBaseGestionBancaria = $(".PorbGestionBancaria").val();
+        $.ajax(
+            {
+                url: "/Costos/getTipoDeServicioId",
+                type: "get",
+                data: {tp:$(".TipoDeServicio").val()},
+                success: function (result) {
+                    costo.TipoDeServicioId = result;
+                },
+                complete: function () {
+
+        costo.Id = $(".sequence").val();
+        costo.Descripcion = $(".Descripcion").val();
+        costo.FechaDeInicio = $(".FechaDeInicio").val();
+        costo.FechaDeFin = $(".FechaDeFin").val();
+        costo.CostoDeGasolina = $(".CostoDeGasolina").val();
+        costo.CostoDeAsistencia = $(".CostoDeAsistencia").val();
+        costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
+        costo.DistanciaBase = $(".DistanciaBase").val();
+        costo.PrecioPorKm = $(".PrecioPorKm").val();
+        costo.EstadoDelCosto = $(".EstadoDelCosto").prop('checked')
+        costo.PrecioBaseGestionBancaria = $(".PbGestionBancaria").val();
+                    costo.PorcentajeBaseGestionBancaria = $(".PorbGestionBancaria").val();
+                    costo.PrecioDeRecargo = $(".PrecioDeRecargo").val();
 
             let token = $('.edit-form input[name="__RequestVerificationToken"]').val()
 
@@ -316,6 +359,10 @@
                     }
                     });
                 }
+                }//fin del complete
+            }
+        );
+
         })
 
             function formatDate(normalDate) {

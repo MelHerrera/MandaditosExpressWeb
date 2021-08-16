@@ -83,6 +83,11 @@
                 </ul>
             </li>
 
+            <!--Cotizacion -->
+            <li class="@Html.IsSelected(controller: "Cotizaciones")">
+                <a href="@Url.Action("Create", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotización</span></a>
+            </li>
+
             <li class="@Html.IsSelected(controller: "Layouts")">
                 <a href="@Url.Action("Index", "Layouts")"><i class="fa fa-diamond"></i> <span class="nav-label" data-i18n="nav.layouts">Layouts</span> <span class="label label-primary float-right">NEW</span></a>
             </li>

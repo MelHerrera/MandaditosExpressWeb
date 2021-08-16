@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="eee330df73d54cb19236cc26c02d3642" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="eee330df73d54cb19236cc26c02d3642" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="Model.Asistentes" Width="1.5" PointX="3.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Clientes" Width="1.5" PointX="6.375" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Costos" Width="1.75" PointX="24" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Cotizaciones" Width="1.5" PointX="12.375" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Creditos" Width="2" PointX="24.625" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Clientes" Width="1.5" PointX="6.375" PointY="7.75" IsExpanded="true" FillColor="Green" />
+        <EntityTypeShape EntityType="Model.Costos" Width="1.75" PointX="18.5" PointY="2.75" IsExpanded="true" FillColor="Green" />
+        <EntityTypeShape EntityType="Model.Cotizaciones" Width="2.125" PointX="11" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Creditos" Width="2" PointX="20.375" PointY="14" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.DetallesDeSeguimiento" Width="2.25" PointX="12.25" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Envios" Width="2.25" PointX="19.125" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Envios" Width="2.25" PointX="19.5" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.HistorialDetallesDeSeguimiento" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.HistorialesDeSeguimiento" Width="2.375" PointX="6.875" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Monedas" Width="1.5" PointX="6.375" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Motocicletas" Width="1.5" PointX="4" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Motorizados" Width="1.5" PointX="3.25" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Pagos" Width="1.5" PointX="26" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Motocicletas" Width="1.5" PointX="13.875" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Motorizados" Width="1.5" PointX="3.25" PointY="13.625" IsExpanded="true" FillColor="Green" />
+        <EntityTypeShape EntityType="Model.Pagos" Width="1.5" PointX="26.125" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Personas" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Salarios" Width="1.5" PointX="5.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Salarios" Width="1.5" PointX="3.25" PointY="22.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Seguimientos" Width="1.5" PointX="15.25" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Servicios" Width="1.5" PointX="12.875" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TiposDePago" Width="1.5" PointX="7.5" PointY="19.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TiposDeServicio" Width="1.5" PointX="15.625" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Servicios" Width="1.5" PointX="12.875" PointY="3.75" IsExpanded="true" FillColor="Green" />
+        <EntityTypeShape EntityType="Model.TiposDePago" Width="1.5" PointX="31" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TiposDeServicio" Width="1.5" PointX="15.375" PointY="5.625" IsExpanded="true" FillColor="Green" />
         <AssociationConnector Association="Model.FK_dbo_Asistentes_dbo_Personas_Id" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_dbo_Envios_dbo_Asistentes_AsistenteId" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_dbo_Clientes_dbo_Personas_Id" ManuallyRouted="false" />
@@ -45,7 +45,6 @@
         <AssociationConnector Association="Model.TiposDeServicioEnvios" />
         <AssociationConnector Association="Model.ServiciosEnvios" />
         <AssociationConnector Association="Model.TiposDeServicioCotizaciones" />
-        <AssociationConnector Association="Model.ServiciosCotizaciones" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
