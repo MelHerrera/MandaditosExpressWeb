@@ -1,0 +1,208 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Moneda>
+
+@{
+    ViewBag.Title = "Monedas";
+    var Monedas = Html.HtmlConvertToJson(Model);
+}
+
+@Styles.Render("~/Plugind/switches")
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Crear Servicios</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Monedas")">Monedas</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Agregar</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Clientes</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","Monedas")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+
+                    <table class="table table-bordered table-monedas">
+                        <thead>
+                            <tr>
+                                <th> @Html.DisplayNameFor(model => model.Id)</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreDeMoneda)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Abreviatura)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoMoneda)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Monedas">
+                            <tr>
+                                <td data-bind="text:Id">
+                                <td data-bind="text:NombreDeMoneda">
+                                </td>
+                                <td data-bind="text:Abreviatura">
+                                </td>
+                                <td>
+                                    <input type="checkbox" data-bind="checked:EstadoMoneda, enable:false" />
+                                </td>
+                                <td>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Edit")/'+Id}" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                    <a data-bind="attr:{href:'@Url.Action("Details/")'+Id}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    <a data-bind="attr:{href:'@Url.Action("Delete/")'+Id}" class="btn btn-danger"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!--ko if:mostrarAlertVacio-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0 Monedas para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                    </div>
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="monedas-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> <!--Modal title-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" data-bind="with:Moneda">
+                <p>la modeda seleccionada:<span data-bind="text:NombreDeMoneda"></span></p>
+                <!--Modal body-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="NombreDeMoneda" class="control-label">NombreDeMoneda</label>
+                            <input type="text" data-bind="value:NombreDeMoneda" name="NombreDeMoneda" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Abreviatura" class="control-label">Abreviatura</label>
+                            <input type="text" data-bind="value:Abreviatura" name="Abreviatura" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="EstadoMoneda" class="control-label">Estado de la Moneda</label>
+                            <input type="checkbox" data-bind="checked:EstadoMoneda" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">
+                        </div>
+                    </div>
+                </div>
+                <!--Modal body end-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pre>
+<code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
+</pre>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+
+
+    <script type="text/javascript">
+
+    var monedaViewModel = function (moneda) {
+        var self = this;
+
+        self.Id = ko.observable(moneda.Id);
+        self.NombreDeMoneda = ko.observable(moneda.NombreDeMoneda);
+        self.Abreviatura = ko.observable(moneda.Abreviatura);
+        self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
+    }
+
+    //main ViewModel
+        var monedasViewModel = function (monedasCollection) {
+            var self = this;
+            self.Monedas = ko.observableArray(monedasCollection);
+            self.Moneda = ko.observable(new monedaViewModel({}));
+
+            self.ShowModal = function (moneda, event) {
+                $('#monedas-modal').modal('show');
+                self.Moneda(new monedaViewModel(ko.toJS(moneda)));
+            };
+
+            self.mostrarAlertVacio = ko.computed(function () {
+                return self.Monedas().length <= 0;
+            });
+    }
+
+    let monedas = ko.utils.arrayMap(@Monedas, function (item) { return new monedaViewModel(item); });
+
+    ko.applyBindings(new monedasViewModel(monedas));
+    </script>
+
+    <script type="text/javascript">
+
+        @*$(function () {
+        validarAlertVacio();
+        });
+
+        function validarAlertVacio() {
+             if (@Model.Count() > 0) {
+                $(".alert-Empty").hide();
+                $(".table-monedas").show();
+            }
+            else {
+                $(".alert-Empty").show();
+                $(".table-monedas").hide();
+            }
+        }*@
+
+        $("#monedas-modal").on("shown.bs.modal", function () {
+            document.getElementById('switch-estado').switchButton();
+        });
+    </script>
+}

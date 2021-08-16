@@ -62,7 +62,7 @@
                 </ul>
             </li>
             <!--Catalogos Option-->
-            <li class="@Html.IsSelected(controller: "Personas")">
+            <li class="@Html.IsSelected(controller: "Catalogos")">
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse ">
                     <li class="@Html.IsSelected(action: "Index")">
@@ -79,6 +79,9 @@
                     </li>
                     <li class="@Html.IsSelected(action: "Index")">
                         <a href="@Url.Action("Index", "Servicios")">Servicios</a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Monedas")">Monedas</a>
                     </li>
                 </ul>
             </li>

@@ -1,4 +1,4 @@
-﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Mel\source\repos\MelHerrera\MandaditosExpressWeb\MandaditosExpress\Models\MandaditosModel.edmx'. 
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\melkin.herrera\source\repos\MandaditosExpressWeb\MandaditosExpress\Models\MandaditosModel.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

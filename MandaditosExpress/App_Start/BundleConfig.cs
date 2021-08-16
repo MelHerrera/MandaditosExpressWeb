@@ -19,6 +19,10 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            //Knockout
+            bundles.Add(new ScriptBundle("~/plugins/knockout").Include(
+                      "~/Scripts/knockout/knockout-3.5.1.js"));
+
             //JqueryUi
             bundles.Add(new ScriptBundle("~/plugins/jqueryui").Include(
                       "~/Scripts/plugins/jquery-ui/jquery-ui.min.js"));

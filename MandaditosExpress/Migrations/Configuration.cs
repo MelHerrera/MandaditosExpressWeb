@@ -100,8 +100,8 @@ namespace MandaditosExpress.Migrations
             context.Disponibilidad.AddOrUpdate(p => p.Id,
                   new Models.Disponibilidad
                   {
-                       Descripcion="Tiempo Completo",
-                       EstadoDeLaDisponibilidad=true
+                      Descripcion = "Tiempo Completo",
+                      EstadoDeLaDisponibilidad = true
                   },
                     new Models.Disponibilidad
                     {
@@ -141,19 +141,19 @@ namespace MandaditosExpress.Migrations
             context.TiposDeServicio.AddOrUpdate(p => p.Id,
     new Models.TipoDeServicio
     {
-        Id=1,
+        Id = 1,
         DescripcionTipoDeServicio = "Mandaditos",
         EstadoTipoDeServicio = true
     },
     new Models.TipoDeServicio
     {
-        Id=2,
+        Id = 2,
         DescripcionTipoDeServicio = "Gestion de Paquetería",
         EstadoTipoDeServicio = true
     },
     new Models.TipoDeServicio
     {
-        Id=3,
+        Id = 3,
         DescripcionTipoDeServicio = "Gestion Bancaria",
         EstadoTipoDeServicio = true
     });
@@ -175,7 +175,7 @@ namespace MandaditosExpress.Migrations
         EstadoDelCosto = true,
         PrecioBaseGestionBancaria = 120,
         PorcentajeBaseGestionBancaria = 3,
-        PrecioDeRecargo=20
+        PrecioDeRecargo = 20
     },
     new Models.Costo
     {
@@ -210,6 +210,22 @@ namespace MandaditosExpress.Migrations
                   PrecioDeRecargo = 20
               }
     );
+
+            context.Monedas.AddOrUpdate(p => p.Id,
+   new Models.Moneda
+   {
+       Id = 1,
+       Abreviatura="C$",
+       NombreDeMoneda="Cordobas",
+       EstadoMoneda=true
+   },
+   new Models.Moneda
+   {
+       Id = 2,
+       Abreviatura = "$",
+       NombreDeMoneda = "Dollar",
+       EstadoMoneda=true
+   });
 
 
             //context.Motorizados.AddOrUpdate(
