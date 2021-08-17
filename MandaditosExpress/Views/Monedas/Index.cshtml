@@ -77,9 +77,9 @@
                                     <input type="checkbox" data-bind="checked:EstadoMoneda, enable:false" />
                                 </td>
                                 <td>
-                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Edit")/'+Id}" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-                                    <a data-bind="attr:{href:'@Url.Action("Details/")'+Id}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                    <a data-bind="attr:{href:'@Url.Action("Delete/")'+Id}" class="btn btn-danger"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Edit")/'+Id}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                    <a data-bind="click:$root.MostrarDetalles" href="#" class="btn btn-success" id="btn-details"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Delete/")'+Id}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -101,8 +101,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <!--<h5 class="modal-title" id="exampleModalLabel"></h5>--> <!--Modal title-->
-                <div data-bind='component:{name:"modal-title",params:"Editar la informacion de la Moneda"}'></div>
+                <modal-title params="{ Titulo:Modal }"></modal-title>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -135,8 +134,8 @@
                 <!--Modal body end-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-bind="click:GuardarCambios">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bind="click:GuardarCambios"><i class="fa fa-check"></i> Modificar</button>
             </div>
         </div>
     </div>
@@ -154,34 +153,57 @@
 
 
     <script type="text/javascript">
-
-    var monedaViewModel = function (moneda) {
-        var self = this;
-
-        self.Id = ko.observable(moneda.Id);
-        self.NombreDeMoneda = ko.observable(moneda.NombreDeMoneda);
-        self.Abreviatura = ko.observable(moneda.Abreviatura);
-        self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
-        }
-
+        //ko components
         ko.components.register('modal-title',
             {
-                viewModel: function (title) {
-                    this.Titulo = ko.observable(title);
+                viewModel: function (params) {
+                    var self = this;
+                    self.Titulo = params.Titulo;
                 },
-                template:'<h5 class="modal-title" id="exampleModalLabel" data-bind="text:Titulo">Modal title</h5> '
+                template: '<h5 class="modal-title" id="exampleModalLabel" data-bind="text:Titulo">Modal title</h5>' 
             });
+
+        var monedaViewModel = function (moneda) {
+            var self = this;
+
+            self.Id = ko.observable(moneda.Id);
+            self.NombreDeMoneda = ko.observable(moneda.NombreDeMoneda);
+            self.Abreviatura = ko.observable(moneda.Abreviatura);
+            self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
+        };
 
     //main ViewModel
         var monedasViewModel = function (monedasCollection) {
             var self = this;
             self.Monedas = ko.observableArray(monedasCollection);
             self.Moneda = ko.observable(new monedaViewModel({}));
+            self.Modal = ko.observable("");
 
             self.ShowModal = function (moneda, event) {
-                $('#monedas-modal').modal('show');
+                if (event.currentTarget.id == "btn-edit") {
+                    self.Modal("Editar la información de la Moneda");
+                }
+                if (event.currentTarget.id == "btn-del") {
+                    self.Modal("Eliminar la información de la Moneda ");
+                }
+
+                $("#monedas-modal").modal('show');
                 self.Moneda(new monedaViewModel(ko.toJS(moneda)));
             };
+
+            self.MostrarDetalles = function (moneda) {
+                $.ajax(
+                    {
+                        url: "@Url.Action("/Details")",
+                        data: {
+                            id: ko.toJS(moneda).Id
+                        },
+                        success: function (res) {
+                            $(".body-content").html(res);
+                        }
+                    }
+                );
+            }
 
             self.GuardarCambios = function (data) {
                 console.log(ko.toJS(data.Moneda));
@@ -199,21 +221,6 @@
     </script>
 
     <script type="text/javascript">
-
-        @*$(function () {
-        validarAlertVacio();
-        });
-
-        function validarAlertVacio() {
-             if (@Model.Count() > 0) {
-                $(".alert-Empty").hide();
-                $(".table-monedas").show();
-            }
-            else {
-                $(".alert-Empty").show();
-                $(".table-monedas").hide();
-            }
-        }*@
 
         $("#monedas-modal").on("shown.bs.modal", function () {
             document.getElementById('switch-estado').switchButton();
