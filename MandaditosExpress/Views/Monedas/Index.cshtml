@@ -101,13 +101,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> <!--Modal title-->
+                <!--<h5 class="modal-title" id="exampleModalLabel"></h5>--> <!--Modal title-->
+                <div data-bind='component:{name:"modal-title",params:"Editar la informacion de la Moneda"}'></div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" data-bind="with:Moneda">
-                <p>la modeda seleccionada:<span data-bind="text:NombreDeMoneda"></span></p>
+                <h5>la modeda seleccionada:<span data-bind="text:NombreDeMoneda"></span></h5>
                 <!--Modal body-->
                 <div class="row">
                     <div class="col-md-6">
@@ -134,8 +135,8 @@
                 <!--Modal body end-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bind="click:GuardarCambios">Modificar</button>
             </div>
         </div>
     </div>
@@ -161,7 +162,15 @@
         self.NombreDeMoneda = ko.observable(moneda.NombreDeMoneda);
         self.Abreviatura = ko.observable(moneda.Abreviatura);
         self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
-    }
+        }
+
+        ko.components.register('modal-title',
+            {
+                viewModel: function (title) {
+                    this.Titulo = ko.observable(title);
+                },
+                template:'<h5 class="modal-title" id="exampleModalLabel" data-bind="text:Titulo">Modal title</h5> '
+            });
 
     //main ViewModel
         var monedasViewModel = function (monedasCollection) {
@@ -173,6 +182,11 @@
                 $('#monedas-modal').modal('show');
                 self.Moneda(new monedaViewModel(ko.toJS(moneda)));
             };
+
+            self.GuardarCambios = function (data) {
+                console.log(ko.toJS(data.Moneda));
+                alert("Enviando cambios al servidor:");
+            }
 
             self.mostrarAlertVacio = ko.computed(function () {
                 return self.Monedas().length <= 0;
