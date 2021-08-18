@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class MonedasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -85,11 +86,13 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NombreDeMoneda,Abreviatura,EstadoMoneda")] Moneda moneda)
+        public ActionResult Edit(int id)
         {
+            var moneda = db.Monedas.Find(id);
+
             if (ModelState.IsValid)
             {
-                db.Entry(moneda).State = EntityState.Modified;
+                //db.Entry(moneda).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -117,7 +120,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Moneda moneda = db.Monedas.Find(id);
-            db.Monedas.Remove(moneda);
+            //db.Monedas.Remove(moneda);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

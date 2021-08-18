@@ -134,9 +134,15 @@
                 <!--Modal body end-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
-                <button type="button" class="btn btn-primary" data-bind="click:GuardarCambios"><i class="fa fa-check"></i> Modificar</button>
-            </div>
+
+                @using (Html.BeginForm("","",FormMethod.Post, new { @class = "modal-form-foot" }))
+                {
+                    @Html.AntiForgeryToken();
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+                    @*<button type="button" class="btn btn-primary" data-bind="click:GuardarCambios,attr:{href:'@Url.Action("Delete/")'}" ><i class="fa fa-check"> <span data-bind="text:IndividualActionName"></span></i></button>*@
+                    <modal-action1 params="{ActName:ModalComplete}"></modal-action1>
+                }
+                </div>
         </div>
     </div>
 </div>
@@ -151,8 +157,7 @@
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
 
-
-    <script type="text/javascript">
+<script type="text/javascript">
         //ko components
         ko.components.register('modal-title',
             {
@@ -160,9 +165,20 @@
                     var self = this;
                     self.Titulo = params.Titulo;
                 },
-                template: '<h5 class="modal-title" id="exampleModalLabel" data-bind="text:Titulo">Modal title</h5>' 
+                template: '<h5 class="modal-title" id="exampleModalLabel" data-bind="text:Titulo">Modal title</h5>'
             });
 
+        ko.components.register('modal-action1',
+            {
+                viewModel: function (params) {
+                    var self = this;
+                    self.ActionName = params.ActName().ActionName;
+                    self.Url = params.ActName().UrlAction;
+                },
+                template: '<button type="submit" data-bind="click:$root.GuardarCambios,attr:{href:Url}" class="btn btn-primary"><i class="fa fa-check"></i><span data-bind="text:ActionName"></span></a>'
+            });
+
+        //Viewmodels
         var monedaViewModel = function (moneda) {
             var self = this;
 
@@ -172,6 +188,12 @@
             self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
         };
 
+        var modalViewModel = function (modal) {
+            var self = this;
+            self.ActionName = ko.observable(modal.ActionName);
+            self.UrlAction = ko.observable(modal.UrlAction);
+        };
+
     //main ViewModel
         var monedasViewModel = function (monedasCollection) {
             var self = this;
@@ -179,12 +201,18 @@
             self.Moneda = ko.observable(new monedaViewModel({}));
             self.Modal = ko.observable("");
 
+            self.ModalComplete = ko.observable(new modalViewModel({ ActionName: "Initial", UrlAction:"/Index" }));
+
             self.ShowModal = function (moneda, event) {
                 if (event.currentTarget.id == "btn-edit") {
-                    self.Modal("Editar la información de la Moneda");
+                    self.Modal("editar la información de la moneda");
+                    self.ModalComplete().ActionName("Editar");
+                    self.ModalComplete().UrlAction("@Url.Action("/Edit")");
                 }
                 if (event.currentTarget.id == "btn-del") {
                     self.Modal("Eliminar la información de la Moneda ");
+                    self.ModalComplete().ActionName("Eliminar");
+                    self.ModalComplete().UrlAction("@Url.Action("/Delete")");
                 }
 
                 $("#monedas-modal").modal('show');
@@ -197,17 +225,27 @@
                         url: "@Url.Action("/Details")",
                         data: {
                             id: ko.toJS(moneda).Id
-                        },
-                        success: function (res) {
-                            $(".body-content").html(res);
                         }
                     }
                 );
             }
 
-            self.GuardarCambios = function (data) {
-                console.log(ko.toJS(data.Moneda));
-                alert("Enviando cambios al servidor:");
+            self.GuardarCambios = function (data, event) {
+
+                let token = $('.modal-form-foot input[name="__RequestVerificationToken"]').val();
+                let monedaId = ko.toJS(self.Moneda).Id;
+
+                $.ajax({
+                    url: $(event.currentTarget).attr("href"),
+                    type: "Post",
+                    data: { __RequestVerificationToken: token, id:monedaId },
+                    success: function (res) {
+                        $(".body-content").html(res);
+                    },
+                    error: function (e) {
+                        alert(e.responseText);
+                    }
+                });
             }
 
             self.mostrarAlertVacio = ko.computed(function () {
@@ -218,7 +256,7 @@
     let monedas = ko.utils.arrayMap(@Monedas, function (item) { return new monedaViewModel(item); });
 
     ko.applyBindings(new monedasViewModel(monedas));
-    </script>
+</script>
 
     <script type="text/javascript">
 
