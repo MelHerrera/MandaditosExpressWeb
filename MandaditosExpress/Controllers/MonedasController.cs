@@ -60,33 +60,31 @@ namespace MandaditosExpress.Controllers
             return View(moneda);
         }
 
-        // GET: Monedas/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Moneda moneda = db.Monedas.Find(id);
-            if (moneda == null)
-            {
-                return HttpNotFound();
-            }
-            return View(moneda);
-        }
+        //// GET: Monedas/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Moneda moneda = db.Monedas.Find(id);
+        //    if (moneda == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(moneda);
+        //}
 
         // POST: Monedas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Moneda moneda)
         {
-            var moneda = db.Monedas.Find(id);
-
             if (ModelState.IsValid)
             {
-                //db.Entry(moneda).State = EntityState.Modified;
+                db.Entry(moneda).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -94,27 +92,27 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Monedas/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Moneda moneda = db.Monedas.Find(id);
-            if (moneda == null)
-            {
-                return HttpNotFound();
-            }
-            return View(moneda);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Moneda moneda = db.Monedas.Find(id);
+        //    if (moneda == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(moneda);
+        //}
 
         // POST: Monedas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Moneda moneda)
         {
-            Moneda moneda = db.Monedas.Find(id);
-            //db.Monedas.Remove(moneda);
+            Moneda Omoneda = db.Monedas.Find(moneda.Id);
+            db.Monedas.Remove(Omoneda);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

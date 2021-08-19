@@ -16,9 +16,16 @@ namespace MandaditosExpress.Models
 
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre De La Moneda")]
         public string NombreDeMoneda { get; set; }
+
+        [Required]
         public string Abreviatura { get; set; }
-        public bool EstadoMoneda { get; set; }
+
+
+        public bool Estado { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pago> Pagos { get; set; }

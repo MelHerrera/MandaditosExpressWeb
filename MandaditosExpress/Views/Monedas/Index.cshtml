@@ -9,7 +9,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Crear Servicios</h2>
+        <h2>Monedas</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -21,7 +21,7 @@
                 <a href="@Url.Action("Index", "Monedas")">Monedas</a>
             </li>
             <li class="active breadcrumb-item">
-                <strong>Agregar</strong>
+                <strong>Inicio</strong>
             </li>
         </ol>
     </div>
@@ -61,7 +61,7 @@
                                     @Html.DisplayNameFor(model => model.Abreviatura)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.EstadoMoneda)
+                                    @Html.DisplayNameFor(model => model.Estado)
                                 </th>
                                 <th>Opciones</th>
                             </tr>
@@ -74,12 +74,12 @@
                                 <td data-bind="text:Abreviatura">
                                 </td>
                                 <td>
-                                    <input type="checkbox" data-bind="checked:EstadoMoneda, enable:false" />
+                                    <input type="checkbox" data-bind="checked:Estado, enable:false" />
                                 </td>
                                 <td>
-                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Edit")/'+Id}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-                                    <a data-bind="click:$root.MostrarDetalles" href="#" class="btn btn-success" id="btn-details"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("Delete/")'+Id}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                    <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}"  class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -126,8 +126,9 @@
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
-                            <label for="EstadoMoneda" class="control-label">Estado de la Moneda</label>
-                            <input type="checkbox" data-bind="checked:EstadoMoneda" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">
+                            <label for="Estado" class="control-label">Estado de la Moneda</label>
+                            @*<input type="checkbox" data-bind="checked:EstadoMoneda" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">*@
+                            <input type="checkbox" data-bind="checked:Estado" name="Estado">
                         </div>
                     </div>
                 </div>
@@ -139,7 +140,6 @@
                 {
                     @Html.AntiForgeryToken();
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
-                    @*<button type="button" class="btn btn-primary" data-bind="click:GuardarCambios,attr:{href:'@Url.Action("Delete/")'}" ><i class="fa fa-check"> <span data-bind="text:IndividualActionName"></span></i></button>*@
                     <modal-action1 params="{ActName:ModalComplete}"></modal-action1>
                 }
                 </div>
@@ -147,9 +147,9 @@
     </div>
 </div>
 
-<pre>
+@*<pre>
 <code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
-</pre>
+</pre>*@
 
 
 
@@ -185,7 +185,7 @@
             self.Id = ko.observable(moneda.Id);
             self.NombreDeMoneda = ko.observable(moneda.NombreDeMoneda);
             self.Abreviatura = ko.observable(moneda.Abreviatura);
-            self.EstadoMoneda = ko.observable(moneda.EstadoMoneda);
+            self.Estado = ko.observable(moneda.Estado);
         };
 
         var modalViewModel = function (modal) {
@@ -207,12 +207,12 @@
                 if (event.currentTarget.id == "btn-edit") {
                     self.Modal("editar la información de la moneda");
                     self.ModalComplete().ActionName("Editar");
-                    self.ModalComplete().UrlAction("@Url.Action("/Edit")");
+                    self.ModalComplete().UrlAction($(event.currentTarget).attr("href"));
                 }
                 if (event.currentTarget.id == "btn-del") {
                     self.Modal("Eliminar la información de la Moneda ");
                     self.ModalComplete().ActionName("Eliminar");
-                    self.ModalComplete().UrlAction("@Url.Action("/Delete")");
+                    self.ModalComplete().UrlAction($(event.currentTarget).attr("href"));
                 }
 
                 $("#monedas-modal").modal('show');
@@ -222,9 +222,12 @@
             self.MostrarDetalles = function (moneda) {
                 $.ajax(
                     {
-                        url: "@Url.Action("/Details")",
+                        url: $(event.currentTarget).attr("href"),
                         data: {
                             id: ko.toJS(moneda).Id
+                        },
+                        success: function (res) {
+                            $(".body-content").html(res);
                         }
                     }
                 );
@@ -233,12 +236,12 @@
             self.GuardarCambios = function (data, event) {
 
                 let token = $('.modal-form-foot input[name="__RequestVerificationToken"]').val();
-                let monedaId = ko.toJS(self.Moneda).Id;
+                let moneda = ko.toJS(self.Moneda);
 
                 $.ajax({
-                    url: $(event.currentTarget).attr("href"),
+                    url: ko.toJS(data).Url,
                     type: "Post",
-                    data: { __RequestVerificationToken: token, id:monedaId },
+                    data: { __RequestVerificationToken: token, moneda: moneda },
                     success: function (res) {
                         $(".body-content").html(res);
                     },
@@ -253,15 +256,18 @@
             });
     }
 
-    let monedas = ko.utils.arrayMap(@Monedas, function (item) { return new monedaViewModel(item); });
+    var monedas = ko.utils.arrayMap(@Monedas, function (item) { return new monedaViewModel(item); });
 
     ko.applyBindings(new monedasViewModel(monedas));
 </script>
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
         $("#monedas-modal").on("shown.bs.modal", function () {
-            document.getElementById('switch-estado').switchButton();
+            var x = document.getElementById('switch-estado').switchButton();
+
+            document.getElementById('switch-estado').addEventListener("change", function (w) { console.log(w.returnValue); });
         });
-    </script>
+
+    </script>*@
 }

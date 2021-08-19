@@ -200,6 +200,7 @@
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
     <Compile Include="Models\Disponibilidad.cs" />
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
+    <Compile Include="Models\Enum\TiposDeServicioEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
@@ -454,9 +455,7 @@
     <Content Include="Views\Servicios\Index.cshtml" />
     <Content Include="Views\Cotizaciones\Create.cshtml" />
     <Content Include="Views\Monedas\Create.cshtml" />
-    <Content Include="Views\Monedas\Delete.cshtml" />
     <Content Include="Views\Monedas\Details.cshtml" />
-    <Content Include="Views\Monedas\Edit.cshtml" />
     <Content Include="Views\Monedas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -53,7 +53,17 @@ namespace MandaditosExpress.Controllers
             {
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var Costo = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
-                var CostoTotal = Costo.CostoDeAsistencia + Costo.CostoDeGasolina + Costo.CostoDeMotorizado + (Costo.DistanciaBase * Costo.PrecioPorKm);
+                var CostoTotal = Costo.CostoDeAsistencia + Costo.CostoDeGasolina + Costo.CostoDeMotorizado +
+                    ((Costo.DistanciaBase + cotizacion.DistanciaOrigenDestino) * Costo.PrecioPorKm);
+                var CostoPorGestionBancaria =(decimal) 0.0;
+
+                if (cotizacion.MontoDeDinero > 0 && cotizacion.MontoDeDinero <= 5000)
+                {
+                    //
+                }
+                else
+                    CostoPorGestionBancaria = cotizacion.MontoDeDinero;
+
                 // db.Cotizaciones.Add(cotizacion);
                 db.SaveChanges();
                 return View();

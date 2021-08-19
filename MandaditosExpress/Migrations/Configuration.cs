@@ -217,14 +217,14 @@ namespace MandaditosExpress.Migrations
        Id = 1,
        Abreviatura="C$",
        NombreDeMoneda="Cordobas",
-       EstadoMoneda=true
+       Estado=true
    },
    new Models.Moneda
    {
        Id = 2,
        Abreviatura = "$",
        NombreDeMoneda = "Dollar",
-       EstadoMoneda=true
+       Estado=false
    });
 
 
