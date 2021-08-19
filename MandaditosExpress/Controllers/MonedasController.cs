@@ -19,12 +19,6 @@ namespace MandaditosExpress.Controllers
         // GET: Monedas
         public ActionResult Index()
         {
-            //ViewBag.Monedas =new HtmlString(JsonConvert.SerializeObject(db.Monedas.ToList(), new JsonSerializerSettings
-            //{
-            //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            //    Formatting = Formatting.Indented
-            //})); 
-
             return View(db.Monedas.ToList());
         }
 
