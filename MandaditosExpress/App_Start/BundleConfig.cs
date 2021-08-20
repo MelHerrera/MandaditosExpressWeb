@@ -21,7 +21,7 @@ namespace MandaditosExpress
 
             //Knockout
             bundles.Add(new ScriptBundle("~/plugins/knockout").Include(
-                      "~/Scripts/knockout/knockout-3.5.1.js"));
+                      "~/Scripts/knockout-3.5.1.debug.js"));
 
             //JqueryUi
             bundles.Add(new ScriptBundle("~/plugins/jqueryui").Include(
@@ -97,10 +97,17 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/wow").Include(
                         "~/Scripts/plugins/wow/wow.min.js"));
 
+            // WOW 
+            bundles.Add(new ScriptBundle("~/bundles/IndexMonedas").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Moneda/MonedaViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
-            //Styles
 
-            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
+                //Styles
+
+                bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
           "~/Content/bootstrap.min.css",
           "~/Content/animate.css",
           "~/Content/landing_style.css"));

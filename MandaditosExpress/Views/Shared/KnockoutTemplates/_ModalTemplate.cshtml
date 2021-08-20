@@ -1,0 +1,80 @@
+﻿<template id="modal-template-header">
+    <div class="modal-header" data-bind="class: ModalHeaderClass">
+        <h5 class="modal-title" data-bind="text: ModalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</template>
+
+
+<template id="modal-body-template">
+
+    <div class="modal-body" data-bind="with: MonedaViewModel">
+
+        <p>Modeda seleccionada:<span data-bind="text:NombreDeMoneda"></span></p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="NombreDeMoneda" class="control-label">NombreDeMoneda</label>
+                    <input type="text" data-bind="value:NombreDeMoneda" name="NombreDeMoneda" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="Abreviatura" class="control-label">Abreviatura</label>
+                    <input type="text" data-bind="value:Abreviatura" name="Abreviatura" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="Estado" class="control-label">Estado de la Moneda</label>
+                    <input type="checkbox" data-bind="checked: Estado, bsSwitchButton: {}" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">
+                </div>
+            </div>
+        </div>
+        <!--Modal body end-->
+    </div>
+
+</template>
+
+
+<template id="modal-template-footer">
+    <div class="modal-footer">
+
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "modal-form-foot" }))
+        {
+            @Html.AntiForgeryToken();
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+
+            <button type="button" data-bind="click: $root.GuardarCambios, attr:{ href: UrlAction}" class="btn btn-primary">
+                <i class="fa fa-check"></i>
+                <span data-bind="text:ActionName"></span>
+            </button>
+        }
+    </div>
+
+</template>
+
+
+<template id="modal-template">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         data-bind="attr: { id: ModalId }">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <!--ko with: ModalHeaderViewModel-->
+                <modal-header params="{ ModalHeaderViewModel:  $data }"></modal-header>
+                <!--/ko-->
+                <!--ko with: ModalBodyViewModel-->
+                <modal-body params="{ ModalBodyViewModel:  $data }"></modal-body>
+                <!--/ko-->
+                <!--ko with: FooterViewModel-->
+                <modal-footer params="{ FooterViewModel: $data }"></modal-footer>
+                <!--/ko-->
+            </div>
+        </div>
+    </div>
+</template>
