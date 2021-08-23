@@ -8,7 +8,7 @@ function MonedasViewModel(monedasCollection) {
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "monedas-modal",
         ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),
-        ModalBodyViewModel: new ModalBodyViewModel({ MonedaViewModel: new MonedaViewModel({}) }),
+        ModalBodyViewModel: new ModalBodyViewModel({ MonedaTemplateViewModel: new MonedaTemplateViewModel({ Name: "moneda-modal-template", MonedaViewModel: new MonedaViewModel({}) }) }),
         FooterViewModel: new FooterModalViewModel({ ActionName: "Initial", UrlAction: "/Index" })
     }));
 
@@ -19,12 +19,12 @@ function MonedasViewModel(monedasCollection) {
 
         if (event.currentTarget.id == "btn-edit") {
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de la moneda").ModalHeaderClass("bg-success");
-            self.ModalViewModel().ModalBodyViewModel().MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
+            self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().Name("moneda-modal-template").MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de la Moneda").ModalHeaderClass("bg-danger");
-            self.ModalViewModel().ModalBodyViewModel().MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
+            self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().Name("moneda-modal-template").MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }
 
@@ -48,7 +48,7 @@ function MonedasViewModel(monedasCollection) {
     self.GuardarCambios = function (data, event) {
 
         let token = $('.modal-form-foot input[name="__RequestVerificationToken"]').val();
-        let moneda = ko.toJS(self.ModalViewModel().ModalBodyViewModel().MonedaViewModel());
+        let moneda = ko.toJS(self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().MonedaViewModel());
 
         $.ajax({
             url: ko.toJS(data).UrlAction,

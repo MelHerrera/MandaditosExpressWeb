@@ -97,11 +97,12 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/wow").Include(
                         "~/Scripts/plugins/wow/wow.min.js"));
 
-            // WOW 
+            // IndexMonedas
             bundles.Add(new ScriptBundle("~/bundles/IndexMonedas").Include(
                         "~/Scripts/knockout/Componentes/ModalComponent.js",
                         "~/Scripts/knockout/extensions/CustomBindins.js",
                         "~/Scripts/knockout/ViewModel/Moneda/MonedaViewModel.js",
+                         "~/Scripts/knockout/ViewModel/Moneda/MonedaTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
 

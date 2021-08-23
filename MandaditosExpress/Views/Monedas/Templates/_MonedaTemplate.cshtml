@@ -1,0 +1,25 @@
+﻿<template id="moneda-modal-template">
+    <p>Modeda seleccionada:<span data-bind="text:NombreDeMoneda"></span></p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="NombreDeMoneda" class="control-label">NombreDeMoneda</label>
+                <input type="text" data-bind="value:NombreDeMoneda" name="NombreDeMoneda" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Abreviatura" class="control-label">Abreviatura</label>
+                <input type="text" data-bind="value:Abreviatura" name="Abreviatura" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                <label for="Estado" class="control-label">Estado de la Moneda</label>
+                <input type="checkbox" data-bind="checked: Estado, bsSwitchButton: {}" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">
+            </div>
+        </div>
+    </div>
+</template>

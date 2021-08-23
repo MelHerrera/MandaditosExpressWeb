@@ -7,7 +7,7 @@
 
 function ModalBodyViewModel(params) {
     const self = this;
-    self.MonedaViewModel = ko.observable(params.MonedaViewModel);
+    self.MonedaTemplateViewModel = ko.observable(params.MonedaTemplateViewModel);
 };
 
 //viewmodel for footer modal components
