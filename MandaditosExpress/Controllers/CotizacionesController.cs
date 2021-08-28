@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
 
@@ -37,8 +38,9 @@ namespace MandaditosExpress.Controllers
         // GET: Cotizaciones/Create
         public ActionResult Create()
         { 
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico");
+            ViewBag.ClienteId = new SelectList(db.Personas.Where(x=>x.CorreoElectronico== Request.GetOwinContext().Authentication.User.Identity.Name), "Id", "CorreoElectronico");
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+            ViewBag.Porcentaje = new SelectList(db.PorcentajeGestionesBancarias, "Id", "RangoPorcentaje");
             return View(new Cotizacion());
         }
 

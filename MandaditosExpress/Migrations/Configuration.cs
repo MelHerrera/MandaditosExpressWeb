@@ -158,7 +158,29 @@ namespace MandaditosExpress.Migrations
         EstadoTipoDeServicio = true
     });
 
-
+            context.CostoGestionBancaria.AddOrUpdate(
+                p => p.Id,
+                new Models.CostoGestionBancaria
+                {
+                    Id = 0,
+                    MontoDesde = 0,
+                    MontoHasta = 0,
+                    Porcentaje = 0
+                },
+                new Models.CostoGestionBancaria
+                {
+                    Id = 1,
+                    MontoDesde = 1,
+                    MontoHasta = 5000,
+                    Porcentaje = 2.4f
+                },
+                new Models.CostoGestionBancaria
+                {
+                    Id = 2,
+                    MontoDesde = 5001,
+                    MontoHasta = 5000000,
+                    Porcentaje = 3
+                });
 
             context.Costos.AddOrUpdate(p => p.Id,
     new Models.Costo
@@ -173,8 +195,6 @@ namespace MandaditosExpress.Migrations
         PrecioPorKm = 3,
         TipoDeServicioId = 1,
         EstadoDelCosto = true,
-        PrecioBaseGestionBancaria = 120,
-        PorcentajeBaseGestionBancaria = 3,
         PrecioDeRecargo = 20
     },
     new Models.Costo
@@ -189,8 +209,6 @@ namespace MandaditosExpress.Migrations
         PrecioPorKm = 3,
         TipoDeServicioId = 2,
         EstadoDelCosto = true,
-        PrecioBaseGestionBancaria = 120,
-        PorcentajeBaseGestionBancaria = 3,
         PrecioDeRecargo = 20
     },
               new Models.Costo
@@ -205,8 +223,6 @@ namespace MandaditosExpress.Migrations
                   PrecioPorKm = 3,
                   TipoDeServicioId = 3,
                   EstadoDelCosto = true,
-                  PrecioBaseGestionBancaria = 120,
-                  PorcentajeBaseGestionBancaria = 3,
                   PrecioDeRecargo = 20
               }
     );
@@ -215,16 +231,16 @@ namespace MandaditosExpress.Migrations
    new Models.Moneda
    {
        Id = 1,
-       Abreviatura="C$",
-       NombreDeMoneda="Cordobas",
-       Estado=true
+       Abreviatura = "C$",
+       NombreDeMoneda = "Cordobas",
+       Estado = true
    },
    new Models.Moneda
    {
        Id = 2,
        Abreviatura = "$",
        NombreDeMoneda = "Dollar",
-       Estado=false
+       Estado = false
    });
 
 

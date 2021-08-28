@@ -195,6 +195,7 @@
     <Compile Include="Models\Asistente.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Costo.cs" />
+    <Compile Include="Models\CostoGestionBancaria.cs" />
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\Credito.cs" />
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
@@ -208,11 +209,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MandaditosDB.cs" />
-    <Compile Include="Models\MandaditosModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MandaditosModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Moneda.cs" />
     <Compile Include="Models\Motocicleta.cs" />
     <Compile Include="Models\Motorizado.cs" />
@@ -342,13 +338,6 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
-    <EntityDeploy Include="Models\MandaditosModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MandaditosModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\MandaditosModel.edmx.diagram">
-      <DependentUpon>MandaditosModel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

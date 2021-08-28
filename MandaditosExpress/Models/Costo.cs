@@ -57,16 +57,10 @@ namespace MandaditosExpress.Models
         [Display(Name = "Estado")]
         public bool EstadoDelCosto { get; set; }
 
-        [Display(Name = "Precio por Gestion Bancaria")]
-        public decimal PrecioBaseGestionBancaria { get; set; }
-
-        [Display(Name = "% por Gestion Bancaria")]
-        public int PorcentajeBaseGestionBancaria { get; set; }
-
         [Required]
         [Display(Name = "Precio De Recargo")]
         public float PrecioDeRecargo { get; set; }
 
-        public virtual TipoDeServicio TipoDeServicio { get; set; }
+        public virtual  TipoDeServicio TipoDeServicio { get; set; }
     }
 }

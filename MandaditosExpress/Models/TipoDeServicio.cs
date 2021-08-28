@@ -27,6 +27,9 @@ namespace MandaditosExpress.Models
 
         public virtual ICollection<Costo> Costos { get; set; }
 
+        public virtual CostoGestionBancaria CostoGestionBancaria { get; set; }
+
+
         public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
     }
 }
