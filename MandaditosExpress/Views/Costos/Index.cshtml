@@ -46,12 +46,6 @@
                 @Html.DisplayNameFor(model => model.EstadoDelCosto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrecioBaseGestionBancaria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorcentajeBaseGestionBancaria)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.PrecioDeRecargo)
             </th>
             <th>Opciones</th>
@@ -92,12 +86,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EstadoDelCosto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioBaseGestionBancaria)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PorcentajeBaseGestionBancaria)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
@@ -198,18 +186,6 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="control-label" name="PrecioBaseGestionBancaria">Precio Base de Gestion Bancaria</label>
-                                <input type="number" name="PrecioBaseGestionBancaria" class="form-control PbGestionBancaria" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="PorcentajeBaseGestionBancaria">% de Gestion Bancaria</label>
-                                <input type="number" name="PorcentajeBaseGestionBancaria" class="form-control PorbGestionBancaria" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label class="control-label" name="PrecioDeRecargo">Precio de Recargo del envio</label>
                                 <input type="number" name="PrecioDeRecargo" class="form-control PrecioDeRecargo" />
                             </div>
@@ -258,9 +234,7 @@
                     let precioKm = cells[8].innerText;
                     let tipoDeServicio = cells[9].innerText;
                     let estado = cells[10].children[0].checked;
-                    let pbGestionBan = cells[11].innerText;
-                    let porcentajeBase = cells[12].innerText;
-                    let precioDeRecargo = cells[13].innerText;
+                    let precioDeRecargo = cells[11].innerText;
 
                     $(".Descripcion").val(descripcion);
                        //convert string to date
@@ -282,8 +256,6 @@
                     $(".TipoDeServicio").val(tipoDeServicio);
 
                     document.getElementById('EstadoDelCosto').switchButton(estado == true ? 'on' : 'off')
-                    $(".PbGestionBancaria").val(parseFloat(pbGestionBan));
-                    $(".PorbGestionBancaria").val(porcentajeBase);
                     $(".sequence").val(sequence);
                     $(".PrecioDeRecargo").val(precioDeRecargo);
 
@@ -314,11 +286,9 @@
         costo.CostoDeGasolina = $(".CostoDeGasolina").val();
         costo.CostoDeAsistencia = $(".CostoDeAsistencia").val();
         costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
-        costo.DistanciaBase = $(".DistanciaBase").val();
-        costo.PrecioPorKm = $(".PrecioPorKm").val();
-        costo.EstadoDelCosto = $(".EstadoDelCosto").prop('checked')
-        costo.PrecioBaseGestionBancaria = $(".PbGestionBancaria").val();
-                    costo.PorcentajeBaseGestionBancaria = $(".PorbGestionBancaria").val();
+                    costo.DistanciaBase = $(".DistanciaBase").val();
+                    costo.PrecioPorKm = $(".PrecioPorKm").val();
+                    costo.EstadoDelCosto = $(".EstadoDelCosto").prop('checked')
                     costo.PrecioDeRecargo = $(".PrecioDeRecargo").val();
 
             let token = $('.edit-form input[name="__RequestVerificationToken"]').val()

@@ -1,86 +1,86 @@
-﻿@model MandaditosExpress.Models.Costo
+﻿@model MandaditosExpress.Models.CostoGestionBancaria
 
 @{
-    ViewBag.Title ="Eliminar Coato" ;
+    Layout = null;
 }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
 <body>
     <h3>Are you sure you want to delete this?</h3>
     <div>
-        <h4>Costo</h4>
+        <h4>CostoGestionBancaria</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.FechaDeInicio)
             </dt>
-
+    
             <dd>
                 @Html.DisplayFor(model => model.FechaDeInicio)
             </dd>
-
+    
             <dt>
                 @Html.DisplayNameFor(model => model.FechaDeFin)
             </dt>
-
+    
             <dd>
                 @Html.DisplayFor(model => model.FechaDeFin)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.CostoDeGasolina)
+                @Html.DisplayNameFor(model => model.Descripcion)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.CostoDeGasolina)
+                @Html.DisplayFor(model => model.Descripcion)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.CostoDeAsistencia)
+                @Html.DisplayNameFor(model => model.MontoDesde)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.CostoDeAsistencia)
+                @Html.DisplayFor(model => model.MontoDesde)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.CostoDeMotorizado)
+                @Html.DisplayNameFor(model => model.MontoHasta)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.CostoDeMotorizado)
+                @Html.DisplayFor(model => model.MontoHasta)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.DistanciaBase)
+                @Html.DisplayNameFor(model => model.Estado)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.DistanciaBase)
+                @Html.DisplayFor(model => model.Estado)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.PrecioPorKm)
+                @Html.DisplayNameFor(model => model.Porcentaje)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.PrecioPorKm)
+                @Html.DisplayFor(model => model.Porcentaje)
             </dd>
-
+    
             <dt>
-                @Html.DisplayNameFor(model => model.EstadoDelCosto)
+                @Html.DisplayNameFor(model => model.TipoDeServicioId)
             </dt>
-
+    
             <dd>
-                @Html.DisplayFor(model => model.EstadoDelCosto)
+                @Html.DisplayFor(model => model.TipoDeServicioId)
             </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.PrecioDeRecargo)
-            </dd>
-
+    
         </dl>
     
         @using (Html.BeginForm()) {
@@ -93,3 +93,4 @@
         }
     </div>
 </body>
+</html>

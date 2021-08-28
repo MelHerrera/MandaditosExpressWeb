@@ -163,23 +163,38 @@ namespace MandaditosExpress.Migrations
                 new Models.CostoGestionBancaria
                 {
                     Id = 0,
+                    FechaDeInicio = DateTime.Parse("01/08/2021"),
+                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    Descripcion ="Sin Especificar",
                     MontoDesde = 0,
                     MontoHasta = 0,
-                    Porcentaje = 0
+                    Porcentaje = 0,
+                    TipoDeServicioId=3,
+                    Estado=true
                 },
                 new Models.CostoGestionBancaria
                 {
                     Id = 1,
+                    FechaDeInicio = DateTime.Parse("01/08/2021"),
+                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    Descripcion = "Costo minimo de Gestion Bancaria",
                     MontoDesde = 1,
                     MontoHasta = 5000,
-                    Porcentaje = 2.4f
+                    Porcentaje = 2.4f,
+                    TipoDeServicioId = 3,
+                    Estado = true
                 },
                 new Models.CostoGestionBancaria
                 {
                     Id = 2,
+                    FechaDeInicio = DateTime.Parse("01/08/2021"),
+                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    Descripcion = "Costo maximo de Gestion Bancaria",
                     MontoDesde = 5001,
-                    MontoHasta = 5000000,
-                    Porcentaje = 3
+                    MontoHasta = 50000000,
+                    Porcentaje = 3,
+                    TipoDeServicioId = 3,
+                    Estado = true
                 });
 
             context.Costos.AddOrUpdate(p => p.Id,
@@ -210,21 +225,7 @@ namespace MandaditosExpress.Migrations
         TipoDeServicioId = 2,
         EstadoDelCosto = true,
         PrecioDeRecargo = 20
-    },
-              new Models.Costo
-              {
-                  FechaDeInicio = DateTime.Parse("01/08/2021"),
-                  FechaDeFin = DateTime.Parse("31/08/2021"),
-                  Descripcion = "Costo de Gestion Bancaria",
-                  CostoDeGasolina = 20, //float.Parse("20"),
-                  CostoDeAsistencia = 20,
-                  CostoDeMotorizado = 20,
-                  DistanciaBase = 3,
-                  PrecioPorKm = 3,
-                  TipoDeServicioId = 3,
-                  EstadoDelCosto = true,
-                  PrecioDeRecargo = 20
-              }
+    }
     );
 
             context.Monedas.AddOrUpdate(p => p.Id,

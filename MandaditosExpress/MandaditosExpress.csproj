@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CostosController.cs" />
+    <Compile Include="Controllers\CostosGestionBancariaController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -453,6 +454,11 @@
     <Content Include="Views\Monedas\Index.cshtml" />
     <Content Include="Views\Shared\KnockoutTemplates\_ModalTemplate.cshtml" />
     <Content Include="Views\Monedas\Templates\_MonedaTemplate.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Create.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Delete.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Details.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
