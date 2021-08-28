@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models
 {
+    [Table("CostosGestionBancaria")]
     public class CostoGestionBancaria
     {
         public CostoGestionBancaria()

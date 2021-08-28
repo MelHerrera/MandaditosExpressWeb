@@ -9,9 +9,11 @@ namespace MandaditosExpress.Models
     public class TipoDeServicio
     {
         public TipoDeServicio()
+
         {
-            this.Costos = new HashSet<Costo>();
-            this.Cotizaciones = new HashSet<Cotizacion>();
+            Costos = new HashSet<Costo>();
+            Cotizaciones = new HashSet<Cotizacion>();
+            CostosGestionBancaria = new HashSet<CostoGestionBancaria>();
         }
         [Key]
         public int Id { get; set; }
@@ -27,8 +29,7 @@ namespace MandaditosExpress.Models
 
         public virtual ICollection<Costo> Costos { get; set; }
 
-        public virtual CostoGestionBancaria CostoGestionBancaria { get; set; }
-
+        public virtual ICollection<CostoGestionBancaria> CostosGestionBancaria { get; set; }
 
         public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
     }

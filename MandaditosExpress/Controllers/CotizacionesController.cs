@@ -40,7 +40,7 @@ namespace MandaditosExpress.Controllers
         { 
             ViewBag.ClienteId = new SelectList(db.Personas.Where(x=>x.CorreoElectronico== Request.GetOwinContext().Authentication.User.Identity.Name), "Id", "CorreoElectronico");
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
-            ViewBag.Porcentaje = new SelectList(db.PorcentajeGestionesBancarias, "Id", "RangoPorcentaje");
+            ViewBag.Porcentaje = new SelectList(db.CostoGestionBancaria, "Id", "RangoPorcentaje");
             return View(new Cotizacion());
         }
 
