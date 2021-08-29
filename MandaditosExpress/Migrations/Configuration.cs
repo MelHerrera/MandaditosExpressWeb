@@ -182,6 +182,7 @@ namespace MandaditosExpress.Migrations
                     MontoHasta = 5000,
                     Porcentaje = 2.4f,
                     TipoDeServicioId = 3,
+                    PrecioDeRecargo = 20,
                     Estado = true
                 },
                 new Models.CostoGestionBancaria
@@ -194,6 +195,7 @@ namespace MandaditosExpress.Migrations
                     MontoHasta = 50000000,
                     Porcentaje = 3,
                     TipoDeServicioId = 3,
+                    PrecioDeRecargo = 20,
                     Estado = true
                 });
 

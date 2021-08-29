@@ -46,6 +46,10 @@ namespace MandaditosExpress.Models
         public float Porcentaje { get; set; }
 
         [Required]
+        [Display(Name = "Precio De Recargo")]
+        public float PrecioDeRecargo { get; set; }
+
+        [Required]
         public int TipoDeServicioId { get; set; }
 
         public virtual ICollection<TipoDeServicio> TiposDeServicio { get; set; }

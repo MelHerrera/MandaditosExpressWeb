@@ -37,10 +37,11 @@ namespace MandaditosExpress.Controllers
 
         // GET: Cotizaciones/Create
         public ActionResult Create()
-        { 
-            ViewBag.ClienteId = new SelectList(db.Personas.Where(x=>x.CorreoElectronico== Request.GetOwinContext().Authentication.User.Identity.Name), "Id", "CorreoElectronico");
+        {
+            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+            ViewBag.ClienteId = new SelectList(db.Personas.Where(x => x.CorreoElectronico == CurrentUser).ToList(), "Id", "CorreoElectronico");
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
-            ViewBag.Porcentaje = new SelectList(db.CostoGestionBancaria, "Id", "RangoPorcentaje");
             return View(new Cotizacion());
         }
 
@@ -53,26 +54,47 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
+                var CostoTotal = 0.0;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var Costo = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
-                var CostoTotal = Costo.CostoDeAsistencia + Costo.CostoDeGasolina + Costo.CostoDeMotorizado +
-                    ((Costo.DistanciaBase + cotizacion.DistanciaOrigenDestino) * Costo.PrecioPorKm);
-                var CostoPorGestionBancaria =(decimal) 0.0;
 
-                if (cotizacion.MontoDeDinero > 0 && cotizacion.MontoDeDinero <= 5000)
+                if (Costo != null && cotizacion.MontoDeDinero <= 0)
                 {
-                    //
+                    CostoTotal = Costo.CostoDeAsistencia + Costo.CostoDeGasolina + Costo.CostoDeMotorizado +
+                        ((Costo.DistanciaBase + cotizacion.DistanciaOrigenDestino) * Costo.PrecioPorKm);
+                   
+                    if (cotizacion.EsEspecial)
+                        CostoTotal += Costo.PrecioDeRecargo;
                 }
                 else
-                    CostoPorGestionBancaria = cotizacion.MontoDeDinero;
+                {
 
-                // db.Cotizaciones.Add(cotizacion);
+                    var CostoPorcentaje = (from cb in db.CostoGestionBancaria
+                                           where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
+                                           cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
+                                           cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
+                                           cotizacion.MontoDeDinero >= cb.MontoDesde &&
+                                           cotizacion.MontoDeDinero <= cb.MontoHasta
+                                           select cb).First().Porcentaje;
+
+
+
+                    if (CostoPorcentaje > 0 && cotizacion.MontoDeDinero > 0)
+                        CostoTotal = (double)cotizacion.MontoDeDinero * (CostoPorcentaje / 100);
+
+                    //if (cotizacion.EsEspecial)
+                    //    CostoTotal += Costo.PrecioDeRecargo;
+                }
+
+                Console.WriteLine(CostoTotal);
                 db.SaveChanges();
                 return View();
             }
 
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", cotizacion.ClienteId);
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio", cotizacion.TipoDeServicioId);
+            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+            ViewBag.ClienteId = new SelectList(db.Personas.Where(x => x.CorreoElectronico == CurrentUser).ToList(), "Id", "CorreoElectronico");
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+
             return View(cotizacion);
         }
 
