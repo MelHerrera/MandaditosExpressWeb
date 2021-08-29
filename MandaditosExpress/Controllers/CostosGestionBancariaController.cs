@@ -38,6 +38,7 @@ namespace MandaditosExpress.Controllers
         // GET: CostosGestionBancaria/Create
         public ActionResult Create()
         {
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")), "Id", "DescripcionTipoDeServicio");
             return View();
         }
 
@@ -46,7 +47,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeFin,Descripcion,MontoDesde,MontoHasta,Estado,Porcentaje,TipoDeServicioId")] CostoGestionBancaria costoGestionBancaria)
+        public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeFin,Descripcion,MontoDesde,MontoHasta,Estado,Porcentaje,PrecioDeRecargo,TipoDeServicioId")] CostoGestionBancaria costoGestionBancaria)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +79,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FechaDeInicio,FechaDeFin,Descripcion,MontoDesde,MontoHasta,Estado,Porcentaje,TipoDeServicioId")] CostoGestionBancaria costoGestionBancaria)
+        public ActionResult Edit([Bind(Include = "Id,FechaDeInicio,FechaDeFin,Descripcion,MontoDesde,MontoHasta,Estado,Porcentaje,PrecioDeRecargo,TipoDeServicioId")] CostoGestionBancaria costoGestionBancaria)
         {
             if (ModelState.IsValid)
             {

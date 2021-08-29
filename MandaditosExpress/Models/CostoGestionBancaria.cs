@@ -50,6 +50,7 @@ namespace MandaditosExpress.Models
         public float PrecioDeRecargo { get; set; }
 
         [Required]
+        [Display(Name = "Tipo De Servicio")]
         public int TipoDeServicioId { get; set; }
 
         public virtual ICollection<TipoDeServicio> TiposDeServicio { get; set; }

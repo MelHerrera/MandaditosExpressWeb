@@ -1,83 +1,193 @@
 ﻿@model IEnumerable<MandaditosExpress.Models.CostoGestionBancaria>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Costos de la Gestion Bancaria";
 }
 
-<!DOCTYPE html>
+@section Styles {
+    @Styles.Render("~/Content/dataTablesStyles")
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MontoDesde)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MontoHasta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Porcentaje)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDeServicioId)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoDesde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoHasta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Porcentaje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDeServicioId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Costos de la Gestion Bancaria</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Costos de Gestión Bancaria</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Costos de Gestion Bancaria</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","CostosGestionBancaria")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead id="thead">
+                            <tr class="bg-primary">
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeFin)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MontoDesde)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MontoHasta)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Porcentaje)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="gradeX">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaDeInicio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaDeFin)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MontoDesde)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MontoHasta)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Estado)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Porcentaje)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
+                                    </td>
+                                    <!--investiga con los videos del profe wollian como mostrar la descripcion de este tipo de servicio en lugar del ID-->
+                                    <td>
+                                        @*@Html.DisplayFor(modelItem => item.TipoDeServicioId)*@
+                                    </td>
+
+                                    <td style="white-space:nowrap;">
+                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot id="foot">
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.table').DataTable({
+                pageLength: 25,
+                scrollX: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'excel' },
+                    { extend: 'pdf' },
+
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ],
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "No se encontró nada, lo siento",
+                    info: "Mostrando Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(filtrado de _MAX_ registros en total)",
+                    paginate: {
+                        first: "Primero",
+                        last: "Último",
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    },
+                    buttons: {
+                        copy: "Copiar",
+                        copySuccess: {
+                            1: "Copiada 1 fila al portapapeles",
+                            _: "Copiadas %d filas al portapapeles"
+                        },
+                        copyTitle: "Copiar al portapapeles",
+                        excel: "Excel",
+                        pdf: "PDF",
+                        print: "Imprimir"
+                    }
+                }//fin del lenguaje
+
+            });//fin del DataTable
+        });//fin del ready
+
+    </script>
+}

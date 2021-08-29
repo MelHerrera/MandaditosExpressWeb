@@ -24,131 +24,134 @@
 
     </div>
 </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="table-responsive">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5>Lista de Clientes</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="row col-lg-12">
-                            <p>
-                                <a class="btn btn-success float-left" href="@Url.Action("Create","Clientes")"><i class="fa fa-plus"></i> Agregar</a>
-                            </p>
-                        </div>
-                        <table class="table table-bordered table-hover">
-                            <thead id="thead">
-                                <tr class="bg-primary">
-                                    <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
-                                    <th>@Html.DisplayNameFor(model => model.EsEmpresa)</th>
-                                    <th>@Html.DisplayNameFor(model => model.NombreDeLaEmpresa)</th>
-                                    <th>@Html.DisplayNameFor(model => model.RUC)</th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaIngreso)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CorreoElectronico)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.NombreCompleto)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Telefono)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Foto)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Sexo)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Direccion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Cedula)
-                                    </th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr class="gradeX">
-                                        <td class="d-none">
-                                            @Html.DisplayFor(modelItem => item.Id)
-                                        </td>
-                                        <td>
-                                            @if (item.EsEmpresa)
-                                            {
-                                                <span class="badge badge-success">Empresa</span>}
-                                            else
-                                            {
-                                                <span class="badge badge-warning">Persona</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NombreDeLaEmpresa)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RUC)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaIngreso)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CorreoElectronico)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Telefono)
-                                        </td>
-                                        <td>
-                                            @if (item.Foto != null)
-                                            {
-                                                @Html.DisplayImage(item.Foto)
-                                            }
-                                            else
-                                            {
-                                            <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40"/>
-                                            }
 
-                                            @*@Html.DisplayFor(modelItem => item.Foto)*@
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Sexo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Direccion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cedula)
-                                        </td>
-                                        <td style="white-space:nowrap;">
-                                            <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
-                                            <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                            <tfoot id="foot">
-                            </tfoot>
-                        </table>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Clientes</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","Clientes")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead id="thead">
+                            <tr class="bg-primary">
+                                <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
+                                <th>@Html.DisplayNameFor(model => model.EsEmpresa)</th>
+                                <th>@Html.DisplayNameFor(model => model.NombreDeLaEmpresa)</th>
+                                <th>@Html.DisplayNameFor(model => model.RUC)</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CorreoElectronico)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreCompleto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Telefono)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Foto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sexo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Direccion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Cedula)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="gradeX">
+                                    <td class="d-none">
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @if (item.EsEmpresa)
+                                        {
+                                            <span class="badge badge-success">Empresa</span>}
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Persona</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreDeLaEmpresa)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RUC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaIngreso)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Telefono)
+                                    </td>
+                                    <td>
+                                        @if (item.Foto != null)
+                                        {
+                                            @Html.DisplayImage(item.Foto)
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                        }
+
+                                        @*@Html.DisplayFor(modelItem => item.Foto)*@
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sexo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Direccion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cedula)
+                                    </td>
+                                    <td style="white-space:nowrap;">
+                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot id="foot">
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @section Styles {
     @Styles.Render("~/Content/dataTablesStyles")
@@ -182,7 +185,7 @@
                     }
                 ],
                 language: {
-                    search:"Buscar: ",
+                    search: "Buscar: ",
                     lengthMenu: "Mostrar _MENU_ registros por página",
                     zeroRecords: "No se encontró nada, lo siento",
                     info: "Mostrando Página _PAGE_ de _PAGES_",
