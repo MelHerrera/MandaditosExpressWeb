@@ -20,12 +20,15 @@ namespace MandaditosExpress.Models
         public int Id { get; set; }
 
         [StringLength(250)]
+        [Required]
         public string DescripcionDeCotizacion { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         public DateTime FechaDeLaCotizacion { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         public DateTime FechaDeValidez { get; set; }
 
         [StringLength(200)]
@@ -36,12 +39,16 @@ namespace MandaditosExpress.Models
 
         public float DistanciaOrigenDestino { get; set; }
 
+        [Required]
         public bool EsEspecial { get; set; }
 
+        [Required]
         public double MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
+        [Required]
+        [Display(Name ="Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
         public decimal MontoDeDinero { get; set; }

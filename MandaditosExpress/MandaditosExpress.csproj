@@ -264,9 +264,11 @@
     <Content Include="Images\landing\perspective.png" />
     <Content Include="Images\landing\shattered.png" />
     <Content Include="Images\landing\word_map.png" />
+    <Content Include="Images\Login.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\LogoIcon.ico" />
     <Content Include="Images\profile.jpg" />
-    <Content Include="Images\signin-image.jpg" />
-    <Content Include="Images\signup-image.jpg" />
+    <Content Include="Images\Register.png" />
     <Content Include="Scripts\app\inspinia.js" />
     <Content Include="Scripts\app\inspinia_landing.js" />
     <Content Include="Scripts\bootstrap.js" />

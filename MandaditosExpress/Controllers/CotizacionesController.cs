@@ -36,12 +36,16 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Cotizaciones/Create
+        [AllowAnonymous]
         public ActionResult Create()
         {
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+            var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
 
-            ViewBag.ClienteId = new SelectList(db.Personas.Where(x => x.CorreoElectronico == CurrentUser).ToList(), "Id", "CorreoElectronico");
+            ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
+            ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+
             return View(new Cotizacion());
         }
 
@@ -50,8 +54,17 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeOrigen,DireccionDestino,DistanciaOrigenDestino,MontoDeDinero,EsEspecial,MontoTotal,ClienteId,TipoDeServicioId")] Cotizacion cotizacion)
+        [AllowAnonymous]    
+        public ActionResult Cotizar([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeOrigen,DireccionDestino,DistanciaOrigenDestino,MontoDeDinero,EsEspecial,MontoTotal,ClienteId,TipoDeServicioId")] Cotizacion cotizacion)
         {
+
+            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+            var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
+
+            ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
+            ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+
             if (ModelState.IsValid)
             {
                 var CostoTotal = 0.0;
@@ -88,12 +101,8 @@ namespace MandaditosExpress.Controllers
 
                 Console.WriteLine(CostoTotal);
                 db.SaveChanges();
-                return View();
+                return View(cotizacion);
             }
-
-            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-            ViewBag.ClienteId = new SelectList(db.Personas.Where(x => x.CorreoElectronico == CurrentUser).ToList(), "Id", "CorreoElectronico");
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
             return View(cotizacion);
         }
