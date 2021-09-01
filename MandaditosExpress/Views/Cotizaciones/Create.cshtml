@@ -68,7 +68,7 @@ else
                 <div class="signup-content">
                     <div class="signup-form">
                         <h4>Estimada(o) @ViewBag.Cliente Cotizá nuestros precios</h4>
-                        @using (Html.BeginForm("", "", FormMethod.Post,new {@class="frm-cotizar" }))
+                        @using (Html.BeginForm("Cotizar", "Cotizaciones", FormMethod.Post,new {@class="frm-cotizar create-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -114,9 +114,9 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="@Model.DireccionDestino"><i class="fa fa-map-marker"></i></label>
-                                        <input type="text" name="DireccionDestino" placeholder="Direccion Destino" class="DireccionDestino" />
+                                        <input type="text" name="DireccionDestino" placeholder="Direccion Destino" value="@Model.DireccionDestino" class="DireccionDestino" />
                                     </div>
-                                    <small id="@Model.DireccionDestino" class="form-text text-muted">Distancia Origen-Destino:<input type="text" value="@Model.DistanciaOrigenDestino" class="col-md-2" style="border:none;display:inline-block;width:auto;color:lightgray;" /></small>
+                                    <h5>Distancia Origen-Destino:<input type="number" name="DistanciaOrigenDestino" value="@Model.DistanciaOrigenDestino" class="col-md-2" style="border:none;display:inline-block;width:auto;" /></h5>
                                 </div>
                             </div>
 
@@ -243,23 +243,23 @@ else
             }
         }
 
-        $(".frm-cotizar").submit(function (e) {
+        @*$(".frm-cotizar").submit(function (e) {
             e.preventDefault();
 
-            var frm = $("form");
+            var frm = $(this);
             var data = frm.serializeArray();
+       /*     console.log(JSON.stringify(data));*/
 
             $.ajax(
                 {
-                    url: "/Cotizar",
+                    url: "@Url.Action("Cotizar","Cotizaciones")",
+                    method: "Post",
                     data: data,
-                    type:"Post",
                 success: function (res) {
                     alert(res);
                 }
-                }
-            );
-        });
+                });
+        });*@
     </script>
 
 

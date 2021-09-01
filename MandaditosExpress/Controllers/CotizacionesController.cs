@@ -69,19 +69,22 @@ namespace MandaditosExpress.Controllers
             {
                 var CostoTotal = 0.0;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
-                var Costo = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
+                var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
-                if (Costo != null && cotizacion.MontoDeDinero <= 0)
+                if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0)
                 {
-                    CostoTotal = Costo.CostoDeAsistencia + Costo.CostoDeGasolina + Costo.CostoDeMotorizado +
-                        ((Costo.DistanciaBase + cotizacion.DistanciaOrigenDestino) * Costo.PrecioPorKm);
+                    CostoTotal = CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
+                        ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm);
                    
                     if (cotizacion.EsEspecial)
-                        CostoTotal += Costo.PrecioDeRecargo;
+                        CostoTotal += CostoAsociado.PrecioDeRecargo;
                 }
                 else
                 {
+                    var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
+                    if (CostoGestion != null)
+                    {
                     var CostoPorcentaje = (from cb in db.CostoGestionBancaria
                                            where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
                                            cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
@@ -95,16 +98,17 @@ namespace MandaditosExpress.Controllers
                     if (CostoPorcentaje > 0 && cotizacion.MontoDeDinero > 0)
                         CostoTotal = (double)cotizacion.MontoDeDinero * (CostoPorcentaje / 100);
 
-                    //if (cotizacion.EsEspecial)
-                    //    CostoTotal += Costo.PrecioDeRecargo;
-                }
+                    if (cotizacion.EsEspecial)
+                        CostoTotal += CostoGestion.PrecioDeRecargo;
+                    }
 
-                Console.WriteLine(CostoTotal);
-                db.SaveChanges();
-                return View(cotizacion);
+                };
+
+                //return Json(CostoTotal,JsonRequestBehavior.AllowGet);
+                cotizacion.MontoTotal = CostoTotal;
             }
 
-            return View(cotizacion);
+              return View("Create",cotizacion);
         }
 
         // GET: Cotizaciones/Edit/5
