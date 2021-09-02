@@ -149,19 +149,27 @@ else
                         }
                     </div>
                     <div class="signup-image">
-                        <h5 class="badge badge-primary">Fecha de Cotización: @Model.FechaDeLaCotizacion </h5>
-                        <h5 class="badge badge-warning">Fecha de Validez: @Model.FechaDeValidez </h5>
-                        <div class="widget navy-bg no-padding">
-                            <div class="p-m">
-                                <h1 class="m-xs font-bold">Monto Total</h1>
 
-                                <h2 class="font-bold no-margins" style="color:white;">
-                                    C$ @Model.MontoTotal
-                                </h2>
-                                <small >Precios ya incluyen IVA</small>
+                        @*<h5 class="badge badge-primary">Fecha de Cotización: @Model.FechaDeLaCotizacion </h5>*@
+                        <h5 class="badge badge-warning">Fecha de Validez: @Model.FechaDeValidez </h5>
+                         
+                        <div class="card widget navy-bg no-padding">
+                            <div class="card-header">
+                                <h3 class="m-xs font-bold text-white no-margins no-padding">Monto Total</h3>
+                                <small class="m-1">Fecha de Cotización: @Model.FechaDeLaCotizacion </small>
                             </div>
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-chart1" style="padding: 0px; position: relative;"><canvas class="flot-base" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas><canvas class="flot-overlay" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas></div>
+
+                            <div class="card-body no-padding bg-white">
+                                <div class="p-m">
+                                    <h3 class="font-bold no-margins" style="color:black;">
+                                        C$ @Model.MontoTotal
+                                    </h3>
+                                    <small class="text-black-50">Precios ya incluyen IVA</small>
+                                </div>
+                                <div class="flot-chart mb-1">
+                                    <div class="flot-chart-content" id="flot-chart1" style="padding: 0px; position: relative;"><canvas class="flot-base" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas><canvas class="flot-overlay" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas></div>
+                                </div>
+                                <a href="#" class="btn btn-primary border-light float-right mb-1 mr-1">Solicitar Envío</a>
                             </div>
                         </div>
                     </div>
