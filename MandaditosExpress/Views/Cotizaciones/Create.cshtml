@@ -66,26 +66,20 @@ else
     <section class="signup">
         <div class="container">
             <div class="register">
-                <div class="signup-content">
+                <div class="signup-content" data-bind="with:Cotizacion">
                     <div class="signup-form">
                         <h4>Estimada(o) @ViewBag.Cliente Cotizá nuestros precios</h4>
                         @using (Html.BeginForm("Cotizar", "Cotizaciones", FormMethod.Post, new { @class = "frm-cotizar create-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                             <br />
                             <div class=" row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-
-                                        @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label label-agree-term" })
-                                        <select data-bind="value:selectedValue, options: options, optionsText: 'text', optionsValue: 'value', valueAllowUnset: true,optionsCaption: 'seleccione un elemento'">
-                                        </select>
-
-                                        <p> valor seleccionado: <span data-bind="text:selectedValue"></span></p>
-
-                                        @*<select data_bind="options:availableCars,optionsText:carName,value:selectedCar"></select>*@
+                                            @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label label-agree-term" })
+                                            <select class="form-control col-md-8" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId">
+                                            </select>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                 </div>
@@ -95,14 +89,14 @@ else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="@Model.DescripcionDeCotizacion"><i class="fa fa-align-justify"></i></label>
-                                        <input type="text" name="DescripcionDeCotizacion" placeholder="Descripcion" @*data-bind="value:DescripcionDeCotizacion"*@ />
+                                        <input type="text" name="DescripcionDeCotizacion" placeholder="Descripcion" data-bind="value:DescripcionDeCotizacion" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DescripcionDeCotizacion, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="@Model.MontoDeDinero"><i class="fa fa-sort"></i></label>
-                                        <input type="text" name="MontoDeDinero" placeholder="Monto de Dinero" class="MontoDeDinero" @*data-bind="value:MontoDeDinero"*@ />
+                                        <input type="text" name="MontoDeDinero" placeholder="Monto de Dinero"  data-bind="value:MontoDeDinero,enable:$root.MostrarMonto" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                 </div>
@@ -112,7 +106,7 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="@Model.DireccionDeOrigen"><i class="fa fa-dot-circle-o"></i></label>
-                                        <input type="text" name="DireccionDeOrigen" placeholder="Direccion De Origen" class="DireccionDeOrigen" @*data-bind="value:DireccionDeOrigen"*@ />
+                                        <input type="text" name="DireccionDeOrigen" placeholder="Direccion De Origen"  data-bind="value:DireccionDeOrigen,enable:$root.MostrarDirecciones" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DireccionDeOrigen, "", new { @class = "text-danger" })
                                 </div>
@@ -121,16 +115,16 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="@Model.DireccionDestino"><i class="fa fa-map-marker"></i></label>
-                                        <input type="text" name="DireccionDestino" placeholder="Direccion Destino" @*data-bind="value:DireccionDestino"*@ class="DireccionDestino" />
+                                        <input type="text" name="DireccionDestino" placeholder="Direccion Destino" data-bind="value:DireccionDestino,enable:$root.MostrarDirecciones" />
                                     </div>
-                                    <h5>Distancia Origen-Destino:<input type="number" name="DistanciaOrigenDestino" @*data-bind="value:DistanciaOrigenDestino"*@ class="col-md-2" style="border:none;display:inline-block;width:auto;" /></h5>
+                                    <h5>Distancia Origen-Destino:<input type="number" name="DistanciaOrigenDestino" data-bind="value:DistanciaOrigenDestino" class="col-md-2" style="border:none;display:inline-block;width:auto;" /></h5>
                                 </div>
                             </div>
 
                             <div class=" row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="checkbox" name="EsEspecial" @*data-bind="checked:EsEspecial"*@ style="display:inline-block;width:auto;" class="chkEmpresa" />
+                                        <input type="checkbox" name="EsEspecial" data-bind="checked:EsEspecial" style="display:inline-block;width:auto;" class="chkEmpresa" />
                                         <label for="@Model.EsEspecial" class="label-esEmpresa">¿Es Especial?</label>
                                     </div>
                                 </div>
@@ -147,8 +141,6 @@ else
                                 </div>
                             </div>
 
-                            @*<p data-bind="text:">default state</p>
-                                <p data-bind="text:Id">default Id</p>*@
                             <br />
 
                             <div class="form-group form-button">
@@ -157,29 +149,29 @@ else
                         }
                     </div>
                     <div class="signup-image">
-
-                        <h5 class="badge badge-warning">Fecha de Validez: ></h5>
+                        
+                        <h5 class="badge badge-warning">Fecha de Validez: <span data-bind="text:FechaDeValidez"></span></h5>
 
                         <div class="card widget navy-bg no-padding">
                             <div class="card-header">
                                 <h3 class="m-xs font-bold text-white no-margins no-padding">Monto Total</h3>
-                                <small class="m-1">Fecha de Cotización:</small>
+                                <small class="m-1">Fecha de Cotización:<span data-bind="text:FechaDeLaCotizacion"></span></small>
                             </div>
 
                             <div class="card-body no-padding bg-white">
                                 <div class="p-m">
                                     <h2 class="font-bold no-margins" style="color:black;">
+                                       C$ <span data-bind="text:MontoTotal"></span>
                                     </h2>
                                     <small class="text-black-50">Precios ya incluyen IVA</small>
                                 </div>
                                 <div class="flot-chart mb-1">
                                     <div class="flot-chart-content" id="flot-chart1" style="padding: 0px; position: relative;"><canvas class="flot-base" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas><canvas class="flot-overlay" width="581" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 464.8px; height: 100px;"></canvas></div>
                                 </div>
-                                <div>
-                                    <a href="#" class="btn btn-primary border-light float-right mb-1 mr-1">Guardar</a>
-                                    <a href="#" class="btn btn-primary border-light float-right mb-1 mr-1">Solicitar Envío</a>
+                                <div data-bind="with:$root.MostrarOpciones">
+                                    <a href="#" class="btn btn-primary border-light float-right mb-1 mr-1" data-bind="click:$root.GuardarCotizacion">Guardar</a>
+                                    <a href="#" class="btn btn-primary border-light float-right mb-1 mr-1" data-bind="click:$root.RealizarEnvio">Solicitar Envío</a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -203,7 +195,70 @@ else
     <script type="text/javascript">
 
         $(function () {
+            InicializarGrafico();
+        });
 
+        function TipoDeServicioViewModel(tiposDeServicio) {
+            const self = this;
+            self.Id = ko.observable(tiposDeServicio.Id);
+            self.DescripcionTipoDeServicio = ko.observable(tiposDeServicio.DescripcionTipoDeServicio);
+            self.EstadoTipoDeServicio = ko.observable(tiposDeServicio.EstadoTipoDeServicio);
+        }
+
+
+        function CotizacionViewModel(cotizacion) {
+            const self = this;
+            self.Id = ko.observable(cotizacion.Id || -1);
+            self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion);
+            self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || new Date.now());
+            self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || new Date.now());
+            self.DireccionDeOrigen = ko.observable(cotizacion.DireccionDeOrigen || "");
+            self.DireccionDestino = ko.observable(cotizacion.DireccionDestino || "");
+            self.DistanciaOrigenDestino = ko.observable(cotizacion.DistanciaOrigenDestino || 0);
+            self.EsEspecial = ko.observable(cotizacion.EsEspecial || false);
+            self.MontoTotal = ko.observable(cotizacion.MontoTotal || 0);
+            self.ClienteId = ko.observable(cotizacion.ClienteId || -1);
+            self.TipoDeServicioId = ko.observable(cotizacion.TipoDeServicioId || -1); 
+            self.MontoDeDinero = ko.observable(cotizacion.MontoDeDinero || 0);
+            self.GestionBancariaId = ko.observable(cotizacion.GestionBancariaId || -1);
+            self.TiposDeServicios = ko.observableArray(ko.utils.arrayMap(cotizacion.TiposDeServicios, function (item) { return new TipoDeServicioViewModel(item) }));
+        }
+
+        function IndexCotizacionViewModel(initialData) {
+            const self = this;
+            self.Cotizacion = ko.observable(new CotizacionViewModel(initialData));
+            self.MostrarMonto = ko.observable(false);
+            self.MostrarDirecciones = ko.observable(true);
+            self.RealizarEnvio = function () {
+                alert("enviando");
+            }
+            self.GuardarCotizacion = function () {
+                alert("Guardando la cotizacion");
+            }
+            //computables
+            self.MostrarOpciones = ko.computed(function () {
+                return self.Cotizacion().MontoDeDinero() > 0;
+            });
+            //subscripciones
+            self.Cotizacion().TipoDeServicioId.subscribe(function (nuevo) {
+                if (nuevo == self.Cotizacion().GestionBancariaId()) {
+                    self.MostrarMonto(true);
+                    self.MostrarDirecciones(false);
+
+                    self.Cotizacion().DireccionDeOrigen("").DireccionDestino("").DistanciaOrigenDestino(0);//si no estan activas las direcciones resetearles el valor para que no se envien al servidor con el valor viejo
+                }
+                else {
+                    self.MostrarMonto(false);
+                    self.Cotizacion().MontoDeDinero(0);
+                    self.MostrarDirecciones(true);
+                }
+            });
+        };
+
+        var data= @Html.HtmlConvertToJson(Model);
+        ko.applyBindings(new IndexCotizacionViewModel(data));
+
+        function InicializarGrafico() {
             //configuracion de grafica del widget
             var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
             var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
@@ -241,50 +296,7 @@ else
                     show: false
                 }
             });
-        });
+        }
+
     </script>
 }
-
-@Scripts.Render("~/plugins/knockout")
-
-<script type="text/javascript">
-
-    function TipoDeServicioViewModel(tiposDeServicio) {
-        const self = this;
-        self.Id = ko.observable(tiposDeServicio.Id);
-        self.DescripcionTipoDeServicio = ko.observable(tiposDeServicio.DescripcionTipoDeServicio);
-        self.EstadoTipoDeServicio = ko.observable(tiposDeServicio.EstadoTipoDeServicio);
-    }
-
-
-    function CotizacionViewModel(cotizacion) {
-        const self = this;
-        self.Id = ko.observable(cotizacion.Id || -1);
-        self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion);
-        self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || new Date.now());
-        self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || new Date.now());
-        self.DireccionDeOrigen = ko.observable(cotizacion.DireccionDeOrigen || "");
-        self.DireccionDestino = ko.observable(cotizacion.DireccionDestino || "");
-        self.DistanciaOrigenDestino = ko.observable(cotizacion.DistanciaOrigenDestino || 0);
-        self.EsEspecial = ko.observable(cotizacion.EsEspecial || false);
-        self.MontoTotal = ko.observable(cotizacion.MontoTotal || 0);
-        self.ClienteId = ko.observable(cotizacion.ClienteId || -1);
-        self.TipoDeServicioId = ko.observable(cotizacion.TipoDeServicioId || -1);
-        self.MontoDeDinero = ko.observable(cotizacion.MontoDeDinero || 0);
-        self.TiposDeServicios = ko.observableArray(ko.utils.arrayMap(cotizacion.TiposDeServicios, function (item) { return new TipoDeServicioViewModel({ Id: item.Id, DescripcionTipoDeServicio: item.DescripcionTipoDeServicio, EstadoTipoDeServicio: item.EstadoTipoDeServicio }) }));
-    }
-    function mainVM() {
-        const self = this;
-        self.selectedValue = ko.observable(),
-            self.options = [{
-                text: "FOO",
-                value: "foo"
-            }, {
-                text: "BAR",
-                value: "bar"
-            }]
-    };
-
-    ko.applyBindings(new mainVM());
-
-</script>

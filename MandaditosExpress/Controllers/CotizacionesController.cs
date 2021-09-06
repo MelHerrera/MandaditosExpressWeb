@@ -46,8 +46,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
             ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
 
-            var coti = new CotizacionViewModel();
-            return View(coti);
+            return View(new CotizacionViewModel());
         }
 
         // POST: Cotizaciones/Create
@@ -56,7 +55,7 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]    
-        public ActionResult Cotizar([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeOrigen,DireccionDestino,DistanciaOrigenDestino,MontoDeDinero,EsEspecial,MontoTotal,ClienteId,TipoDeServicioId")] Cotizacion cotizacion)
+        public ActionResult Cotizar(CotizacionViewModel cotizacion)
         {
 
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
