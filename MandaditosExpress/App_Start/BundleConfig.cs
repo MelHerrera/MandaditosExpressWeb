@@ -21,7 +21,7 @@ namespace MandaditosExpress
 
             //Knockout
             bundles.Add(new ScriptBundle("~/plugins/knockout").Include(
-                      "~/Scripts/knockout-3.5.1.debug.js"));
+                      "~/Scripts/knockout/knockout-3.5.1.js"));
 
             //JqueryUi
             bundles.Add(new ScriptBundle("~/plugins/jqueryui").Include(

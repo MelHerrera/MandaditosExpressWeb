@@ -222,6 +222,7 @@
     <Compile Include="Models\TipoDeServicio.cs" />
     <Compile Include="Models\Utileria\Utileria.cs" />
     <Compile Include="Models\VelocidadDeConexion.cs" />
+    <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -450,7 +451,6 @@
     <Content Include="Views\Servicios\Details.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Cotizaciones\Create.cshtml" />
     <Content Include="Views\Monedas\Create.cshtml" />
     <Content Include="Views\Monedas\Details.cshtml" />
     <Content Include="Views\Monedas\Index.cshtml" />
@@ -461,6 +461,7 @@
     <Content Include="Views\CostosGestionBancaria\Details.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
+    <Content Include="Views\Cotizaciones\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

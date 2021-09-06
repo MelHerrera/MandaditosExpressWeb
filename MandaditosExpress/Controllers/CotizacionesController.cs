@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
@@ -44,9 +45,9 @@ namespace MandaditosExpress.Controllers
 
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
             ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
-            return View(new Cotizacion());
+            var coti = new CotizacionViewModel();
+            return View(coti);
         }
 
         // POST: Cotizaciones/Create
@@ -65,7 +66,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && cotizacion.DistanciaOrigenDestino>0)
             {
                 var CostoTotal = 0.0;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
