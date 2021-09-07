@@ -72,14 +72,15 @@ else
                         @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "frm-cotizar create-form" }))
                         {
                             @Html.AntiForgeryToken()
+
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <br />
                             <div class=" row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                            @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label label-agree-term" })
-                                            <select class="form-control col-md-8" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId">
-                                            </select>
+                                        @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label label-agree-term" })
+                                        <select data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId">
+                                        </select>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                 </div>
@@ -89,14 +90,14 @@ else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="@Model.DescripcionDeCotizacion"><i class="fa fa-align-justify"></i></label>
-                                        <input type="text" name="DescripcionDeCotizacion" placeholder="Descripcion" data-bind="value:DescripcionDeCotizacion" />
+                                        <input type="text" name="DescripcionDeCotizacion" placeholder="Descripcion" data-bind="value:DescripcionDeCotizacion"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DescripcionDeCotizacion, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="@Model.MontoDeDinero"><i class="fa fa-sort"></i></label>
-                                        <input type="text" name="MontoDeDinero" placeholder="Monto de Dinero"  data-bind="value:MontoDeDinero,enable:$root.MostrarMonto" />
+                                        <input type="text" name="MontoDeDinero" placeholder="Monto de Dinero" data-bind="value:MontoDeDinero,enable:$root.MostrarMonto" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                 </div>
@@ -106,7 +107,7 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="@Model.DireccionDeOrigen"><i class="fa fa-dot-circle-o"></i></label>
-                                        <input type="text" name="DireccionDeOrigen" placeholder="Direccion De Origen"  data-bind="value:DireccionDeOrigen,enable:$root.MostrarDirecciones" />
+                                        <input type="text" name="DireccionDeOrigen" placeholder="Direccion De Origen" data-bind="value:DireccionDeOrigen,enable:$root.MostrarDirecciones" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DireccionDeOrigen, "", new { @class = "text-danger" })
                                 </div>
@@ -133,12 +134,17 @@ else
                             <br />
 
                             <div class="form-group form-button">
-                                <button  data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" class="btn btn-success">Realizar Cotización</button>
+                                <button data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" class="btn btn-success">
+                                    Realizar Cotización
+                                    <i class="fa fa-spinner fa-spin fa-lg fa-fw" data-bind="visible:$root.SendingData"></i>
+                                </button>
+
                             </div>
+
                         }
                     </div>
                     <div class="signup-image">
-                        
+
                         <h5 class="badge badge-warning">Fecha de Validez: <span data-bind="text:FechaDeValidez"></span></h5>
 
                         <div class="card widget navy-bg no-padding">
@@ -150,7 +156,7 @@ else
                             <div class="card-body no-padding bg-white">
                                 <div class="p-m">
                                     <h2 class="font-bold no-margins" style="color:black;">
-                                       C$ <span data-bind="text:MontoTotal"></span>
+                                        C$ <span data-bind="text:MontoTotal"></span>
                                     </h2>
                                     <small class="text-black-50">Precios ya incluyen IVA</small>
                                 </div>
@@ -180,6 +186,9 @@ else
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
     @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/moment")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
 
     <script type="text/javascript">
 
@@ -198,16 +207,16 @@ else
         function CotizacionViewModel(cotizacion) {
             const self = this;
             self.Id = ko.observable(cotizacion.Id || -1);
-            self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion);
-            self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || new Date.now());
-            self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || new Date.now());
+            self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion || "");
+            self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || "");
+            self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || "");
             self.DireccionDeOrigen = ko.observable(cotizacion.DireccionDeOrigen || "");
             self.DireccionDestino = ko.observable(cotizacion.DireccionDestino || "");
             self.DistanciaOrigenDestino = ko.observable(cotizacion.DistanciaOrigenDestino || 0);
             self.EsEspecial = ko.observable(cotizacion.EsEspecial || false);
             self.MontoTotal = ko.observable(cotizacion.MontoTotal || 0);
             self.ClienteId = ko.observable(cotizacion.ClienteId || -1);
-            self.TipoDeServicioId = ko.observable(cotizacion.TipoDeServicioId || -1); 
+            self.TipoDeServicioId = ko.observable(cotizacion.TipoDeServicioId || -1);
             self.MontoDeDinero = ko.observable(cotizacion.MontoDeDinero || 0);
             self.GestionBancariaId = ko.observable(cotizacion.GestionBancariaId || -1);
             self.TiposDeServicios = ko.observableArray(ko.utils.arrayMap(cotizacion.TiposDeServicios, function (item) { return new TipoDeServicioViewModel(item) }));
@@ -218,54 +227,94 @@ else
             self.Cotizacion = ko.observable(new CotizacionViewModel(initialData));
             self.MostrarMonto = ko.observable(false);
             self.MostrarDirecciones = ko.observable(true);
+            self.TipoDeServicioIdAnterior = ko.observable();
+            self.SendingData = ko.observable(false);
+
             self.RealizarEnvio = function () {
                 alert("enviando");
             }
             self.GuardarCotizacion = function () {
                 alert("Guardando la cotizacion");
             }
-            self.RealizarCotizacion = function (data, event) {
+            self.RealizarCotizacion = function (data,event) {
                 event.preventDefault();
-                let token = $('.create-form input[name="__RequestVerificationToken"]').val();
 
-                $.ajax(
-                    {
-                        url: $(event.currentTarget).attr("href"),
-                        method: "Post",
-                        data: { __RequestVerificationToken: token, cotizacion: ko.toJS(data) },
-                        success: function (res) {
-                            console.log(res);
-                            self.Cotizacion(new CotizacionViewModel(res));
-                        },
-                        error: function (e){
-                            alert(e.responseText)
+                let form = $("form"); 
+
+                if (form.valid()) {
+
+                    let token = $('.create-form input[name="__RequestVerificationToken"]').val();
+
+                    $.ajax(
+                        {
+                            url: $(event.currentTarget).attr("href"),
+                            type: "Post",
+                            data: { __RequestVerificationToken: token, cotizacion: ko.toJS(data) },
+                            beforeSend: function () {
+                                self.SendingData(true);
+                            },
+                            success: function (result) {
+                                self.Cotizacion().MontoTotal(result.MontoTotal);
+                                InicializarGrafico();
+                                $.notify({
+                                    icon: 'fa fa-check-circle',
+                                    message: "Cotizacion Realizada Exitosamente"
+                                });
+                            },
+                            error: function (e) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Algo salio mal, disculpanos!',
+                                    footer: 'Consulta con el administrador del sistema.'
+                                })
+                            },
+                            complete: function () {
+                                self.SendingData(false);
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
 
             //computables
-            self.MostrarOpciones = ko.computed(function () {
-                return self.Cotizacion().MontoDeDinero() > 0;
-            });
+            self.MostrarOpciones = ko.observable(false);
             //subscripciones
-            self.Cotizacion().TipoDeServicioId.subscribe(function (nuevo) {
-                if (nuevo == self.Cotizacion().GestionBancariaId()) {
-                    self.MostrarMonto(true);
-                    self.MostrarDirecciones(false);
 
-                    self.Cotizacion().DireccionDeOrigen("").DireccionDestino("").DistanciaOrigenDestino(0);//si no estan activas las direcciones resetearles el valor para que no se envien al servidor con el valor viejo
+            //subscripcion al TipoDeServicioId despues que su valor cambie
+            self.Cotizacion().TipoDeServicioId.subscribe(function (nuevo) {
+                if (nuevo != self.TipoDeServicioIdAnterior) {
+
+                    if (nuevo == self.Cotizacion().GestionBancariaId()) {
+                        self.MostrarMonto(true);
+                        self.MostrarDirecciones(false);
+                        self.Cotizacion().DireccionDeOrigen("").DireccionDestino("").DistanciaOrigenDestino(0);//si no estan activas las direcciones resetearles el valor para que no se envien al servidor con el valor viejo
+                    }
+                    else {
+                        self.MostrarMonto(false);
+                        self.Cotizacion().MontoDeDinero(0);
+                        self.MostrarDirecciones(true);
+                    }
+
+                   self.Cotizacion().MontoTotal(0);//siempre que cambie el tipo de servicio se tiene que volver a recalcular la cotizacion
                 }
-                else {
-                    self.MostrarMonto(false);
-                    self.Cotizacion().MontoDeDinero(0);
-                    self.MostrarDirecciones(true);
-                }
+            });
+
+              //subscripcion al TipoDeServicioId antes que su valor cambie
+            self.Cotizacion().TipoDeServicioId.subscribe(function (viejo) {
+                self.TipoDeServicioIdAnterior(viejo);
+            }, null,"beforeChange");
+
+            self.Cotizacion().MontoTotal.subscribe(function (nuevo) {
+                self.MostrarOpciones(nuevo>0);
             });
         };
 
-        var data= @Html.HtmlConvertToJson(Model);
-        ko.applyBindings(new IndexCotizacionViewModel(data));
+                            var data = @Html.HtmlConvertToJson(Model);
+                            ////controller return the serialized json date in other ISO format so we have format the date
+                            data.FechaDeLaCotizacion = formatDate(data.FechaDeLaCotizacion);
+                            data.FechaDeValidez = formatDate(data.FechaDeValidez);
+                            ko.applyBindings(new IndexCotizacionViewModel(data));
 
         function InicializarGrafico() {
             //configuracion de grafica del widget
@@ -306,6 +355,11 @@ else
                 }
             });
         }
+
+                            function formatDate(dataToFormat) {
+                                let formatDate = "YYYY-MM-DD, h:mm:ss a";
+                                return moment(dataToFormat).format(formatDate)
+                            }
 
     </script>
 }

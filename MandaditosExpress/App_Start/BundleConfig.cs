@@ -80,6 +80,10 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/sweetalert").Include(
                       "~/Scripts/plugins/sweetalert/sweetalert2.all.min.js"));
 
+            // notify bootstrap
+            bundles.Add(new ScriptBundle("~/plugins/notify").Include(
+                      "~/Scripts/plugins/notify/bootstrap-notify.min.js"));
+
             // Peity
             bundles.Add(new ScriptBundle("~/plugins/peity").Include(
                       "~/Scripts/plugins/peity/jquery.peity.min.js"));

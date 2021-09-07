@@ -164,7 +164,7 @@ namespace MandaditosExpress.Migrations
                 {
                     Id = 0,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2021"),
                     Descripcion ="Sin Especificar",
                     MontoDesde = 0,
                     MontoHasta = 0,
@@ -176,7 +176,7 @@ namespace MandaditosExpress.Migrations
                 {
                     Id = 1,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2021"),
                     Descripcion = "Costo minimo de Gestion Bancaria",
                     MontoDesde = 1,
                     MontoHasta = 5000,
@@ -189,7 +189,7 @@ namespace MandaditosExpress.Migrations
                 {
                     Id = 2,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2021"),
                     Descripcion = "Costo maximo de Gestion Bancaria",
                     MontoDesde = 5001,
                     MontoHasta = 50000000,
@@ -203,7 +203,7 @@ namespace MandaditosExpress.Migrations
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("31/08/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2021"),
         Descripcion = "Costo de Mandaditos",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,
@@ -217,7 +217,7 @@ namespace MandaditosExpress.Migrations
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("31/08/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2021"),
         Descripcion = "Costo de Gestion de Paquetería",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,

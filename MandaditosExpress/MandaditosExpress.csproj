@@ -296,6 +296,7 @@
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\plugins\moment\moment.js" />
+    <Content Include="Scripts\plugins\notify\bootstrap-notify.min.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
     <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Scripts\plugins\sweetalert\sweetalert2.all.min.js" />
