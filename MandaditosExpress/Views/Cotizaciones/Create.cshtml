@@ -39,7 +39,7 @@
             -moz-border-radius: 20px;
             -webkit-border-radius: 20px;
             -o-border-radius: 20px;
-            -ms-border-radius: 20px
+            ♥-ms-border-radius: 20px
         }
     </style>
 }
@@ -69,7 +69,7 @@ else
                 <div class="signup-content" data-bind="with:Cotizacion">
                     <div class="signup-form">
                         <h4>Estimada(o) @ViewBag.Cliente Cotizá nuestros precios</h4>
-                        @using (Html.BeginForm("Cotizar", "Cotizaciones", FormMethod.Post, new { @class = "frm-cotizar create-form" }))
+                        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "frm-cotizar create-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -129,22 +129,11 @@ else
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" hidden>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label for="@Model.ClienteId"><i class="fa fa-user"></i></label>
-                                            <input type="text" name="ClienteId" value="@ViewBag.ClienteId" placeholder="Cliente" />
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.ClienteId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
 
                             <br />
 
                             <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success">Realizar Cotización</button>
+                                <button  data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" class="btn btn-success">Realizar Cotización</button>
                             </div>
                         }
                     </div>
@@ -235,6 +224,26 @@ else
             self.GuardarCotizacion = function () {
                 alert("Guardando la cotizacion");
             }
+            self.RealizarCotizacion = function (data, event) {
+                event.preventDefault();
+                let token = $('.create-form input[name="__RequestVerificationToken"]').val();
+
+                $.ajax(
+                    {
+                        url: $(event.currentTarget).attr("href"),
+                        method: "Post",
+                        data: { __RequestVerificationToken: token, cotizacion: ko.toJS(data) },
+                        success: function (res) {
+                            console.log(res);
+                            self.Cotizacion(new CotizacionViewModel(res));
+                        },
+                        error: function (e){
+                            alert(e.responseText)
+                        }
+                    }
+                );
+            }
+
             //computables
             self.MostrarOpciones = ko.computed(function () {
                 return self.Cotizacion().MontoDeDinero() > 0;

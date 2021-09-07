@@ -44,9 +44,11 @@ namespace MandaditosExpress.Controllers
             var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
 
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
-            ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
 
-            return View(new CotizacionViewModel());
+            var mCotizacionViewModel = new CotizacionViewModel();
+            mCotizacionViewModel.ClienteId= CurrentCliente != null ? CurrentCliente.Id : -1;
+
+            return View(mCotizacionViewModel);
         }
 
         // POST: Cotizaciones/Create
@@ -55,7 +57,7 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]    
-        public ActionResult Cotizar(CotizacionViewModel cotizacion)
+        public ActionResult Create(CotizacionViewModel cotizacion)
         {
 
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
@@ -108,7 +110,7 @@ namespace MandaditosExpress.Controllers
                 cotizacion.MontoTotal = CostoTotal;
             }
 
-              return View("Create",cotizacion);
+              return Json(cotizacion);
         }
 
         // GET: Cotizaciones/Edit/5
