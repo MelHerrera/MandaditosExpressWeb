@@ -1,43 +1,116 @@
 ﻿@model IEnumerable<MandaditosExpress.Models.VelocidadDeConexion>
 
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Velocidad De Conexión";
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+    var VelocidadDeConexion = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", VelocidadDeConexion);
+
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Velocidad de Conexión</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catalogos</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Velocidad de conexión</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de velocidad de conexión</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","VelocidadDeConexion")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead id="thead">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:VelocidadDeConexiones">
+
+                            <tr>
+                                @**<td data-bind="text:Id">*@
+
+                                <td data-bind="text:Descripcion">
+
+
+                                <td>
+                                    <input type="checkbox" data-bind="checked:Estado, enable:false" />
+                                </td>
+                                @*<td style="white-space:nowrap;">*@
+                                <td>
+                                    @*<a class="btn btn-warning btn-edit" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                      <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                      <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>*@
+
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                             <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("/Details")'}" class="btn btn-success"id="btn-Details"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot id="foot">
+                        </tfoot>
+                    </table>
+
+
+                    <!--ko if:mostrarAlertVacio-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0 velocidades para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                    </div>
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/VelocidadDeConexion/Templates/_VelocidadDeConexionTemplate.cshtml")
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml") 
+
+
+@section Scripts{
+
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/bundles/IndexVelocidadDeConexion")
+
+}

@@ -5,6 +5,10 @@
     ViewBag.Title = "Clientes";
 }
 
+@section Styles {
+    @Styles.Render("~/Content/dataTablesStyles")
+}
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Clientes</h2>
@@ -19,9 +23,6 @@
                 <strong>Clientes</strong>
             </li>
         </ol>
-    </div>
-    <div class="col-lg-2">
-
     </div>
 </div>
 
@@ -153,9 +154,7 @@
     </div>
 </div>
 
-@section Styles {
-    @Styles.Render("~/Content/dataTablesStyles")
-}
+
 
 @section Scripts {
     @Scripts.Render("~/plugins/dataTables")

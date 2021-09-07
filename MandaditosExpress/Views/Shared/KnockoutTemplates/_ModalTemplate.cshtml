@@ -9,8 +9,13 @@
 
 
 <template id="modal-body-template">
-    <!--ko with:MonedaTemplateViewModel-->
-    <div class="modal-body" data-bind="template: { name: Name, data: MonedaViewModel }"></div>
+    <!--ko with:TemplateViewModel-->
+    @*TemplateViewModel
+    VelocidadDeConexionTemplateViewModel   Name  VelocidadDeConexionViewModel*@
+    <div data-bind="with:VelocidadDeConexionTemplateViewModel">
+        <div class="modal-body" data-bind="template: { name: Name, data: VelocidadDeConexionViewModel }"></div>
+    </div>
+
     <!--/ko-->
 </template>
 

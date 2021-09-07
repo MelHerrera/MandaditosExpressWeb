@@ -105,10 +105,20 @@ namespace MandaditosExpress
                          "~/Scripts/knockout/ViewModel/Moneda/MonedaTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
+            // IndexVelocidad
+            bundles.Add(new ScriptBundle("~/bundles/IndexVelocidadDeConexion").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/VelocidadDeConexion/VelocidadDeConexionViewModel.js",
+                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/VelocidadDeConexionTemplateViewModel.js",
+                        "~/Scripts/knockout/ViewModel/VelocidadDeConexion/IndexVelocidadDeConexion.js"));
 
-                //Styles
 
-                bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
+
+            //Styles
+
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
           "~/Content/bootstrap.min.css",
           "~/Content/animate.css",
           "~/Content/landing_style.css"));

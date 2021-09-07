@@ -278,6 +278,9 @@
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
+    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionTemplateViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
     <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
@@ -459,6 +462,7 @@
     <Content Include="Views\CostosGestionBancaria\Details.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
+    <Content Include="Views\VelocidadDeConexion\Templates\_VelocidadDeConexionTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
