@@ -68,7 +68,7 @@ namespace MandaditosExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                var CostoTotal = 0.0f;
+                var CostoTotal = 0.0;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 

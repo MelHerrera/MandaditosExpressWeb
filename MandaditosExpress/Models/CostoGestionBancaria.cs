@@ -33,11 +33,11 @@ namespace MandaditosExpress.Models
 
         [Required]
         [Display(Name ="Monto Desde")]
-        public float MontoDesde { get; set; }
+        public double MontoDesde { get; set; }
 
         [Required]
         [Display(Name = "Monto Hasta")]
-        public float MontoHasta { get; set; }
+        public double MontoHasta { get; set; }
 
         [Required]
         public bool Estado { get; set; }

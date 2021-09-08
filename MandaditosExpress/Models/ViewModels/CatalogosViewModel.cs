@@ -46,7 +46,7 @@ namespace MandaditosExpress.Models.ViewModels
         public bool EsEspecial { get; set; }
 
         [Required]
-        public float MontoTotal { get; set; }
+        public double MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
@@ -54,7 +54,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public float MontoDeDinero { get; set; }
+        public double MontoDeDinero { get; set; }
 
         public int GestionBancariaId { get; set; }
 

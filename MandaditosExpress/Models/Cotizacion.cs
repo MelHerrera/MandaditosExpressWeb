@@ -51,7 +51,7 @@ namespace MandaditosExpress.Models
         [Display(Name ="Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public decimal MontoDeDinero { get; set; }
+        public double MontoDeDinero { get; set; }
 
         public virtual Cliente Cliente { get; set; }
 
