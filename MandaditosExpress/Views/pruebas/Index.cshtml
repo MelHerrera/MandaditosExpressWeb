@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Cotizacion>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionDeCotizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeLaCotizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeValidez)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionDeOrigen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionDestino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistanciaOrigenDestino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EsEspecial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MontoTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MontoDeDinero)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeServicio.DescripcionTipoDeServicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionDeCotizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeLaCotizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeValidez)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionDeOrigen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DistanciaOrigenDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsEspecial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MontoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MontoDeDinero)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

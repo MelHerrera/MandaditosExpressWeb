@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models.ViewModels
 {
@@ -46,7 +47,8 @@ namespace MandaditosExpress.Models.ViewModels
         public bool EsEspecial { get; set; }
 
         [Required]
-        public double MontoTotal { get; set; }
+        [Column(TypeName = "decimal(7, 4)")]
+        public decimal MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
@@ -54,7 +56,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public double MontoDeDinero { get; set; }
+        [Column(TypeName = "decimal(7, 2)")]
+        public decimal MontoDeDinero { get; set; }
 
         public int GestionBancariaId { get; set; }
 

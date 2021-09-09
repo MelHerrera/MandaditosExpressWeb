@@ -88,14 +88,16 @@
                                         @Html.ValidationMessageFor(model => model.EsEspecial, "", new { @class = "text-danger" })
                                     </div>
 
-                                    <div class="form-group m-5">
-                                        <div class="col-md-offset-2 col-auto">
-                                            <button data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" class="btn btn-success">
-                                                Realizar Cotización
-                                                <i class="fa fa-spinner fa-spin fa-lg fa-fw" data-bind="visible:$root.SendingData"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    @*<div class="form-group m-5">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Create" class="btn btn-success" data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" />
+                                            </div>
+                                        </div>*@
+
+                                    <button data-bind="click:$root.RealizarCotizacion,attr:{href:'@Url.Action("Create")'}" class="btn btn-success">
+                                        Realizar Cotización
+                                        <i class="fa fa-spinner fa-spin fa-lg fa-fw" data-bind="visible:$root.SendingData"></i>
+                                    </button>
                                 </div>
                             }
                         </div>
@@ -111,7 +113,7 @@
                                         <div class="col align-items-center">
                                             <div class="mb-1">
                                                 <h2 class="font-bold no-margins" style="color:black;">
-                                                    C$ <span data-bind="text:MontoTotal" class="text-danger"></span>
+                                                    C$ @*<span data-bind="text:MontoTotal"></span>*@ <span class="text-danger">@Model.MontoTotal</span>
                                                 </h2>
                                                 <small class="text-black-50">Precios ya incluyen IVA</small>
                                             </div>
@@ -119,12 +121,9 @@
                                         <div class="col align-items-center"><span id="sparkline" class="m-0"></span></div>
                                     </div>
 
-                                    <div data-bind="with:$root.MostrarOpciones">
-                                        <input type="button" class="btn-success btn" value="Solicitar Envio" data-bind="click:$root.RealizarEnvio" />
-                                        <a class="btn btn-default border-success" data-bind="click:$root.GuardarCotizacion"><i class="fa fa-clock-o"></i> Guardar</a>
-                                    </div>
+                                    <input type="button" class="btn-success btn" value="Solicitar Envio" />
+                                    <a class="btn btn-default border-success"><i class="fa fa-clock-o"></i> Guardar</a>
                                     <small><i class="fa fa-calendar"></i> @Model.FechaDeLaCotizacion</small>
-
                                 </div>
                             </div>
                         </div>
@@ -142,7 +141,7 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/plugins/knockout")
-@Scripts.Render("~/plugins/sparkline")
+<script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
 @Scripts.Render("~/plugins/moment")
 @Scripts.Render("~/plugins/sweetalert")
 @Scripts.Render("~/plugins/notify")
@@ -196,11 +195,12 @@
                         self.RealizarCotizacion = function (data,event) {
                             event.preventDefault();
 
-                            let frm = $('form');
+                            let frm = $('#fuck');
+                            frm.validate();
 
                             if (frm.valid()) {
 
-                                let token = $('form input[name="__RequestVerificationToken"]').val();
+                                let token = $('.create-form input[name="__RequestVerificationToken"]').val();
 
                                 $.ajax(
                                     {

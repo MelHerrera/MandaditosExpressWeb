@@ -184,6 +184,7 @@
     <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\MotorizadosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\pruebasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
     <Compile Include="Controllers\VelocidadDeConexionController.cs" />
@@ -235,6 +236,7 @@
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
     <Content Include="Content\plugins\switch\bootstrap-switch-button.min.css" />
     <Content Include="Content\register_style.css" />
+    <Content Include="Content\site_cotizacion.css" />
     <Content Include="Content\site_login.css" />
     <Content Include="Content\style.css" />
     <Content Include="fonts\font-awesome\css\font-awesome-1.min.css" />
@@ -463,6 +465,11 @@
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
     <Content Include="Views\Cotizaciones\Create.cshtml" />
+    <Content Include="Views\pruebas\Create.cshtml" />
+    <Content Include="Views\pruebas\Delete.cshtml" />
+    <Content Include="Views\pruebas\Details.cshtml" />
+    <Content Include="Views\pruebas\Edit.cshtml" />
+    <Content Include="Views\pruebas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

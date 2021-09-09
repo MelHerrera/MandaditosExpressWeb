@@ -110,15 +110,20 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
 
-                //Styles
+            //Styles
 
-                bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
-          "~/Content/bootstrap.min.css",
-          "~/Content/animate.css",
-          "~/Content/landing_style.css"));
+            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
+                "~/Content/bootstrap.min.css",
+                "~/Content/animate.css"));
+
+            bundles.Add(new StyleBundle("~/Content/landing").Include(
+                "~/Content/landing_style.css"));
 
             bundles.Add(new StyleBundle("~/Content/site/login").Include(
                   "~/Content/site_login.css"));
+
+            bundles.Add(new StyleBundle("~/Content/site/cotizacion").Include(
+      "~/Content/site_cotizacion.css"));
 
 
             bundles.Add(new StyleBundle("~/Content/site/register").Include(

@@ -111,6 +111,10 @@ namespace MandaditosExpress.Controllers
                         else
                                 return RedirectToAction("Login", "Account");
                         }
+                        else
+                        {
+                             await UserManager.DeleteAsync(user);
+                        }
 
                 }
                 else

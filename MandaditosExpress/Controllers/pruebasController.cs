@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -9,19 +11,18 @@ using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
-    public class CotizacionesController : Controller
+    public class pruebasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
 
-        // GET: Cotizaciones
+        // GET: pruebas
         public ActionResult Index()
         {
             var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio);
             return View(cotizaciones.ToList());
         }
 
-        // GET: Cotizaciones/Details/5
+        // GET: pruebas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,85 +37,43 @@ namespace MandaditosExpress.Controllers
             return View(cotizacion);
         }
 
-        // GET: Cotizaciones/Create
-        [AllowAnonymous]
+        // GET: pruebas/Create
         public ActionResult Create()
         {
-            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-            var CurrentCliente = new Cliente();
+            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico");
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
-            if (CurrentUser != null && CurrentUser.Length>0)
-                CurrentCliente= db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
-          
-            ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
-
-            var mCotizacionViewModel = new CotizacionViewModel();
-            mCotizacionViewModel.ClienteId= CurrentCliente != null ? CurrentCliente.Id : -1;
-
-            return View(mCotizacionViewModel);
-        }
-
-        // POST: Cotizaciones/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]    
-        public ActionResult Create(CotizacionViewModel cotizacion)
-        {
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
             var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
 
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
-            ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
-            if (ModelState.IsValid)
-            {
-                decimal CostoTotal = 0.0M; 
-                //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
-                var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
+            var mCotizacionViewModel = new CotizacionViewModel();
+            mCotizacionViewModel.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
 
-                if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0 && cotizacion.DistanciaOrigenDestino>0)
-                {
-                    CostoTotal = CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
-                     ( (decimal)  ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm) );
-                   
-                    if (cotizacion.EsEspecial)
-                        CostoTotal +=(decimal) CostoAsociado.PrecioDeRecargo;
-                }
-                else
-                {
-                    var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
-
-                    if (CostoGestion != null)
-                    {
-                    var CostoPorcentaje = (from cb in db.CostoGestionBancaria
-                                           where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
-                                           cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
-                                           cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
-                                           cotizacion.MontoDeDinero >= cb.MontoDesde &&
-                                           cotizacion.MontoDeDinero <= cb.MontoHasta
-                                           select cb);
-                        var Porcentaje = CostoPorcentaje.Count()>0 ? CostoPorcentaje.First().Porcentaje : 0;
-
-
-
-                    if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                        CostoTotal = cotizacion.MontoDeDinero * ((decimal) (Porcentaje / 100));
-
-                    if (cotizacion.EsEspecial)
-                        CostoTotal +=(decimal) CostoGestion.PrecioDeRecargo;
-                    }
-                };
-
-                cotizacion.MontoTotal = CostoTotal;
-            }
-
-              return Json(cotizacion);
+            return View(mCotizacionViewModel);
         }
 
-        // GET: Cotizaciones/Edit/5
+        // POST: pruebas/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeOrigen,DireccionDestino,DistanciaOrigenDestino,EsEspecial,MontoTotal,ClienteId,TipoDeServicioId,MontoDeDinero")] CotizacionViewModel cotizacion)
+        {
+            if (ModelState.IsValid)
+            {
+                //db.Cotizaciones.Add((CotizacionViewModel)cotizacion);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", cotizacion.ClienteId);
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio", cotizacion.TipoDeServicioId);
+            return View(cotizacion);
+        }
+
+        // GET: pruebas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -131,12 +90,12 @@ namespace MandaditosExpress.Controllers
             return View(cotizacion);
         }
 
-        // POST: Cotizaciones/Edit/5
+        // POST: pruebas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeEntrega,DireccionDeRecepcion,DistanciaEntregaRecep,MontoDeDinero,EsEspecial,PrecioDeRecargo,GestionId,MontoTotal,ClienteId,ServicioId,TipoDeServicioId")] Cotizacion cotizacion)
+        public ActionResult Edit([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeOrigen,DireccionDestino,DistanciaOrigenDestino,EsEspecial,MontoTotal,ClienteId,TipoDeServicioId,MontoDeDinero")] Cotizacion cotizacion)
         {
             if (ModelState.IsValid)
             {
@@ -149,7 +108,7 @@ namespace MandaditosExpress.Controllers
             return View(cotizacion);
         }
 
-        // GET: Cotizaciones/Delete/5
+        // GET: pruebas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -164,7 +123,7 @@ namespace MandaditosExpress.Controllers
             return View(cotizacion);
         }
 
-        // POST: Cotizaciones/Delete/5
+        // POST: pruebas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

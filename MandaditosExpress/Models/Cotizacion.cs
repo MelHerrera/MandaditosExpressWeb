@@ -15,7 +15,6 @@ namespace MandaditosExpress.Models
             FechaDeLaCotizacion = DateTime.Now;
             FechaDeValidez = DateTime.Now.AddDays(15);
         }
-
         [Key]
         public int Id { get; set; }
 
@@ -43,15 +42,19 @@ namespace MandaditosExpress.Models
         public bool EsEspecial { get; set; }
 
         [Required]
-        public double MontoTotal { get; set; }
+        [Column(TypeName = "decimal(7, 4)")]
+        public decimal MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
         [Required]
-        [Display(Name ="Tipo de Servicio")]
+        [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public double MontoDeDinero { get; set; }
+        [Column(TypeName = "decimal(7, 2)")]
+        public decimal MontoDeDinero { get; set; }
+
+        public int GestionBancariaId { get; set; }
 
         public virtual Cliente Cliente { get; set; }
 
