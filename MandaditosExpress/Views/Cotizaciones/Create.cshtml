@@ -12,14 +12,15 @@
 <body>
     <div class="main">
         <section class="signup">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="register">
-                    <div class="signup-content" data-bind="with:Cotizacion">
-                        <div class="signup-form">
-                            <h4>Estimada(o) @ViewBag.Cliente Cotizá nuestros precios</h4>
+                    @using (Html.BeginForm("Guardar", "Cotizaciones", FormMethod.Post))
+                    {
+                        <div class="signup-content" data-bind="with:Cotizacion">
+                            <div class="signup-form">
+                                <h4>Estimada(o) @ViewBag.Cliente Cotizá nuestros precios</h4>
 
-                            @using (Html.BeginForm())
-                            {
+
                                 @Html.AntiForgeryToken()
 
                                 <div class="form-horizontal">
@@ -33,7 +34,7 @@
                                         </div>
                                         <div class="col-auto">
                                             @*@Html.DropDownList("TipoDeServicioId", null, htmlAttributes: new { @class = "form-control" })*@
-                                            <select class="form-control" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
+                                            <select class="form-control" name="TipoDeServicioId" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
                                             @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -74,14 +75,14 @@
                                                 @Html.EditorFor(model => model.DireccionDestino, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion Destino", data_bind = "value:DireccionDestino,enable:$root.MostrarDirecciones" } })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.DireccionDestino, "", new { @class = "text-danger" })
-                                            <small class="form-text text-muted font-weight-bold mb-2">
-                                                Distancia: <input data-bind="value:DistanciaOrigenDestino" />
+                                            <small class="form-text text-muted font-weight-bold mb-2 ">
+                                                Distancia: <input data-bind="value:DistanciaOrigenDestino" name="DistanciaOrigenDestino" style="border:none" />
                                             </small>
                                         </div>
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="EsEspecial" name="EsEspecial" data-bind="checked:EsEspecial">
+                                        <input class="form-check-input" type="checkbox" id="EsEspecial" value="true" name="EsEspecial" data-bind="checked:EsEspecial">
                                         <label class="form-check-label" for="EsEspecial">
                                             ¿Es Especial?
                                         </label>
@@ -97,38 +98,37 @@
                                         </div>
                                     </div>
                                 </div>
-                            }
-                        </div>
+                            </div>
 
-                        <div class="signup-image">
-                            <div class="card" style="width: 18rem;">
-                                <h5 class="badge badge-danger text-white align-self-end p-1" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
-                                <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title badge badge-success p-2">Monto Total</h5>
+                            <div class="signup-image">
+                                <div class="card">
+                                    <h5 class="badge badge-danger text-white align-self-end p-1" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
+                                    <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title badge badge-success p-2">Monto Total</h5>
 
-                                    <div class="row">
-                                        <div class="col align-items-center">
-                                            <div class="mb-1">
-                                                <h2 class="font-bold no-margins" style="color:black;">
-                                                    C$ <span data-bind="text:MontoTotal" class="text-danger"></span>
-                                                </h2>
-                                                <small class="text-black-50">Precios ya incluyen IVA</small>
+                                        <div class="row no-margins no-padding">
+                                            <div class="col-auto align-items-center"><span id="sparkline" class="m-0"></span></div>
+                                            <div class="col-auto align-items-center">
+                                                <div class="mb-1 align-items-center">
+                                                    <label class="font-weight-bold display-4">C$</label> 
+                                                    <input type="text" data-bind="value:MontoTotal" class="text-danger" name="MontoTotal"/>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col align-items-center"><span id="sparkline" class="m-0"></span></div>
-                                    </div>
+                                        <small class="text-black-50 mt-2">Precios ya incluyen IVA</small>
 
-                                    <div data-bind="with:$root.MostrarOpciones">
-                                        <input type="button" class="btn-success btn" value="Solicitar Envio" data-bind="click:$root.RealizarEnvio" />
-                                        <a class="btn btn-default border-success" data-bind="click:$root.GuardarCotizacion"><i class="fa fa-clock-o"></i> Guardar</a>
-                                    </div>
-                                    <small><i class="fa fa-calendar"></i> @Model.FechaDeLaCotizacion</small>
+                                        <div data-bind="with:$root.MostrarOpciones" class="mt-2">
+                                            <input type="button" class="btn-success btn" value="Solicitar Envio" data-bind="click:$root.RealizarEnvio" />
+                                            <button type="submit" class="btn btn-default border-success" @*data-bind="click:$root.GuardarCotizacion,attr:{href:'@Url.Action("Guardar")'}"*@><i class="fa fa-clock-o"></i> Guardar </button>
+                                        </div>
+                                        <small><i class="fa fa-calendar"></i> @Model.FechaDeLaCotizacion</small>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </section>
@@ -190,9 +190,47 @@
                         self.RealizarEnvio = function () {
                             alert("enviando");
                         }
-                        self.GuardarCotizacion = function () {
-                            alert("Guardando la cotizacion");
-                        }
+                        //self.GuardarCotizacion = function (data,event) {
+                        //    event.preventDefault();
+
+                        //    let frm = $('form');
+
+                        //    if (frm.valid()) {
+
+                        //        let token = $('form input[name="__RequestVerificationToken"]').val();
+
+                        //        $.ajax(
+                        //            {
+                        //                url: $(event.currentTarget).attr("href"),
+                        //                type: "Post",
+                        //                data: { __RequestVerificationToken: token, cotizacion:ko.toJS(self.Cotizacion()) },
+                        //                success: function (result) {
+                        //                    //self.Cotizacion().MontoTotal(result.MontoTotal);
+                        //                    //InicializarGrafico();
+
+                        //                    if (result != null && result != "") {
+
+                        //                        $("body").html(result);
+
+                        //                        $.notify({
+                        //                            icon: 'fa fa-check-circle',
+                        //                            message: "Cotizacion Guardada Exitosamente"
+                        //                        });
+                        //                    }
+                        //                },
+                        //                error: function (e) {
+                        //                    Swal.fire({
+                        //                        icon: 'error',
+                        //                        title: 'Oops...',
+                        //                        text: 'Algo salio mal, disculpanos!',
+                        //                        footer: 'Consulta con el administrador del sistema.'
+                        //                    })
+                        //                },
+                        //            }
+                        //        );
+                        //    }
+                        //}//fin del guardar cotizacion
+
                         self.RealizarCotizacion = function (data,event) {
                             event.preventDefault();
 

@@ -66,7 +66,7 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, dynamic Data)
         {
             if (!ModelState.IsValid)
             {
@@ -450,7 +450,8 @@ namespace MandaditosExpress.Controllers
         {
             if (Url.IsLocalUrl(returnUrl))
             {
-                return Redirect(returnUrl);
+                //validacion para cuando sea una autenticacion de un cliente que queria guardar una cotizacion
+                    return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "HomeUser");
         }

@@ -54,7 +54,7 @@
                 <div class="signin-content">
                     <div class="signin-form">
                         <h2 class="form-title">Inicie Sesión</h2>
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "register-form", role = "form" }))
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new { @class = "register-form", role = "form" }))
                         {
 
                             @Html.AntiForgeryToken()

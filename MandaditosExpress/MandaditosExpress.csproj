@@ -470,7 +470,7 @@
     <Content Include="Views\pruebas\Delete.cshtml" />
     <Content Include="Views\pruebas\Details.cshtml" />
     <Content Include="Views\pruebas\Edit.cshtml" />
-    <Content Include="Views\pruebas\Index.cshtml" />
+    <Content Include="Views\Cotizaciones\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
