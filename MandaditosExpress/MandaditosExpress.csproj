@@ -247,6 +247,7 @@
     <Content Include="Images\a4.jpg" />
     <Content Include="Images\a5.jpg" />
     <Content Include="Images\a7.jpg" />
+    <Content Include="Images\card-header.jpg" />
     <Content Include="Images\default_profile.png" />
     <Content Include="Images\food-delivery.png" />
     <Content Include="Images\landing\avatar1.jpg" />

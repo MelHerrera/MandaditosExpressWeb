@@ -71,17 +71,17 @@ namespace MandaditosExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                decimal CostoTotal = 0.0M; 
+                var CostoTotal = 0.0; 
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
                 if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0 && cotizacion.DistanciaOrigenDestino>0)
                 {
                     CostoTotal = CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
-                     ( (decimal)  ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm) );
+                    ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm);
                    
                     if (cotizacion.EsEspecial)
-                        CostoTotal +=(decimal) CostoAsociado.PrecioDeRecargo;
+                        CostoTotal += CostoAsociado.PrecioDeRecargo;
                 }
                 else
                 {
@@ -101,14 +101,14 @@ namespace MandaditosExpress.Controllers
 
 
                     if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                        CostoTotal = cotizacion.MontoDeDinero * ((decimal) (Porcentaje / 100));
+                        CostoTotal = cotizacion.MontoDeDinero * (Porcentaje / 100);
 
                     if (cotizacion.EsEspecial)
-                        CostoTotal +=(decimal) CostoGestion.PrecioDeRecargo;
+                        CostoTotal +=CostoGestion.PrecioDeRecargo;
                     }
                 };
 
-                cotizacion.MontoTotal = CostoTotal;
+                cotizacion.MontoTotal = (float)CostoTotal;
             }
 
               return Json(cotizacion);

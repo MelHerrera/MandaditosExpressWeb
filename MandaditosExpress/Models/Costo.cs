@@ -33,16 +33,13 @@ namespace MandaditosExpress.Models
         public string  Descripcion { get; set; }
 
         [Display(Name = "Costo por Gasolina")]
-        [Column(TypeName = "decimal(4, 2)")]
-        public decimal CostoDeGasolina { get; set; }
+        public float CostoDeGasolina { get; set; }
 
         [Display(Name = "Costo por Asistencia")]
-        [Column(TypeName = "decimal(4, 2)")]
-        public decimal CostoDeAsistencia { get; set; }
+        public float CostoDeAsistencia { get; set; }
 
         [Display(Name = "Costo por Motorizado")]
-        [Column(TypeName = "decimal(4, 2)")]
-        public decimal CostoDeMotorizado { get; set; }
+        public float CostoDeMotorizado { get; set; }
 
         [Required]
         [Display(Name = "Distancia Base (Km)")]

@@ -42,8 +42,7 @@ namespace MandaditosExpress.Models
         public bool EsEspecial { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(7, 4)")]
-        public decimal MontoTotal { get; set; }
+        public float MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
@@ -51,8 +50,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        [Column(TypeName = "decimal(7, 2)")]
-        public decimal MontoDeDinero { get; set; }
+        public float MontoDeDinero { get; set; }
 
         public int GestionBancariaId { get; set; }
 

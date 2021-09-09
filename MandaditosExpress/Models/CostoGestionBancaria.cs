@@ -33,13 +33,11 @@ namespace MandaditosExpress.Models
 
         [Required]
         [Display(Name ="Monto Desde")]
-        [Column(TypeName = "decimal(7, 2)")]
-        public decimal MontoDesde { get; set; }
+        public float MontoDesde { get; set; }
 
         [Required]
         [Display(Name = "Monto Hasta")]
-        [Column(TypeName = "decimal(7, 2)")]
-        public decimal MontoHasta { get; set; }
+        public float MontoHasta { get; set; }
 
         [Required]
         public bool Estado { get; set; }
