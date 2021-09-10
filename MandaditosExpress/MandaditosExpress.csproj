@@ -297,6 +297,7 @@
     <Content Include="Scripts\plugins\jquery-ui\jquery-ui.min.js" />
     <Content Include="Scripts\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
+    <Content Include="Scripts\plugins\locationpicker\locationpicker.jquery.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\plugins\moment\moment.js" />
     <Content Include="Scripts\plugins\notify\bootstrap-notify.min.js" />
