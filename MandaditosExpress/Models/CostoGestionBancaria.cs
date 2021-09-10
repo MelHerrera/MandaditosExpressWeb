@@ -33,11 +33,15 @@ namespace MandaditosExpress.Models
 
         [Required]
         [Display(Name ="Monto Desde")]
-        public float MontoDesde { get; set; }
+        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
+        public decimal MontoDesde { get; set; }
 
         [Required]
         [Display(Name = "Monto Hasta")]
-        public float MontoHasta { get; set; }
+        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
+        public decimal MontoHasta { get; set; }
 
         [Required]
         public bool Estado { get; set; }

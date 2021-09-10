@@ -63,7 +63,6 @@ namespace MandaditosExpress.Controllers
                 {
                 var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
                 var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
                 var result = await UserManager.CreateAsync(user, cliente.Password);
 
                 if (result.Succeeded)
@@ -105,15 +104,13 @@ namespace MandaditosExpress.Controllers
 
                             // agregar la validacion del Rol cuando se esten manejando roles en el sistema
                         if (db.SaveChanges() > 0 && Request.IsAuthenticated)
-                        {
                                 return RedirectToAction("Index", "Clientes");
-                        }
                         else
                                 return RedirectToAction("Login", "Account");
                         }
                         else
                         {
-                             await UserManager.DeleteAsync(user);
+                            // await UserManager.DeleteAsync(user);
                         }
 
                 }

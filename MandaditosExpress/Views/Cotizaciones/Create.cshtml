@@ -48,7 +48,7 @@
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text"><i class="fa fa-sort"></i></div>
-                                                    @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 100, @placeholder = "Monto de Dinero", data_bind = "value:MontoDeDinero,enable:$root.MostrarMonto" } })
+                                                    @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Monto de Dinero", @Min=100, @title="Por seguridad solo aceptamos montos de 100 a 10,000. Para enviar una cantidad Mayor contacte con el negocio", data_bind = "value:MontoDeDinero,enable:$root.MostrarMonto" } })
                                                 </div>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
@@ -108,11 +108,16 @@
                                         <h5 class="card-title badge badge-success p-2">Monto Total</h5>
 
                                         <div class="row no-margins no-padding">
-                                            <div class="col-auto align-items-center"><span id="sparkline" class="m-0"></span></div>
-                                            <div class="col-auto align-items-center">
+                                            <div class="col-6 align-items-center"><span id="sparkline" class="m-0"></span></div>
+                                            <div class="col-6 align-items-center">
                                                 <div class="mb-1 align-items-center">
-                                                    <label class="font-weight-bold display-4">C$</label> 
-                                                    <input type="text" data-bind="value:MontoTotal" class="text-danger" name="MontoTotal"/>
+                                                    <div class="input-group h2">
+                                                        <h2 class="font-weight-bold h2">
+                                                            C$
+                                                            <span data-bind="text:MontoTotal" class="text-danger mr-2"></span>
+                                                        </h2>
+                                                        <input type="text" class="MontoTotalInput" name="MontoTotal" hidden />
+                                                    </div>                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +125,7 @@
 
                                         <div data-bind="with:$root.MostrarOpciones" class="mt-2">
                                             <input type="button" class="btn-success btn" value="Solicitar Envio" data-bind="click:$root.RealizarEnvio" />
-                                            <button type="submit" class="btn btn-default border-success" @*data-bind="click:$root.GuardarCotizacion,attr:{href:'@Url.Action("Guardar")'}"*@><i class="fa fa-clock-o"></i> Guardar </button>
+                                            <button type="submit" class="btn btn-default border-success" data-bind="click:$root.Guardar" ><i class="fa fa-clock-o"></i> Guardar </button>
                                         </div>
                                         <small><i class="fa fa-calendar"></i> @Model.FechaDeLaCotizacion</small>
 
@@ -184,52 +189,18 @@
                         self.Cotizacion = ko.observable(new CotizacionViewModel(initialData));
                         self.MostrarMonto = ko.observable(false);
                         self.MostrarDirecciones = ko.observable(true);
+                        self.MostrarOpciones = ko.observable(self.Cotizacion().MontoTotal() > 0);
                         self.TipoDeServicioIdAnterior = ko.observable();
                         self.SendingData = ko.observable(false);
 
                         self.RealizarEnvio = function () {
                             alert("enviando");
                         }
-                        //self.GuardarCotizacion = function (data,event) {
-                        //    event.preventDefault();
 
-                        //    let frm = $('form');
-
-                        //    if (frm.valid()) {
-
-                        //        let token = $('form input[name="__RequestVerificationToken"]').val();
-
-                        //        $.ajax(
-                        //            {
-                        //                url: $(event.currentTarget).attr("href"),
-                        //                type: "Post",
-                        //                data: { __RequestVerificationToken: token, cotizacion:ko.toJS(self.Cotizacion()) },
-                        //                success: function (result) {
-                        //                    //self.Cotizacion().MontoTotal(result.MontoTotal);
-                        //                    //InicializarGrafico();
-
-                        //                    if (result != null && result != "") {
-
-                        //                        $("body").html(result);
-
-                        //                        $.notify({
-                        //                            icon: 'fa fa-check-circle',
-                        //                            message: "Cotizacion Guardada Exitosamente"
-                        //                        });
-                        //                    }
-                        //                },
-                        //                error: function (e) {
-                        //                    Swal.fire({
-                        //                        icon: 'error',
-                        //                        title: 'Oops...',
-                        //                        text: 'Algo salio mal, disculpanos!',
-                        //                        footer: 'Consulta con el administrador del sistema.'
-                        //                    })
-                        //                },
-                        //            }
-                        //        );
-                        //    }
-                        //}//fin del guardar cotizacion
+                        self.Guardar = function () {
+                            $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));
+                            $("form").submit();
+                        }
 
                         self.RealizarCotizacion = function (data,event) {
                             event.preventDefault();
@@ -272,8 +243,6 @@
                             }
                         }
 
-                        //computables
-                        self.MostrarOpciones = ko.observable(false);
                         //subscripciones
 
                         //subscripcion al TipoDeServicioId despues que su valor cambie
@@ -303,7 +272,13 @@
                         self.Cotizacion().MontoTotal.subscribe(function (nuevo) {
                             self.MostrarOpciones(nuevo>0);
                         });
+
+                        //si se cambia el checkbox de EsEspecial se tiene que recalcular la cotizacion
+                        self.Cotizacion().EsEspecial.subscribe(function (nuevo) {
+                            self.MostrarOpciones(false);
+                        });
                     };
+
 
                                         var data = @Html.HtmlConvertToJson(Model);
                                         ////controller return the serialized json date in other ISO format so we have format the date
@@ -333,6 +308,6 @@
                                         function formatDate(dataToFormat) {
                                             let formatDate = "YYYY-MM-DD, h:mm:ss a";
                                             return moment(dataToFormat).format(formatDate)
-                                        }
+    }
 
 </script>

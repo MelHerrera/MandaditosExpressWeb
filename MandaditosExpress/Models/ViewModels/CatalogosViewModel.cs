@@ -46,14 +46,15 @@ namespace MandaditosExpress.Models.ViewModels
         public bool EsEspecial { get; set; }
 
         [Required]
-        public float MontoTotal { get; set; }
+        public decimal MontoTotal { get; set; }
 
         public int ClienteId { get; set; }
 
         [Required]
         [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
-        public float MontoDeDinero { get; set; }
+
+        public decimal MontoDeDinero { get; set; }
 
         public int GestionBancariaId { get; set; }
 

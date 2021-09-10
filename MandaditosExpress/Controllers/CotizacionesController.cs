@@ -48,10 +48,7 @@ namespace MandaditosExpress.Controllers
                 mCotizacionViewModel =(CotizacionViewModel) cotizacion;
 
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-            var CurrentCliente = new Cliente();
-
-            if (CurrentUser != null && CurrentUser.Length > 0)
-                CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
+            var CurrentCliente = GetCurrentCliente(CurrentUser);
 
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
 
@@ -77,17 +74,17 @@ namespace MandaditosExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                var CostoTotal = 0.0;
+                var CostoTotal = 0.00M;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
                 if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0 && cotizacion.DistanciaOrigenDestino > 0)
                 {
-                    CostoTotal = CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
-                    ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm);
+                    CostoTotal =(decimal) (CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
+                    ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
 
                     if (cotizacion.EsEspecial)
-                        CostoTotal += CostoAsociado.PrecioDeRecargo;
+                        CostoTotal +=(decimal) CostoAsociado.PrecioDeRecargo;
                 }
                 else
                 {
@@ -104,17 +101,15 @@ namespace MandaditosExpress.Controllers
                                                select cb);
                         var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
 
-
-
                         if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                            CostoTotal = cotizacion.MontoDeDinero * (Porcentaje / 100);
+                            CostoTotal = cotizacion.MontoDeDinero * ((decimal) (Porcentaje / 100));
 
                         if (cotizacion.EsEspecial)
-                            CostoTotal += CostoGestion.PrecioDeRecargo;
+                            CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;
                     }
                 };
 
-                cotizacion.MontoTotal = (float)CostoTotal;
+                cotizacion.MontoTotal = CostoTotal;
             }
 
             return Json(cotizacion);
@@ -145,6 +140,11 @@ namespace MandaditosExpress.Controllers
                         TipoDeServicioId= cotizacion.TipoDeServicioId,
                         MontoDeDinero= cotizacion.MontoDeDinero
                     };
+
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                    var CurrentCliente = GetCurrentCliente(CurrentUser);
+
+                    mCotiza.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
 
                     db.Cotizaciones.Add(mCotiza);
                     db.SaveChanges();
@@ -229,6 +229,11 @@ namespace MandaditosExpress.Controllers
             db.Cotizaciones.Remove(cotizacion);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public Cliente GetCurrentCliente(string CurrentUser)
+        {
+            return (CurrentUser != null && CurrentUser.Length > 0) ? db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser) : new Cliente();
         }
 
         protected override void Dispose(bool disposing)
