@@ -178,6 +178,7 @@
     <Compile Include="Controllers\CostosGestionBancariaController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
+    <Compile Include="Controllers\EnviosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
     <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Lugar.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MandaditosDB.cs" />
     <Compile Include="Models\Moneda.cs" />
@@ -472,6 +474,11 @@
     <Content Include="Views\pruebas\Details.cshtml" />
     <Content Include="Views\pruebas\Edit.cshtml" />
     <Content Include="Views\Cotizaciones\Index.cshtml" />
+    <Content Include="Views\Envios\Create.cshtml" />
+    <Content Include="Views\Envios\Delete.cshtml" />
+    <Content Include="Views\Envios\Details.cshtml" />
+    <Content Include="Views\Envios\Edit.cshtml" />
+    <Content Include="Views\Envios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
