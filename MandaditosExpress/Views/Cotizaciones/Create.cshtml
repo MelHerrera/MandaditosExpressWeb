@@ -44,7 +44,7 @@
                                             @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
+                                    <br />
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
                                             @Html.EditorFor(model => model.DescripcionDeCotizacion, new { htmlAttributes = new { @class = "form-control mb-2", @placeholder = "Descripcion", data_bind = "value:DescripcionDeCotizacion" } })
@@ -84,7 +84,7 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.LugarDestino.Direccion, "", new { @class = "text-danger" })
                                             <small class="form-text text-muted mb-2 ">
-                                                Distancia Aprox: <input class="font-weight-bold" data-bind="value:DistanciaOrigenDestino" /> Km
+                                                Distancia Aprox: <span class="font-weight-bold" data-bind="text:DistanciaOrigenDestino"></span> Km
                                             </small>
                                         </div>
                                         <input type="text" name="DistanciaOrigenDestino" hidden class="DistanciaInput" />
