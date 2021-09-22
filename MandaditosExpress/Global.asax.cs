@@ -18,6 +18,12 @@ namespace MandaditosExpress
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ////globalizacion y localizacion
+            //ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
+            //ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
+            //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-NI");
+            //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-NI");
         }
     }
 }
