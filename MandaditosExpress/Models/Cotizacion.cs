@@ -30,11 +30,9 @@ namespace MandaditosExpress.Models
         [Required]
         public DateTime FechaDeValidez { get; set; }
 
-        [StringLength(200)]
-        public string DireccionDeOrigen { get; set; }
+        public int LugarDeOrigenId { get; set; }
 
-        [StringLength(200)]
-        public string DireccionDestino { get; set; }
+        public int LugarDestinoId { get; set; }
 
         public float DistanciaOrigenDestino { get; set; }
 
@@ -55,6 +53,8 @@ namespace MandaditosExpress.Models
         public int GestionBancariaId { get; set; }
 
         public virtual Cliente Cliente { get; set; }
+        public virtual Lugar LugarOrigen { get; set; }
+        public virtual Lugar LugarDestino { get; set; }
 
         public virtual TipoDeServicio TipoDeServicio { get; set; }
     }

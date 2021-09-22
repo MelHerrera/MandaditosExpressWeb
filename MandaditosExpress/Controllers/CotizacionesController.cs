@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
@@ -74,17 +76,17 @@ namespace MandaditosExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                var CostoTotal = 0.00M;
+                var CostoTotal = 0.0M;
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
                 if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0 && cotizacion.DistanciaOrigenDestino > 0)
                 {
-                    CostoTotal =(decimal) (CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
+                    CostoTotal = (decimal)(CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
                     ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
 
                     if (cotizacion.EsEspecial)
-                        CostoTotal +=(decimal) CostoAsociado.PrecioDeRecargo;
+                        CostoTotal += (decimal)CostoAsociado.PrecioDeRecargo;
                 }
                 else
                 {
@@ -102,7 +104,7 @@ namespace MandaditosExpress.Controllers
                         var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
 
                         if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                            CostoTotal = cotizacion.MontoDeDinero * ((decimal) (Porcentaje / 100));
+                            CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
 
                         if (cotizacion.EsEspecial)
                             CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;
@@ -110,9 +112,11 @@ namespace MandaditosExpress.Controllers
                 };
 
                 cotizacion.MontoTotal = CostoTotal;
+
+                return Json(new { exito=true, data=cotizacion});
             }
 
-            return Json(cotizacion);
+            return Json(new { exito = false, data = cotizacion });
         }
 
         // POST: Cotizaciones/Guardar
@@ -131,8 +135,8 @@ namespace MandaditosExpress.Controllers
                         DescripcionDeCotizacion=cotizacion.DescripcionDeCotizacion, 
                         FechaDeLaCotizacion= cotizacion.FechaDeLaCotizacion ,
                         FechaDeValidez= cotizacion.FechaDeValidez,
-                        DireccionDeOrigen= cotizacion.DireccionDeOrigen,
-                        DireccionDestino= cotizacion.DireccionDestino,
+                        LugarOrigen=cotizacion.LugarDeOrigen,
+                        LugarDestino=cotizacion.LugarDestino,
                         DistanciaOrigenDestino= cotizacion.DistanciaOrigenDestino,
                         EsEspecial= cotizacion.EsEspecial,
                         MontoTotal= cotizacion.MontoTotal,

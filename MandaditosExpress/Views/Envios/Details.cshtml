@@ -1,0 +1,218 @@
+﻿@model MandaditosExpress.Models.Envio
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Envio</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Asistente.CorreoElectronico)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Asistente.CorreoElectronico)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.CorreoElectronico)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Motocicleta.Placa)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Motocicleta.Placa)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Motorizado.CorreoElectronico)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Motorizado.CorreoElectronico)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Servicio.DescripcionDelServicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Servicio.DescripcionDelServicio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DescripcionDeEnvio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DescripcionDeEnvio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDelEnvio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaDelEnvio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DireccionDeRecepcion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DireccionDeRecepcion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DireccionDeEntrega)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DireccionDeEntrega)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DistanciaEntregaRecep)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DistanciaEntregaRecep)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombresDelReceptor)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombresDelReceptor)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ApellidosDelReceptor)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ApellidosDelReceptor)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CedulaDelReceptor)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CedulaDelReceptor)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Ancho)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Ancho)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Alto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Alto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Peso)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Peso)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MontoDeDinero)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MontoDeDinero)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TelefonoDelReceptor)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TelefonoDelReceptor)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDeEntrega)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaDeEntrega)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EsUrgente)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EsUrgente)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraDeEntrega)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.HoraDeEntrega)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrecioDeRecargo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoDelEnvio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoDelEnvio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Credito)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Credito)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

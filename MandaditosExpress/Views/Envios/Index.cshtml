@@ -1,0 +1,171 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Envio>
+
+@{
+    ViewBag.Title = "Envios";
+}
+
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Asistente.CorreoElectronico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Motocicleta.Placa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Motorizado.CorreoElectronico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servicio.DescripcionDelServicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionDeEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDelEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionDeRecepcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionDeEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistanciaEntregaRecep)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombresDelReceptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApellidosDelReceptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CedulaDelReceptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ancho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Peso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MontoDeDinero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefonoDelReceptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EsUrgente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraDeEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoDelEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credito)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Asistente.CorreoElectronico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motocicleta.Placa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motorizado.CorreoElectronico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Servicio.DescripcionDelServicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDelEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionDeRecepcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionDeEntrega)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DistanciaEntregaRecep)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombresDelReceptor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidosDelReceptor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CedulaDelReceptor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ancho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Peso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MontoDeDinero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefonoDelReceptor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeEntrega)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsUrgente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraDeEntrega)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoDelEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credito)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>

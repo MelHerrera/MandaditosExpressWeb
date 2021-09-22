@@ -92,6 +92,10 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/switch").Include(
                       "~/Scripts/plugins/switch/bootstrap-switch-button.min.js"));
 
+            // Location Picker jquery
+            bundles.Add(new ScriptBundle("~/plugins/locationpicker").Include(
+                      "~/Scripts/plugins/locationpicker/locationpicker.jquery.js"));
+
             // dataTables scripts
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
                        "~/Scripts/plugins/dataTables/datatables.min.js",
