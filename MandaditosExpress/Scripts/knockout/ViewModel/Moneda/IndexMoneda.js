@@ -3,28 +3,28 @@ function MonedasViewModel(monedasCollection) {
     const self = this;
     self.Monedas = ko.observableArray(monedasCollection);
 
-    self.Moneda = ko.observable(new MonedaViewModel({}));
+ /*   self.Moneda = ko.observable(new MonedaViewModel({}));*/
 
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "monedas-modal",
         ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),
-        ModalBodyViewModel: new ModalBodyViewModel({ MonedaTemplateViewModel: new MonedaTemplateViewModel({ Name: "moneda-modal-template", MonedaViewModel: new MonedaViewModel({}) }) }),
+        ModalBodyViewModel: new ModalBodyViewModel( new TemplateViewModel({ Name: "moneda-modal-template", Data: new MonedaViewModel({}) }) ),
         FooterViewModel: new FooterModalViewModel({ ActionName: "Initial", UrlAction: "/Index" })
     }));
 
     self.ShowModal = function (moneda, event) {
 
         //pasarle la moneda actual a la propiedad moneda
-        self.Moneda(ko.toJS(moneda));
+       /* self.Moneda(ko.toJS(moneda));*/
 
         if (event.currentTarget.id == "btn-edit") {
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de la moneda").ModalHeaderClass("bg-success");
-            self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().Name("moneda-modal-template").MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
+            self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "moneda-modal-template", Data: new MonedaViewModel(ko.toJS(moneda)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de la Moneda").ModalHeaderClass("bg-danger");
-            self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().Name("moneda-modal-template").MonedaViewModel(new MonedaViewModel(ko.toJS(self.Moneda)));
+            self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "moneda-modal-template", Data: new MonedaViewModel(ko.toJS(moneda)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }
 
@@ -48,17 +48,28 @@ function MonedasViewModel(monedasCollection) {
     self.GuardarCambios = function (data, event) {
 
         let token = $('.modal-form-foot input[name="__RequestVerificationToken"]').val();
-        let moneda = ko.toJS(self.ModalViewModel().ModalBodyViewModel().MonedaTemplateViewModel().MonedaViewModel());
+        let moneda = self.ModalViewModel().ModalBodyViewModel().TemplateViewModel().Data;
 
         $.ajax({
             url: ko.toJS(data).UrlAction,
             type: "Post",
             data: { __RequestVerificationToken: token, moneda: moneda },
             success: function (res) {
-                $(".body-content").html(res);
+                if (res.exito) {
+                    location.reload();
+                    $.notify({
+                        icon: 'fa fa-check-circle',
+                        message: "Se edito la informacion Correctamente"
+                    });
+                }
             },
             error: function (e) {
-                alert(e.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... Disculpa',
+                    text: 'Algo salio mal!',
+                    footer: 'Contactese con el Administrador del Sistema'
+                })
             }
         });
     }

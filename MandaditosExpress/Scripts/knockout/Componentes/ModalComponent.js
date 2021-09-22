@@ -7,10 +7,13 @@
 
 function ModalBodyViewModel(params) {
     const self = this;
-    console.log(params);
-    let data = ko.toJS(params);'io;m '
-    console.log(Object.keys(data[0]));
-    self.TemplateViewModel = ko.observable(params);
+    self.TemplateViewModel = ko.observable(new TemplateViewModel({ Name: params.Name, Data: params.Data }));
+};
+
+function TemplateViewModel(params) {
+    const self = this;
+    self.Name = ko.observable(ko.isObservable(params.Name) ? params.Name : ko.observable(params.Name) || "");
+    self.Data = ko.observable(params.Data);
 };
 
 //viewmodel for footer modal components
