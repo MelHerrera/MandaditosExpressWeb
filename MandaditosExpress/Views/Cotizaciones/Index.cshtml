@@ -26,10 +26,10 @@
                 @Html.DisplayNameFor(model => model.FechaDeValidez)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DireccionDeOrigen)
+                @Html.DisplayNameFor(model => model.LugarOrigen.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DireccionDestino)
+                @Html.DisplayNameFor(model => model.LugarDestino.Direccion)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DistanciaOrigenDestino)
@@ -64,10 +64,10 @@
                 @Html.DisplayFor(modelItem => item.FechaDeValidez)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DireccionDeOrigen)
+                @Html.DisplayFor(modelItem => item.LugarOrigen.Direccion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DireccionDestino)
+                @Html.DisplayFor(modelItem => item.LugarDestino.Direccion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DistanciaOrigenDestino)

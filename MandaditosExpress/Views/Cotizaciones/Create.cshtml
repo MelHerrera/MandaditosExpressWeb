@@ -113,7 +113,7 @@
 
                             <div class="signup-image">
                                 <div class="card">
-                                    <h5 class="badge badge-danger text-white align-self-end p-1" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
+                                    <h5 class="badge badge-danger text-white align-self-end p-1 m-2" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
                                     <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title badge badge-success p-2">Monto Total</h5>
@@ -361,7 +361,9 @@
                                     self.MostrarMonto(true);
                                     self.MostrarDirecciones(false);
                                     self.Cotizacion().LugarDeOrigen().Direccion("");
+                                    self.Cotizacion().LugarDeOrigen().Longitud("");
                                     self.Cotizacion().LugarDestino().Direccion("");
+                                    self.Cotizacion().LugarDestino().Latitud("");
                                     self.Cotizacion().DistanciaOrigenDestino(0);//si no estan activas las direcciones resetearles el valor para que no se envien al servidor con el valor viejo
                                 }
                                 else {
@@ -418,7 +420,6 @@
 
                         function CalcularDistanciaResponse(response, status) {
                             if (status == "OK") {
-                                let distance;
                                 self.Cotizacion().DistanciaOrigenDestino((response.rows[0].elements[0].distance.text).slice(0,-2));
                             }
                             else {

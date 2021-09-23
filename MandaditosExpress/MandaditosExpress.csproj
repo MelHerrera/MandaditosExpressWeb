@@ -207,6 +207,8 @@
     <Compile Include="Models\Enum\TiposDeServicioEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
+    <Compile Include="Models\Extensions\DecimalModelBinder.cs" />
+    <Compile Include="Models\Extensions\FloatModelBinder.cs" />
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
     <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />

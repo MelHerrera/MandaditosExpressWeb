@@ -1,5 +1,7 @@
+using MandaditosExpress.Models.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,11 +21,13 @@ namespace MandaditosExpress
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            ////globalizacion y localizacion
-            //ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
-            //ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
-            //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-NI");
-            //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-NI");
+            //globalizacion y localizacion
+            ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
+            ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
+            ModelBinders.Binders.Add(typeof(float), new FloatModelBinder());
+            ModelBinders.Binders.Add(typeof(float?), new FloatModelBinder());
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-NI");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-NI");
         }
     }
 }
