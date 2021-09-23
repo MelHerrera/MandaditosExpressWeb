@@ -3,8 +3,6 @@ function MonedasViewModel(monedasCollection) {
     const self = this;
     self.Monedas = ko.observableArray(monedasCollection);
 
- /*   self.Moneda = ko.observable(new MonedaViewModel({}));*/
-
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "monedas-modal",
         ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),
@@ -13,9 +11,6 @@ function MonedasViewModel(monedasCollection) {
     }));
 
     self.ShowModal = function (moneda, event) {
-
-        //pasarle la moneda actual a la propiedad moneda
-       /* self.Moneda(ko.toJS(moneda));*/
 
         if (event.currentTarget.id == "btn-edit") {
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de la moneda").ModalHeaderClass("bg-success");

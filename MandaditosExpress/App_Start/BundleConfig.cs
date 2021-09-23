@@ -102,7 +102,6 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/Componentes/ModalComponent.js",
                         "~/Scripts/knockout/extensions/CustomBindins.js",
                         "~/Scripts/knockout/ViewModel/Moneda/MonedaViewModel.js",
-                         "~/Scripts/knockout/ViewModel/Moneda/MonedaTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
             // IndexVelocidad
@@ -110,7 +109,6 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/Componentes/ModalComponent.js",
                         "~/Scripts/knockout/extensions/CustomBindins.js",
                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/VelocidadDeConexionViewModel.js",
-                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/VelocidadDeConexionTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/IndexVelocidadDeConexion.js"));
 
 
