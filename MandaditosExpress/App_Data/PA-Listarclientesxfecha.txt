@@ -1,0 +1,31 @@
+﻿use MandaditosDB
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<email:paty@gmail.com,name:Patty Ortiz>
+-- Create date: <date:15-09-2021 10:25 Am>
+-- Description:	<Description: Obtener los Clientes en un periodo de tiempo dado>
+-- =============================================
+
+CREATE PROCEDURE ListarClientesNuevosPorFecha
+	-- Add the parameters for the stored procedure here
+	@Desde datetime,
+	@Hasta datetime
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+   
+	select p.Id , p.CorreoElectronico as [Correo Electronico], p.PrimerNombre, p.SegundoNombre, c.NombreDeLaEmpresa from Personas as p 
+	cross join  Clientes as c
+	where p.FechaIngreso between @Desde and @Hasta and p.Id in (select c.Id from dbo.Clientes as c)
+	group by p.Id , p.CorreoElectronico, p.PrimerNombre, p.SegundoNombre, p.SegundoApellido
+
+END
+GO
