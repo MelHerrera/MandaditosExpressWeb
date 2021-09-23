@@ -105,14 +105,11 @@
 @Html.Partial("~/Views/Monedas/Templates/_MonedaTemplate.cshtml")
 @Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
 
-@*<pre>
-    <code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
-    </pre>*@
-
 
 @section Scripts{
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/bundles/IndexMonedas")
-
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
 }

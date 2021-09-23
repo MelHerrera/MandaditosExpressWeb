@@ -310,10 +310,8 @@
     <Content Include="Scripts\knockout\Componentes\ModalComponent.js" />
     <Content Include="Scripts\knockout\extensions\CustomBindins.js" />
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
-    <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
-    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
     <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
@@ -490,9 +488,7 @@
     <Content Include="Views\Disponibilidad\Edit.cshtml" />
     <Content Include="Views\Disponibilidad\Index.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Create.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Delete.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Details.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Edit.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Index.cshtml" />
     <Content Include="Views\Costos\Create.cshtml" />
     <Content Include="Views\Costos\Delete.cshtml" />
