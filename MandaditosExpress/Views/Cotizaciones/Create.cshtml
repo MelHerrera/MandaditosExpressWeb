@@ -2,18 +2,34 @@
 
 @{
     ViewBag.Title = "Cotización";
-    Layout = null;
 }
 
-@Styles.Render("~/Content/bootstrap")
-@Styles.Render("~/font-awesome/css")
-@Styles.Render("~/Content/site/cotizacion")
+@if (!Request.IsAuthenticated)
+{
+    Layout = null;
+
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Content/site/cotizacion")
+}
+else
+{
+    @section Styles{
+        @Styles.Render("~/Content/bootstrap")
+        @Styles.Render("~/font-awesome/css")
+        @Styles.Render("~/Content/site/cotizacion")
+
+    }
+}
+
 
 <style>
     .pac-container {
         z-index: 99999;
     }
 </style>
+
+
 
 <body>
     <div class="main">
