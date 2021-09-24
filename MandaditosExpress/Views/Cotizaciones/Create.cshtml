@@ -7,7 +7,6 @@
 @if (!Request.IsAuthenticated)
 {
     Layout = null;
-
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/font-awesome/css")
     @Styles.Render("~/Content/site/cotizacion")
@@ -18,10 +17,8 @@ else
         @Styles.Render("~/Content/bootstrap")
         @Styles.Render("~/font-awesome/css")
         @Styles.Render("~/Content/site/cotizacion")
-
     }
 }
-
 
 <style>
     .pac-container {
@@ -63,7 +60,7 @@ else
                                     <br />
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            @Html.EditorFor(model => model.DescripcionDeCotizacion, new { htmlAttributes = new { @class = "form-control mb-2", @placeholder = "Descripcion", data_bind = "value:DescripcionDeCotizacion" } })
+                                            @Html.EditorFor(model => model.DescripcionDeCotizacion, new { htmlAttributes = new { @class = "form-control mb-2", @placeholder = "Descripcion *", data_bind = "value:DescripcionDeCotizacion" } })
                                             @Html.ValidationMessageFor(model => model.DescripcionDeCotizacion, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-auto col-md-5">
@@ -174,17 +171,21 @@ else
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <div class="row">
-                            <label class="control-label col-sm-2">Ubicacion:</label>
-                            <input type="text" class="form-control col-sm-8" id="MapAdressBox" data-bind="value:$root.Direccion" />
+                        <div class="row align-items-center">
+                            <div class="col-sm-2 col-md-2">
+                                <label class="control-label">Ubicacion:</label>
+                            </div>
+                            <div class="col-auto col-sm-9 col-md-9">
+                                <input type="text" class="form-control m-2" id="MapAdressBox" data-bind="value:$root.Direccion" />
+                            </div>
                         </div>
                     </div>
                     <div id="ModalMap" style="width:100%;height:400px;"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="text" placeholder="Latitud" id="MapAddresLatitud" data-bind="value:$root.Latitud" />
-                <input type="text" placeholder="Longitud" id="MapAddresLongitud" data-bind="value:$root.Longitud" />
+                <input type="text" placeholder="Latitud" id="MapAddresLatitud" data-bind="value:$root.Latitud" readonly/>
+                <input type="text" placeholder="Longitud" id="MapAddresLongitud" data-bind="value:$root.Longitud" readonly/>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" data-bind="click:$root.ActualizarUbicacion">Seleccionar</button>
             </div>
@@ -196,6 +197,326 @@ else
     <code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
     </pre>*@
 
+<!--Si el usuario ya se autentico-->
+@if(Request.IsAuthenticated) {
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
+    @Scripts.Render("~/plugins/locationpicker")
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/sparkline")
+    @Scripts.Render("~/plugins/moment")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
+<script type="text/javascript">
+
+    $(function () {
+        InicializarGrafico();
+
+        let initialLocation = {
+            latitude: 12.128145869138876,
+            longitude: -86.26501267501537
+        };
+
+        CargarMapa(0, initialLocation,true);
+    });
+
+    $("#myModal").on('shown.bs.modal', function () {
+        $("#ModalMap").locationpicker('autosize');
+    });
+
+                    function TipoDeServicioViewModel(tiposDeServicio) {
+                        const self = this;
+                        self.Id = ko.observable(tiposDeServicio.Id);
+                        self.DescripcionTipoDeServicio = ko.observable(tiposDeServicio.DescripcionTipoDeServicio);
+                        self.EstadoTipoDeServicio = ko.observable(tiposDeServicio.EstadoTipoDeServicio);
+                    }
+
+    function LugarViewModel(lugar) {
+        const self = this || {};
+        self.Id = ko.observable(lugar.Id || -1);
+        self.Descripcion = ko.observable(lugar.Descripcion || "");
+        self.Direccion = ko.observable(lugar.Direccion || "");
+        self.Latitud = ko.observable(lugar.Latitud || "");
+        self.Longitud = ko.observable(lugar.Longitud || "");
+    }
+
+
+                    function CotizacionViewModel(cotizacion) {
+                        const self = this;
+                        self.Id = ko.observable(cotizacion.Id || -1);
+                        self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion || "");
+                        self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || "");
+                        self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || "");
+                        self.LugarDeOrigen = ko.observable(cotizacion.LugarDeOrigen != null ? new LugarViewModel(cotizacion.LugarDeOrigen) : new LugarViewModel({}));
+                        self.LugarDestino = ko.observable(cotizacion.LugarDestino != null ? new LugarViewModel(cotizacion.LugarDestino) : new LugarViewModel({}));
+                        self.DistanciaOrigenDestino = ko.observable(cotizacion.DistanciaOrigenDestino || 0);
+                        self.EsEspecial = ko.observable(cotizacion.EsEspecial || false);
+                        self.MontoTotal = ko.observable(cotizacion.MontoTotal || 0.0).extend({ numeric:7 });
+                        self.ClienteId = ko.observable(cotizacion.ClienteId || -1);
+                        self.TipoDeServicioId = ko.observable(cotizacion.TipoDeServicioId || -1);
+                        self.MontoDeDinero = ko.observable(cotizacion.MontoDeDinero || 0);
+                        self.GestionBancariaId = ko.observable(cotizacion.GestionBancariaId || -1);
+                        self.TiposDeServicios = ko.observableArray(ko.utils.arrayMap(cotizacion.TiposDeServicios, function (item) { return new TipoDeServicioViewModel(item) }));
+                    }
+
+                    function IndexCotizacionViewModel(initialData) {
+                        const self = this;
+                        self.Cotizacion = ko.observable(new CotizacionViewModel(initialData));
+                        self.MostrarMonto = ko.observable(false);
+                        self.MostrarDirecciones = ko.observable(true);
+                        self.MostrarOpciones = ko.observable(self.Cotizacion().MontoTotal() > 0);
+                        self.TipoDeServicioIdAnterior = ko.observable();
+                        self.SendingData = ko.observable(false);
+                        self.Latitud = ko.observable("");
+                        self.Longitud = ko.observable("");
+                        self.Direccion = ko.observable("");
+                        self.DireccionId = ko.observable("");
+                        self.EnableBtnCotizar = ko.observable(true);
+
+                        self.CalcularDistancia = ko.computed(function () {
+                            if (self.Cotizacion().LugarDeOrigen().Latitud() != "" && self.Cotizacion().LugarDeOrigen().Longitud() != "" &&
+                                self.Cotizacion().LugarDestino().Latitud()  != "" && self.Cotizacion().LugarDestino().Longitud()  !="") {
+                                let origen = new google.maps.LatLng(self.Cotizacion().LugarDeOrigen().Latitud(), self.Cotizacion().LugarDeOrigen().Longitud());
+                                let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());
+
+                                CalcularDistancia(origen, destino);
+                            }
+                        });
+
+                        self.RealizarEnvio = function () {
+                            alert("enviando");
+                        }
+
+                        self.Guardar = function () {
+                            $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));
+                            $(".DistanciaInput").val(ko.toJS(self.Cotizacion().DistanciaOrigenDestino()));
+                            $(".LugarDeOrigenLatitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Latitud()));
+                            $(".LugarDeOrigenLongitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Longitud()));
+                            $(".LugarDestinoLatitud").val(ko.toJS(self.Cotizacion().LugarDestino().Latitud()));
+                            $(".LugarDestinoLongitud").val(ko.toJS(self.Cotizacion().LugarDestino().Longitud()));
+
+                            $("form").submit();
+                        }
+
+                        self.SeleccionarDireccionorigen = function (data) {
+                            event.preventDefault();
+
+                            self.Latitud(self.Cotizacion().LugarDeOrigen().Latitud());
+                            self.Longitud(self.Cotizacion().LugarDeOrigen().Longitud());
+                            self.Direccion(self.Cotizacion().LugarDeOrigen().Direccion());
+                            self.DireccionId("LugarDeOrigen");
+                            OpenModal("#myModal");
+                        }
+
+                        self.SeleccionarDireccionDestino = function (data) {
+                            event.preventDefault();
+
+                            self.Latitud(self.Cotizacion().LugarDestino().Latitud());
+                            self.Longitud(self.Cotizacion().LugarDestino().Longitud());
+                            self.Direccion(self.Cotizacion().LugarDestino().Direccion());
+                            self.DireccionId("LugarDestino");
+                            OpenModal("#myModal");
+                        }
+
+                        self.ActualizarUbicacion = function (data, event) {
+                            if (self.DireccionId() == "LugarDeOrigen")
+                                self.Cotizacion().LugarDeOrigen().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
+                            else
+                                self.Cotizacion().LugarDestino().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
+                        }
+
+                        self.RealizarCotizacion = function (data,event) {
+                            event.preventDefault();
+
+                            let frm = $('form');
+
+                            if (frm.valid()) {
+
+                                let token = $('form input[name="__RequestVerificationToken"]').val();
+                                var dataToSend = ko.toJS(data);
+
+                                $.ajax(
+                                    {
+                                        url: $(event.currentTarget).attr("href"),
+                                        type: "Post",
+                                        data: { __RequestVerificationToken: token, cotizacion: dataToSend },
+                                        beforeSend: function () {
+                                            self.SendingData(true);
+                                            self.EnableBtnCotizar(false);
+                                        },
+                                        success: function (result) {
+                                            if (result.exito) {
+                                                self.Cotizacion().MontoTotal(result.data.MontoTotal);
+                                                InicializarGrafico();
+                                                $.notify({
+                                                    icon: 'fa fa-check-circle',
+                                                    message: "Cotizacion Realizada Exitosamente"
+                                                });
+                                            }
+                                            else
+                                                ShowError();
+                                        },
+                                        error: function (e) {
+                                            ShowError();
+                                        },
+                                        complete: function () {
+                                            self.SendingData(false);
+                                            self.EnableBtnCotizar(true);
+                                        }
+                                    }
+                                );
+                            }
+                        }
+
+                        //subscripciones
+
+                        //subscripcion al TipoDeServicioId despues que su valor cambie
+                        self.Cotizacion().TipoDeServicioId.subscribe(function (nuevo) {
+                            if (nuevo != self.TipoDeServicioIdAnterior) {
+
+                                if (nuevo == self.Cotizacion().GestionBancariaId()) {
+                                    self.MostrarMonto(true);
+                                    self.MostrarDirecciones(false);
+                                    self.Cotizacion().LugarDeOrigen().Direccion("");
+                                    self.Cotizacion().LugarDeOrigen().Longitud("");
+                                    self.Cotizacion().LugarDestino().Direccion("");
+                                    self.Cotizacion().LugarDestino().Latitud("");
+                                    self.Cotizacion().DistanciaOrigenDestino(0);//si no estan activas las direcciones resetearles el valor para que no se envien al servidor con el valor viejo
+                                }
+                                else {
+                                    self.MostrarMonto(false);
+                                    self.Cotizacion().MontoDeDinero(0);
+                                    self.MostrarDirecciones(true);
+                                }
+
+                               self.Cotizacion().MontoTotal(0);//siempre que cambie el tipo de servicio se tiene que volver a recalcular la cotizacion
+                            }
+                        });
+
+                          //subscripcion al TipoDeServicioId antes que su valor cambie
+                        self.Cotizacion().TipoDeServicioId.subscribe(function (viejo) {
+                            self.TipoDeServicioIdAnterior(viejo);
+                        }, null,"beforeChange");
+
+                        self.Cotizacion().MontoTotal.subscribe(function (nuevo) {
+                            self.MostrarOpciones(nuevo>0);
+                        });
+
+                        //si se cambia el checkbox de EsEspecial se tiene que recalcular la cotizacion
+                        self.Cotizacion().EsEspecial.subscribe(function (nuevo) {
+                            self.MostrarOpciones(false);
+                        });
+
+                        //extenders
+                        ko.extenders.numeric = function (target, precision) {
+                            var result = ko.dependentObservable({
+                                read: function () {
+                                    return target().toFixed(precision);
+                                },
+                                write: target
+                            });
+
+                            result.raw = target;
+                            return result;
+                        };
+
+                        //otras funciones
+                        function CalcularDistancia(origen, destino) {
+                            self.SendingData(true);
+                            self.EnableBtnCotizar(false);
+
+                            var service = new google.maps.DistanceMatrixService();
+                            service.getDistanceMatrix(
+                                {
+                                    origins: [origen],
+                                    destinations: [destino],
+                                    travelMode: 'DRIVING',
+                                    unitSystem: google.maps.UnitSystem.METRIC
+                                }, CalcularDistanciaResponse);
+                        }
+
+                        function CalcularDistanciaResponse(response, status) {
+                            if (status == "OK") {
+                                self.Cotizacion().DistanciaOrigenDestino((response.rows[0].elements[0].distance.text).slice(0,-2));
+                            }
+                            else {
+                                ShowError();
+                            }
+                            self.SendingData(false);
+                            self.EnableBtnCotizar(true);
+                        }
+                    };
+
+                                        var data = @Html.HtmlConvertToJson(Model);
+                                        ////controller return the serialized json date in other ISO format so we have format the date
+                                        data.FechaDeLaCotizacion = formatDate(data.FechaDeLaCotizacion);
+                                        data.FechaDeValidez = formatDate(data.FechaDeValidez);
+    ko.applyBindings(new IndexCotizacionViewModel(data));
+
+
+    function OpenModal(element) {
+        $(element).modal({
+            show: true
+        });
+    }
+
+    function ShowError() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Algo salio mal, disculpanos!',
+            footer: 'Consulta con el administrador del sistema.'
+        })
+    }
+
+    function CargarMapa(radius,initialLocation,autocomplete) {
+        $("#ModalMap").locationpicker({
+            radius: radius,
+            location: initialLocation,
+            enableAutocomplete: autocomplete,
+            inputBinding: {
+                latitudeInput: $("#MapAddresLatitud"),
+                longitudeInput: $("#MapAddresLongitud"),
+                locationNameInput: $("#MapAdressBox")
+            },
+            autocompleteOptions: {
+                types: ['(cities)'],
+                componentRestrictions: { country: 'ni' }
+            }
+        });
+    }
+
+    function InicializarGrafico() {
+
+        var values = [5, 6, 7, 5, 13, 7, 6, 7, 6, 4, 7];
+
+        var range_map = $.range_map({
+            '7:': 'green',
+        });
+
+        // Draw a sparkline for the #sparkline element
+        $('#sparkline').sparkline(values, {
+            type: "bar",
+            barWidth: 10, 
+            height: 80,
+            barColor: '#0083CD',
+            colorMap: range_map,
+            chartRangeMax: 12
+        });
+                    }
+
+                                        function formatDate(dataToFormat) {
+                                            let formatDate = "YYYY-MM-DD, h:mm:ss a";
+                                            return moment(dataToFormat).format(formatDate)
+    }
+
+</script>
+    }
+}
+else{
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/bootstrap")
@@ -206,6 +527,9 @@ else
 @Scripts.Render("~/plugins/moment")
 @Scripts.Render("~/plugins/sweetalert")
 @Scripts.Render("~/plugins/notify")
+}
+
+
 <script type="text/javascript">
 
     $(function () {
@@ -506,3 +830,5 @@ else
     }
 
 </script>
+
+
