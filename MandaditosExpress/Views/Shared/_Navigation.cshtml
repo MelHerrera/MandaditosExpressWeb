@@ -63,7 +63,7 @@
             </li>
             <!--Catalogos Option-->
             <li class="@Html.IsSelected(controller: "Catalogos")">
-                <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
+                <a href=""><i class="fa fa-list-alt"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse ">
                     <li class="@Html.IsSelected(action: "Index")">
                         <a href="@Url.Action("Index", "Costos")">Costos</a>
@@ -91,12 +91,12 @@
 
             <!--Cotizacion -->
             <li class="@Html.IsSelected(controller: "Cotizaciones")">
-                <a href="@Url.Action("Create", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotización</span></a>
+                <a href="@Url.Action("Index", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotizaciónes</span></a>
             </li>
 
-            <!--Cotizacion -->
+            <!--Envios -->
             <li class="@Html.IsSelected(controller: "Envios")">
-                <a href="@Url.Action("Index", "Envios")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Envios</span></a>
+                <a href="@Url.Action("Index", "Envios")"><i class="fa fa-paper-plane"></i> <span class="nav-label" data-i18n="nav.dashboard">Envios</span></a>
             </li>
 
             <li class="@Html.IsSelected(controller: "Layouts")">

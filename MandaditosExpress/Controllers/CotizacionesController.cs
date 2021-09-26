@@ -17,7 +17,34 @@ namespace MandaditosExpress.Controllers
         // GET: Cotizaciones
         public ActionResult Index()
         {
-            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio);
+            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x=>x.FechaDeValidez>=DateTime.Now); ;
+
+            //Validacion por si ya viene una cotizacion desde la autenticacion
+            var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel) TempData["Cotizacion"] : null;
+
+            if (cotizacion != null)
+            {
+                var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+                var mCotiza = new Cotizacion
+                {
+                    DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                    FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                    FechaDeValidez = cotizacion.FechaDeValidez,
+                    LugarOrigen = cotizacion.LugarDeOrigen,
+                    LugarDestino = cotizacion.LugarDestino,
+                    DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                    EsEspecial = cotizacion.EsEspecial,
+                    MontoTotal = cotizacion.MontoTotal,
+                    ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                    TipoDeServicioId = cotizacion.TipoDeServicioId,
+                    MontoDeDinero = cotizacion.MontoDeDinero
+                };
+
+                db.Cotizaciones.Add(mCotiza);
+                db.SaveChanges();
+            }
+
             return View(cotizaciones.ToList());
         }
 
@@ -41,11 +68,6 @@ namespace MandaditosExpress.Controllers
         public ActionResult Create()
         {
             var mCotizacionViewModel = new CotizacionViewModel();
-
-            //Validacion por si ya viene una cotizacion desde la autenticacion
-            var cotizacion = TempData.ContainsKey("Cotizacion") ? TempData["Cotizacion"] : null;
-            if (cotizacion != null)
-                mCotizacionViewModel =(CotizacionViewModel) cotizacion;
 
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
             var CurrentCliente = GetCurrentCliente(CurrentUser);
@@ -129,6 +151,9 @@ namespace MandaditosExpress.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+
                     var mCotiza = new Cotizacion {
                         DescripcionDeCotizacion=cotizacion.DescripcionDeCotizacion, 
                         FechaDeLaCotizacion= cotizacion.FechaDeLaCotizacion ,
@@ -138,15 +163,10 @@ namespace MandaditosExpress.Controllers
                         DistanciaOrigenDestino= cotizacion.DistanciaOrigenDestino,
                         EsEspecial= cotizacion.EsEspecial,
                         MontoTotal= cotizacion.MontoTotal,
-                        ClienteId= cotizacion.ClienteId,
+                        ClienteId= cotizacion.ClienteId >0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser)!=null ? GetCurrentCliente(CurrentUser).Id : -1,
                         TipoDeServicioId= cotizacion.TipoDeServicioId,
                         MontoDeDinero= cotizacion.MontoDeDinero
                     };
-
-                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-                    var CurrentCliente = GetCurrentCliente(CurrentUser);
-
-                    mCotiza.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
 
                     db.Cotizaciones.Add(mCotiza);
                     db.SaveChanges();
@@ -157,7 +177,7 @@ namespace MandaditosExpress.Controllers
             {
                 //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
                 TempData["Cotizacion"] = cotizacion;
-                return RedirectToAction("Login", "Account",new { ReturnUrl = "/Cotizaciones/Create" });
+                return RedirectToAction("Login", "Account",new { ReturnUrl = "/Cotizaciones/Index" });
             }
                 
 

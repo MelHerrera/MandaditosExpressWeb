@@ -275,6 +275,7 @@
     <Content Include="Images\Login.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\LogoIcon.ico" />
+    <Content Include="Images\marker.png" />
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\Register.png" />
     <Content Include="Scripts\app\inspinia.js" />
