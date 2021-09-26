@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using MandaditosExpress.Models.DataSets.Ds_InformeNueCliTableAdapters;
 using System;
 using System.Linq;
+using System.Web;
 
 namespace MandaditosExpress.Controllers
 {
@@ -21,6 +22,7 @@ namespace MandaditosExpress.Controllers
             rpt.ProcessingMode = ProcessingMode.Local;
             rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptFiltrarClientesPorFecha.rdlc";
             rpt.LocalReport.DataSources.Add(new ReportDataSource("Ds_InformeNueCli", dt.GetData(/*idCli*/ DateTime.Parse(Desde), DateTime.Parse(Hasta)).ToList()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));
             rpt.SizeToReportContent = true;
             rpt.ShowPrintButton = true;
             rpt.ShowZoomControl = true;

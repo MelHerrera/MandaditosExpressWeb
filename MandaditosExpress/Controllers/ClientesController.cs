@@ -26,6 +26,7 @@ namespace MandaditosExpress.Controllers
             return View(db.Clientes.ToList());
         }
 
+
         // GET: Clientes/Details/5
         public ActionResult Details(int? id)
         {

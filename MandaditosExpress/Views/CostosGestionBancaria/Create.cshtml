@@ -117,7 +117,7 @@
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label" })
                                                 <div class="checkbox">
-                                                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @checked="checked" } })
+                                                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @checked = "checked" } })
                                                     @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -152,6 +152,7 @@
     </div>
 </body>
 
+@Scripts.Render("Plugins/datetimepicker/bootstrap-datetimepicker.min.js")
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")

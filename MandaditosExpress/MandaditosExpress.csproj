@@ -264,8 +264,12 @@
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\landing_style.css" />
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
+    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker.css" />
+    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\plugins\switch\bootstrap-switch-button.min.css" />
     <Content Include="Content\register_style.css" />
     <Content Include="Content\site_login.css" />
@@ -305,6 +309,7 @@
     <Content Include="Scripts\app\inspinia_landing.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\knockout\Componentes\ModalComponent.js" />
@@ -313,6 +318,10 @@
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
     <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
@@ -326,6 +335,7 @@
     <Content Include="Scripts\plugins\jquery-ui\jquery-ui.min.js" />
     <Content Include="Scripts\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
+    <Content Include="Scripts\plugins\datetimepicker\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\plugins\moment\moment.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
@@ -517,11 +527,11 @@
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
     <Content Include="Views\VelocidadDeConexion\Templates\_VelocidadDeConexionTemplate.cshtml" />
+    <Content Include="Views\Informes\ListClientesxFec.cshtml" />
+    <Content Include="Views\Clientes\FiltrarClientes.cshtml" />
+    <Content Include="Views\Consultas\BuscarClientes.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Consultas\" />
-    <Folder Include="Views\Informes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -535,6 +545,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\RptFiltrarClientePorFecha1.rdlc" />
     <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>
   <PropertyGroup>

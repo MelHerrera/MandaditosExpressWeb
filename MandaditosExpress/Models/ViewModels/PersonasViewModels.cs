@@ -1,6 +1,7 @@
 ﻿using MandaditosExpress.Models.Enum;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models.ViewModels
 {
@@ -76,6 +77,18 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         [Range(typeof(bool), "true","True",ErrorMessage ="Debe Aceptar los Terminos y Condiciones")]
         public bool AceptaTerminos { get; set; }
+
+        public DateTime FechaDesde { get; set; }
+        public DateTime FechaHasta { get; set; }
+
+
+        //Campos Calculados
+
+        [NotMapped]
+        [Display(Name = "Nombre Completo")]
+        public string NombreCompleto { get { return PrimerNombre + " " + SegundoNombre + " " + PrimerApellido + " " + SegundoApellido; } }
+
+
     }
 
     public class MotorizadoViewModel
