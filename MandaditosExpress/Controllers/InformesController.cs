@@ -23,7 +23,7 @@ namespace MandaditosExpress.Controllers
             rpt.ProcessingMode = ProcessingMode.Local;
             rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptFiltrarClientesPorFecha.rdlc";
             rpt.LocalReport.DataSources.Add(new ReportDataSource("Ds_InformeNueCli", dt.GetData(Desde, Hasta).ToList()));
-            //rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));
+            rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));
             rpt.SizeToReportContent = true;
             rpt.ShowPrintButton = true;
             rpt.ShowZoomControl = true;

@@ -3,8 +3,11 @@
     ViewBag.Title = "Buscar Clientes";
 }
 
-
-<link href="~/Content/plugins/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<style>
+    .ibox-tools a{
+        color: #ffffff !important;
+    }
+</style>
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
@@ -29,12 +32,17 @@
             <div class="ibox ">
                 <div class="ibox-title">
                     <h5>Lista de Clientes por Fecha</h5>
+                  
                     <div class="ibox-tools">
-                            <a href="@Url.Action("ListClientesxFec","Informes", new {Desde= ViewBag.FechaDesde, Hasta=ViewBag.FechaHasta })" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
-                        <a class="collapse-link">
+                        @if (ViewBag.FechaDesde != null && ViewBag.FechaHasta != null && Model.Count() > 0)//Que muestre el boton de imprimir solo cuando ya se hayan seleccionado las fechas y al menos haya un cliente que mostrar en el reporte
+                        {
+                            <a target="_blank" href="@Url.Action("ListClientesxFec","Informes", new {Desde= ViewBag.FechaDesde, Hasta=ViewBag.FechaHasta })" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
+                        }
+
+                        <a class="collapse-link" style="color:#c4c4c4 !important">
                             <i class="fa fa-chevron-up"></i>
                         </a>
-                        <a class="close-link">
+                        <a class="close-link" style="color:#c4c4c4 !important">
                             <i class="fa fa-times"></i>
                         </a>
                     </div>
