@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class EnviosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();

@@ -4,168 +4,279 @@
     ViewBag.Title = "Envios";
 }
 
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Asistente.CorreoElectronico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Motocicleta.Placa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Motorizado.CorreoElectronico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Servicio.DescripcionDelServicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescripcionDeEnvio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDelEnvio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DireccionDeRecepcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DireccionDeEntrega)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DistanciaEntregaRecep)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombresDelReceptor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApellidosDelReceptor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CedulaDelReceptor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ancho)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Peso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MontoDeDinero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelefonoDelReceptor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeEntrega)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EsUrgente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraDeEntrega)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoDelEnvio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Credito)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asistente.CorreoElectronico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motocicleta.Placa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motorizado.CorreoElectronico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Servicio.DescripcionDelServicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDelEnvio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DireccionDeRecepcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DireccionDeEntrega)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DistanciaEntregaRecep)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombresDelReceptor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApellidosDelReceptor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CedulaDelReceptor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ancho)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Peso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoDeDinero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelefonoDelReceptor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeEntrega)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EsUrgente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoraDeEntrega)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoDelEnvio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credito)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
+@section Styles {
+    @Styles.Render("~/Content/dataTablesStyles")
+}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Envios</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Envios")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Envios</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Listado de Envios</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Listado de Envios</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","Envios")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead id="thead">
+                            <tr class="bg-primary">
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Asistente.CorreoElectronico)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Motocicleta.Placa)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Motorizado.CorreoElectronico)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Servicio.DescripcionDelServicio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DescripcionDeEnvio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDelEnvio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DireccionDeRecepcion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DireccionDeEntrega)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DistanciaEntregaRecep)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombresDelReceptor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ApellidosDelReceptor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CedulaDelReceptor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ancho)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Alto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Peso)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MontoDeDinero)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TelefonoDelReceptor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeEntrega)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EsUrgente)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HoraDeEntrega)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoDelEnvio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Credito)
+                                </th>
+
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="gradeX">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Asistente.CorreoElectronico)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Motocicleta.Placa)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Motorizado.CorreoElectronico)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Servicio.DescripcionDelServicio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaDelEnvio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DireccionDeRecepcion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DireccionDeEntrega)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DistanciaEntregaRecep)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombresDelReceptor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ApellidosDelReceptor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CedulaDelReceptor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ancho)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Alto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Peso)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MontoDeDinero)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TelefonoDelReceptor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaDeEntrega)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EsUrgente)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HoraDeEntrega)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EstadoDelEnvio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Credito)
+                                    </td>
+
+                                    <td style="white-space:nowrap;">
+                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot id="foot">
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.table').DataTable({
+                pageLength: 25,
+                scrollX: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'excel' },
+                    { extend: 'pdf' },
+
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ],
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "No se encontró nada, lo siento",
+                    info: "Mostrando Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(filtrado de _MAX_ registros en total)",
+                    paginate: {
+                        first: "Primero",
+                        last: "Último",
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    },
+                    buttons: {
+                        copy: "Copiar",
+                        copySuccess: {
+                            1: "Copiada 1 fila al portapapeles",
+                            _: "Copiadas %d filas al portapapeles"
+                        },
+                        copyTitle: "Copiar al portapapeles",
+                        excel: "Excel",
+                        pdf: "PDF",
+                        print: "Imprimir"
+                    }
+                }//fin del lenguaje
+
+            });//fin del DataTable
+        });//fin del ready
+
+    </script>
+}

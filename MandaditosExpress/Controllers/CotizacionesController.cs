@@ -17,10 +17,10 @@ namespace MandaditosExpress.Controllers
         // GET: Cotizaciones
         public ActionResult Index()
         {
-            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x=>x.FechaDeValidez>=DateTime.Now); ;
+            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now); ;
 
             //Validacion por si ya viene una cotizacion desde la autenticacion
-            var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel) TempData["Cotizacion"] : null;
+            var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
 
             if (cotizacion != null)
             {
@@ -133,7 +133,7 @@ namespace MandaditosExpress.Controllers
 
                 cotizacion.MontoTotal = CostoTotal;
 
-                return Json(new { exito=true, data=cotizacion});
+                return Json(new { exito = true, data = cotizacion });
             }
 
             return Json(new { exito = false, data = cotizacion });
@@ -154,18 +154,19 @@ namespace MandaditosExpress.Controllers
                     var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
 
-                    var mCotiza = new Cotizacion {
-                        DescripcionDeCotizacion=cotizacion.DescripcionDeCotizacion, 
-                        FechaDeLaCotizacion= cotizacion.FechaDeLaCotizacion ,
-                        FechaDeValidez= cotizacion.FechaDeValidez,
-                        LugarOrigen=cotizacion.LugarDeOrigen,
-                        LugarDestino=cotizacion.LugarDestino,
-                        DistanciaOrigenDestino= cotizacion.DistanciaOrigenDestino,
-                        EsEspecial= cotizacion.EsEspecial,
-                        MontoTotal= cotizacion.MontoTotal,
-                        ClienteId= cotizacion.ClienteId >0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser)!=null ? GetCurrentCliente(CurrentUser).Id : -1,
-                        TipoDeServicioId= cotizacion.TipoDeServicioId,
-                        MontoDeDinero= cotizacion.MontoDeDinero
+                    var mCotiza = new Cotizacion
+                    {
+                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                        FechaDeValidez = cotizacion.FechaDeValidez,
+                        LugarOrigen = cotizacion.LugarDeOrigen,
+                        LugarDestino = cotizacion.LugarDestino,
+                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                        EsEspecial = cotizacion.EsEspecial,
+                        MontoTotal = cotizacion.MontoTotal,
+                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                        TipoDeServicioId = cotizacion.TipoDeServicioId,
+                        MontoDeDinero = cotizacion.MontoDeDinero
                     };
 
                     db.Cotizaciones.Add(mCotiza);
@@ -177,9 +178,32 @@ namespace MandaditosExpress.Controllers
             {
                 //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
                 TempData["Cotizacion"] = cotizacion;
-                return RedirectToAction("Login", "Account",new { ReturnUrl = "/Cotizaciones/Index" });
+                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
             }
-                
+
+
+            return View(cotizacion);
+        }
+
+        // POST: Cotizaciones/Guardar
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult RealizarEnvio(CotizacionViewModel cotizacion)
+        {
+            if (Request.IsAuthenticated)
+            {
+                if (ModelState.IsValid)
+                    return RedirectToAction("Create", "Envios", cotizacion);
+            }
+            else
+            {
+                //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
+                TempData["Cotizacion"] = cotizacion;
+                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Envios/Create" });
+            }
 
             return View(cotizacion);
         }

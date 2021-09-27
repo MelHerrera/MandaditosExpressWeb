@@ -607,6 +607,14 @@ else
 
                         self.RealizarEnvio = function () {
                             alert("enviando");
+                            $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));
+                            $(".DistanciaInput").val(ko.toJS(self.Cotizacion().DistanciaOrigenDestino()));
+                            $(".LugarDeOrigenLatitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Latitud()));
+                            $(".LugarDeOrigenLongitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Longitud()));
+                            $(".LugarDestinoLatitud").val(ko.toJS(self.Cotizacion().LugarDestino().Latitud()));
+                            $(".LugarDestinoLongitud").val(ko.toJS(self.Cotizacion().LugarDestino().Longitud()));
+
+                            $("form").submit();
                         }
 
                         self.Guardar = function () {
