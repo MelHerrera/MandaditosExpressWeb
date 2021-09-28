@@ -24,6 +24,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         [StringLength(250)]
         [Required]
+        [Display(Name ="Descripción")]
         public string DescripcionDeCotizacion { get; set; }
 
         [DataType(DataType.Date)]
@@ -35,7 +36,7 @@ namespace MandaditosExpress.Models.ViewModels
         public DateTime FechaDeValidez { get; set; }
 
         public Lugar LugarDeOrigen { get; set; }
-        public Lugar LugarDestino { get; set; }
+        public Lugar LugarDeDestino { get; set; }
 
         public float DistanciaOrigenDestino { get; set; }
 

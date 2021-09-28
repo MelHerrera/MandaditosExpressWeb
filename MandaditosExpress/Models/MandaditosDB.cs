@@ -16,6 +16,7 @@ namespace MandaditosExpress.Models
         public virtual DbSet<TipoDePago> TiposDePago { get; set; }
         public virtual DbSet<Moneda> Monedas { get; set; }
         public virtual DbSet<Motocicleta> Motocicletas { get; set; }
+        public virtual DbSet<Lugar> Lugares { get; set; }
         public virtual DbSet<Envio> Envios { get; set; }
         public virtual DbSet<Seguimiento> Seguimientos { get; set; }
         public virtual DbSet<DetalleDeSeguimiento> DetallesDeSeguimiento { get; set; }
@@ -35,6 +36,8 @@ namespace MandaditosExpress.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Entity<Cotizacion>().Property(x => x.MontoTotal).HasPrecision(7, 2);
             modelBuilder.Entity<CotizacionViewModel>().Property(x => x.MontoTotal).HasPrecision(7, 2);//establecerle la precision al correspóndiente viewmodel de la Cotizacion

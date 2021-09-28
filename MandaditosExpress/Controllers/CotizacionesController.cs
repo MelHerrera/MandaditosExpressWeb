@@ -32,7 +32,7 @@ namespace MandaditosExpress.Controllers
                     FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                     FechaDeValidez = cotizacion.FechaDeValidez,
                     LugarOrigen = cotizacion.LugarDeOrigen,
-                    LugarDestino = cotizacion.LugarDestino,
+                    LugarDestino = cotizacion.LugarDeDestino,
                     DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                     EsEspecial = cotizacion.EsEspecial,
                     MontoTotal = cotizacion.MontoTotal,
@@ -135,8 +135,11 @@ namespace MandaditosExpress.Controllers
 
                 return Json(new { exito = true, data = cotizacion });
             }
-
-            return Json(new { exito = false, data = cotizacion });
+            else
+            {
+                var ModelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList().Select(y=>y.ErrorMessage);
+                return Json(new { exito = false, data = cotizacion, havemodelerror = true, error =ModelErrors  });
+            }
         }
 
         // POST: Cotizaciones/Guardar
@@ -151,6 +154,7 @@ namespace MandaditosExpress.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
                     var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
 
@@ -160,7 +164,7 @@ namespace MandaditosExpress.Controllers
                         FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                         FechaDeValidez = cotizacion.FechaDeValidez,
                         LugarOrigen = cotizacion.LugarDeOrigen,
-                        LugarDestino = cotizacion.LugarDestino,
+                        LugarDestino = cotizacion.LugarDeDestino,
                         DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                         EsEspecial = cotizacion.EsEspecial,
                         MontoTotal = cotizacion.MontoTotal,

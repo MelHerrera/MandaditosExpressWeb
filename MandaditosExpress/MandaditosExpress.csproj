@@ -185,7 +185,6 @@
     <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\MotorizadosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
-    <Compile Include="Controllers\pruebasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
     <Compile Include="Controllers\VelocidadDeConexionController.cs" />
