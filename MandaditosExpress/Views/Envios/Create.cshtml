@@ -5,35 +5,49 @@
 }
 
 
-<body>
-    <div id="map" style="height:50%;width:50%"></div>
+<div class="row m-2">
+    <div class="col-sm-4 p-2">
+        <div class="card" style="width:95%;height:95%">
+            <div class="Map" style="width:337px;height:300px"></div>
+            <div class="card-body">
+                <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 p-2">
+        <div class="card" style="width:95%;height:95%;">
+            <div class="Map" style="width:337px;height:300px"></div>
+            <div class="card-body">
+                <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-</body>
 
+<pre>
+<code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
+</pre>
 
-@section Scripts{
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
+@Scripts.Render("~/plugins/locationpicker")
+@Scripts.Render("~/plugins/knockout")
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
-    
-    
-    <script>
-        let map;
-        $(function () {
-            initMap();
-        });
+<script type="text/javascript">
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 8,
-            });
-        }
+    $(".Map").locationpicker({
 
-    </script>
+        location: {
+            latitude: 12.128145869138876,
+            longitude: -86.26501267501537
+        },
+        radius: 0
+    });
 
-}
-
+</script>
