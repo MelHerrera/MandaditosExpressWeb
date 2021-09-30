@@ -1,34 +1,52 @@
-﻿@model MandaditosExpress.Models.Envio
+﻿@model MandaditosExpress.Models.ViewModels.EnvioViewModel
 
 @{
     ViewBag.Title = "Realizar Envio";
 }
+<div data-bind="with:Envio">
 
-
-<div class="row m-2">
-    <div class="col-sm-4 p-2">
-        <div class="card" style="width:95%;height:95%">
-            <div class="Map" style="width:337px;height:300px"></div>
-            <div class="card-body">
-                <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="row m-2">
+        <div class="col-sm-4 p-2">
+            <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
+                <input id="input-origen-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                <div class="Map-O" style="width:337px;height:300px"></div>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row bg-danger">
+                            <div class="col">
+                                <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="card-text">
+                                Managua 14005, Nicaragua
+                                @*Latitud:
+                <span class="badge badge-pill badge-primary">98.282727227</span>
+                Longitud:
+                <span class="badge badge-pill badge-primary">-98.282727227</span>*@
+                            </p>
+                        </div>
+                    </div>
+                   
+                    
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="card card-destino align-items-center" style="width:95%;height:95%;" data-bind="with:LugarDestino">
+                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                <div class="Map-D" style="width:337px;height:300px"></div>
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-4 p-2">
-        <div class="card" style="width:95%;height:95%;">
-            <div class="Map" style="width:337px;height:300px"></div>
-            <div class="card-body">
-                <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
+
 </div>
-
-
 <pre>
 <code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
 </pre>
@@ -38,16 +56,76 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
 @Scripts.Render("~/plugins/locationpicker")
 @Scripts.Render("~/plugins/knockout")
+<script src="~/Scripts/knockout/knockout.mapping.js"></script>
 
 <script type="text/javascript">
 
-    $(".Map").locationpicker({
+    function IndexEnvioViewmodel(initialData) {
+        const self = this;
+        self.Envio = ko.observable(initialData);
+    }
 
+    $(".Map-O").locationpicker({
         location: {
             latitude: 12.128145869138876,
             longitude: -86.26501267501537
         },
-        radius: 0
+        radius: 0,
+        enableAutocomplete: true,
+        inputBinding: {
+            //latitudeInput: $("#MapAddresLatitud"),
+            //longitudeInput: $("#MapAddresLongitud"),
+            locationNameInput: $("#input-origen-dir")
+        }
+    });
+
+
+    $(".Map-D").locationpicker({
+        location: {
+            latitude: 12.128145869138876,
+            longitude: -86.26501267501537
+        },
+        radius: 0,
+        enableAutocomplete: true,
+        inputBinding: {
+            //latitudeInput: $("#MapAddresLatitud"),
+            //longitudeInput: $("#MapAddresLongitud"),
+            locationNameInput: $("#input-destino-dir")
+        }
+    });
+
+    window.addEventListener('resize', function (e) {
+
+        //a veces jquery no logra detectar bien el resize , entonces esperar 1 segundo antes de cualquier accion
+        clearTimeout(t || -1);//limpiar cualquier time out que haya
+        var t = setTimeout(resizeWidthMap(".Map-O", ".card-origen"), 1000);
+
+        clearTimeout(y || -1);//limpiar cualquier time out que haya
+        var y = setTimeout(resizeWidthMap(".Map-D", ".card-destino"), 1000);
+    });
+
+    function getElementWidthByClass(clase) {
+        return $(clase).width()
+    }
+    function resizeWidthMap(mapClass,parentclass) {
+        let divMap = $(mapClass);
+        divMap.width(getElementWidthByClass(parentclass));//establecer al map el mismo ancho que el card
+    }
+
+    $(function () {
+        //al Cargar establecer al map el mismo ancho que el card
+        //a veces jquery no logra detectar bien el resize , entonces esperar 1 segundo antes de cualquier accion
+        clearTimeout(t || -1);//limpiar cualquier time out que haya
+        var t = setTimeout(resizeWidthMap(".Map-O",".card-origen"), 1000);
+
+        clearTimeout(y || -1);//limpiar cualquier time out que haya
+        var y = setTimeout(resizeWidthMap(".Map-D",".card-destino"), 2000);
+
+        //knockout model data
+        let data = @Html.HtmlConvertToJson(Model);
+
+        let viewModel = new IndexEnvioViewmodel(ko.mapping.fromJS(data));
+        ko.applyBindings(viewModel);
     });
 
 </script>

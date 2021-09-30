@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
@@ -45,7 +47,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.MotocicletaId = new SelectList(db.Motocicletas, "Id", "Placa");
             ViewBag.MotorizadoId = new SelectList(db.Personas, "Id", "CorreoElectronico");
             ViewBag.ServicioId = new SelectList(db.Servicios, "Id", "DescripcionDelServicio");
-            return View();
+            return View(new EnvioViewModel());
         }
 
         // POST: Envios/Create

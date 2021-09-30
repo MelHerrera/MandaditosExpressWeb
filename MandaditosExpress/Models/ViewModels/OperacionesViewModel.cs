@@ -62,8 +62,11 @@ namespace MandaditosExpress.Models.ViewModels
     {
         public EnvioViewModel()
         {
-            this.Pagos = new HashSet<Pago>();
-            this.Seguimientos = new HashSet<Seguimiento>();
+            Pagos = new HashSet<Pago>();
+            Seguimientos = new HashSet<Seguimiento>();
+            FechaDelEnvio = DateTime.Now;
+            LugarOrigen = new Lugar();
+            LugarDestino = new Lugar();
         }
 
         [Key]

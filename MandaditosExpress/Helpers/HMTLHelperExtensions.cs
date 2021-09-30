@@ -53,7 +53,7 @@ namespace MandaditosExpress
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.Indented
             };
-            return new HtmlString(JsonConvert.SerializeObject(model, settings));
+            return new HtmlString(JsonConvert.SerializeObject(model));
         }
 
 
