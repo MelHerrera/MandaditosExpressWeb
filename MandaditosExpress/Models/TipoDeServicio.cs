@@ -14,6 +14,7 @@ namespace MandaditosExpress.Models
             Costos = new HashSet<Costo>();
             Cotizaciones = new HashSet<Cotizacion>();
             CostosGestionBancaria = new HashSet<CostoGestionBancaria>();
+            Servicios = new HashSet<Servicio>();
         }
         [Key]
         public int Id { get; set; }
@@ -32,5 +33,7 @@ namespace MandaditosExpress.Models
         public virtual ICollection<CostoGestionBancaria> CostosGestionBancaria { get; set; }
 
         public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
+
+        public virtual ICollection<Servicio> Servicios { get; set; }
     }
 }

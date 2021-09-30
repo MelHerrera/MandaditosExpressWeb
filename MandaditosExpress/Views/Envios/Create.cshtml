@@ -4,6 +4,144 @@
     ViewBag.Title = "Realizar Envio";
 }
 <div data-bind="with:Envio">
+    <div class="container">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-content align-items-center">
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    @*<h4 class="fa-text-width">Ingrese la Información del Envio</h4>*@
+                                    <span class="font-weight-bold">
+                                        <i class="fa fa-info-circle"></i>
+                                        Ingrese la Información del Envio
+                                    </span>
+                                    <span class="float-right" data-bind="text:FechaDelEnvio"></span>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            @Html.LabelFor(model => model.DescripcionDeEnvio, htmlAttributes: new { @class = "control-label" })
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.DescripcionDeEnvio, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.DescripcionDeEnvio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TiposDeServicio, htmlAttributes: new { @class = "control-label" })
+                                                @Html.DropDownList("TipoDeServicio", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TiposDeServicio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        @*<div class="col-md-4">
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
+                                                <div class="form-group">
+                                                    @Html.EditorFor(model => model.ServicioId, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
+                                                @Html.DropDownList("ServicioId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-md-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.FechaDeFin, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.FechaDeFin, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.FechaDeFin, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.DistanciaBase, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.DistanciaBase, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 0 } })
+                                                    @Html.ValidationMessageFor(model => model.DistanciaBase, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+                                    </div>
+
+                                    @*<div class="row">
+
+                                            <div class="col-md-3 CostoDeGasolinaContainer">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CostoDeGasolina, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CostoDeGasolina, new { htmlAttributes = new { @class = "form-control CostoDeGasolina", @type = "number", @min = 0 } })
+                                                    @Html.ValidationMessageFor(model => model.CostoDeGasolina, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 CostoDeAsistenciaContainer">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CostoDeAsistencia, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CostoDeAsistencia, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia", @type = "number", @min = 0 } })
+                                                    @Html.ValidationMessageFor(model => model.CostoDeAsistencia, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 CostoDeMotorizadoContainer">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CostoDeMotorizado, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CostoDeMotorizado, new { htmlAttributes = new { @class = "form-control CostoDeMotorizado", @type = "number", @min = 0 } })
+                                                    @Html.ValidationMessageFor(model => model.CostoDeMotorizado, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                        </div>*@
+
+                                    @*<div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.PrecioPorKm, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.PrecioPorKm, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                                                    @Html.ValidationMessageFor(model => model.PrecioPorKm, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group PrecioDeRecargoContainer">
+                                                    @Html.LabelFor(model => model.PrecioDeRecargo, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.PrecioDeRecargo, new { htmlAttributes = new { @class = "form-control PrecioDeRecargo", @type = "number", @min = 0 } })
+                                                    @Html.ValidationMessageFor(model => model.PrecioDeRecargo, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Guardar" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="ibox-footer">
+                            <div class="col-md-12">
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row m-2">
         <div class="col-sm-4 p-2">
@@ -11,24 +149,8 @@
                 <input id="input-origen-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
                 <div class="Map-O" style="width:337px;height:300px"></div>
                 <div class="card-body">
-                    <div class="container">
-                        <div class="row bg-danger">
-                            <div class="col">
-                                <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <p class="card-text">
-                                Managua 14005, Nicaragua
-                                @*Latitud:
-                <span class="badge badge-pill badge-primary">98.282727227</span>
-                Longitud:
-                <span class="badge badge-pill badge-primary">-98.282727227</span>*@
-                            </p>
-                        </div>
-                    </div>
-                   
-                    
+                    <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
@@ -40,7 +162,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a data-bind="click:$root.GoogleMapDetails" class="btn btn-primary" target="_blank">Ver en Google Maps</a>
                 </div>
             </div>
         </div>
@@ -63,6 +185,11 @@
     function IndexEnvioViewmodel(initialData) {
         const self = this;
         self.Envio = ko.observable(initialData);
+        self.GoogleMapDetails = function (data, event) {
+            console.log(data);
+            //window.location.href = "https://www.google.com/maps?ll=" + data.Longitud() + "," +
+            //    data.Latitud() + "&z=15&t=m&hl=es-ES&gl=US&mapclient=apiv3&cid=5977138221004860713";
+        }
     }
 
     $(".Map-O").locationpicker({

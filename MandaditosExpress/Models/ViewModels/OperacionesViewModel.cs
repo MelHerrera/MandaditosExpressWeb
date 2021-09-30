@@ -60,6 +60,7 @@ namespace MandaditosExpress.Models.ViewModels
 
     public class EnvioViewModel
     {
+        private MandaditosDB db = new MandaditosDB();
         public EnvioViewModel()
         {
             Pagos = new HashSet<Pago>();
@@ -67,6 +68,7 @@ namespace MandaditosExpress.Models.ViewModels
             FechaDelEnvio = DateTime.Now;
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
+            this.TiposDeServicio = db.TiposDeServicio.ToList();
         }
 
         [Key]
@@ -122,6 +124,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int ServicioId { get; set; }
 
+        public List<TipoDeServicio> TiposDeServicio { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
