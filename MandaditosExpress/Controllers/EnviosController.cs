@@ -140,6 +140,26 @@ namespace MandaditosExpress.Controllers
             return RedirectToAction("Index");
         }
 
+        public JsonResult FiltrarServicio(int id)
+        {
+
+            if (id > 0)
+            {
+                List<Servicio> servicios = db.Servicios.Where(it => it.TipoDeServicioId == id).ToList()
+                    .Select(y=>new Servicio() {
+                    Id=y.Id,
+                    DescripcionDelServicio=y.DescripcionDelServicio,
+                    Estado=y.Estado,
+                    TipoDeServicioId=y.TipoDeServicioId
+                    }).ToList();
+
+                return Json(new { exito = true, data = servicios }, JsonRequestBehavior.AllowGet);
+
+            }
+
+            return Json(false,JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

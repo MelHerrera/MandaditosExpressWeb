@@ -124,6 +124,8 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int ServicioId { get; set; }
 
+        public int TipoDeServicioId { get; set; }
+
         public List<TipoDeServicio> TiposDeServicio { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
