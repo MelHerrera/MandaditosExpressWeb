@@ -69,6 +69,8 @@ namespace MandaditosExpress.Models.ViewModels
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
             this.TiposDeServicio = db.TiposDeServicio.ToList();
+            this.Servicios = db.Servicios.ToList();
+            TipoDeServicioId = -1;
         }
 
         [Key]
@@ -127,6 +129,8 @@ namespace MandaditosExpress.Models.ViewModels
         public int TipoDeServicioId { get; set; }
 
         public List<TipoDeServicio> TiposDeServicio { get; set; }
+
+        public List<Servicio> Servicios { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

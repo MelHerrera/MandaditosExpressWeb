@@ -38,7 +38,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TiposDeServicio, htmlAttributes: new { @class = "control-label" })
-                                                <select class="form-control"  data-bind = "options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, optionsCaption: 'Seleccionar...'"></select>
+                                                <select class="form-control"  data-bind = "options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId"></select>
                                                 @*@Html.DropDownList("TipoDeServicio", null, htmlAttributes: new { @class = "form-control", data_bind = "options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:'TipoDeServicioSelected'" })*@
                                                 @Html.ValidationMessageFor(model => model.TiposDeServicio, "", new { @class = "text-danger" })
                                             </div>
@@ -56,13 +56,10 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
-                                                @Html.DropDownList("ServicioId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.DropDownList("ServicioId", null, htmlAttributes: new { @class = "form-control", data_bind = "options:Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId" })
                                                 @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
-
-                                        <input data-bind="value:TipoDeServicioId">
 
                                         @*<div class="col-md-4">
             <div class="form-group">
@@ -195,12 +192,14 @@
             //    data.Latitud() + "&z=15&t=m&hl=es-ES&gl=US&mapclient=apiv3&cid=5977138221004860713";
         }
         self.Envio().TipoDeServicioId.subscribe(function (valor) {
-            getServiciosFiltrados(valor);
+            if (valor) {
+                getServiciosFiltrados(valor);
+            }      
         });
 
         //funciones privadas
         function getServiciosFiltrados(id) {
-            event.preventDefault();
+           /* event.preventDefault();*/
 
                 let token = $('form input[name="__RequestVerificationToken"]').val();
 
@@ -215,12 +214,8 @@
                         },
                         success: function (result) {
                             if (result.exito) {
-                                self.Envio().TiposDeServicio(result.data);
-                         
-                                $.notify({
-                                    icon: 'fa fa-check-circle',
-                                    message: "Cotizacion Realizada Exitosamente"
-                                });
+                                self.Envio().Servicios([]);
+                                ko.utils.arrayPushAll(self.Envio().Servicios, result.data);
                             }
                             else {
                                 if (!result.exito) {
