@@ -1,17 +1,16 @@
 ﻿@model IEnumerable<MandaditosExpress.Models.Disponibilidad>
 
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Agregar Disponibilidad ";
+}
+@Styles.Render("~/Plugind/switches")
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<p>
+    @Html.ActionLink("Agregar disponibilidad", "Create")
+</p>
+
+<table class="table">
+    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
@@ -19,25 +18,51 @@
             <th>
                 @Html.DisplayNameFor(model => model.EstadoDeLaDisponibilidad)
             </th>
-            <th></th>
+            <th>Opciones</th>
         </tr>
-    
-    @foreach (var item in Model) {
+    </thead>
+
+
+    <tbody data-bind="foreach:TipoDeServicio">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+            <td data-bind="text:Descripcion">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EstadoDeLaDisponibilidad)
+                <input type="checkbox" data-bind="checked: EstadoDeLaDisponibilidad" disabled />
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                <a data-bind="attr:{href:'@Url.Action("Edit/")'+Id}" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                <a data-bind="attr:{href:'@Url.Action("Details/")'+Id}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                <a class="btn btn-danger" data-bind="click:showDeleteModal,attr:{href:'@Url.Action("Delete")/'+Id}"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
             </td>
         </tr>
-    }
-    
-    </table>
-</body>
-</html>
+    </tbody>
+</table>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+    <script src="~/Scripts/knockout/knockout-3.5.1.js"></script>
+    <script src="~/Scripts/viewmodels/TiposDeServiciosViewModel.js"></script>
+
+    @*<script type="text/javascript">
+        /*var tpServicio = new tiposDeServicios();*/
+        var vm = function (tpservicios) {
+            var self = this;
+
+            self.TipoDeServicio = tpservicios;
+
+            self.showDeleteModal = function (data, event) {
+                $.get($(event.target).attr('href'), function (content) {
+                    $('.body-content').prepend(content);
+                    $('#deleteModal').modal('show');
+                    ko.applyBindings(self, document.getElementById('deleteModal'));
+                });
+            };
+        };
+
+            /* ko.applyBindings(tpServicio);*/
+            ko.applyBindings(vm(@Html.HtmlConvertToJson(Model)));
+    </script>*@
+
+}
