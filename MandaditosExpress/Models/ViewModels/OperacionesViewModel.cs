@@ -87,7 +87,6 @@ namespace MandaditosExpress.Models.ViewModels
 
         public double DistanciaEntregaRecep { get; set; }
 
-
         public string NombresDelReceptor { get; set; }
 
         public string ApellidosDelReceptor { get; set; }

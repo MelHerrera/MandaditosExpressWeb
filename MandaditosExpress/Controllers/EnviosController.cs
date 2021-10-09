@@ -46,8 +46,8 @@ namespace MandaditosExpress.Controllers
             ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico");
             ViewBag.MotocicletaId = new SelectList(db.Motocicletas, "Id", "Placa");
             ViewBag.MotorizadoId = new SelectList(db.Personas, "Id", "CorreoElectronico");
-            ViewBag.ServicioId = new SelectList(db.Servicios, "Id", "DescripcionDelServicio");
-            ViewBag.TipoDeServicio = new SelectList(db.TiposDeServicio,"Id", "DescripcionTipoDeServicio");
+            //ViewBag.ServicioId = new SelectList(db.Servicios, "Id", "DescripcionDelServicio");
+            //ViewBag.TipoDeServicio = new SelectList(db.TiposDeServicio,"Id", "DescripcionTipoDeServicio");
             return View(new EnvioViewModel());
         }
 
