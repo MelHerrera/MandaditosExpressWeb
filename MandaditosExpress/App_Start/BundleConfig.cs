@@ -133,6 +133,16 @@ namespace MandaditosExpress
             bundles.Add(new StyleBundle("~/Content/site/register").Include(
                   "~/Content/register_style.css"));
 
+            bundles.Add(new StyleBundle("~/Content/site/forgotpass").Include(
+                "~/Content/forgot_pass.css"));
+
+            bundles.Add(new StyleBundle("~/Content/site/confirmarcorreo").Include(
+                "~/Content/confirm_correo.css"));
+
+
+            bundles.Add(new StyleBundle("~/Content/site/resetpass").Include(
+                "~/Content/reset_password.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/animate.css",

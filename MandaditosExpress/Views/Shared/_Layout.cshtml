@@ -1,65 +1,165 @@
-﻿    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Mandaditos Express, delivery, entrega, envio">
-        <!--<link rel="icon" href="img/favicon.ico">-->
+﻿
+@{
+    var response = ViewBag.SendEmail.ToString().ToLower();
+}
 
-        <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+<!DOCTYPE html>
+<html lang="en">
 
-        @Styles.Render("~/Content/bootstrap")
-        @Styles.Render("~/Content/landing")
-        @Styles.Render("~/font-awesome/css")
-        @RenderSection("styles", required: false)
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
+    <title>El Mandadito Express</title>
+    <meta content="" name="description">
+    <meta content="delivery, envios, cotizacion, El Mandadito Express" name="keywords">
 
-    </head>
-    <body class="landing-page">
-        <!--Navbar section-->
-        <div class="navbar-wrapper">
-            <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md" role="navigation">
-                <div class="container">
-                    <a class="navbar-brand mx-auto" href="@Url.Action("Index", "Home")"><img src="~/Images/a2.jpg" width="30" height="30" class="d-inline-block align-content-center" alt=""/> Mandaditos</a>
-                    <div class="navbar-header page-scroll">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </div>
-                    <div class="collapse navbar-collapse justify-content-end" id="navbar">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>@Html.ActionLink("Inicio", "Index", "Home", null, null, "top", null, new { @class = "page-scroll" })</li>
-                            <li>@Html.ActionLink("Servicios", "Index", "Home", null, null, "features", null, new { @class = "page-scroll" })</li>
-                            <li>@Html.ActionLink("Equipo", "Index", "Home", null, null, "team", null, new { @class = "page-scroll" })</li>
-                            <li>@Html.ActionLink("Precios", "Index", "Home", null, null, "pricing", null, new { @class = "page-scroll" })</li>
-                            <li>@Html.ActionLink("Contacto", "Index", "Home", null, null, "contact", null, new { @class = "page-scroll" })</li>
-                            <li>@Html.ActionLink("Afiliación", "Create", "Motorizados", null, null, "", null, new { @class = "page-scroll" })</li>
-                            @if (Request.IsAuthenticated)
-                            {
-                                <li>@Html.ActionLink("Iniciar Sesion", "Index", "HomeUser",null,null,"",null,new { @class = "page-scroll" })</li>
-                            }
-                            else
-                            {
-                                <li>@Html.ActionLink("Iniciar Sesion", "Login", "Account", null, null, "", null, new { @class = "page-scroll", @target = "_blank" })</li>
-                            }
-                        </ul>
+    <!-- Favicons -->
+    <link href="~/Images/favicon.ico" rel="icon">
+    <link href="~/Images/favicon-apple-touch.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link href="~/Content/plugins/aos/aos.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/Content/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/ninestar_style.css" rel="stylesheet" />
+
+    <style>
+        section {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- =======================================================
+    * Template Name: Ninestars - v4.6.0
+    * Template URL: https://bootstrapmade.com/ninestars-free-bootstrap-3-theme-for-creative/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <div class="logo">
+                <a href="index.html">
+                    <img src="~/Images/Logo.png" alt="" class="img-fluid">
+                    <span class="text-black h5">El Mandadito Express</span>
+                </a>
+            </div>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Acerca de</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
+                    <li><a class="nav-link scrollto" href="#clients">Clientes</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
+                    <li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
+                    <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>            
+    </header><!-- End Header -->
+    <!--Main Views-->
+    @RenderBody()
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+        <div class="footer-newsletter">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h4>Recuerda...</h4>
+                        <cite>
+                            Somos la mejor opción para realizar tus envios y gestiones
+                        </cite>
+
                     </div>
                 </div>
-            </nav>
+            </div>
         </div>
 
+        <div class="footer-top">
+            <div class="container">
+                <div class="row justify-content-center">
 
-        @*//Mainly Views*@
-        @RenderBody()
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h3>El Mandadito Express</h3>
+                        <p>
+                            Colonia Miguel Bonilla <br>
+                            Managua-Nicaragua<br>
+                            <br>
+                            <strong>Telefono:</strong> +505 7799 9885<br>
+                            <strong>Correo:</strong> elmandaditoexpressni@gmail.com<br>
+                        </p>
+                    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/plugins/slimScroll")
-        @Scripts.Render("~/plugins/wow")
-        @Scripts.Render("~/bundles/plugins/landing")
-        @RenderSection("scripts", required: false)
-    </body>
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Enlaces Utiles</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="@Url.Action("Create","Cotizaciones")" target="_blank">Cotizar</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terminos de servicio</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de Privacidad</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Redes Sociales</h4>
+                        <p>Siguenos en nuestras redes sociales.</p>
+                        <div class="social-links mt-3">
+                            <a href="https://www.facebook.com/elmandaditoexpress" class="facebook"><i class="bi bi-facebook"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!--  JS Files -->
+    <script src="~/Scripts/plugins/aos/aos.js"></script>
+    <script src="~/Scripts/bootstrap5/js/bootstrap.bundle.js"></script>
+    <script src="~/Scripts/plugins/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Scripts/plugins/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Scripts/plugins/swiper/swiper-bundle.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetalert")
+
+    <!-- Template Main JS File -->
+    <script src="~/Scripts/app/ninestar_main.js"></script>
+
+    <script>
+        $(function () {
+
+            if (@response) {
+                Swal.fire(
+                    'Bien!',
+                    'Tu mensaje se ha enviado correctamente!',
+                    'success'
+                )
+            }
+
+        });
+    </script>
+</body>
 
 </html>

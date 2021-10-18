@@ -1,0 +1,360 @@
+﻿
+@{
+    var response = ViewBag.SendEmail.ToString().ToLower();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>El Mandadito Express</title>
+    <meta content="" name="description">
+    <meta content="delivery, envios, cotizacion, El Mandadito Express" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Images/favicon.ico" rel="icon">
+    <link href="~/Images/favicon-apple-touch.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link href="~/Content/plugins/aos/aos.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/Content/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/ninestar_style.css" rel="stylesheet" />
+
+    <style>
+        section {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- =======================================================
+    * Template Name: Ninestars - v4.6.0
+    * Template URL: https://bootstrapmade.com/ninestars-free-bootstrap-3-theme-for-creative/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <div class="logo">
+                <a href="index.html">
+                    <img src="~/Images/Logo.png" alt="" class="img-fluid">
+                    <span class="text-black h5">El Mandadito Express</span>
+                </a>
+            </div>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Acerca de</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
+                    <li><a class="nav-link scrollto" href="#clients">Clientes</a></li>
+                    <li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
+                    <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <h1>Somos la mejor opción para realizar tus envios y gestiones</h1>
+                    <h2>Tenemos un equipo de motorizados con principios y valores, nos caracterizamos por la excelente atención al cliente</h2>
+                    <div>
+                        <a href="@Url.Action("Login","Account")" target="_blank" class="btn-get-started scrollto btn btn-success" style="border-radius:5px 5px"> Iniciar Sesión </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                    <img src="~/Images/landing/delivery.svg" class="img-fluid animated" alt="" style="width:80%">
+                </div>
+            </div>
+        </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+            <div class="container">
+
+                <div class="row justify-content-between">
+                    <div class="col-lg-5 d-flex align-items-center justify-content-center about-img">
+                        <img src="~/Images/atwork.png" class="img-fluid" alt="" data-aos="zoom-in">
+                    </div>
+                    <div class="col-lg-6 pt-5 pt-lg-0">
+                        <h3 data-aos="fade-up">Tenemos muchas opciones para ti</h3>
+                        <p data-aos="fade-up" data-aos-delay="100">
+                            Puedes contactarte con atención al cliente para consultar acerca de todas las opciones que tenemos para tí
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                <i class="bx bx-receipt"></i>
+                                <h4>Cotizá</h4>
+                                <p>Realiza la cotización de tus envios del punto A al punto B</p>
+                                <div>
+                                    <a href="@Url.Action("Create","Cotizaciones")" class="btn btn-success text-white"> Cotizar </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                <i class="bx bx-cube-alt"></i>
+                                <h4>Afíliate</h4>
+                                <p>Si tienes tu propia moto y quieres ganar un dinero extra</p>
+                                <div>
+                                    <a href="@Url.Action("Create","Motorizados")" class="btn btn-success text-white"> Afiliarme </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
+                                <i class="bx bx-receipt"></i>
+                                <h4>Gestiona</h4>
+                                <p>Mantén toda la información de tus gestiones al alcance de tus manos, por este medio ó a través de nuestra aplicación movil</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Section -->
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Servicios</h2>
+                    <p>Echa un vistazo a los excelentes servicios que ofrecemos</p>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bi bi-box"></i></div>
+                            <h4 class="title"><a href="">Paquetería</a></h4>
+                            <p class="description">Realiza el envío de cualquier paquete con nosotros</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bi bi-bag-check"></i></div>
+                            <h4 class="title"><a href="">Mandaditos</a></h4>
+                            <p class="description">te hacemos tus mandados y pequeñas gestiones. ¿Olvidaste tus llaves en algún lugar?</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bi bi-bank"></i></div>
+                            <h4 class="title"><a href="">Gestiones bancarias</a></h4>
+                            <p class="description">Realizamos todas tus gestiones bancarias que puedan ser delegadas</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Services Section -->
+        <!-- ======= Clients Section ======= -->
+        <section id="clients" class="clients section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Clientes</h2>
+                    <p>Ellos confian en nosotros</p>
+                </div>
+
+                <div class="clients-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                    <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-slide"><img src="~/Images/clients/vetplus.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/silver.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/colectivo-shops.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/christina-closets.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/uniformania.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/vvjoyas.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/fashion.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/raymari.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/acuarela.jpg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="~/Images/clients/toys.jpg" class="img-fluid" alt=""></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+            </div>
+        </section><!-- End Clients Section -->
+        <!-- ======= Contact Us Section ======= -->
+        <section id="contact" class="contact">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Contactanos</h2>
+                    <p>Contactanos para brindarte la información que necesites</p>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info">
+                            <div class="address">
+                                <i class="bi bi-geo-alt"></i>
+                                <h4>Ubicación:</h4>
+                                <p>Colonia Miguel Bonilla</p>
+                            </div>
+
+                            <div class="email">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>elmandaditoexpressni@gmail.com</p>
+                            </div>
+
+                            <div class="phone">
+                                <i class="bi bi-phone"></i>
+                                <h4>Llamanos:</h4>
+                                <p>+505 7799 9885</p>
+                            </div>
+
+
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.1433057316654!2d-86.27749318537072!3d12.102340386629171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f71559841588fab%3A0x2f2c08ebd43d4d4d!2sColonia%20Miguel%20Bonilla%2C%20Managua%2C%20Nicaragua!5e0!3m2!1ses!2sbg!4v1634497404285!5m2!1ses!2sbg" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                        @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @class = "php-email-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="row">
+                                <div class="form-group col-md-10 mt-3 mt-md-0">
+                                    <label for="name">Tu correo:</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico" required>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="name">Asunto:</label>
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="name">Mensaje:</label>
+                                <textarea class="form-control" name="message" rows="7" required></textarea>
+                            </div>
+                            <div class="text-center"><button type="submit" class="btn btn-success">Enviar Mensaje</button></div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Contact Us Section -->
+
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+        <div class="footer-newsletter">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h4>Recuerda...</h4>
+                        <cite>
+                            Somos la mejor opción para realizar tus envios y gestiones
+                        </cite>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h3>El Mandadito Express</h3>
+                        <p>
+                            Colonia Miguel Bonilla <br>
+                            Managua-Nicaragua<br>
+                            <br>
+                            <strong>Telefono:</strong> +505 7799 9885<br>
+                            <strong>Correo:</strong> elmandaditoexpressni@gmail.com<br>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Enlaces Utiles</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="@Url.Action("Create","Cotizaciones")" target="_blank">Cotizar</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terminos de servicio</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de Privacidad</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Redes Sociales</h4>
+                        <p>Siguenos en nuestras redes sociales.</p>
+                        <div class="social-links mt-3">
+                            <a href="https://www.facebook.com/elmandaditoexpress" class="facebook"><i class="bi bi-facebook"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!--  JS Files -->
+    <script src="~/Scripts/plugins/aos/aos.js"></script>
+    <script src="~/Scripts/bootstrap5/js/bootstrap.bundle.js"></script>
+    <script src="~/Scripts/plugins/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Scripts/plugins/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Scripts/plugins/swiper/swiper-bundle.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetalert")
+
+    <!-- Template Main JS File -->
+    <script src="~/Scripts/app/ninestar_main.js"></script>
+
+    <script>
+        $(function () {
+
+            if (@response) {
+                Swal.fire(
+                    'Felicitaciones!',
+                    'Tu mensaje se ha enviado correctamente!',
+                    'success'
+                )
+            }
+
+        });
+    </script>
+</body>
+
+</html>

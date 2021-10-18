@@ -2,11 +2,19 @@
 
 @{
     ViewBag.Title = "Agregar Cliente";
+    Layout = null;
 }
 
-@section Styles {
-    @Styles.Render("~/Content/site/register")
-}
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/font-awesome/css")
+@Styles.Render("~/Content/site/register")
+
+<style>
+    .main {
+        background: #f8f8f8;
+        padding: 20px 0px 20px 0px;
+    }
+</style>
 
 
 @if (Request.IsAuthenticated)
@@ -31,24 +39,6 @@
             -webkit-border-radius: 20px;
             -o-border-radius: 20px;
             -ms-border-radius: 20px
-        }
-</style>
-}
-else
-{
-    <style>
-
-        .landing-page .navbar-default .nav li a {
-            color: #000;
-            font-family: 'Open Sans', helvetica, arial, sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .landing-page .navbar-fixed-top {
-            border-bottom: 1px solid #e7eaec !important;
-            background-color: #ffffff;
         }
     </style>
 }
@@ -102,7 +92,7 @@ else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="PrimerNombre"> <i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre" />
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                 </div>
@@ -117,15 +107,15 @@ else
                             <div class=" row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="PrimerApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido" />
+                                        <label for="PrimerApellido"><i class="fa fa-users"></i></label>
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="SegundoApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" />
+                                        <label for="SegundoApellido"><i class="fa fa-users"></i></label>
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
                                 </div>
@@ -135,13 +125,13 @@ else
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula" />
+                                        <input type="text" name="Cedula" placeholder="Cedula"/>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="Telefono"><i class="fa fa-phone"></i></label>
-                                        <input type="text" name="Telefono" placeholder="Celular" />
+                                        <label for="Celular"><i class="fa fa-phone"></i></label>
+                                        <input type="text" name="Telefono" placeholder="Celular*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                                 </div>
@@ -164,7 +154,7 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                        <input type="text" name="Direccion" placeholder="Dirección" />
+                                        <input type="text" name="Direccion" placeholder="Dirección*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                                 </div>
@@ -245,12 +235,10 @@ else
     </section>
 </div>
 
-@section Scripts{
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $(document).ready(function () {
             //Por defecto ocultar estos campos
@@ -289,5 +277,4 @@ else
             });
 
         });
-</script>
-}
+    </script>

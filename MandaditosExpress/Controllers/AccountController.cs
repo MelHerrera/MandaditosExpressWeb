@@ -72,13 +72,21 @@ namespace MandaditosExpress.Controllers
             {
                 return View(model);
             }
-
             // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
             // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    //verificar si el correo logeado ya esta confirmado
+                    var userId = UserManager.FindByEmail(model.Email).Id;
+                    if (!UserManager.IsEmailConfirmed(userId))
+                    {
+                        var authtenticationManager = HttpContext.GetOwinContext().Authentication;
+                        authtenticationManager.SignOut();
+                        ModelState.AddModelError("", "Debes confirmar tu correo electronico primero, revisa la bandeja de entrada de tu correo");
+                        return View(model);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -211,10 +219,10 @@ namespace MandaditosExpress.Controllers
 
                 // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
                 // Enviar correo electrónico con este vínculo
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
