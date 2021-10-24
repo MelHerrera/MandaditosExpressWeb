@@ -1,6 +1,11 @@
 ﻿
 @{
-    var response = ViewBag.SendEmail.ToString().ToLower();
+    var response = "";
+
+    if (ViewBag.SendEmail != null)
+    {
+        response = ViewBag.SendEmail.ToString().ToLower();
+    }
 }
 
 <!DOCTYPE html>
@@ -39,6 +44,8 @@
         }
     </style>
 
+    @RenderSection("Styles", required: false)
+
     <!-- =======================================================
     * Template Name: Ninestars - v4.6.0
     * Template URL: https://bootstrapmade.com/ninestars-free-bootstrap-3-theme-for-creative/
@@ -72,7 +79,7 @@
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
 
-        </div>            
+        </div>
     </header><!-- End Header -->
     <!--Main Views-->
     @RenderBody()
@@ -160,6 +167,8 @@
 
         });
     </script>
+
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

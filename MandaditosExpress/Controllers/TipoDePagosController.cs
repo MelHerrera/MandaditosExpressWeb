@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize]
     public class TipoDePagosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -84,9 +85,9 @@ namespace MandaditosExpress.Controllers
             {
                 db.Entry(tipoDePago).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(tipoDePago);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: TipoDePagos/Delete/5
@@ -107,12 +108,15 @@ namespace MandaditosExpress.Controllers
         // POST: TipoDePagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(TipoDePago tipoDePago)
         {
-            TipoDePago tipoDePago = db.TiposDePago.Find(id);
-            db.TiposDePago.Remove(tipoDePago);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            TipoDePago OtipoDePago = db.TiposDePago.Find(tipoDePago.Id);
+            db.TiposDePago.Remove(OtipoDePago);
+
+            if(db.SaveChanges()>0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

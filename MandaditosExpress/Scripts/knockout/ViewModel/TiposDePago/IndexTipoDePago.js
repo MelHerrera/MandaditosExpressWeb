@@ -13,7 +13,7 @@ function IndexTipoDePago(TipoDePagoCollection) {
     self.ShowModal = function (TipoDePago, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información del tipo de pago").ModalHeaderClass("bg-success");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del tipo de pago").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "tipodepago-modal-template", Data: new TipoDePagoViewModel(ko.toJS(TipoDePago)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
@@ -79,5 +79,5 @@ $(function () {
     var TiposDePago = JSON.parse($("#dt").val());
     $("#dt").remove();
 
-    ko.applyBindings(new TipoDePagoViewModel(TiposDePago));
+    ko.applyBindings(new IndexTipoDePago(TiposDePago));
 });

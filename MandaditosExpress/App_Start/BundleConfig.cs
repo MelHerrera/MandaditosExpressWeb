@@ -163,7 +163,7 @@ namespace MandaditosExpress
                       "~/Content/plugins/dataTables/dataTables.min.css"));
 
             // custom switches 
-            bundles.Add(new StyleBundle("~/Plugind/switches").Include(
+            bundles.Add(new StyleBundle("~/Plugin/switches").Include(
                       "~/Content/plugins/switch/bootstrap-switch-button.min.css"));
 
         }
