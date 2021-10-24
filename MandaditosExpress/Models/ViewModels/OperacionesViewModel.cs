@@ -93,11 +93,14 @@ namespace MandaditosExpress.Models.ViewModels
 
         public string CedulaDelReceptor { get; set; }
 
-        public double Ancho { get; set; }
+        [Display(Name = "El ancho es menor a 40 Pulg?")]
+        public bool Ancho { get; set; }
 
-        public double Alto { get; set; }
+        [Display(Name = "El alto es menor a 40 Pulg?")]
+        public bool Alto { get; set; }
 
-        public double Peso { get; set; }
+        [Display(Name = "El peso es menor a 40 Libras?")]
+        public bool Peso { get; set; }
 
         public Decimal MontoDeDinero { get; set; }
 

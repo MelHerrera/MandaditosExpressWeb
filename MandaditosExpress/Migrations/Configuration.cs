@@ -158,6 +158,29 @@ namespace MandaditosExpress.Migrations
         EstadoTipoDeServicio = true
     });
 
+            context.Servicios.AddOrUpdate(p => p.Id,
+new Models.Servicio
+{
+Id = 1,
+DescripcionDelServicio = "Ir a traerme las llaves",
+TipoDeServicioId = 1,
+Estado = true
+},
+new Models.Servicio
+{
+Id = 2,
+DescripcionDelServicio = "Ir a traerme el cargador de mi laptop",
+TipoDeServicioId = 1,
+Estado = true
+},
+new Models.Servicio
+{
+Id = 3,
+DescripcionDelServicio = "Entrega de perfumes",
+TipoDeServicioId = 2,
+Estado = true
+});
+
             context.CostoGestionBancaria.AddOrUpdate(
                 p => p.Id,
                 new Models.CostoGestionBancaria
