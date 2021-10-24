@@ -609,6 +609,7 @@
     <Content Include="Views\TipoDePagos\Edit.cshtml" />
     <Content Include="Views\TipoDePagos\Index.cshtml" />
     <Content Include="Views\TipoDePagos\Templates\_TipoDePagosTemplate.cshtml" />
+    <Content Include="Views\TipoDePagos\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
