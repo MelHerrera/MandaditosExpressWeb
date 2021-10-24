@@ -604,9 +604,7 @@
     <Content Include="Views\Envios\Edit.cshtml" />
     <Content Include="Views\Envios\Index.cshtml" />
     <Content Include="Views\Home\Index1.cshtml" />
-    <Content Include="Views\TipoDePagos\Delete.cshtml" />
     <Content Include="Views\TipoDePagos\Details.cshtml" />
-    <Content Include="Views\TipoDePagos\Edit.cshtml" />
     <Content Include="Views\TipoDePagos\Index.cshtml" />
     <Content Include="Views\TipoDePagos\Templates\_TipoDePagosTemplate.cshtml" />
     <Content Include="Views\TipoDePagos\Create.cshtml" />
