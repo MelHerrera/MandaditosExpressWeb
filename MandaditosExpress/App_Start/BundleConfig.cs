@@ -113,6 +113,12 @@ namespace MandaditosExpress
                          "~/Scripts/knockout/ViewModel/Moneda/MonedaTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
+            // IndexMonedas
+            bundles.Add(new ScriptBundle("~/bundles/IndexTipoDePagos").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/TiposDePago/TipoDePagoViewModel.js",
+                        "~/Scripts/knockout/ViewModel/TiposDePago/IndexTipoDePago.js"));
 
             //Styles
 

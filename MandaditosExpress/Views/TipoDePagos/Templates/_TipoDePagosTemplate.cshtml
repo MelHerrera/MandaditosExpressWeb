@@ -1,0 +1,25 @@
+﻿<template id="tipodepago-modal-template">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Descripcion" class="control-label">Descripción</label>
+                <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="EstadoTipoDePago" class="control-label">Estado del tipo de pago</label>
+                <input type="text" data-bind="value:EstadoTipoDePago" name="EstadoTipoDePago" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                <label for="Estado" class="control-label">Estado del Tipo De Pago</label>
+                <input type="checkbox" data-bind="checked: EstadoTipoDePago, bsSwitchButton: {}" data-toggle="switchbutton" data-onstyle="info" name="EstadoTipoDePago" id="switch-estado">
+            </div>
+        </div>
+    </div>
+</template>
+

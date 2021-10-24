@@ -186,6 +186,7 @@
     <Compile Include="Controllers\MotorizadosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
+    <Compile Include="Controllers\TipoDePagosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
     <Compile Include="Controllers\VelocidadDeConexionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -303,6 +304,8 @@
     <Content Include="Content\plugins\glightbox\css\glightbox.css" />
     <Content Include="Content\plugins\glightbox\css\glightbox.min.css" />
     <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
+    <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
+    <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
     <Content Include="Scripts\plugins\swiper\swiper-bundle.min.js" />
     <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.js" />
     <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.min.js" />
@@ -601,6 +604,11 @@
     <Content Include="Views\Envios\Edit.cshtml" />
     <Content Include="Views\Envios\Index.cshtml" />
     <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\TipoDePagos\Delete.cshtml" />
+    <Content Include="Views\TipoDePagos\Details.cshtml" />
+    <Content Include="Views\TipoDePagos\Edit.cshtml" />
+    <Content Include="Views\TipoDePagos\Index.cshtml" />
+    <Content Include="Views\TipoDePagos\Templates\_TipoDePagosTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
