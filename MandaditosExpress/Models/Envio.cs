@@ -67,8 +67,7 @@ namespace MandaditosExpress.Models
         public int ClienteId { get; set; }
 
         public int MotorizadoId { get; set; }
-
-        public string Credito { get; set; }
+        public int TipoDePagoId { get; set; }
 
         public int ServicioId { get; set; }
 

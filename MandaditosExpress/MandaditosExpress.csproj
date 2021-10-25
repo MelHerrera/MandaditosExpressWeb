@@ -177,6 +177,7 @@
     <Compile Include="Controllers\CostosController.cs" />
     <Compile Include="Controllers\CostosGestionBancariaController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
+    <Compile Include="Controllers\CreditosController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
     <Compile Include="Controllers\EnviosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -304,6 +305,8 @@
     <Content Include="Content\plugins\glightbox\css\glightbox.css" />
     <Content Include="Content\plugins\glightbox\css\glightbox.min.css" />
     <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
+    <Content Include="Scripts\knockout\ViewModel\Creditos\CreditoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
     <Content Include="Scripts\plugins\swiper\swiper-bundle.min.js" />
@@ -608,6 +611,10 @@
     <Content Include="Views\TipoDePagos\Index.cshtml" />
     <Content Include="Views\TipoDePagos\Templates\_TipoDePagosTemplate.cshtml" />
     <Content Include="Views\TipoDePagos\Create.cshtml" />
+    <Content Include="Views\Creditos\Create.cshtml" />
+    <Content Include="Views\Creditos\Details.cshtml" />
+    <Content Include="Views\Creditos\Index.cshtml" />
+    <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

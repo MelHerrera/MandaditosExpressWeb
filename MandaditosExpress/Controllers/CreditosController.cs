@@ -10,81 +10,85 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
-    public class TipoDePagosController : Controller
+    public class CreditosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
 
-        // GET: TipoDePagos
+        // GET: Creditos
         public ActionResult Index()
         {
-            return View(db.TiposDePago.ToList());
+            var creditos = db.Creditos.Include(c => c.Cliente);
+            return View(creditos.ToList());
         }
 
-        // GET: TipoDePagos/Details/5
+        // GET: Creditos/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TipoDePago tipoDePago = db.TiposDePago.Find(id);
-            if (tipoDePago == null)
+            Credito credito = db.Creditos.Find(id);
+            if (credito == null)
             {
                 return HttpNotFound();
             }
-            return View(tipoDePago);
+            return View(credito);
         }
 
-        // GET: TipoDePagos/Create
+        // GET: Creditos/Create
         public ActionResult Create()
         {
+            ViewBag.ClienteId = new SelectList(db.Clientes, "Id", "NombreCompleto");
             return View();
         }
 
-        // POST: TipoDePagos/Create
+        // POST: Creditos/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Descripcion,EstadoTipoDePago")] TipoDePago tipoDePago)
+        public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
             if (ModelState.IsValid)
             {
-                db.TiposDePago.Add(tipoDePago);
+                db.Creditos.Add(credito);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tipoDePago);
+            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
+            return View(credito);
         }
 
-        // POST: TipoDePagos/Edit/5
+        // POST: Creditos/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Descripcion,EstadoTipoDePago")] TipoDePago tipoDePago)
+        public ActionResult Edit([Bind(Include = "Id,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tipoDePago).State = EntityState.Modified;
+                db.Entry(credito).State = EntityState.Modified;
                 db.SaveChanges();
                 return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
+
+            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
 
-        // POST: TipoDePagos/Delete/5
+        // POST: Creditos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(TipoDePago tipoDePago)
+        public ActionResult DeleteConfirmed(Credito credito)
         {
-            TipoDePago OtipoDePago = db.TiposDePago.Find(tipoDePago.Id);
-            db.TiposDePago.Remove(OtipoDePago);
+            Credito Ocredito = db.Creditos.Find(credito.Id);
+            db.Creditos.Remove(Ocredito);
 
-            if(db.SaveChanges()>0)
+            if (db.SaveChanges() > 0)
                 return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
 
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);

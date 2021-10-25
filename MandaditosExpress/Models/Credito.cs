@@ -9,17 +9,28 @@ namespace MandaditosExpress.Models
 
     public class Credito
     {
+        public Credito()
+        {
+            this.FechaDeCancelacion = DateTime.Parse("01/01/1900");
+        }
+
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Fecha De Inicio")]
         public DateTime FechaDeInicio { get; set; }
 
+        [Display(Name = "Fecha De Vencimiento")]
         public DateTime FechaDeVencimiento { get; set; }
 
+        [Display(Name = "Estado")]
         public bool EstadoDelCredito { get; set; }
 
+        [Display(Name = "Fecha De Cancelacion")]
         public DateTime FechaDeCancelacion { get; set; }
 
+        [Required]
+        [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
 
         public virtual Cliente Cliente { get; set; }

@@ -71,6 +71,9 @@ namespace MandaditosExpress.Models.ViewModels
             this.TiposDeServicio = db.TiposDeServicio.ToList();
             this.Servicios = db.Servicios.ToList();
             TipoDeServicioId = -1;
+            var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
+            GestionBancariaId = gestion != null ? gestion.Id : -1;
+            TiposDePago = db.TiposDePago.ToList();
         }
 
         [Key]
@@ -124,17 +127,22 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int MotorizadoId { get; set; }
 
-        public string Credito { get; set; }
+        public int TipoDePagoId { get; set; }
 
         public int ServicioId { get; set; }
 
         public int TipoDeServicioId { get; set; }
+
+        public int GestionBancariaId { get; set; }
 
         public List<TipoDeServicio> TiposDeServicio { get; set; }
 
         public List<Servicio> Servicios { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
+
+        public virtual ICollection<TipoDePago> TiposDePago { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Motorizado Motorizado { get; set; }

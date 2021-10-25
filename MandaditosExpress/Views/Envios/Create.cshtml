@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Realizar Envio";
 }
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
 <div data-bind="with:Envio">
     <div class="container">
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -15,175 +18,190 @@
                             {
                                 @Html.AntiForgeryToken()
 
-                            <div class="form-horizontal">
-                                <span class="font-weight-bold">
-                                    <i class="fa fa-info-circle"></i>
-                                    Ingrese la Información del Envio
-                                </span>
-                                <span class="badge badge-success float-right" data-bind="text:FechaDelEnvio"></span>
-                                <hr />
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-horizontal">
+                                    <span class="font-weight-bold">
+                                        <i class="fa fa-info-circle"></i>
+                                        Ingrese la Información del Envio
+                                    </span>
+                                    <span class="badge badge-success float-right" data-bind="text:FechaDelEnvio"></span>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        @Html.LabelFor(model => model.DescripcionDeEnvio, htmlAttributes: new { @class = "control-label" })
-                                        <div class="form-group">
-                                            @Html.EditorFor(model => model.DescripcionDeEnvio, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.DescripcionDeEnvio, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            @Html.LabelFor(model => model.DescripcionDeEnvio, htmlAttributes: new { @class = "control-label" })
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.DescripcionDeEnvio, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.DescripcionDeEnvio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TiposDeServicio, htmlAttributes: new { @class = "control-label" })
+                                                <select class="form-control" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId"></select>
+                                                @*@Html.DropDownList("TipoDeServicio", null, htmlAttributes: new { @class = "form-control", data_bind = "options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:'TipoDeServicioSelected'" })*@
+                                                @Html.ValidationMessageFor(model => model.TiposDeServicio, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.TiposDeServicio, htmlAttributes: new { @class = "control-label" })
-                                            <select class="form-control" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId"></select>
-                                            @*@Html.DropDownList("TipoDeServicio", null, htmlAttributes: new { @class = "form-control", data_bind = "options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:'TipoDeServicioSelected'" })*@
-                                            @Html.ValidationMessageFor(model => model.TiposDeServicio, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
+                                                <select class="form-control" data-bind="options:Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
+                                                @*@Html.DropDownList("ServicioId", null, htmlAttributes: new { @class = "form-control", data_bind = "options:Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId" })*@
+                                                @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
-                                            <select class="form-control" data-bind="options:Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
-                                            @*@Html.DropDownList("ServicioId", null, htmlAttributes: new { @class = "form-control", data_bind = "options:Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId" })*@
-                                            @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.NombresDelReceptor, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.NombresDelReceptor, new { htmlAttributes = new { @class = "form-control " } })
+                                                @Html.ValidationMessageFor(model => model.NombresDelReceptor, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Ancho, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Ancho, new { htmlAttributes = new { @class = "form-control-sm" } })
-                                            @Html.ValidationMessageFor(model => model.Ancho, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Alto, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Alto, new { htmlAttributes = new { @class = "form-control-sm" } })
-                                            @Html.ValidationMessageFor(model => model.Alto, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "form-control-sm" } })
-                                            @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-md-3 CostoDeGasolinaContainer">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.NombresDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.NombresDelReceptor, new { htmlAttributes = new { @class = "form-control CostoDeGasolina", @type = "number", @min = 0 } })
-                                            @Html.ValidationMessageFor(model => model.NombresDelReceptor, "", new { @class = "text-danger" })
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.CedulaDelReceptor, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia" } })
+                                                @Html.ValidationMessageFor(model => model.CedulaDelReceptor, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 CostoDeAsistenciaContainer">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.CedulaDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia", @type = "number", @min = 0 } })
-                                            @Html.ValidationMessageFor(model => model.CedulaDelReceptor, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm CostoDeMotorizado" } })
+                                                @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label" })
+                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
+                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 CostoDeMotorizadoContainer">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control CostoDeMotorizado", @type = "number", @min = 0 } })
-                                            @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Ancho, htmlAttributes: new { @class = "control-label" })
+                                                @*@Html.EditorFor(model => model.Ancho, new { htmlAttributes = new { @class = "form-control-sm" } })*@
+                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="xs" data-on="Si" data-off="No" name="Ancho">
+                                                @Html.ValidationMessageFor(model => model.Ancho, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Alto, htmlAttributes: new { @class = "control-label" })
+                                                @*@Html.EditorFor(model => model.Alto, new { htmlAttributes = new { @class = "form-control-sm" } })*@
+                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="xs" data-on="Si" data-off="No" name="Ancho">
+                                                @Html.ValidationMessageFor(model => model.Alto, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "control-label" })
+                                                @*@Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "form-control-sm" } })*@
+                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="xs" data-on="Si" data-off="No" name="Ancho">
+                                                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row justify-content-center">
-                                    <div class="col-sm-5 p-2">
-                                        <label> Selecciona tu Ubicación</label>
-                                        <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
-                                            <input id="input-origen-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
-                                            <div class="Map-O" style="width:337px;height:300px"></div>
-                                            <div class="card-body" style="width:inherit">
-                                                <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
-                                                <p class="card-text" data-bind="text:Direccion"></p>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-5 p-2">
+                                            <label class="font-weight-bold"> Selecciona tu Ubicación</label>
+                                            <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
+                                                <input id="input-origen-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                                                <div class="Map-O" id="Map-O" style="width:337px;height:300px"></div>
+                                                <div class="card-body" style="width:inherit">
+                                                    <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
+                                                    <p class="card-text" data-bind="text:Direccion"></p>
 
-                                                <div class="form-inline">
-                                                    <div class="form-group">
-                                                        <label for="input-origen-lat" class="font-weight-bold">Latitud:</label>
-                                                        <input type="text" class="form-control-plaintext pr-0 mr-0" data-bind="value:Latitud" id="input-origen-lat" style="width:70%" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="input-origen-long" class="font-weight-bold">Longitud:</label>
-                                                        <input type="text" class="form-control-plaintext" data-bind="value:Longitud" id="input-origen-long" style="width:70%" />
+                                                    <div class="form-inline">
+                                                        <div class="form-group">
+                                                            <label for="input-origen-lat" class="font-weight-bold">Latitud:</label>
+                                                            <input type="text" class="form-control-plaintext pr-0 mr-0" data-bind="value:Latitud" id="input-origen-lat" style="width:70%" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="input-origen-long" class="font-weight-bold">Longitud:</label>
+                                                            <input type="text" class="form-control-plaintext" data-bind="value:Longitud" id="input-origen-long" style="width:70%" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                    </div>
-                                    <div class="col-sm-5 p-2">
-                                        <label> Selecciona la Ubicación del receptor</label>
-                                        <div class="card card-destino align-items-center" style="width:95%;height:95%;" data-bind="with:LugarDestino">
-                                            <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
-                                            <div class="Map-D" style="width:337px;height:300px"></div>
-                                            <div class="card-body" style="width:inherit">
-                                                <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
-                                                <p class="card-text" data-bind="text:Direccion"></p>
+                                        <div class="col-sm-2 align-self-center">
+                                            <h1>0 km</h1>
+                                        </div>
 
-                                                <div class="form-inline">
-                                                    <div class="form-group">
-                                                        <label for="input-dest-lat" class="font-weight-bold">Latitud:</label>
-                                                        <input type="text" class="form-control-plaintext pr-0 mr-0" data-bind="value:Latitud" id="input-dest-lat" style="width:70%" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="input-dest-long" class="font-weight-bold">Longitud:</label>
-                                                        <input type="text" class="form-control-plaintext" data-bind="value:Longitud" id="input-dest-long" style="width:70%" />
+                                        <div class="col-sm-5 p-2">
+                                            <label class="font-weight-bold"> Selecciona la Ubicación del receptor</label>
+                                            <div class="card card-destino align-items-center" style="width:95%;height:95%;" data-bind="with:LugarDestino">
+                                                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                                                <div class="Map-D" style="width:337px;height:300px"></div>
+                                                <div class="card-body" style="width:inherit">
+                                                    <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
+                                                    <p class="card-text" data-bind="text:Direccion"></p>
+
+                                                    <div class="form-inline">
+                                                        <div class="form-group">
+                                                            <label for="input-dest-lat" class="font-weight-bold">Latitud:</label>
+                                                            <input type="text" class="form-control-plaintext pr-0 mr-0" data-bind="value:Latitud" id="input-dest-lat" style="width:70%" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="input-dest-long" class="font-weight-bold">Longitud:</label>
+                                                            <input type="text" class="form-control-plaintext" data-bind="value:Longitud" id="input-dest-long" style="width:70%" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.EsUrgente, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.EsUrgente, new { htmlAttributes = new { @class = "form-control-sm" } })
-                                            @Html.ValidationMessageFor(model => model.EsUrgente, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-3 ">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.DistanciaEntregaRecep, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.DistanciaEntregaRecep, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.DistanciaEntregaRecep, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EsUrgente, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.EsUrgente, new { htmlAttributes = new { @class = "form-control-sm" } })
+                                                @Html.ValidationMessageFor(model => model.EsUrgente, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 ">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.DistanciaEntregaRecep, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.DistanciaEntregaRecep, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.DistanciaEntregaRecep, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Guardar" class="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Guardar" class="btn btn-success" />
-                                    </div>
-                                </div>
-                            </div>
                             }
                         </div>
 
@@ -200,9 +218,6 @@
     </div>
 
 </div>
-<pre>
-<code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
-</pre>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
@@ -210,6 +225,9 @@
 @Scripts.Render("~/plugins/locationpicker")
 @Scripts.Render("~/plugins/knockout")
 @Scripts.Render("~/plugins/moment")
+@Scripts.Render("~/plugins/switch")
+@Scripts.Render("~/plugins/sweetalert")
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="~/Scripts/knockout/knockout.mapping.js"></script>
 
 <script type="text/javascript">
@@ -278,20 +296,22 @@
         return moment(dataToFormat).format(formatDate)
     }
 
-
-    $(".Map-O").locationpicker({
-        location: {
-            latitude: 12.128145869138876,
-            longitude: -86.26501267501537
-        },
-        radius: 0,
-        enableAutocomplete: true,
-        inputBinding: {
-            latitudeInput: $("#input-origen-lat"),
-            longitudeInput: $("#input-origen-long"),
-            locationNameInput: $("#input-origen-dir")
-        }
-    });
+        $(".Map-O").locationpicker({
+            location: {
+                latitude: 12.128145869138876,
+                longitude: -86.26501267501537
+            },
+            radius: 0,
+            enableAutocomplete: true,
+            inputBinding: {
+                latitudeInput: $("#input-origen-lat"),
+                longitudeInput: $("#input-origen-long"),
+                locationNameInput: $("#input-origen-dir")
+            },
+            onchanged: function (currentLocation, radius, isMarkerDropped) {
+                console.log($(".Map-O")[0]);
+            }
+        });
 
 
     $(".Map-D").locationpicker({
@@ -305,6 +325,9 @@
             latitudeInput: $("#input-dest-lat"),
             longitudeInput: $("#input-dest-long"),
             locationNameInput: $("#input-destino-dir")
+        }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+            console.log("changin...");
+            var mapContext = $(this).locationpicker('map');
         }
     });
 
