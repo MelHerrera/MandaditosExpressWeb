@@ -132,7 +132,7 @@
                                             <label class="font-weight-bold"> Selecciona tu Ubicación</label>
                                             <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
                                                 <input id="input-origen-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
-                                                <div class="Map-O" id="Map-O" style="width:337px;height:300px"></div>
+                                                <div class="Map-O" style="width:337px;height:300px"></div>
                                                 <div class="card-body" style="width:inherit">
                                                     <h5 class="card-title"><i class="fa fa-dot-circle-o"></i> Direccion Origen</h5>
                                                     <p class="card-text" data-bind="text:Direccion"></p>
@@ -152,7 +152,7 @@
                                         </div>
 
                                         <div class="col-sm-2 align-self-center">
-                                            <h1>0 km</h1>
+                                            <h1> <span data-bind="text:DistanciaEntregaRecep"></span> Km</h1>
                                         </div>
 
                                         <div class="col-sm-5 p-2">
@@ -180,13 +180,6 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3 ">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.DistanciaEntregaRecep, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.DistanciaEntregaRecep, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.DistanciaEntregaRecep, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.EsUrgente, htmlAttributes: new { @class = "control-label" })
@@ -247,6 +240,43 @@
                 getServiciosFiltrados(valor);
             }
         });
+
+        self.CalcularDistancia = ko.computed(function () {
+            if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() &&
+                self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud()) {
+
+                let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
+                let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
+
+                CalcularDistancia(origen, destino);
+            }
+
+        });
+
+        function CalcularDistancia(origen, destino) {
+            var service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix(
+                {
+                    origins: [origen],
+                    destinations: [destino],
+                    travelMode: 'DRIVING',
+                    unitSystem: google.maps.UnitSystem.METRIC
+                }, CalcularDistanciaResponse);
+        }
+
+        function CalcularDistanciaResponse(response, status) {
+            if (status == "OK") {
+                self.Envio().DistanciaEntregaRecep((response.rows[0].elements[0].distance.value)/1000);
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Algo salio mal, disculpanos!',
+                    footer: 'Consulta con el administrador del sistema.'
+                })
+            }
+        }
 
         //funciones privadas
         function getServiciosFiltrados(id) {
@@ -309,7 +339,7 @@
                 locationNameInput: $("#input-origen-dir")
             },
             onchanged: function (currentLocation, radius, isMarkerDropped) {
-                console.log($(".Map-O")[0]);
+                console.log($(this));
             }
         });
 
@@ -326,7 +356,6 @@
             longitudeInput: $("#input-dest-long"),
             locationNameInput: $("#input-destino-dir")
         }, onchanged: function (currentLocation, radius, isMarkerDropped) {
-            console.log("changin...");
             var mapContext = $(this).locationpicker('map');
         }
     });
