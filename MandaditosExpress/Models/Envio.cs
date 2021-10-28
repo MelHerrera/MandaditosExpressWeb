@@ -10,8 +10,8 @@ namespace MandaditosExpress.Models
     {
         public Envio()
         {
-            this.Pagos = new HashSet<Pago>();
-            this.Seguimientos = new HashSet<Seguimiento>();
+            Pagos = new HashSet<Pago>();
+            Seguimientos = new HashSet<Seguimiento>();
         }
 
         [Key]
@@ -48,6 +48,8 @@ namespace MandaditosExpress.Models
 
         public Decimal MontoDeDinero { get; set; }
 
+        [Required]
+        public decimal MontoTotal { get; set; }
         public string TelefonoDelReceptor { get; set; }
 
         public DateTime FechaDeEntrega { get; set; }
@@ -71,6 +73,9 @@ namespace MandaditosExpress.Models
 
         public int ServicioId { get; set; }
 
+        [Display(Name = "Cotización")]
+        public int CotizacionId { get; set; }
+
         public virtual Cliente Cliente { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
@@ -80,5 +85,7 @@ namespace MandaditosExpress.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual Servicio Servicio { get; set; }
+        public virtual Lugar LugarOrigen { get; set; }
+        public virtual Lugar LugarDestino { get; set; }
     }
 }

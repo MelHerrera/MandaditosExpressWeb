@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using Newtonsoft.Json;
 
@@ -15,7 +16,14 @@ namespace MandaditosExpress.Controllers
     [Authorize]
     public class EnviosController : Controller
     {
-        private MandaditosDB db = new MandaditosDB();
+        private MandaditosDB db;
+        private Utileria Utileria;
+
+        public EnviosController()
+        {
+            db = new MandaditosDB();
+            Utileria = new Utileria();
+        }
 
         // GET: Envios
         public ActionResult Index()
@@ -42,13 +50,14 @@ namespace MandaditosExpress.Controllers
         // GET: Envios/Create
         public ActionResult Create()
         {
-            ViewBag.AsistenteId = new SelectList(db.Personas, "Id", "CorreoElectronico");
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico");
-            ViewBag.MotocicletaId = new SelectList(db.Motocicletas, "Id", "Placa");
-            ViewBag.MotorizadoId = new SelectList(db.Personas, "Id", "CorreoElectronico");
-            //ViewBag.ServicioId = new SelectList(db.Servicios, "Id", "DescripcionDelServicio");
-            //ViewBag.TipoDeServicio = new SelectList(db.TiposDeServicio,"Id", "DescripcionTipoDeServicio");
-            return View(new EnvioViewModel());
+            var EnvioViewModel = new EnvioViewModel();
+
+            //sacar el Id del Cliente que esta haciendo la solicitud del envio
+            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+            EnvioViewModel.ClienteId = Utileria.GetClienteByUser(CurrentUser).Id;
+
+            return View(EnvioViewModel);
         }
 
         // POST: Envios/Createss
@@ -56,7 +65,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,DireccionDeRecepcion,DireccionDeEntrega,DistanciaEntregaRecep,NombresDelReceptor,ApellidosDelReceptor,CedulaDelReceptor,Ancho,Alto,Peso,MontoDeDinero,TelefonoDelReceptor,FechaDeEntrega,EsUrgente,HoraDeEntrega,PrecioDeRecargo,EstadoDelEnvio,MotocicletaId,AsistenteId,ClienteId,MotorizadoId,Credito,ServicioId")] Envio envio)
+        public ActionResult Create(Envio envio)
         {
             if (ModelState.IsValid)
             {

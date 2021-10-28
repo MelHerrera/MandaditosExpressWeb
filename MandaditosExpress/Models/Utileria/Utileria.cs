@@ -13,6 +13,11 @@ namespace MandaditosExpress.Models.Utileria
         {
             return db.Personas.DefaultIfEmpty(null).FirstOrDefault(x => x.CorreoElectronico == UserName);
         }
+
+        public Cliente GetClienteByUser(string CurrentUser)
+        {
+            return (CurrentUser != null && CurrentUser.Length > 0) ? db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser) : new Cliente();
+        }
         public Byte[] getImageBytes(HttpRequestBase request)
         {
             if (request.Files.Count > 0)

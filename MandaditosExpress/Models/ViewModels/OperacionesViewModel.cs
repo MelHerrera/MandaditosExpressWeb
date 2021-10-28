@@ -63,91 +63,98 @@ namespace MandaditosExpress.Models.ViewModels
         private MandaditosDB db = new MandaditosDB();
         public EnvioViewModel()
         {
-            Pagos = new HashSet<Pago>();
-            Seguimientos = new HashSet<Seguimiento>();
             FechaDelEnvio = DateTime.Now;
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
-            this.TiposDeServicio = db.TiposDeServicio.ToList();
-            this.Servicios = db.Servicios.ToList();
+            TiposDeServicio = db.TiposDeServicio.ToList();
+            Servicios = db.Servicios.ToList();
             TipoDeServicioId = -1;
+            TiposDePago = db.TiposDePago.ToList();
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
             GestionBancariaId = gestion != null ? gestion.Id : -1;
-            TiposDePago = db.TiposDePago.ToList();
         }
 
         [Key]
         public int Id { get; set; }
 
         [StringLength(250)]
+        [Required]
+        [Display(Name ="Descripción")]
         public string DescripcionDeEnvio { get; set; }
 
+        [Required]
+        [Display(Name = "Fecha")]
         public DateTime FechaDelEnvio { get; set; }
 
+        [Required]
+        [Display(Name = "Origen")]
         public Lugar LugarOrigen { get; set; }
 
+        [Required]
+        [Display(Name = "Destino")]
         public Lugar LugarDestino { get; set; }
 
+        [Required]
+        [Display(Name = "Distancia")]
         public double DistanciaEntregaRecep { get; set; }
 
+        [Required]
+        [Display(Name = "Nombres y Apellidos del receptor")]
         public string NombresDelReceptor { get; set; }
 
-        public string ApellidosDelReceptor { get; set; }
-
+        [Required]
+        [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
-        [Display(Name = "El ancho es menor a 40 Pulg?")]
+        [Display(Name = "¿El ancho es menor a 40 Pulg?")]
         public bool Ancho { get; set; }
 
-        [Display(Name = "El alto es menor a 40 Pulg?")]
+        [Display(Name = "¿El alto es menor a 40 Pulg?")]
         public bool Alto { get; set; }
 
-        [Display(Name = "El peso es menor a 40 Libras?")]
+        [Display(Name = "¿El peso es menor a 40 Libras?")]
         public bool Peso { get; set; }
 
+        [Required]
+        [Display(Name = "Monto de dinero")]
         public Decimal MontoDeDinero { get; set; }
 
+        [Required]
+        public decimal MontoTotal { get; set; }
+
+        [Required]
+        [Display(Name = "Celular del receptor")]
         public string TelefonoDelReceptor { get; set; }
 
-        public DateTime FechaDeEntrega { get; set; }
-
         public bool EsUrgente { get; set; }
-
-        public TimeSpan HoraDeEntrega { get; set; }
 
         public double PrecioDeRecargo { get; set; }
 
         public short EstadoDelEnvio { get; set; }
 
-        public int MotocicletaId { get; set; }
-
-        public int AsistenteId { get; set; }
-
         public int ClienteId { get; set; }
 
-        public int MotorizadoId { get; set; }
-
+        [Required]
+        [Display(Name = "Tipo de pago")]
         public int TipoDePagoId { get; set; }
 
+        [Display(Name = "Cotización")]
+        public int CotizacionId { get; set; }
+
+        [Required]
+        [Display(Name ="Servicio")]
         public int ServicioId { get; set; }
 
+        [Required]
+        [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public int GestionBancariaId { get; set; }
+        public int GestionBancariaId { get; set; }//propiedad usada solo para validaciones
 
         public List<TipoDeServicio> TiposDeServicio { get; set; }
 
         public List<Servicio> Servicios { get; set; }
-        public virtual Motocicleta Motocicleta { get; set; }
-        public virtual Asistente Asistente { get; set; }
 
         public virtual ICollection<TipoDePago> TiposDePago { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pago> Pagos { get; set; }
-        public virtual Motorizado Motorizado { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Seguimiento> Seguimientos { get; set; }
-        public virtual Servicio Servicio { get; set; }
     }
 }

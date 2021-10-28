@@ -12,7 +12,8 @@ namespace MandaditosExpress.Models
     {
         public Lugar()
         {
-            this.Cotizaciones = new HashSet<Cotizacion>();
+            Cotizaciones = new HashSet<Cotizacion>();
+            Envios = new HashSet<Envio>();
         }
         [Key]
         public int Id { get; set; }
@@ -26,5 +27,6 @@ namespace MandaditosExpress.Models
         public string Longitud { get; set; }
 
         public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
+        public virtual ICollection<Envio> Envios { get; set; }
     }
 }
