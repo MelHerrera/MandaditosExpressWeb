@@ -54,8 +54,9 @@ namespace MandaditosExpress.Controllers
 
             //sacar el Id del Cliente que esta haciendo la solicitud del envio
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+            var Cliente = Utileria.GetClienteByUser(CurrentUser);
 
-            EnvioViewModel.ClienteId = Utileria.GetClienteByUser(CurrentUser).Id;
+            EnvioViewModel.ClienteId = Cliente!= null ? Cliente.Id : -1;
 
             return View(EnvioViewModel);
         }
@@ -65,20 +66,15 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Envio envio)
+        public ActionResult Create(EnvioViewModel envio)
         {
             if (ModelState.IsValid)
             {
-                db.Envios.Add(envio);
+                //db.Envios.Add(envio);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AsistenteId = new SelectList(db.Personas, "Id", "CorreoElectronico", envio.AsistenteId);
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", envio.ClienteId);
-            ViewBag.MotocicletaId = new SelectList(db.Motocicletas, "Id", "Placa", envio.MotocicletaId);
-            ViewBag.MotorizadoId = new SelectList(db.Personas, "Id", "CorreoElectronico", envio.MotorizadoId);
-            ViewBag.ServicioId = new SelectList(db.Servicios, "Id", "DescripcionDelServicio", envio.ServicioId);
             return View(envio);
         }
 

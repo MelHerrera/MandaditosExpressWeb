@@ -106,13 +106,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
-        [Display(Name = "¿El ancho es menor a 40 Pulg?")]
-        public bool Ancho { get; set; }
-
-        [Display(Name = "¿El alto es menor a 40 Pulg?")]
-        public bool Alto { get; set; }
-
-        [Display(Name = "¿El peso es menor a 40 Libras?")]
+        [Display(Name = "¿El peso es menor a 50 Libras?")]
         public bool Peso { get; set; }
 
         [Required]
@@ -128,6 +122,21 @@ namespace MandaditosExpress.Models.ViewModels
 
         public bool EsUrgente { get; set; }
 
+        [Display(Name = "¿Es ida y regreso?")]
+        public bool DebeRegresarATienda { get; set; }
+
+        [Display(Name = "¿El motorizado recibirá algun dinero?")]
+        public bool DebeRecibirDinero { get; set; }
+
+        [Display(Name = "¿Cuanto recibirá?")]
+        public decimal MontoARecibir { get; set; }
+
+        [Display(Name = "¿El motorizado necesita cambio?")]
+        public bool Cambio { get; set; }
+
+        [Display(Name = "¿Cuanto de cambio?")]
+        public decimal MontoCambio { get; set; }
+
         public double PrecioDeRecargo { get; set; }
 
         public short EstadoDelEnvio { get; set; }
@@ -135,7 +144,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int ClienteId { get; set; }
 
         [Required]
-        [Display(Name = "Tipo de pago")]
+        [Display(Name = "Método de pago")]
         public int TipoDePagoId { get; set; }
 
         [Display(Name = "Cotización")]

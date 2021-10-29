@@ -37,13 +37,7 @@ namespace MandaditosExpress.Models
 
         public string CedulaDelReceptor { get; set; }
 
-        [Display(Name = "El ancho es menor a 40 Pulg?")]
-        public bool Ancho { get; set; }
-
-        [Display(Name = "El alto es menor a 40 Pulg?")]
-        public bool Alto { get; set; }
-
-        [Display(Name = "El peso es menor a 40 Libras?")]
+        [Display(Name = "El peso es menor a 50 Libras?")]
         public bool Peso { get; set; }
 
         public Decimal MontoDeDinero { get; set; }
@@ -52,11 +46,21 @@ namespace MandaditosExpress.Models
         public decimal MontoTotal { get; set; }
         public string TelefonoDelReceptor { get; set; }
 
-        public DateTime FechaDeEntrega { get; set; }
-
         public bool EsUrgente { get; set; }
 
-        public TimeSpan HoraDeEntrega { get; set; }
+        [Display(Name = "¿Es ida y regreso?")]
+        public bool DebeRegresarATienda { get; set; }
+
+        [Display(Name = "¿El motorizado recibirá algun dinero?")]
+        public bool DebeRecibirDinero { get; set; }
+
+        [Display(Name = "¿Cuanto recibirá?")]
+        public decimal MontoARecibir { get; set; }
+        [Display(Name = "¿Cuanto de cambio?")]
+        public decimal MontoCambio { get; set; }
+
+        [Display(Name = "¿El motorizado necesita cambio?")]
+        public bool Cambio { get; set; }
 
         public double PrecioDeRecargo { get; set; }
 
@@ -72,6 +76,12 @@ namespace MandaditosExpress.Models
         public int TipoDePagoId { get; set; }
 
         public int ServicioId { get; set; }
+
+        [Display(Name = "Lugar Origen")]
+        public int LugarOrigenId { get; set; }
+
+        [Display(Name = "Lugar Destino")]
+        public int LugarDestinoId { get; set; }
 
         [Display(Name = "Cotización")]
         public int CotizacionId { get; set; }

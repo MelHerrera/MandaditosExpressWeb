@@ -40,7 +40,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label" })
-                                                <select class="form-control" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId"></select>
+                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId" required></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -84,47 +84,62 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind= "enable: $root.MostrarMonto" } })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: $root.MostrarMonto" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label" })
-                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
-                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="chk_urgente" class="control-label" style="display:block">Es Urgente?</label>
-                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs"  data-off="No" data-on="Si" name="EsUrgente" id="chk_urgente">
+                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="EsUrgente" id="chk_urgente">
                                                 @Html.ValidationMessageFor(model => model.EsUrgente, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label name="Peso" class="control-label" style="display:block">¿El peso es menor a 50 Libras?</label>
+                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs" data-on="Si" data-off="No" name="Peso">
+                                                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="DebeRegresarATienda" class="control-label" style="display:block">¿Es ida y regreso?</label>
+                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="DebeRegresarATienda">
+                                                @Html.ValidationMessageFor(model => model.DebeRegresarATienda, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Ancho, htmlAttributes: new { @class = "control-label" })
-                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs" data-on="Si" data-off="No" name="Ancho">
-                                                @Html.ValidationMessageFor(model => model.Ancho, "", new { @class = "text-danger" })
-
+                                                <label for="DebeRecibirDinero" class="control-label" style="display:block">¿El motorizado recibirá algun dinero?</label>
+                                                <input type="checkbox" data-bind="checked:DebeRecibirDinero" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="DebeRecibirDinero" >
+                                                @Html.ValidationMessageFor(model => model.DebeRecibirDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <!--ko if:$root.MostrarMontoRecibirMotorizado-->
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Alto, htmlAttributes: new { @class = "control-label" })
-                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs" data-on="Si" data-off="No" name="Ancho">
-                                                @Html.ValidationMessageFor(model => model.Alto, "", new { @class = "text-danger" })
+                                                @Html.LabelFor(model => model.MontoARecibir, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.MontoARecibir, new { htmlAttributes = new { @class = "form-control", data_bind = "text:MontoARecibir" } })
+                                                @Html.ValidationMessageFor(model => model.MontoARecibir, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <!--/ko-->
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "control-label" })
-                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs" data-on="Si" data-off="No" name="Ancho">
-                                                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+                                                <label for="Cambio" class="control-label" style="display:block">¿El motorizado necesita cambio?</label>
+                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="Cambio">
+                                                @Html.ValidationMessageFor(model => model.Cambio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MontoCambio, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.MontoCambio, new { htmlAttributes = new { @class = "form-control", _data_bind = "enable: $root.MostrarMonto" } })
+                                                @Html.ValidationMessageFor(model => model.MontoCambio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -184,16 +199,27 @@
                                     <div class="mt-4">
                                         <div class="row">
                                             <div class="col">
-                                                <h4 class="font-weight-bold">Costos del envío</h4>
+                                                <h4 class="font-weight-bold">Pago del envío</h4>
                                             </div>
                                             <div class="col">
                                                 <input type="submit" value="Calcular Costos" class="btn btn-primary float-right" />
                                             </div>
                                         </div>
-                                     
+
                                     </div>
-                                   
-                                    <hr/>
+
+                                    <hr />
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label" })
+                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required></select>
+                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-10">
@@ -218,18 +244,18 @@
 
 </div>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
-@Scripts.Render("~/plugins/locationpicker")
-@Scripts.Render("~/plugins/knockout")
-@Scripts.Render("~/plugins/moment")
-@Scripts.Render("~/plugins/switch")
-@Scripts.Render("~/plugins/sweetalert")
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-<script src="~/Scripts/knockout/knockout.mapping.js"></script>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
+    @Scripts.Render("~/plugins/locationpicker")
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/moment")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/plugins/sweetalert")
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
@@ -240,6 +266,9 @@
 
         self.Envio = ko.observable(initialData);
         self.MostrarMonto = ko.observable(false);
+        self.MostrarMontoRecibirMotorizado = ko.computed(function () {
+            return self.Envio().DebeRecibirDinero();
+        });
 
         self.Envio().TipoDeServicioId.subscribe(function (valor) {
             if (valor) {
@@ -338,39 +367,6 @@
         return moment(dataToFormat).format(formatDate)
     }
 
-        $(".Map-O").locationpicker({
-            location: {
-                latitude: 12.128145869138876,
-                longitude: -86.26501267501537
-            },
-            radius: 0,
-            enableAutocomplete: true,
-            inputBinding: {
-                latitudeInput: $("#input-origen-lat"),
-                longitudeInput: $("#input-origen-long"),
-                locationNameInput: $("#input-origen-dir")
-            },
-            onchanged: function (currentLocation, radius, isMarkerDropped) {
-                console.log($(this));
-            }
-        });
-
-
-    $(".Map-D").locationpicker({
-        location: {
-            latitude: 12.128145869138876,
-            longitude: -86.26501267501537
-        },
-        radius: 0,
-        enableAutocomplete: true,
-        inputBinding: {
-            latitudeInput: $("#input-dest-lat"),
-            longitudeInput: $("#input-dest-long"),
-            locationNameInput: $("#input-destino-dir")
-        }, onchanged: function (currentLocation, radius, isMarkerDropped) {
-            var mapContext = $(this).locationpicker('map');
-        }
-    });
 
     window.addEventListener('resize', function (e) {
 
@@ -390,7 +386,44 @@
         divMap.width(getElementWidthByClass(parentclass));//establecer al map el mismo ancho que el card
     }
 
-    $(function () {
+        $(function () {
+
+            $(".Map-O").locationpicker({
+                location: {
+                    latitude: 12.128145869138876,
+                    longitude: -86.26501267501537
+                },
+                radius: 0,
+                enableAutocomplete: true,
+                inputBinding: {
+                    latitudeInput: $("#input-origen-lat"),
+                    longitudeInput: $("#input-origen-long"),
+                    locationNameInput: $("#input-origen-dir")
+                },
+                onchanged: function (currentLocation, radius, isMarkerDropped) {
+                    var mapContext = $(this).locationpicker('map');
+                    console.log(mapContext);
+                }
+            });
+
+            $(".Map-D").locationpicker({
+                location: {
+                    latitude: 12.128145869138876,
+                    longitude: -86.26501267501537
+                },
+                radius: 0,
+                enableAutocomplete: true,
+                inputBinding: {
+                    latitudeInput: $("#input-dest-lat"),
+                    longitudeInput: $("#input-dest-long"),
+                    locationNameInput: $("#input-destino-dir")
+                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                    var mapContext = $(this).locationpicker('map');
+                }
+            });
+
+
+
         //al Cargar establecer al map el mismo ancho que el card
         //a veces jquery no logra detectar bien el resize , entonces esperar 1 segundo antes de cualquier accion
         clearTimeout(t || -1);//limpiar cualquier time out que haya
@@ -406,4 +439,5 @@
         ko.applyBindings(viewModel);
     });
 
-</script>
+    </script>
+}

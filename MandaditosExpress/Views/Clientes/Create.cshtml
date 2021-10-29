@@ -125,7 +125,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula"/>
+                                        <input type="text" name="Cedula" placeholder="Cedula" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -235,46 +235,46 @@
     </section>
 </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $(document).ready(function () {
-            //Por defecto ocultar estos campos
-            $(".nombreEmpresa").hide();
-            $(".RUCEmpresa").hide();
+    $(document).ready(function () {
+        //Por defecto ocultar estos campos
+        $(".nombreEmpresa").hide();
+        $(".RUCEmpresa").hide();
 
-            var readURL = function (input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $('.avatar').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
                 }
+
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            $(".file-upload").on('change', function () {
-                readURL(this);
-            });
-
-            $('.chkEmpresa').change(function () {
-                $(".nombreEmpresa").toggle();
-                $(".RUCEmpresa").toggle();
-            });
-
-            //validar campo NombreDeLaEmpresa y RUC
-
-            $(".chkEmpresa").on("click", function () {
-                if ($(".chkEmpresa").is(":checked")) {
-                    $("#NombreDeLaEmpresa").attr("required", "true");
-                } else {
-                    $("#NombreDeLaEmpresa").removeAttr("required");
-                }
-            });
-
+        $(".file-upload").on('change', function () {
+            readURL(this);
         });
-    </script>
+
+        $('.chkEmpresa').change(function () {
+            $(".nombreEmpresa").toggle();
+            $(".RUCEmpresa").toggle();
+        });
+
+        //validar campo NombreDeLaEmpresa y RUC
+
+        $(".chkEmpresa").on("click", function () {
+            if ($(".chkEmpresa").is(":checked")) {
+                $("#NombreDeLaEmpresa").attr("required", "true");
+            } else {
+                $("#NombreDeLaEmpresa").removeAttr("required");
+            }
+        });
+
+    });
+</script>

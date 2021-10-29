@@ -22,7 +22,7 @@ namespace MandaditosExpress.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +34,9 @@ namespace MandaditosExpress.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -66,37 +66,43 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, dynamic Data)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
-            // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+
+            var UserInDb = UserManager.FindByEmail(model.Email);
+
+            if (UserInDb != null )
             {
-                case SignInStatus.Success:
-                    //verificar si el correo logeado ya esta confirmado
-                    var userId = UserManager.FindByEmail(model.Email).Id;
-                    if (!UserManager.IsEmailConfirmed(userId))
+                if (UserInDb.EmailConfirmed)
+                {
+                    // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
+                    // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
+                    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                    switch (result)
                     {
-                        var authtenticationManager = HttpContext.GetOwinContext().Authentication;
-                        authtenticationManager.SignOut();
-                        ModelState.AddModelError("", "Debes confirmar tu correo electronico primero, revisa la bandeja de entrada de tu correo");
-                        return View(model);
+                        case SignInStatus.Success:
+                            return RedirectToLocal(returnUrl);
+                        case SignInStatus.LockedOut:
+                            return View("Lockout");
+                        case SignInStatus.RequiresVerification:
+                            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                        case SignInStatus.Failure:
+                        default:
+                            ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
+                            return View(model);
                     }
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
-                    return View(model);
+                }
+                else
+                    ModelState.AddModelError("", "Debes confirmar tu correo electronico primero, revisa la bandeja de entrada de tu correo");               
             }
+            else
+                ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
+
+            return View(model);
         }
 
         //
@@ -128,7 +134,7 @@ namespace MandaditosExpress.Controllers
             // Si un usuario introduce códigos incorrectos durante un intervalo especificado de tiempo, la cuenta del usuario 
             // se bloqueará durante un período de tiempo especificado. 
             // Puede configurar el bloqueo de la cuenta en IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -163,8 +169,8 @@ namespace MandaditosExpress.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -459,7 +465,7 @@ namespace MandaditosExpress.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 //validacion para cuando sea una autenticacion de un cliente que queria guardar una cotizacion
-                    return Redirect(returnUrl);
+                return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "HomeUser");
         }

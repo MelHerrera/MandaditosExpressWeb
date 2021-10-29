@@ -181,6 +181,27 @@ TipoDeServicioId = 2,
 Estado = true
 });
 
+            context.TiposDePago.AddOrUpdate(p => p.Id,
+new Models.TipoDePago
+{
+Id = 1,
+Descripcion = "Efectivo",
+EstadoTipoDePago = true
+},
+new Models.TipoDePago
+{
+    Id = 2,
+    Descripcion = "Transferencia electrónica",
+    EstadoTipoDePago = true
+},
+new Models.TipoDePago
+{
+    Id = 3,
+    Descripcion = "Crédito",
+    EstadoTipoDePago = true
+});
+
+
             context.CostoGestionBancaria.AddOrUpdate(
                 p => p.Id,
                 new Models.CostoGestionBancaria
