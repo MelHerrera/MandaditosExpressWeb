@@ -36,7 +36,7 @@ namespace MandaditosExpress.Controllers
             return View(tipoDeServicio);
         }
 
-        // GET: TipoDeServicios/Create
+        // GET: TipoDeServicios/ ate
         public ActionResult Create()
         {
             return View(new TipoDeServicio());
@@ -108,12 +108,16 @@ namespace MandaditosExpress.Controllers
         // POST: TipoDeServicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(TipoDeServicio tipoDeServicio)
         {
-            TipoDeServicio tipoDeServicio = db.TiposDeServicio.Find(id);
-            db.TiposDeServicio.Remove(tipoDeServicio);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+          TipoDeServicio xtiposdeservicio = db.TiposDeServicio.Find(tipoDeServicio.Id);
+            db.TiposDeServicio.Remove(xtiposdeservicio);
+
+            if (db.SaveChanges() > 0)
+            {
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+            }
+           return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

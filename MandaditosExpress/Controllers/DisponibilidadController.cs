@@ -107,13 +107,17 @@ namespace MandaditosExpress.Controllers
         // POST: Disponibilidad/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Disponibilidad disponibilidad)
         {
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            db.Disponibilidad.Remove(disponibilidad);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Disponibilidad xdisponibilidad = db.Disponibilidad.Find(disponibilidad.Id);
+            db.Disponibilidad.Remove(xdisponibilidad);
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
+
 
         protected override void Dispose(bool disposing)
         {

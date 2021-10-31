@@ -104,12 +104,41 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/ViewModel/Moneda/MonedaViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
+             // IndexDisponibilidad
+            bundles.Add(new ScriptBundle("~/bundles/IndexDisponibilidad").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Disponibilidad/DisponibilidadViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Disponibilidad/IndexDisponibilidad.js"));
+
             // IndexVelocidad
             bundles.Add(new ScriptBundle("~/bundles/IndexVelocidadDeConexion").Include(
                         "~/Scripts/knockout/Componentes/ModalComponent.js",
                         "~/Scripts/knockout/extensions/CustomBindins.js",
                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/VelocidadDeConexionViewModel.js",
                         "~/Scripts/knockout/ViewModel/VelocidadDeConexion/IndexVelocidadDeConexion.js"));
+
+            // IndexTipoDeServicio
+            bundles.Add(new ScriptBundle("~/bundles/IndexTipoDeServicio").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/TipoDeServicio/TipoDeServicioViewModel.js",
+                        "~/Scripts/knockout/ViewModel/TipoDeServicio/IndexTipoDeServicio.js"));
+
+            // Indexcosto
+            bundles.Add(new ScriptBundle("~/bundles/IndexCosto").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Costo/CostoViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Costo/IndexCosto.js"));
+
+            // IndexCostoGestionBancaria
+            bundles.Add(new ScriptBundle("~/bundles/IndexCostoGestionBancaria").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/CostoGestionBancaria/CostoGestionBancariaViewModel.js",
+                        "~/Scripts/knockout/ViewModel/CostoGestionBancaria/IndexCostoGestionBancaria.js"));
+
 
             //datapicker
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(

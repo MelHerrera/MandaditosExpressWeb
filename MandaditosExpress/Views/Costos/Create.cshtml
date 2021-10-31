@@ -17,7 +17,7 @@
                     <a>Catálogos</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "Costos")">Costos</a>
+                    <a href="@Url.Action("Index")">Costos</a>
                 </li>
                 <li class="active breadcrumb-item">
                     <strong>Agregar</strong>
@@ -154,6 +154,11 @@
     </div>
 </body>
 
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+
+
+}

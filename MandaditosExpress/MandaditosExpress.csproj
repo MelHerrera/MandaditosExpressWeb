@@ -57,9 +57,24 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.2.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
@@ -240,11 +255,9 @@
     <Compile Include="Models\VelocidadDeConexion.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\PA-Listarclientesxfecha.txt" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -298,8 +311,16 @@
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\knockout\Componentes\ModalComponent.js" />
+    <Content Include="Scripts\knockout\ViewModel\CostosGestionBancaria\CostoGestionBancariaViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\CostosGestionBancaria\IndexCostoGestionBancaria.js" />
     <Content Include="Scripts\knockout\extensions\CustomBindins.js" />
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
+    <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\IndexTipoDeServicio.js" />
+    <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\TipoDeServicioViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Costo\CostoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Costo\IndexCosto.js" />
+    <Content Include="Scripts\knockout\ViewModel\Disponibilidad\DisponibilidadViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Disponibilidad\IndexDisponibilidad.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
@@ -405,19 +426,6 @@
     <Content Include="Scripts\plugins\sparkline\jquery.sparkline.min.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\IndexMoneda.js" />
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\index_!.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -491,9 +499,7 @@
     <Content Include="Views\Costos\Edit.cshtml" />
     <Content Include="Views\Costos\Index.cshtml" />
     <Content Include="Views\TipoDeServicios\Create.cshtml" />
-    <Content Include="Views\TipoDeServicios\Delete.cshtml" />
     <Content Include="Views\TipoDeServicios\Details.cshtml" />
-    <Content Include="Views\TipoDeServicios\Edit.cshtml" />
     <Content Include="Views\TipoDeServicios\Index.cshtml" />
     <Content Include="Views\Servicios\Create.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
@@ -515,6 +521,10 @@
     <Content Include="Views\Informes\ListClientesxFec.cshtml" />
     <Content Include="Views\Clientes\FiltrarClientes.cshtml" />
     <Content Include="Views\Consultas\BuscarClientes.cshtml" />
+    <Content Include="Views\Disponibilidad\Templates\_DisponibilidadTemplate.cshtml" />
+    <Content Include="Views\TipoDeServicios\Templates\_TiposDeServiciosTemplate.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Templates\_CostoGestionBancariaTemplate.cshtml" />
+    <Content Include="Views\Costos\Templates\_CostoTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
