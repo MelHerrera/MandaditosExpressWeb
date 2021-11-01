@@ -139,6 +139,14 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/ViewModel/CostoGestionBancaria/CostoGestionBancariaViewModel.js",
                         "~/Scripts/knockout/ViewModel/CostoGestionBancaria/IndexCostoGestionBancaria.js"));
 
+            // IndexTipoDeServicio
+            bundles.Add(new ScriptBundle("~/bundles/IndexServicio").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Servicio/ServicioViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Servicio/IndexServicio.js"));
+
+
 
             //datapicker
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(

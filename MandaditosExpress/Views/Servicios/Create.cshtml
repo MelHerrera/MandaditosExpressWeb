@@ -1,16 +1,14 @@
-﻿@model MandaditosExpress.Models.Servicio
-
-@{
-    ViewBag.Title = "Crear Servicio";
+﻿@{
+    ViewBag.Title = "Agregar Servicio";
 }
 
-@Styles.Render("~/Plugind/switches")
-
 <body>
+    @Styles.Render("~/Plugin/switches")
+
 
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Crear Servicios</h2>
+            <h2>lista Servicio</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -19,72 +17,76 @@
                     <a>Catálogos</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "Servicios")">Servicios</a>
+                    <a href="@Url.Action("Index")">Servicios</a>
                 </li>
                 <li class="active breadcrumb-item">
-                    <strong>Agregar</strong>
+                    <strong>Agregar un nuevo Servicio</strong>
                 </li>
             </ol>
         </div>
     </div>
 
+
     <div class="container">
+        @model MandaditosExpress.Models.Servicio
+
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-md-12">
                     <div class="ibox ">
-                        <div class="ibox-content">
+                        <div class="ibox-content align-items-center">
+
+
                             @using (Html.BeginForm())
                             {
                                 @Html.AntiForgeryToken()
 
                                 <div class="form-horizontal">
-                                    <h4>Ingrese la Información del Servicio</h4>
+                                    <h4>Servicios.</h4>
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.DescripcionDelServicio, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.DescripcionDelServicio, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.DescripcionDelServicio, "", new { @class = "text-danger" })
-                                            </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DescripcionDelServicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DescripcionDelServicio, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionDelServicio, "", new { @class = "text-danger" })
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label" })
-                                                <div class="checkbox">
-                                                    <input type="checkbox" value="true" name="Estado" checked hidden>
-                                                    <input type="checkbox" data-toggle="switchbutton" value="true" data-onstyle="info" name="Estado" disabled checked>
-                                                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <div class="checkbox">
+                                                @*@Html.EditorFor(model => model.Estado)*@
+                                                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+
+                                                <input type="checkbox" value="true" name="Estado" checked hidden>
+                                                <input type="checkbox" data-toggle="switchbutton" data-size="xs" value="true" data-onstyle="info" name="Estado" disabled checked>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            <input type="submit" value="Guardar" class="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>
                             }
 
-                        </div>
-
-                        <div class="ibox-footer">
-                            <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                            <div>
+                                @Html.ActionLink("Regresar ", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 
 @section Scripts{
     @Scripts.Render("~/bundles/jquery")

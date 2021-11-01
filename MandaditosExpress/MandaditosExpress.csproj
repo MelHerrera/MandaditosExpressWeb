@@ -315,6 +315,8 @@
     <Content Include="Scripts\knockout\ViewModel\CostosGestionBancaria\IndexCostoGestionBancaria.js" />
     <Content Include="Scripts\knockout\extensions\CustomBindins.js" />
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
+    <Content Include="Scripts\knockout\ViewModel\Servicio\IndexServicio.js" />
+    <Content Include="Scripts\knockout\ViewModel\Servicio\ServicioViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\IndexTipoDeServicio.js" />
     <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\TipoDeServicioViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Costo\CostoViewModel.js" />
@@ -502,9 +504,7 @@
     <Content Include="Views\TipoDeServicios\Details.cshtml" />
     <Content Include="Views\TipoDeServicios\Index.cshtml" />
     <Content Include="Views\Servicios\Create.cshtml" />
-    <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Servicios\Details.cshtml" />
-    <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
     <Content Include="Views\Cotizaciones\Create.cshtml" />
     <Content Include="Views\Monedas\Create.cshtml" />
@@ -525,6 +525,7 @@
     <Content Include="Views\TipoDeServicios\Templates\_TiposDeServiciosTemplate.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Templates\_CostoGestionBancariaTemplate.cshtml" />
     <Content Include="Views\Costos\Templates\_CostoTemplate.cshtml" />
+    <Content Include="Views\Servicios\Templates\_ServicioTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
