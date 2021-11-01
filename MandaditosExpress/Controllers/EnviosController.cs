@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
+using MandaditosExpress.Services;
 using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
@@ -18,11 +19,13 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db;
         private Utileria Utileria;
+        private CotizacionServices CotizacionServices;
 
         public EnviosController()
         {
             db = new MandaditosDB();
             Utileria = new Utileria();
+            CotizacionServices = new CotizacionServices(db);
         }
 
         // GET: Envios
@@ -56,7 +59,21 @@ namespace MandaditosExpress.Controllers
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
             var Cliente = Utileria.GetClienteByUser(CurrentUser);
 
-            EnvioViewModel.ClienteId = Cliente!= null ? Cliente.Id : -1;
+            EnvioViewModel.ClienteId = Cliente != null ? Cliente.Id : -1;
+
+            //sino tiene credito ocultar de la lista de tipos de pagos la ópcion de creditos
+            var TieneCredito = db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Today && it.FechaDeVencimiento >= DateTime.Today && it.ClienteId == EnvioViewModel.ClienteId).Count() > 0;
+
+            if (!TieneCredito)
+            {
+                //Buscar en los tipos de pagos si existe el Id del credito
+                var Credito = db.TiposDePago.FirstOrDefault(it => it.Descripcion.ToUpper().StartsWith("CRED") || it.Descripcion.ToUpper().StartsWith("CRÉD"));
+                var CreditoId = Credito != null ? Credito.Id : -1;
+
+                //excluir ese registro de los tipos de pagos
+                EnvioViewModel.TiposDePago = EnvioViewModel.TiposDePago.Where(it => it.Id != CreditoId).ToList();
+            }
+
 
             return View(EnvioViewModel);
         }
@@ -151,18 +168,30 @@ namespace MandaditosExpress.Controllers
             if (id > 0)
             {
                 List<Servicio> servicios = db.Servicios.Where(it => it.TipoDeServicioId == id).ToList()
-                    .Select(y=>new Servicio() {
-                    Id=y.Id,
-                    DescripcionDelServicio=y.DescripcionDelServicio,
-                    Estado=y.Estado,
-                    TipoDeServicioId=y.TipoDeServicioId
+                    .Select(y => new Servicio()
+                    {
+                        Id = y.Id,
+                        DescripcionDelServicio = y.DescripcionDelServicio,
+                        Estado = y.Estado,
+                        TipoDeServicioId = y.TipoDeServicioId
                     }).ToList();
 
                 return Json(new { exito = true, data = servicios }, JsonRequestBehavior.AllowGet);
 
             }
 
-            return Json(false,JsonRequestBehavior.AllowGet);
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult CostoDelEnvio(int TipoDeServicioId, DateTime Fecha, float Distancia, bool Urgente, decimal MontoGestion)
+        {
+            var MontoTotal = CotizacionServices.Cotizar(TipoDeServicioId, Fecha, MontoGestion, Distancia, Urgente);
+
+            if (MontoTotal > 0)
+                return Json( new { data=MontoTotal, exito=true }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new { message="Ha sucedido un inconveniente al realizar tu cotización, para mayor información contactese con atención al cliente", exito=false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

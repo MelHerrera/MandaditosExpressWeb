@@ -16,6 +16,7 @@ namespace MandaditosExpress.Models.ViewModels
             TiposDeServicios = db.TiposDeServicio.ToList();
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
             GestionBancariaId = gestion!=null ? gestion.Id : -1;
+            
         }
 
         [Key]
@@ -70,8 +71,9 @@ namespace MandaditosExpress.Models.ViewModels
             Servicios = db.Servicios.ToList();
             TipoDeServicioId = -1;
             TiposDePago = db.TiposDePago.ToList();
-            var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
+            var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("BANC"));
             GestionBancariaId = gestion != null ? gestion.Id : -1;
+            Peso = true; // poner por defecto que el peso es menor a 50 libras
         }
 
         [Key]
@@ -109,15 +111,16 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "¿El peso es menor a 50 Libras?")]
         public bool Peso { get; set; }
 
-        [Required]
-        [Display(Name = "Monto de dinero")]
+        [Display(Name = "Monto de la gestión")]
         public Decimal MontoDeDinero { get; set; }
 
         [Required]
-        public decimal MontoTotal { get; set; }
+        [Display(Name = "Monto total del envio")]
+        public decimal MontoTotalDelEnvio { get; set; }
 
         [Required]
         [Display(Name = "Celular del receptor")]
+        [DataType(DataType.PhoneNumber)]
         public string TelefonoDelReceptor { get; set; }
 
         public bool EsUrgente { get; set; }
@@ -132,7 +135,7 @@ namespace MandaditosExpress.Models.ViewModels
         public decimal MontoARecibir { get; set; }
 
         [Display(Name = "¿El motorizado necesita cambio?")]
-        public bool Cambio { get; set; }
+        public bool DebeRecibirCambio { get; set; }
 
         [Display(Name = "¿Cuanto de cambio?")]
         public decimal MontoCambio { get; set; }
@@ -165,5 +168,6 @@ namespace MandaditosExpress.Models.ViewModels
         public List<Servicio> Servicios { get; set; }
 
         public virtual ICollection<TipoDePago> TiposDePago { get; set; }
+
     }
 }

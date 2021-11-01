@@ -40,10 +40,14 @@ namespace MandaditosExpress.Models
         [Display(Name = "El peso es menor a 50 Libras?")]
         public bool Peso { get; set; }
 
+        [Required]
+        [Display(Name = "Monto de dinero de la gestión")]
         public Decimal MontoDeDinero { get; set; }
 
         [Required]
-        public decimal MontoTotal { get; set; }
+        [Display(Name = "Monto total del envio")]
+        public decimal MontoTotalDelEnvio { get; set; }
+
         public string TelefonoDelReceptor { get; set; }
 
         public bool EsUrgente { get; set; }

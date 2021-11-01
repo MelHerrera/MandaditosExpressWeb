@@ -4,7 +4,9 @@
     ViewBag.Title = "Realizar Envio";
 }
 
-<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+@section Styles{
+    @Styles.Render("~/Plugin/switches")
+}
 
 <div data-bind="with:Envio">
     <div class="container">
@@ -23,7 +25,10 @@
                                         <i class="fa fa-info-circle"></i>
                                         Ingrese la Información del Envio
                                     </span>
-                                    <span class="badge badge-primary float-right" data-bind="text:FechaDelEnvio"></span>
+                                    <span class="badge badge-primary float-right">
+                                        <i class="fa fa-calendar mr-1"></i>
+                                        <span data-bind="text:FechaDelEnvio"></span>
+                                    </span>
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -66,7 +71,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.CedulaDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia" } })
+                                                @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CedulaReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.CedulaDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -76,7 +81,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm" } })
+                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", @type = "number" } })
                                                 @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -91,35 +96,37 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="chk_urgente" class="control-label" style="display:block">Es Urgente?</label>
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="EsUrgente" id="chk_urgente">
+                                                <input type="checkbox" name="EsUrgente" data-bind="checked:EsUrgente, bsSwitchButton: {}" id="chk_urgente" data-size="xs">
                                                 @Html.ValidationMessageFor(model => model.EsUrgente, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label name="Peso" class="control-label" style="display:block">¿El peso es menor a 50 Libras?</label>
-                                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-size="xs" data-on="Si" data-off="No" name="Peso">
+                                                <input type="checkbox" data-bind="checked: Peso, bsSwitchButton: {}" data-size="xs" id="chk_peso" name="Peso">
                                                 @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="DebeRegresarATienda" class="control-label" style="display:block">¿Es ida y regreso?</label>
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="DebeRegresarATienda">
+                                                <input type="checkbox" data-bind="checked: DebeRegresarATienda, bsSwitchButton: {}" data-size="xs" name="DebeRegresarATienda" id="switch-deberegresar-tienda">
                                                 @Html.ValidationMessageFor(model => model.DebeRegresarATienda, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
+                                        <!--ko if: $root.MostrarSwitchDebeRecibirDinero-->
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="DebeRecibirDinero" class="control-label" style="display:block">¿El motorizado recibirá algun dinero?</label>
-                                                <input type="checkbox" data-bind="checked:DebeRecibirDinero" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="DebeRecibirDinero" >
+                                                <input type="checkbox" data-bind="checked: DebeRecibirDinero, bsSwitchButton: {}" data-size="xs" name="DebeRecibirDinero" id="debe-recibir-dinero">
                                                 @Html.ValidationMessageFor(model => model.DebeRecibirDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <!--ko if:$root.MostrarMontoRecibirMotorizado-->
+                                        <!--/ko -->
+                                        <!--ko if: ($root.MostrarMontoDineroRecibeMotorizado() && $root.MostrarSwitchDebeRecibirDinero )-->
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoARecibir, htmlAttributes: new { @class = "control-label" })
@@ -128,20 +135,24 @@
                                             </div>
                                         </div>
                                         <!--/ko-->
+                                        <!--ko if: ($root.MostrarMontoDineroRecibeMotorizado() && $root.MostrarSwitchDebeRecibirDinero )-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="Cambio" class="control-label" style="display:block">¿El motorizado necesita cambio?</label>
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-size="xs" data-off="No" data-on="Si" name="Cambio">
-                                                @Html.ValidationMessageFor(model => model.Cambio, "", new { @class = "text-danger" })
+                                                <label for="DebeRecibirCambio" class="control-label" style="display:block">¿El motorizado necesita cambio?</label>
+                                                <input type="checkbox" data-bind="checked: DebeRecibirCambio, bsSwitchButton: {}" data-size="xs" name="DebeRecibirCambio" id="debe-llevar-cambio">
+                                                @Html.ValidationMessageFor(model => model.DebeRecibirCambio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        <!--/ko-->
+                                        <!--ko if: ($root.MostrarMontoCambio() && $root.MostrarSwitchDebeRecibirDinero)-->
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoCambio, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.MontoCambio, new { htmlAttributes = new { @class = "form-control", _data_bind = "enable: $root.MostrarMonto" } })
+                                                @Html.EditorFor(model => model.MontoCambio, new { htmlAttributes = new { @class = "form-control", data_bind = "text: MontoCambio" } })
                                                 @Html.ValidationMessageFor(model => model.MontoCambio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        <!--/ko-->
                                     </div>
 
                                     <div class="row justify-content-center">
@@ -199,31 +210,44 @@
                                     <div class="mt-4">
                                         <div class="row">
                                             <div class="col">
-                                                <h4 class="font-weight-bold">Pago del envío</h4>
+                                                <h4 class="font-weight-bold">Costo del envío</h4>
                                             </div>
                                             <div class="col">
-                                                <input type="submit" value="Calcular Costos" class="btn btn-primary float-right" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <hr />
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label" })
-                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required></select>
-                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2 " />
+                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto" />
                                             </div>
                                         </div>
                                     </div>
 
+                                    <div class="card mt-2">
+                                        <div class="card-body">
+                                            <div class="row no-margins no-padding">
+                                                <div class="col-3 align-items-center"><span id="sparkline" class="m-0"></span></div>
+                                                <div class="col-9 align-items-center">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
+                                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
 
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                                                        <div class="col-md-5">
+                                                            <label for="">Monto Total</label>
+                                                            <div class="input-group h2 no-margins">
+                                                                <h2 class="font-weight-bold h2 m-0">
+                                                                    C$
+                                                                    <span data-bind="text:MontoTotalDelEnvio" class="text-danger">0</span>
+                                                                </h2>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="text-black-50 mt-2">Precios ya incluyen IVA</small>
+
                                         </div>
                                     </div>
                                 </div>
@@ -248,14 +272,16 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
     @Scripts.Render("~/plugins/locationpicker")
+    @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/moment")
-    @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/plugins/sweetalert")
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
+    @Scripts.Render("~/plugins/sparkline")
+    @Scripts.Render("~/plugins/notify")
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
@@ -266,8 +292,18 @@
 
         self.Envio = ko.observable(initialData);
         self.MostrarMonto = ko.observable(false);
-        self.MostrarMontoRecibirMotorizado = ko.computed(function () {
+        self.IsInvalidLocation = ko.observable(false);
+
+        self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
+            return self.Envio().DebeRegresarATienda();
+        });
+
+        self.MostrarMontoDineroRecibeMotorizado = ko.computed(function () {
             return self.Envio().DebeRecibirDinero();
+        });
+
+        self.MostrarMontoCambio = ko.computed(function () {
+            return self.Envio().DebeRecibirCambio();
         });
 
         self.Envio().TipoDeServicioId.subscribe(function (valor) {
@@ -294,6 +330,121 @@
 
         });
 
+        self.InicializarMapas = function () {
+            InicializarMapaOrigen();
+            InicializarMapaDestino();
+        }
+
+        self.CalcularMonto = function (data, event) {
+            event.preventDefault();
+
+            if (data.DistanciaEntregaRecep() > 0) {
+                     $.ajax(
+                    {
+                        url:  "@Url.Action("CostoDelEnvio", "Envios")",
+                        type: "Get",
+                        data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
+                        beforeSend: function () {
+                           //mostrar informacion de que se esta haciendo la peticion
+                        },
+                        success: function (response) {
+                            if (response.exito) {
+                                self.Envio().MontoTotalDelEnvio(response.data);
+                            }
+                            else {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: response.message
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: "Ha ocurrido un error procesando su solicitud! error 500"
+                            });
+                        },
+                        complete: function () {
+                           //mostrar informacion de fin de la peticion
+                        }
+                    }
+                );
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida'
+                })
+            }
+
+        }
+
+        //funciones privadas
+
+        function InicializarMapaOrigen() {
+            $(".Map-O").locationpicker({
+                location: {
+                    latitude: 12.128145869138876,
+                    longitude: -86.26501267501537
+                },
+                radius: 0,
+                enableAutocomplete: true,
+                inputBinding: {
+                    latitudeInput: $("#input-origen-lat"),
+                    longitudeInput: $("#input-origen-long"),
+                    locationNameInput: $("#input-origen-dir")
+                },
+                onchanged: function (currentLocation, radius, isMarkerDropped) {
+
+                    let addressComponents = $(this).locationpicker('map').location.addressComponents;
+
+                    if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops... Disculpanos',
+                            text: 'Actualmente, solo hacemos envios en Managua. Para mayor información Contacte con Atención al Cliente',
+                        })
+                        //inicializar las direcciones como al cargar la página
+                        self.IsInvalidLocation(true);
+                        self.Envio().DistanciaEntregaRecep(0);
+                    }
+                    else
+                        self.IsInvalidLocation(false);
+                }
+            });
+        }
+
+        function InicializarMapaDestino() {
+            $(".Map-D").locationpicker({
+                location: {
+                    latitude: 12.128145869138876,
+                    longitude: -86.26501267501537
+                },
+                radius: 0,
+                enableAutocomplete: true,
+                inputBinding: {
+                    latitudeInput: $("#input-dest-lat"),
+                    longitudeInput: $("#input-dest-long"),
+                    locationNameInput: $("#input-destino-dir")
+                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                    let addressComponents = $(this).locationpicker('map').location.addressComponents;
+
+                    if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops... Disculpanos',
+                            text: 'Actualmente, solo hacemos envios en Managua. Para mayor información Contacte con Atención al Cliente',
+                        })
+                        //inicializar las direcciones como al cargar la página
+                        self.IsInvalidLocation(true);
+                        self.Envio().DistanciaEntregaRecep(0);
+                    }
+                    else
+                        self.IsInvalidLocation(false);
+                }
+            });
+        }
+
         function CalcularDistancia(origen, destino) {
             var service = new google.maps.DistanceMatrixService();
             service.getDistanceMatrix(
@@ -306,20 +457,18 @@
         }
 
         function CalcularDistanciaResponse(response, status) {
-            if (status == "OK") {
-                self.Envio().DistanciaEntregaRecep((response.rows[0].elements[0].distance.value)/1000);
+            if (!self.IsInvalidLocation()) {
+                if (status == "OK") {
+                    let distance = (response?.rows[0]?.elements[0]?.distance?.value) / 1000;
+                    self.Envio().DistanciaEntregaRecep(distance || 0);
+                }
             }
             else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Algo salio mal, disculpanos!',
-                    footer: 'Consulta con el administrador del sistema.'
-                })
+                self.Envio().LugarOrigen.Direccion('Managua 14005, Nicaragua').Latitud(12.128145869138876).Longitud(-86.26501267501537);
+                self.Envio().LugarDestino.Latitud(12.128145869138876).Longitud(-86.26501267501537);
             }
         }
 
-        //funciones privadas
         function getServiciosFiltrados(id) {
            /* event.preventDefault();*/
 
@@ -386,42 +535,42 @@
         divMap.width(getElementWidthByClass(parentclass));//establecer al map el mismo ancho que el card
     }
 
+
+
+        function InicializarGrafico() {
+
+            var values = [5, 6, 7, 5, 13, 7, 6, 7, 6, 4, 7];
+
+            var range_map = $.range_map({
+                '7:': 'green',
+            });
+
+            // Draw a sparkline for the #sparkline element
+            $('#sparkline').sparkline(values, {
+                type: "bar",
+                barWidth: 10,
+                height: 80,
+                barColor: '#0083CD',
+                colorMap: range_map,
+                chartRangeMax: 12
+            });
+        }
+
+        //funcion despues que carga la pagina
         $(function () {
 
-            $(".Map-O").locationpicker({
-                location: {
-                    latitude: 12.128145869138876,
-                    longitude: -86.26501267501537
-                },
-                radius: 0,
-                enableAutocomplete: true,
-                inputBinding: {
-                    latitudeInput: $("#input-origen-lat"),
-                    longitudeInput: $("#input-origen-long"),
-                    locationNameInput: $("#input-origen-dir")
-                },
-                onchanged: function (currentLocation, radius, isMarkerDropped) {
-                    var mapContext = $(this).locationpicker('map');
-                    console.log(mapContext);
-                }
-            });
+                    //knockout model data
+        let data = @Html.HtmlConvertToJson(Model);
 
-            $(".Map-D").locationpicker({
-                location: {
-                    latitude: 12.128145869138876,
-                    longitude: -86.26501267501537
-                },
-                radius: 0,
-                enableAutocomplete: true,
-                inputBinding: {
-                    latitudeInput: $("#input-dest-lat"),
-                    longitudeInput: $("#input-dest-long"),
-                    locationNameInput: $("#input-destino-dir")
-                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
-                    var mapContext = $(this).locationpicker('map');
-                }
-            });
+        let viewModel = new IndexEnvioViewmodel(ko.mapping.fromJS(data));
+            ko.applyBindings(viewModel);
+            viewModel.InicializarMapas();
 
+
+            //mascara de la cédula
+            $('.CedulaReceptor').mask('453-170998-1000S', { placeholder: "001-03121995-0005D" });
+
+           InicializarGrafico();//inicializar la grafica despues que carga la pagina
 
 
         //al Cargar establecer al map el mismo ancho que el card
@@ -431,13 +580,8 @@
 
         clearTimeout(y || -1);//limpiar cualquier time out que haya
         var y = setTimeout(resizeWidthMap(".Map-D",".card-destino"), 2000);
-
-        //knockout model data
-        let data = @Html.HtmlConvertToJson(Model);
-
-        let viewModel = new IndexEnvioViewmodel(ko.mapping.fromJS(data));
-        ko.applyBindings(viewModel);
     });
 
-    </script>
+</script>
 }
+
