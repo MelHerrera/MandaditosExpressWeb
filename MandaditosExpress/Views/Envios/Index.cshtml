@@ -26,6 +26,7 @@
     </div>
 </div>
 
+<a href="">Aqui</a>
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -118,70 +119,70 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr class="gradeX">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Asistente.CorreoElectronico)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Motocicleta.Placa)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Motorizado.CorreoElectronico)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Servicio.DescripcionDelServicio)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaDelEnvio)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DireccionDeRecepcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DireccionDeEntrega)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DistanciaEntregaRecep)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NombresDelReceptor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ApellidosDelReceptor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CedulaDelReceptor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Peso)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MontoDeDinero)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TelefonoDelReceptor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EsUrgente)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EstadoDelEnvio)
-                                    </td>
+                                    <tr class="gradeX">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Asistente.CorreoElectronico)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cliente.CorreoElectronico)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Motocicleta.Placa)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Motorizado.CorreoElectronico)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Servicio.DescripcionDelServicio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaDelEnvio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DireccionDeRecepcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DireccionDeEntrega)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DistanciaEntregaRecep)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NombresDelReceptor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ApellidosDelReceptor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CedulaDelReceptor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Peso)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MontoDeDinero)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TelefonoDelReceptor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EsUrgente)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EstadoDelEnvio)
+                                        </td>
 
-                                    <td style="white-space:nowrap;">
-                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
-                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                    </td>
-                                </tr>
+                                        <td style="white-space:nowrap;">
+                                            <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                            <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>

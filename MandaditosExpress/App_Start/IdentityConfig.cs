@@ -26,6 +26,8 @@ namespace MandaditosExpress
             mailMessage.To.Add(message.Destination);
             mailMessage.Subject = message.Subject;
             mailMessage.Body = message.Body;
+            mailMessage.Priority = MailPriority.High;
+            mailMessage.IsBodyHtml = true;
 
             client.Send(mailMessage);
            

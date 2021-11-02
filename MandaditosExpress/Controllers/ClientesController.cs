@@ -24,6 +24,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult Index()
         {
             return View(db.Clientes.ToList());
+
         }
 
         // GET: Clientes/Details/5
@@ -58,73 +59,77 @@ namespace MandaditosExpress.Controllers
         {
             try
             {
-            if (ModelState.IsValid)
-            {
-                if (cliente.CorreoElectronico != null && cliente.Password != null)
+                if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
-                    var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-                    var UserInDb = UserManager.FindByEmail(user.Email);
-
-                    if (UserInDb == null)//aun no esta registrado
+                    if (cliente.CorreoElectronico != null && cliente.Password != null)
                     {
-                        var result = await UserManager.CreateAsync(user, cliente.Password);
+                        var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
+                        var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-                        if (result.Succeeded)
+                        var UserInDb = UserManager.FindByEmail(user.Email);
+
+                        if (UserInDb == null)//aun no esta registrado
                         {
-                            //Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                            //Enviar correo electrónico con este vínculo
-                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                            await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                            var result = await UserManager.CreateAsync(user, cliente.Password);
 
-                            //agregar a su correspondiente rol aqui
-                            //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
-
-                            //Agregamos el cliente
-                            var cl = new Cliente
+                            if (result.Succeeded)
                             {
-                                CorreoElectronico = cliente.CorreoElectronico,
-                                PrimerNombre = cliente.PrimerNombre,
-                                SegundoNombre = cliente.SegundoNombre,
-                                PrimerApellido = cliente.PrimerApellido,
-                                SegundoApellido = cliente.SegundoApellido,
-                                Telefono = cliente.Telefono,
-                                Foto = new Utileria().getImageBytes(Request),
-                                Sexo = cliente.Sexo,
-                                Direccion = cliente.Direccion,
-                                Cedula = cliente.Cedula,
-                                FechaIngreso = DateTime.Today,
-                                EsEmpresa = cliente.EsEmpresa,
-                                NombreDeLaEmpresa = cliente.NombreDeLaEmpresa,
-                                RUC = cliente.RUC
-                            };
+                                //Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                                //Enviar correo electrónico con este vínculo
+                                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                                string confirmationMessageBody = string.Format("Estimado cliente para confirmar tu cuenta, haz clic  {0}", "<a href='" + callbackUrl + "'>Aquí</a>");
+                                await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", confirmationMessageBody);
 
-                            if (ModelState.IsValid)
-                            {
-                                db.Clientes.Add(cl);
+                                //agregar a su correspondiente rol aqui
+                                //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+                                //Agregamos el cliente
+                                var cl = new Cliente
+                                {
+                                    CorreoElectronico = cliente.CorreoElectronico,
+                                    PrimerNombre = cliente.PrimerNombre,
+                                    SegundoNombre = cliente.SegundoNombre,
+                                    PrimerApellido = cliente.PrimerApellido,
+                                    SegundoApellido = cliente.SegundoApellido,
+                                    Telefono = cliente.Telefono,
+                                    Foto = new Utileria().getImageBytes(Request),
+                                    Sexo = cliente.Sexo,
+                                    Direccion = cliente.Direccion,
+                                    Cedula = cliente.Cedula,
+                                    FechaIngreso = DateTime.Today,
+                                    EsEmpresa = cliente.EsEmpresa,
+                                    NombreDeLaEmpresa = cliente.NombreDeLaEmpresa,
+                                    RUC = cliente.RUC
+                                };
 
-                                // agregar la validacion del Rol cuando se esten manejando roles en el sistema
-                                if (db.SaveChanges() > 0 && Request.IsAuthenticated)
-                                    return RedirectToAction("Index", "Clientes");
-                                else
-                                    return RedirectToAction("Login", "Account");
+                                if (ModelState.IsValid)
+                                {
+                                    db.Clientes.Add(cl);
+
+                                    // agregar la validacion del Rol cuando se esten manejando roles en el sistema
+                                    if (db.SaveChanges() > 0 && Request.IsAuthenticated)
+                                        return RedirectToAction("Index", "Clientes");
+                                    else
+                                        return RedirectToAction("Login", "Account");
+                                }
+
                             }
-
+                            else
+                                AddErrors(result);
                         }
                         else
-                            AddErrors(result);
-                    }
-                    else
-                    {
-                        var error = "El correo electronico ingresado ya se encuentra registrado";
-                        ModelState.AddModelError("", error);
+                        {
+                            var error = "El correo electronico ingresado ya se encuentra registrado";
+                            ModelState.AddModelError("", error);
+                        }
                     }
                 }
-            }
+                {
+                    if (cliente.RUC != null && cliente.RUC.Length > 14)
+                        ModelState.AddModelError("", "El número RUC no debe exeder los 14 caracteres de longitud");
+                }
 
-            return View(cliente);
+                return View(cliente);
             }
             catch (Exception ex)
             {
@@ -160,7 +165,7 @@ namespace MandaditosExpress.Controllers
             {
                 db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View("Index", db.Clientes.ToList());
             }
             return View(cliente);
         }

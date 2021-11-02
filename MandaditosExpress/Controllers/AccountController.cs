@@ -227,7 +227,9 @@ namespace MandaditosExpress.Controllers
                 // Enviar correo electrónico con este vínculo
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                string confirmationMessageBody = string.Format("Estimado cliente para restablecer la contraseña de tu cuenta, haga clic  {0}", "<a href='" + callbackUrl + "'>Aquí</a>");
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", confirmationMessageBody);
+
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
