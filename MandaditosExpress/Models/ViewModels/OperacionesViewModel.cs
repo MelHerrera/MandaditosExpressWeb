@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using MandaditosExpress.Models.Enum;
 
 namespace MandaditosExpress.Models.ViewModels
 {
@@ -35,8 +36,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         public DateTime FechaDeValidez { get; set; }
 
-        public Lugar LugarDeOrigen { get; set; }
-        public Lugar LugarDeDestino { get; set; }
+        public Lugar LugarOrigen { get; set; }
+        public Lugar LugarDestino { get; set; }
 
         public float DistanciaOrigenDestino { get; set; }
 
@@ -74,6 +75,7 @@ namespace MandaditosExpress.Models.ViewModels
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("BANC"));
             GestionBancariaId = gestion != null ? gestion.Id : -1;
             Peso = true; // poner por defecto que el peso es menor a 50 libras
+            EstadoDelEnvio = (short)EstadoDelEnvioEnum.Solicitud;
         }
 
         [Key]
@@ -98,7 +100,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Required]
         [Display(Name = "Distancia")]
-        public double DistanciaEntregaRecep { get; set; }
+        public float DistanciaEntregaRecep { get; set; }
 
         [Required]
         [Display(Name = "Nombres y Apellidos del receptor")]
@@ -112,7 +114,7 @@ namespace MandaditosExpress.Models.ViewModels
         public bool Peso { get; set; }
 
         [Display(Name = "Monto de la gestión")]
-        public Decimal MontoDeDinero { get; set; }
+        public decimal MontoDeDinero { get; set; }
 
         [Required]
         [Display(Name = "Monto total del envio")]
@@ -120,9 +122,12 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Required]
         [Display(Name = "Celular del receptor")]
+        [MinLength(8)]
+        [MaxLength(8)]
         [DataType(DataType.PhoneNumber)]
         public string TelefonoDelReceptor { get; set; }
 
+        [Display(Name = "¿Urgente?")]
         public bool EsUrgente { get; set; }
 
         [Display(Name = "¿Es ida y regreso?")]
@@ -140,8 +145,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "¿Cuanto de cambio?")]
         public decimal MontoCambio { get; set; }
 
-        public double PrecioDeRecargo { get; set; }
-
+        [Display(Name = "¿Estado?")]
         public short EstadoDelEnvio { get; set; }
 
         public int ClienteId { get; set; }

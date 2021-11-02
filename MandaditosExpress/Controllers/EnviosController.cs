@@ -20,12 +20,14 @@ namespace MandaditosExpress.Controllers
         private MandaditosDB db;
         private Utileria Utileria;
         private CotizacionServices CotizacionServices;
+        private CostoServices CostoServices;
 
         public EnviosController()
         {
             db = new MandaditosDB();
             Utileria = new Utileria();
             CotizacionServices = new CotizacionServices(db);
+            CostoServices = new CostoServices(db);
         }
 
         // GET: Envios
@@ -51,9 +53,23 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Create
-        public ActionResult Create()
+        public ActionResult Create(int? CotizacionId)
         {
             var EnvioViewModel = new EnvioViewModel();
+
+            var cotizacion = db.Cotizaciones.FirstOrDefault(it=> it.Id == CotizacionId && it.FechaDeValidez>= DateTime.Now);//Buscar una cotizacion Asociada
+
+            if (cotizacion != null)//si el envio se va a realizar mediante una cotizacion
+            {
+                EnvioViewModel.CotizacionId = cotizacion.Id;
+                EnvioViewModel.TipoDeServicioId = cotizacion.TipoDeServicioId;
+                EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen;
+                EnvioViewModel.LugarDestino = cotizacion.LugarDestino;
+                EnvioViewModel.MontoDeDinero = cotizacion.MontoDeDinero;
+                EnvioViewModel.EsUrgente = cotizacion.EsEspecial;
+                EnvioViewModel.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino;
+                EnvioViewModel.MontoTotalDelEnvio = cotizacion.MontoTotal;
+            }
 
             //sacar el Id del Cliente que esta haciendo la solicitud del envio
             var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
@@ -74,7 +90,6 @@ namespace MandaditosExpress.Controllers
                 EnvioViewModel.TiposDePago = EnvioViewModel.TiposDePago.Where(it => it.Id != CreditoId).ToList();
             }
 
-
             return View(EnvioViewModel);
         }
 
@@ -83,16 +98,58 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EnvioViewModel envio)
+        public JsonResult Create(EnvioViewModel envio)
         {
             if (ModelState.IsValid)
             {
-                //db.Envios.Add(envio);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var CostoAsociado = CostoServices.ValidarVigenciaCostos(envio.TipoDeServicioId, envio.FechaDelEnvio);
+
+                if (CostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
+                    return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
+
+                    if (MontoTotalDelEnvio > 0)
+                    {
+                        var mEnvio = new Envio
+                        {
+                            DescripcionDeEnvio = envio.DescripcionDeEnvio,
+                            FechaDelEnvio = envio.FechaDelEnvio,
+                            TipoDePagoId = envio.TipoDeServicioId,
+                            TipoDeServicioId = envio.TipoDeServicioId,
+                            ServicioId = envio.ServicioId,
+                            NombresDelReceptor = envio.NombresDelReceptor,
+                            CedulaDelReceptor = envio.CedulaDelReceptor,
+                            TelefonoDelReceptor = envio.TelefonoDelReceptor,
+                            MontoDeDinero = envio.MontoDeDinero,
+                            EsUrgente = envio.EsUrgente,
+                            Peso = envio.Peso,
+                            DebeRegresarATienda = envio.DebeRegresarATienda,
+                            DebeRecibirDinero = envio.DebeRecibirDinero,
+                            MontoARecibir = envio.MontoARecibir,
+                            DebeRecibirCambio = envio.DebeRecibirCambio,
+                            MontoCambio = envio.MontoCambio,
+                            LugarOrigen = envio.LugarOrigen,
+                            LugarDestino = envio.LugarDestino,
+                            DistanciaEntregaRecep = envio.DistanciaEntregaRecep,
+                            EstadoDelEnvio = envio.EstadoDelEnvio,
+                            ClienteId = envio.ClienteId,
+                            CotizacionId = envio.CotizacionId,
+                            MontoTotalDelEnvio = MontoTotalDelEnvio
+                        };
+
+                        db.Envios.Add(mEnvio);
+
+                        if(db.SaveChanges() > 0)
+                            return Json(new { exito = true, message="Estimado cliente se ha realizado con éxito la solicitud de su envío" }, JsonRequestBehavior.AllowGet);
+                        else
+                            return Json(new { exito = false, message = "No se ha podido guardar tu solicitud, para mayor información contactese con atención al cliente" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
             }
 
-            return View(envio);
+            return Json(new { message = "Ha ocurrido un error procesando su solicitud!", exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Envios/Edit/5
@@ -188,10 +245,16 @@ namespace MandaditosExpress.Controllers
         {
             var MontoTotal = CotizacionServices.Cotizar(TipoDeServicioId, Fecha, MontoGestion, Distancia, Urgente);
 
+            var CostoAsociado = CostoServices.ValidarVigenciaCostos(TipoDeServicioId, Fecha);
+
+            if (CostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
+                return Json(new { message = "No se encontró ningun costo asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
+
+
             if (MontoTotal > 0)
-                return Json( new { data=MontoTotal, exito=true }, JsonRequestBehavior.AllowGet);
+                return Json(new { data = MontoTotal, exito = true }, JsonRequestBehavior.AllowGet);
             else
-                return Json(new { message="Ha sucedido un inconveniente al realizar tu cotización, para mayor información contactese con atención al cliente", exito=false }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "Ha sucedido un inconveniente al realizar tu cotización, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

@@ -106,12 +106,10 @@ namespace MandaditosExpress.Controllers
                                 {
                                     db.Clientes.Add(cl);
 
-                                    // agregar la validacion del Rol cuando se esten manejando roles en el sistema
-                                    if (db.SaveChanges() > 0 && Request.IsAuthenticated)
-                                        return RedirectToAction("Index", "Clientes");
-                                    else
-                                        return RedirectToAction("Login", "Account");
-                                }
+                                // agregar la validacion del Rol cuando se esten manejando roles en el sistema
+                                if (db.SaveChanges() > 0)
+                                    return RedirectToAction("Login", "Account");
+                            }
 
                             }
                             else

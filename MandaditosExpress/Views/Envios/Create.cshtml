@@ -16,7 +16,7 @@
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
 
-                            @using (Html.BeginForm())
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -35,17 +35,17 @@
 
                                     <div class="row">
                                         <div class="col-md-9">
-                                            @Html.LabelFor(model => model.DescripcionDeEnvio, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.DescripcionDeEnvio, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                             <div class="form-group">
-                                                @Html.EditorFor(model => model.DescripcionDeEnvio, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.DescripcionDeEnvio, new { htmlAttributes = new { @class = "form-control", data_bind = "value:DescripcionDeEnvio" } })
                                                 @Html.ValidationMessageFor(model => model.DescripcionDeEnvio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label" })
-                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId" required></select>
+                                                @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, disable: $root.EnvioMedianteCotizacion" required></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label" })
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                                 <select class="form-control" data-bind="options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
                                                 @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
                                             </div>
@@ -62,16 +62,16 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.NombresDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.NombresDelReceptor, new { htmlAttributes = new { @class = "form-control " } })
+                                                @Html.LabelFor(model => model.NombresDelReceptor, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.NombresDelReceptor, new { htmlAttributes = new { @class = "form-control ", data_bind = "value:NombresDelReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.NombresDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.CedulaDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CedulaReceptor" } })
+                                                @Html.LabelFor(model => model.CedulaDelReceptor, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.CedulaDelReceptor, new { htmlAttributes = new { @class = "form-control CedulaReceptor", data_bind = "value:CedulaDelReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.CedulaDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -80,36 +80,36 @@
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", @type = "number" } })
+                                                @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", @type = "number", data_bind = "value:TelefonoDelReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: $root.MostrarMonto" } })
+                                                @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: $root.MostrarMonto, value:MontoDeDinero" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="chk_urgente" class="control-label" style="display:block">Es Urgente?</label>
-                                                <input type="checkbox" name="EsUrgente" data-bind="checked:EsUrgente, bsSwitchButton: {}" id="chk_urgente" data-size="xs">
+                                                <label for="chk_urgente" class="control-label font-weight-bold" style="display:block">Es Urgente?</label>
+                                                <input type="checkbox" name="EsUrgente" data-bind="checked:EsUrgente, bsSwitchButton: {}, disable: $root.EnvioMedianteCotizacion " id="chk_urgente" data-size="xs">
                                                 @Html.ValidationMessageFor(model => model.EsUrgente, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label name="Peso" class="control-label" style="display:block">¿El peso es menor a 50 Libras?</label>
+                                                <label name="Peso" class="control-label font-weight-bold" style="display:block">¿El peso es menor a 50 Libras?</label>
                                                 <input type="checkbox" data-bind="checked: Peso, bsSwitchButton: {}" data-size="xs" id="chk_peso" name="Peso">
                                                 @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="DebeRegresarATienda" class="control-label" style="display:block">¿Es ida y regreso?</label>
+                                                <label for="DebeRegresarATienda" class="control-label font-weight-bold" style="display:block">¿Es ida y regreso?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRegresarATienda, bsSwitchButton: {}" data-size="xs" name="DebeRegresarATienda" id="switch-deberegresar-tienda">
                                                 @Html.ValidationMessageFor(model => model.DebeRegresarATienda, "", new { @class = "text-danger" })
                                             </div>
@@ -120,7 +120,7 @@
                                         <!--ko if: $root.MostrarSwitchDebeRecibirDinero-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="DebeRecibirDinero" class="control-label" style="display:block">¿El motorizado recibirá algun dinero?</label>
+                                                <label for="DebeRecibirDinero" class="control-label font-weight-bold" style="display:block">¿El motorizado recibirá algun dinero?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRecibirDinero, bsSwitchButton: {}" data-size="xs" name="DebeRecibirDinero" id="debe-recibir-dinero">
                                                 @Html.ValidationMessageFor(model => model.DebeRecibirDinero, "", new { @class = "text-danger" })
                                             </div>
@@ -129,8 +129,8 @@
                                         <!--ko if: ($root.MostrarMontoDineroRecibeMotorizado() && $root.MostrarSwitchDebeRecibirDinero )-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.MontoARecibir, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.MontoARecibir, new { htmlAttributes = new { @class = "form-control", data_bind = "text:MontoARecibir" } })
+                                                @Html.LabelFor(model => model.MontoARecibir, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.MontoARecibir, new { htmlAttributes = new { @class = "form-control", @type = "number", data_bind = "value:MontoARecibir" } })
                                                 @Html.ValidationMessageFor(model => model.MontoARecibir, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -138,17 +138,17 @@
                                         <!--ko if: ($root.MostrarMontoDineroRecibeMotorizado() && $root.MostrarSwitchDebeRecibirDinero )-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="DebeRecibirCambio" class="control-label" style="display:block">¿El motorizado necesita cambio?</label>
+                                                <label for="DebeRecibirCambio" class="control-label font-weight-bold" style="display:block">¿El motorizado necesita cambio?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRecibirCambio, bsSwitchButton: {}" data-size="xs" name="DebeRecibirCambio" id="debe-llevar-cambio">
                                                 @Html.ValidationMessageFor(model => model.DebeRecibirCambio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <!--/ko-->
-                                        <!--ko if: ($root.MostrarMontoCambio() && $root.MostrarSwitchDebeRecibirDinero)-->
+                                        <!--ko if: ($root.MostrarMontoCambio() && $root.MostrarSwitchDebeRecibirDinero )-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.MontoCambio, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.MontoCambio, new { htmlAttributes = new { @class = "form-control", data_bind = "text: MontoCambio" } })
+                                                @Html.LabelFor(model => model.MontoCambio, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.MontoCambio, new { htmlAttributes = new { @class = "form-control", data_bind = "value: MontoCambio" } })
                                                 @Html.ValidationMessageFor(model => model.MontoCambio, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -180,7 +180,7 @@
                                         </div>
 
                                         <div class="col-sm-2 align-self-center">
-                                            <h1> <span data-bind="text:DistanciaEntregaRecep"></span> Km</h1>
+                                            <h1 font-weight-bold> <span data-bind="text:DistanciaEntregaRecep"></span> Km</h1>
                                         </div>
 
                                         <div class="col-sm-5 p-2">
@@ -207,14 +207,46 @@
                                         </div>
                                     </div>
 
+                                    <div class="row">
+                                        <div class="col-sm-5 p-2" data-bind="with:LugarOrigen">
+                                            <div class="form-group">
+                                                <label for="Descripcion" class="control-label font-weight-bold" style="display:block">Punto de referencia Origen (opcional)</label>
+                                                <input type="text" data-bind="value: Descripcion" name="Descripcion" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+
+                                        </div>
+
+                                        <div class="col-sm-5 p-2 " data-bind="with:LugarDestino">
+                                            <div class="form-group">
+                                                <label for="Descripcion" class="control-label font-weight-bold" style="display:block">Punto de referencia Destino (opcional)</label>
+                                                <input type="text" data-bind="value: Descripcion" name="Descripcion" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
+                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="mt-4">
                                         <div class="row">
                                             <div class="col">
                                                 <h4 class="font-weight-bold">Costo del envío</h4>
                                             </div>
+                                         
                                             <div class="col">
-                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2 " />
+                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
                                                 <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto" />
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CalculandoMonto"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -225,13 +257,6 @@
                                                 <div class="col-3 align-items-center"><span id="sparkline" class="m-0"></span></div>
                                                 <div class="col-9 align-items-center">
                                                     <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
-                                                                @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
-                                                            </div>
-                                                        </div>
 
                                                         <div class="col-md-5">
                                                             <label for="">Monto Total</label>
@@ -281,7 +306,7 @@
     @Scripts.Render("~/plugins/sparkline")
     @Scripts.Render("~/plugins/notify")
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
@@ -293,6 +318,7 @@
         self.Envio = ko.observable(initialData);
         self.MostrarMonto = ko.observable(false);
         self.IsInvalidLocation = ko.observable(false);
+        self.CalculandoMonto = ko.observable(false);
 
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
@@ -306,6 +332,18 @@
             return self.Envio().DebeRecibirCambio();
         });
 
+        self.EnvioMedianteCotizacion = ko.observable(self.Envio().CotizacionId() > 0 ? true : false);
+
+        self.Envio().DebeRegresarATienda.subscribe(function (debeRegresarATienda) {
+            //poner a false los campos que dependen de este, cuando debe recibir dinero sea false
+            if (!debeRegresarATienda) {
+                self.Envio().DebeRecibirDinero(false);
+                self.Envio().MontoARecibir(0);
+                self.Envio().DebeRecibirCambio(false);
+                self.Envio().MontoCambio(0);
+            }
+        });
+
         self.Envio().TipoDeServicioId.subscribe(function (valor) {
             if (valor) {
                 getServiciosFiltrados(valor);
@@ -313,14 +351,17 @@
                 //mostrar el campo monto si son gestiones bancarias
                 if (valor == self.Envio().GestionBancariaId())
                     self.MostrarMonto(true);
-                else
+                else {
                     self.MostrarMonto(false);
+                    self.Envio().MontoDeDinero(0);
+                }
+
             }
         });
 
         self.CalcularDistancia = ko.computed(function () {
-            if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() &&
-                self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud()) {
+            if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() && self.Envio().LugarOrigen.Direccion() &&
+                self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud() && self.Envio().LugarDestino.Direccion()) {
 
                 let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
                 let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
@@ -345,7 +386,8 @@
                         type: "Get",
                         data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
                         beforeSend: function () {
-                           //mostrar informacion de que se esta haciendo la peticion
+                            //mostrar informacion de que se esta haciendo la peticion
+                            self.CalculandoMonto(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -356,7 +398,65 @@
                                     icon: 'fa fa-exclamation-circle',
                                     message: response.message
                                 });
+                                self.Envio().MontoTotalDelEnvio(0);//si es false, resetear el monto a 0
                             }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: "Ha ocurrido un error procesando su solicitud! error 500"
+                            });
+                        },
+                        complete: function () {
+                           //mostrar informacion de fin de la peticion
+                            self.CalculandoMonto(false);
+                        }
+                    }
+                );
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Km debe ser mayor a 0'
+                })
+            }
+
+        }
+
+
+        self.SolicitarEnvio = function (form) {
+
+            if ($(form).valid()) {
+                if (self.Envio().DistanciaEntregaRecep() > 0) {
+
+                    //let token
+                    let token = $('form input[name="__RequestVerificationToken"]').val();
+
+                    $.ajax(
+                    {
+                        url:  "@Url.Action("Create", "Envios")",
+                            type: "Post",
+                            data: { __RequestVerificationToken: token, envio: ko.toJS(self.Envio()) },
+                        beforeSend: function () {
+                           //mostrar informacion de que se esta haciendo la peticion
+                        },
+                        success: function (response) {
+                            if (response.exito) {
+                                $.notify({
+                                    icon: 'fa fa-check-circle',
+                                    message: response.message
+                                });
+
+                                //recargar la pagina despues de 2 segundos
+                                setTimeout(function () { location.reload(); }, 3000);
+                            }
+                            else {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: response.message
+                                });
+                            }
+
                         },
                         error: function (e) {
                             $.notify({
@@ -369,11 +469,18 @@
                         }
                     }
                 );
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Kilometros debe ser mayor a 0'
+                    })
+                }
             }
             else {
                 Swal.fire({
                     icon: 'error',
-                    text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida'
+                    text: 'Estimado Cliente verifique la información ingresada antes de solicitar el envío'
                 })
             }
 
@@ -384,8 +491,8 @@
         function InicializarMapaOrigen() {
             $(".Map-O").locationpicker({
                 location: {
-                    latitude: 12.128145869138876,
-                    longitude: -86.26501267501537
+                    latitude: self.Envio().LugarOrigen.Latitud() || 12.128145869138876,
+                    longitude: self.Envio().LugarOrigen.Longitud() || -86.26501267501537
                 },
                 radius: 0,
                 enableAutocomplete: true,
@@ -417,8 +524,8 @@
         function InicializarMapaDestino() {
             $(".Map-D").locationpicker({
                 location: {
-                    latitude: 12.128145869138876,
-                    longitude: -86.26501267501537
+                    latitude: self.Envio().LugarDestino.Latitud() || 12.128145869138876,
+                    longitude: self.Envio().LugarDestino.Longitud() || -86.26501267501537
                 },
                 radius: 0,
                 enableAutocomplete: true,
@@ -516,7 +623,6 @@
         return moment(dataToFormat).format(formatDate)
     }
 
-
     window.addEventListener('resize', function (e) {
 
         //a veces jquery no logra detectar bien el resize , entonces esperar 1 segundo antes de cualquier accion
@@ -559,7 +665,7 @@
         //funcion despues que carga la pagina
         $(function () {
 
-                    //knockout model data
+        //knockout model data
         let data = @Html.HtmlConvertToJson(Model);
 
         let viewModel = new IndexEnvioViewmodel(ko.mapping.fromJS(data));
@@ -582,6 +688,6 @@
         var y = setTimeout(resizeWidthMap(".Map-D",".card-destino"), 2000);
     });
 
-</script>
+    </script>
 }
 
