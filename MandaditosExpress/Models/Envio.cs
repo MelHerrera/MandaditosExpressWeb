@@ -18,38 +18,45 @@ namespace MandaditosExpress.Models
         public int Id { get; set; }
 
         [StringLength(250)]
+        [Required]
+        [Display(Name = "Descripción")]
         public string DescripcionDeEnvio { get; set; }
 
+        [Required]
+        [Display(Name = "Fecha")]
         public DateTime FechaDelEnvio { get; set; }
 
-        [StringLength(200)]
-        public string DireccionDeRecepcion { get; set; }
-
-        [StringLength(300)]
-        public string DireccionDeEntrega { get; set; }
-
+        [Required]
+        [Display(Name = "Distancia")]
         public double DistanciaEntregaRecep { get; set; }
 
-
+        [Required]
+        [Display(Name = "Nombres del receptor")]
         public string NombresDelReceptor { get; set; }
 
-        public string ApellidosDelReceptor { get; set; }
-
+        [Required]
+        [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
         [Display(Name = "El peso es menor a 50 Libras?")]
         public bool Peso { get; set; }
 
         [Required]
-        [Display(Name = "Monto de dinero de la gestión")]
-        public Decimal MontoDeDinero { get; set; }
+        [Display(Name = "Monto de la gestión")]
+        public decimal MontoDeDinero { get; set; }
 
         [Required]
         [Display(Name = "Monto total del envio")]
         public decimal MontoTotalDelEnvio { get; set; }
 
+        [Required]
+        [Display(Name = "Celular del receptor")]
+        [MinLength(8)]
+        [MaxLength(8)]
+        [DataType(DataType.PhoneNumber)]
         public string TelefonoDelReceptor { get; set; }
 
+        [Display(Name = "¿Urgente?")]
         public bool EsUrgente { get; set; }
 
         [Display(Name = "¿Es ida y regreso?")]
@@ -64,21 +71,28 @@ namespace MandaditosExpress.Models
         public decimal MontoCambio { get; set; }
 
         [Display(Name = "¿El motorizado necesita cambio?")]
-        public bool Cambio { get; set; }
+        public bool DebeRecibirCambio { get; set; }
 
         public double PrecioDeRecargo { get; set; }
 
+        [Display(Name = "¿Estado?")]
         public short EstadoDelEnvio { get; set; }
 
-        public int MotocicletaId { get; set; }
+        public int? MotocicletaId { get; set; }
 
-        public int AsistenteId { get; set; }
+        public int? AsistenteId { get; set; }
 
         public int ClienteId { get; set; }
 
-        public int MotorizadoId { get; set; }
+        public int? MotorizadoId { get; set; }
         public int TipoDePagoId { get; set; }
 
+        [Required]
+        [Display(Name = "Tipo de servicio")]
+        public int TipoDeServicioId { get; set; }
+
+        [Required]
+        [Display(Name = "Servicio")]
         public int ServicioId { get; set; }
 
         [Display(Name = "Lugar Origen")]
@@ -88,7 +102,7 @@ namespace MandaditosExpress.Models
         public int LugarDestinoId { get; set; }
 
         [Display(Name = "Cotización")]
-        public int CotizacionId { get; set; }
+        public int? CotizacionId { get; set; }
 
         public virtual Cliente Cliente { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
@@ -99,6 +113,7 @@ namespace MandaditosExpress.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual Servicio Servicio { get; set; }
+        public virtual TipoDeServicio TipoDeServicio { get; set; }
         public virtual Lugar LugarOrigen { get; set; }
         public virtual Lugar LugarDestino { get; set; }
     }

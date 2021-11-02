@@ -231,6 +231,7 @@
     <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CostoServices.cs" />
     <Compile Include="Services\CotizacionServices.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -276,6 +277,7 @@
     <Content Include="Images\clients\uniformania.jpg" />
     <Content Include="Images\clients\vetplus.jpg" />
     <Content Include="Images\clients\vvjoyas.jpg" />
+    <Content Include="Images\delivery-truck.png" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />

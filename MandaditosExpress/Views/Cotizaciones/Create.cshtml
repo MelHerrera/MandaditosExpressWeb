@@ -80,33 +80,33 @@ else
 
                                     <div class="form-row align-items-center">
                                         <div class="col">
-                                            <div class="input-group mb-2" data-bind="with:LugarDeOrigen">
+                                            <div class="input-group mb-2" data-bind="with:LugarOrigen">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text bg-white"><i class="fa fa-dot-circle-o"></i></div>
                                                 </div>
-                                                @Html.EditorFor(model => model.LugarDeOrigen.Direccion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion de Origen", data_bind = "value:Direccion,enable:$root.MostrarDirecciones, event:{focus:$root.SeleccionarDireccionorigen}" } })
-                                                @Html.ValidationMessageFor(model => model.LugarDeOrigen.Direccion, "", new { @class = "text-danger" })
-                                                <input type="text" class="LugarDeOrigenLatitud" name="LugarDeOrigen.Latitud" hidden />
-                                                <input type="text" class="LugarDeOrigenLongitud" name="LugarDeOrigen.Longitud" hidden />
+                                                @Html.EditorFor(model => model.LugarOrigen.Direccion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion de Origen", data_bind = "value:Direccion,enable:$root.MostrarDirecciones, event:{focus:$root.SeleccionarDireccionorigen}" } })
+                                                @Html.ValidationMessageFor(model => model.LugarOrigen.Direccion, "", new { @class = "text-danger" })
+                                                <input type="text" class="LugarDeOrigenLatitud" name="LugarOrigen.Latitud" hidden />
+                                                <input type="text" class="LugarDeOrigenLongitud" name="LugarOrigen.Longitud" hidden />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-row align-items-center">
                                         <div class="col">
-                                            <div class="input-group mb-2" data-bind="with:LugarDeDestino">
+                                            <div class="input-group mb-2" data-bind="with:LugarDestino">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text bg-white"><i class="fa fa-map-marker"></i></div>
                                                 </div>
-                                                @Html.EditorFor(model => model.LugarDeDestino.Direccion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion Destino", data_bind = "value:Direccion,enable:$root.MostrarDirecciones, event:{ focus:$root.SeleccionarDireccionDestino}" } })
+                                                @Html.EditorFor(model => model.LugarDestino.Direccion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion Destino", data_bind = "value:Direccion,enable:$root.MostrarDirecciones, event:{ focus:$root.SeleccionarDireccionDestino}" } })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.LugarDeDestino.Direccion, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.LugarDestino.Direccion, "", new { @class = "text-danger" })
                                             <small class="form-text text-muted mb-2 ">
                                                 Distancia Aprox: <span class="font-weight-bold" data-bind="text:DistanciaOrigenDestino"></span> Km
                                             </small>
                                         </div>
                                         <input type="text" name="DistanciaOrigenDestino" hidden class="DistanciaInput" />
-                                        <input type="text" class="LugarDestinoLatitud" name="LugarDeDestino.Latitud" hidden />
-                                        <input type="text" class="LugarDestinoLongitud" name="LugarDeDestino.Longitud" hidden />
+                                        <input type="text" class="LugarDestinoLatitud" name="LugarDestino.Latitud" hidden />
+                                        <input type="text" class="LugarDestinoLongitud" name="LugarDestino.Longitud" hidden />
                                     </div>
 
                                     <div class="form-check">
@@ -241,8 +241,8 @@ else
                         self.DescripcionDeCotizacion = ko.observable(cotizacion.DescripcionDeCotizacion || "");
                         self.FechaDeLaCotizacion = ko.observable(cotizacion.FechaDeLaCotizacion || "");
                         self.FechaDeValidez = ko.observable(cotizacion.FechaDeValidez || "");
-                        self.LugarDeOrigen = ko.observable(cotizacion.LugarDeOrigen != null ? new LugarViewModel(cotizacion.LugarDeOrigen) : new LugarViewModel({}));
-                        self.LugarDeDestino = ko.observable(cotizacion.LugarDeDestino != null ? new LugarViewModel(cotizacion.LugarDeDestino) : new LugarViewModel({}));
+                        self.LugarOrigen = ko.observable(cotizacion.LugarOrigen != null ? new LugarViewModel(cotizacion.LugarOrigen) : new LugarViewModel({}));
+                        self.LugarDestino = ko.observable(cotizacion.LugarDestino != null ? new LugarViewModel(cotizacion.LugarDestino) : new LugarViewModel({}));
                         self.DistanciaOrigenDestino = ko.observable(cotizacion.DistanciaOrigenDestino || 0);
                         self.EsEspecial = ko.observable(cotizacion.EsEspecial || false);
                         self.MontoTotal = ko.observable(cotizacion.MontoTotal || 0.0).extend({ numeric:7 });
@@ -268,34 +268,66 @@ else
                         self.EnableBtnCotizar = ko.observable(true);
 
                         self.CalcularDistancia = ko.computed(function () {
-                            if (self.Cotizacion().LugarDeOrigen().Latitud() != "" && self.Cotizacion().LugarDeOrigen().Longitud() != "" &&
-                                self.Cotizacion().LugarDeDestino().Latitud() != "" && self.Cotizacion().LugarDeDestino().Longitud()  !="") {
-                                let origen = new google.maps.LatLng(self.Cotizacion().LugarDeOrigen().Latitud(), self.Cotizacion().LugarDeOrigen().Longitud());
-                                let destino = new google.maps.LatLng(self.Cotizacion().LugarDeDestino().Latitud(), self.Cotizacion().LugarDeDestino().Longitud());
+                            if (self.Cotizacion().LugarOrigen().Latitud() != "" && self.Cotizacion().LugarOrigen().Longitud() != "" &&
+                                self.Cotizacion().LugarDestino().Latitud() != "" && self.Cotizacion().LugarDestino().Longitud() != "") {
+
+                                let origen = new google.maps.LatLng(self.Cotizacion().LugarOrigen().Latitud(), self.Cotizacion().LugarOrigen().Longitud());
+                                let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());
 
                                 CalcularDistancia(origen, destino);
                             }
                         });
 
                         self.RealizarEnvio = function () {
-                            alert("enviando");
-                            $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));
-                            $(".DistanciaInput").val(ko.toJS(self.Cotizacion().DistanciaOrigenDestino()));
-                            $(".LugarDeOrigenLatitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Latitud()));
-                            $(".LugarDeOrigenLongitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Longitud()));
-                            $(".LugarDestinoLatitud").val(ko.toJS(self.Cotizacion().LugarDeDestino().Latitud()));
-                            $(".LugarDestinoLongitud").val(ko.toJS(self.Cotizacion().LugarDeDestino().Longitud()));
+                         let frm = $('form');
 
-                            $("form").submit();
+                            if (frm.valid()) {
+
+                                let token = $('form input[name="__RequestVerificationToken"]').val();
+
+                                $.ajax(
+                                    {
+                                        url: "@Url.Action("RealizarEnvio", "Cotizaciones")",
+                                        type: "Post",
+                                        data: { __RequestVerificationToken: token, cotizacion: ko.toJS(self.Cotizacion()) },
+                                        beforeSend: function () {
+                                            self.SendingData(true);
+                                            self.EnableBtnCotizar(false);
+                                        },
+                                        success: function (response) {
+                                            if (response.exito) {
+                                                let url = "/Envios/Create?CotizacionId=" + response.data;
+                                                window.location.replace(url);
+                                            }
+                                            else {
+                                                $.notify({
+                                                    icon: 'fa fa-exclamation-circle',
+                                                    message: response.message
+                                                });
+                                            }
+                                        },
+                                        complete: function () {
+                                            self.SendingData(false);
+                                            self.EnableBtnCotizar(true);
+                                        },
+                                        error: function (e) {
+                                            $.notify({
+                                                icon: 'fa fa-exclamation-circle',
+                                                message: "Ha ocurrido un error procesando tu solicitud!"
+                                            });
+                                        }
+                                    }
+                                );
+                            }
                         }
 
                         self.Guardar = function () {
                             $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));
                             $(".DistanciaInput").val(ko.toJS(self.Cotizacion().DistanciaOrigenDestino()));
-                            $(".LugarDeOrigenLatitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Latitud()));
-                            $(".LugarDeOrigenLongitud").val(ko.toJS(self.Cotizacion().LugarDeOrigen().Longitud()));
-                            $(".LugarDestinoLatitud").val(ko.toJS(self.Cotizacion().LugarDeDestino().Latitud()));
-                            $(".LugarDestinoLongitud").val(ko.toJS(self.Cotizacion().LugarDeDestino().Longitud()));
+                            $(".LugarDeOrigenLatitud").val(ko.toJS(self.Cotizacion().LugarOrigen().Latitud()));
+                            $(".LugarDeOrigenLongitud").val(ko.toJS(self.Cotizacion().LugarOrigen().Longitud()));
+                            $(".LugarDestinoLatitud").val(ko.toJS(self.Cotizacion().LugarDestino().Latitud()));
+                            $(".LugarDestinoLongitud").val(ko.toJS(self.Cotizacion().LugarDestino().Longitud()));
 
                             $("form").submit();
                         }
@@ -303,19 +335,19 @@ else
                         self.SeleccionarDireccionorigen = function (data) {
                             event.preventDefault();
 
-                            self.Latitud(self.Cotizacion().LugarDeOrigen().Latitud());
-                            self.Longitud(self.Cotizacion().LugarDeOrigen().Longitud());
-                            self.Direccion(self.Cotizacion().LugarDeOrigen().Direccion());
-                            self.DireccionId("LugarDeOrigen");
+                            self.Latitud(self.Cotizacion().LugarOrigen().Latitud());
+                            self.Longitud(self.Cotizacion().LugarOrigen().Longitud());
+                            self.Direccion(self.Cotizacion().LugarOrigen().Direccion());
+                            self.DireccionId("LugarOrigen");
                             OpenModal("#myModal");
                         }
 
                         self.SeleccionarDireccionDestino = function (data) {
                             event.preventDefault();
 
-                            self.Latitud(self.Cotizacion().LugarDeDestino().Latitud());
-                            self.Longitud(self.Cotizacion().LugarDeDestino().Longitud());
-                            self.Direccion(self.Cotizacion().LugarDeDestino().Direccion());
+                            self.Latitud(self.Cotizacion().LugarDestino().Latitud());
+                            self.Longitud(self.Cotizacion().LugarDestino().Longitud());
+                            self.Direccion(self.Cotizacion().LugarDestino().Direccion());
                             self.DireccionId("LugarDestino");
                             OpenModal("#myModal");
                         }
@@ -325,10 +357,10 @@ else
                             if ((data.Longitud() != null && data.Longitud() != "") && (data.Latitud() != null && data.Latitud() != "")
                                 && (data.Direccion() != null && data.Direccion() != ""))
                             {
-                                if (self.DireccionId() == "LugarDeOrigen")
-                                    self.Cotizacion().LugarDeOrigen().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
+                                if (self.DireccionId() == "LugarOrigen")
+                                    self.Cotizacion().LugarOrigen().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
                                 else
-                                    self.Cotizacion().LugarDeDestino().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
+                                    self.Cotizacion().LugarDestino().Latitud(self.Latitud()).Longitud(self.Longitud()).Direccion(self.Direccion());
                             }
 
                             self.Cotizacion().MontoTotal(0);//si se actualiza la ubicacion debe recalcularse la cotizacion
@@ -363,6 +395,16 @@ else
                                                 });
                                             }
                                             else {
+
+                                                if (result.message) {
+
+                                                    $.notify({
+                                                        icon: 'fa fa-check-circle',
+                                                        message: result.message
+                                                });
+
+                                                }
+
                                                 if (result.havemodelerror) {
                                                     Swal.fire({
                                                         icon: 'error',
@@ -411,14 +453,14 @@ else
                         });
 
                         self.LimpiarOrigen = function () {
-                            self.Cotizacion().LugarDeOrigen().Direccion("");
-                            self.Cotizacion().LugarDeOrigen().Longitud("");
-                            self.Cotizacion().LugarDeOrigen().Longitud("");
+                            self.Cotizacion().LugarOrigen().Direccion("");
+                            self.Cotizacion().LugarOrigen().Longitud("");
+                            self.Cotizacion().LugarOrigen().Longitud("");
                         };
                         self.LimpiarDestino = function () {
-                            self.Cotizacion().LugarDeDestino().Direccion("");
-                            self.Cotizacion().LugarDeDestino().Latitud("");
-                            self.Cotizacion().LugarDeDestino().Longitud("");
+                            self.Cotizacion().LugarDestino().Direccion("");
+                            self.Cotizacion().LugarDestino().Latitud("");
+                            self.Cotizacion().LugarDestino().Longitud("");
                         };
 
 
@@ -500,7 +542,8 @@ else
 
                         function CalcularDistanciaResponse(response, status) {
                             if (status == "OK") {
-                                self.Cotizacion().DistanciaOrigenDestino((response.rows[0].elements[0].distance.text).slice(0,-2));
+                                let distance = (response?.rows[0]?.elements[0]?.distance?.value) / 1000;
+                                self.Cotizacion().DistanciaOrigenDestino(distance || 0);
                             }
                             else {
                                 ShowError();
