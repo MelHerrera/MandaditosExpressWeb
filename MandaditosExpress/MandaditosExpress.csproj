@@ -276,6 +276,7 @@
     <Content Include="Images\clients\uniformania.jpg" />
     <Content Include="Images\clients\vetplus.jpg" />
     <Content Include="Images\clients\vvjoyas.jpg" />
+    <Content Include="Images\moto.png" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />

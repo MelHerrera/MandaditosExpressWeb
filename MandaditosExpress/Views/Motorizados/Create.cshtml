@@ -100,7 +100,7 @@ else
 
                             <div class="text-center">
                                 <img src="~/Images/default_profile.png" class="avatar img-circle img-thumbnail" alt="avatar" height="100" width="100">
-                                <h6>Sube tu Foto de Perfil Aquí...</h6>
+                                <h6 class="mt-1" style="font-size:75%">Sube tu Foto de Perfil Aquí...</h6>
                                 <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
                             </div><br>
 
@@ -155,11 +155,11 @@ else
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula" value="@Model.Cedula" />
+                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="form-group">
+                                    <div class="form-grou|p">
                                         <label for="Telefono"><i class="fa fa-phone"></i></label>
                                         <input type="text" name="Telefono" placeholder="Celular" value="@Model.Telefono" />
                                     </div>
@@ -215,6 +215,7 @@ else
                                     @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
                             <br />
                             <div class="row">
                                 <div class="col-md-8">
@@ -321,7 +322,7 @@ else
                     </div>
 
                     <div class="signup-image">
-                        <figure class="align-content-center"><img src="~/Images/food-delivery.png" alt="singup-image"></figure>
+                        <figure class="align-content-center"><img src="~/Images/moto.png" alt="singup-image"></figure>
                         @if (!Request.IsAuthenticated)
                         {
                             <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
@@ -339,7 +340,7 @@ else
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/jscolorpicker")
     @Scripts.Render("~/plugins/sweetalert")
-
+    <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script> 
 
     @if (ViewBag.Exito != null)
     {
@@ -382,6 +383,8 @@ else
                     reader.readAsDataURL(input.files[0]);
                 }
             }
+            //mascara de la cédula
+            $('.Cedula').mask('000-000000-0000S', { placeholder: "001-03121995-0005D" });
 
             $(".file-upload").on('change', function () {
                 readURL(this);
