@@ -62,22 +62,17 @@ namespace MandaditosExpress.Models.ViewModels
 
     public class EnvioViewModel
     {
-        private MandaditosDB db = new MandaditosDB();
+
         public EnvioViewModel()
         {
             FechaDelEnvio = DateTime.Now;
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
-            TiposDeServicio = db.TiposDeServicio.ToList();
-            Servicios = db.Servicios.ToList();
             TipoDeServicioId = -1;
-            TiposDePago = db.TiposDePago.ToList();
-            var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("BANC"));
-            GestionBancariaId = gestion != null ? gestion.Id : -1;
             Peso = true; // poner por defecto que el peso es menor a 50 libras
             EstadoDelEnvio = (short)EstadoDelEnvioEnum.Solicitud;
         }
-
+        
         [Key]
         public int Id { get; set; }
 
@@ -167,11 +162,11 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int GestionBancariaId { get; set; }//propiedad usada solo para validaciones
 
-        public List<TipoDeServicio> TiposDeServicio { get; set; }
+        public List<TipoDeServicioViewModel> TiposDeServicio { get; set; }
 
-        public List<Servicio> Servicios { get; set; }
+        public List<ServicioViewModel> Servicios { get; set; }
 
-        public virtual ICollection<TipoDePago> TiposDePago { get; set; }
+        public virtual ICollection<TipoDePagoViewModel> TiposDePago { get; set; }
 
     }
 }

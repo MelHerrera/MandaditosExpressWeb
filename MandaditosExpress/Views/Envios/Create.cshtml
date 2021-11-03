@@ -6,6 +6,12 @@
 
 @section Styles{
     @Styles.Render("~/Plugin/switches")
+    <style>
+        .disabledLugares {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
 }
 
 <div data-bind="with:Envio">
@@ -32,6 +38,11 @@
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                                    <!--ko if:$root.EnvioMedianteCotizacion-->
+                                    <div class="text-danger">
+                                        <p>No puedes cambiar ninguno de los datos importantes de la cotización,  esto afectaría el monto total de tu cotización </p>
+                                    </div>
+                                    <!--/ko-->
 
                                     <div class="row">
                                         <div class="col-md-9">
@@ -55,6 +66,7 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw ml-2" data-bind="visible: $root.FiltrandoServicios"></i>
                                                 <select class="form-control" data-bind="options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
                                                 @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
                                             </div>
@@ -89,7 +101,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: $root.MostrarMonto, value:MontoDeDinero" } })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -155,7 +167,7 @@
                                         <!--/ko-->
                                     </div>
 
-                                    <div class="row justify-content-center">
+                                    <div class="row justify-content-center" data-bind="class:$root.BlockLugares">
                                         <div class="col-sm-5 p-2">
                                             <label class="font-weight-bold"> Selecciona tu Ubicación</label>
                                             <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
@@ -242,10 +254,10 @@
                                             <div class="col">
                                                 <h4 class="font-weight-bold">Costo del envío</h4>
                                             </div>
-                                         
+
                                             <div class="col">
                                                 <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
-                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto" />
+                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, disable: $root.EnvioMedianteCotizacion" />
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CalculandoMonto"></i>
                                             </div>
                                         </div>
@@ -318,7 +330,8 @@
         self.Envio = ko.observable(initialData);
         self.MostrarMonto = ko.observable(false);
         self.IsInvalidLocation = ko.observable(false);
-        self.CalculandoMonto = ko.observable(false);
+        self.CargandoSolicited = ko.observable(false);
+        self.FiltrandoServicios = ko.observable(false);
 
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
@@ -333,6 +346,7 @@
         });
 
         self.EnvioMedianteCotizacion = ko.observable(self.Envio().CotizacionId() > 0 ? true : false);
+        self.BlockLugares = ko.observable(self.EnvioMedianteCotizacion() ? "disabledLugares" : null);
 
         self.Envio().DebeRegresarATienda.subscribe(function (debeRegresarATienda) {
             //poner a false los campos que dependen de este, cuando debe recibir dinero sea false
@@ -387,7 +401,7 @@
                         data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
                         beforeSend: function () {
                             //mostrar informacion de que se esta haciendo la peticion
-                            self.CalculandoMonto(true);
+                            self.CargandoSolicited(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -409,7 +423,7 @@
                         },
                         complete: function () {
                            //mostrar informacion de fin de la peticion
-                            self.CalculandoMonto(false);
+                            self.CargandoSolicited(false);
                         }
                     }
                 );
@@ -438,7 +452,8 @@
                             type: "Post",
                             data: { __RequestVerificationToken: token, envio: ko.toJS(self.Envio()) },
                         beforeSend: function () {
-                           //mostrar informacion de que se esta haciendo la peticion
+                            //mostrar informacion de que se esta haciendo la peticion
+                            self.CargandoSolicited(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -447,7 +462,7 @@
                                     message: response.message
                                 });
 
-                                //recargar la pagina despues de 2 segundos
+                                //recargar la pagina despues de 3 segundos
                                 setTimeout(function () { location.reload(); }, 3000);
                             }
                             else {
@@ -466,6 +481,7 @@
                         },
                         complete: function () {
                            //mostrar informacion de fin de la peticion
+                            self.CargandoSolicited(true);
                         }
                     }
                 );
@@ -587,8 +603,7 @@
                         type: "Get",
                         data: { __RequestVerificationToken: token, id: id },
                         beforeSend: function () {
-                            //self.SendingData(true);
-                            //self.EnableBtnCotizar(false);
+                            self.FiltrandoServicios(true);
                         },
                         success: function (result) {
                             if (result.exito) {
@@ -609,8 +624,7 @@
                             alert(e.responseText);
                         },
                         complete: function () {
-                            //self.SendingData(false);
-                            //self.EnableBtnCotizar(true);
+                            self.FiltrandoServicios(false);
                         }
                     }
                 );
