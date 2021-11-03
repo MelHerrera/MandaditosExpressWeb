@@ -285,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ninestar_style.css" />
+    <Content Include="Content\plugins\select2\select2.css" />
     <Content Include="Images\atwork.png" />
     <Content Include="Images\clients\acuarela.jpg" />
     <Content Include="Images\clients\christina-closets.jpg" />
@@ -332,6 +333,7 @@
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
     <Content Include="Scripts\plugins\jquerymask\jquery.mask.js" />
+    <Content Include="Scripts\plugins\select2\select2.js" />
     <Content Include="Scripts\plugins\swiper\swiper-bundle.min.js" />
     <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.js" />
     <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.min.js" />

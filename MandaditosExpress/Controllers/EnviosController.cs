@@ -106,8 +106,11 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create(EnvioViewModel envio)
+        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,TipoDeServicioId,ServicioId, Servicio")] EnvioViewModel envio)
         {
+            //capturar el valor del query string en el envioviewmodel pero que no lo valide
+            ModelState.Remove("envio.Servicio.DescripcionDelServicio");
+
             if (ModelState.IsValid)
             {
                 var CostoAsociado = CostoServices.ValidarVigenciaCostos(envio.TipoDeServicioId, envio.FechaDelEnvio);
@@ -117,6 +120,20 @@ namespace MandaditosExpress.Controllers
                 else
                 {
                     var mEnvio = new Envio();
+
+                    //si es un nuevo servicio guardarlo antes de ocupar servicioId
+                    if (envio.ServicioId == -1)
+                    {
+                        envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
+                        envio.Servicio.Estado = true;
+
+                        var service = _mapper.Map<Servicio>(envio.Servicio);
+                        db.Servicios.Add(service);
+                        db.SaveChanges();
+
+                        //Una vez guardado el nuevo servicio actualizar la informacion del envio
+                        envio.ServicioId = service.Id;
+                    }
 
                     //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
                     var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
@@ -134,6 +151,9 @@ namespace MandaditosExpress.Controllers
                             mEnvio.EsUrgente = cotizacion.EsEspecial;
                             mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino;
                             mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
+
+
+                            //si es un nuevo servicio 
 
                             //datos que siempre se tomaran del envio
                             mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;

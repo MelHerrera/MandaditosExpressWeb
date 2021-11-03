@@ -37,6 +37,7 @@ public class MainMappingProfile : Profile
     {
         CreateMap<TipoDeServicio, TipoDeServicioViewModel>();
         CreateMap<Servicio, ServicioViewModel>();
+        CreateMap<Servicio, ServicioViewModel>().ReverseMap();
         CreateMap<TipoDePago, TipoDePagoViewModel>();
     }
 }

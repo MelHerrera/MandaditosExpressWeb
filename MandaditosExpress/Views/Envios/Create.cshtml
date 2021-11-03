@@ -12,6 +12,7 @@
             opacity: 0.4;
         }
     </style>
+    <link href="~/Content/plugins/select2/select2.css" rel="stylesheet" />
 }
 
 <div data-bind="with:Envio">
@@ -67,10 +68,22 @@
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw ml-2" data-bind="visible: $root.FiltrandoServicios"></i>
-                                                <select class="form-control" data-bind="options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
+                                                <select class="form-control" data-bind="Select2:{} ,options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
                                                 @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+
+                                        <!--ko if:$root.NeedAddNewService-->
+                                        <div class="col-md-6" data-bind="with:Servicio">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" required title="La descripción del servicio es obligatoria" />
+                                                <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
+                                                    <span id="DescripcionDelServicio-error" class=""></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
 
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -101,7 +114,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @min = 120, @max=10000, @title = "Por seguridad solo aceptamos montos de 120 a 10,000. Para enviar una cantidad Mayor contacte con el negocio", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -257,7 +270,7 @@
 
                                             <div class="col">
                                                 <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
-                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, disable: $root.EnvioMedianteCotizacion" />
+                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CalculandoMonto"></i>
                                             </div>
                                         </div>
@@ -317,6 +330,7 @@
     <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
     @Scripts.Render("~/plugins/sparkline")
     @Scripts.Render("~/plugins/notify")
+    <script src="~/Scripts/plugins/select2/select2.js"></script>
 
     <script type="text/javascript">
 
@@ -328,10 +342,13 @@
         initialData.FechaDelEnvio = fechaFormatted;
 
         self.Envio = ko.observable(initialData);
+        self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
+
         self.MostrarMonto = ko.observable(false);
         self.IsInvalidLocation = ko.observable(false);
         self.CargandoSolicited = ko.observable(false);
         self.FiltrandoServicios = ko.observable(false);
+        self.NeedAddNewService = ko.observable(false);
 
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
@@ -346,7 +363,7 @@
         });
 
         self.EnvioMedianteCotizacion = ko.observable(self.Envio().CotizacionId() > 0 ? true : false);
-        self.BlockLugares = ko.observable(self.EnvioMedianteCotizacion() ? "disabledLugares" : null);
+        self.BlockLugares = ko.observable((self.EnvioMedianteCotizacion() && self.Envio().TipoDeServicioId() != 3) ? "disabledLugares" : null);
 
         self.Envio().DebeRegresarATienda.subscribe(function (debeRegresarATienda) {
             //poner a false los campos que dependen de este, cuando debe recibir dinero sea false
@@ -367,9 +384,26 @@
                     self.MostrarMonto(true);
                 else {
                     self.MostrarMonto(false);
-                    self.Envio().MontoDeDinero(0);
+                    //self.Envio().MontoDeDinero(0);
                 }
 
+                //sea el tipo de servicio que sea reiniciar la informacion con cada cambio
+                self.Envio().MontoDeDinero(0);
+                self.Envio().DistanciaEntregaRecep(0);
+                self.Envio().MontoTotalDelEnvio(0);
+
+            }
+        });
+
+        self.Envio().ServicioId.subscribe(function (valor) {
+            if (valor) {
+                if (ko.unwrap(valor) == -1) {
+                    self.NeedAddNewService(true);
+                }
+                else {
+                    self.NeedAddNewService(false);
+                    self.Envio().Servicio.DescripcionDelServicio("");
+                }
             }
         });
 
@@ -609,6 +643,7 @@
                             if (result.exito) {
                                 self.Envio().Servicios([]);
                                 ko.utils.arrayPushAll(self.Envio().Servicios, result.data);
+                                self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
                             }
                             else {
                                 if (!result.exito) {

@@ -68,6 +68,7 @@ namespace MandaditosExpress.Models.ViewModels
             FechaDelEnvio = DateTime.Now;
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
+            Servicio = new ServicioViewModel();
             TipoDeServicioId = -1;
             Peso = true; // poner por defecto que el peso es menor a 50 libras
             EstadoDelEnvio = (short)EstadoDelEnvioEnum.Solicitud;
@@ -153,7 +154,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int CotizacionId { get; set; }
 
         [Required]
-        [Display(Name ="Servicio")]
+        [Display(Name ="Descripción breve del Servicio")]
         public int ServicioId { get; set; }
 
         [Required]
@@ -167,6 +168,8 @@ namespace MandaditosExpress.Models.ViewModels
         public List<ServicioViewModel> Servicios { get; set; }
 
         public virtual ICollection<TipoDePagoViewModel> TiposDePago { get; set; }
+
+        public virtual ServicioViewModel Servicio { get; set; }
 
     }
 }
