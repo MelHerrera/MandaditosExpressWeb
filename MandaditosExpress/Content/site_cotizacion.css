@@ -130,7 +130,8 @@ body {
     line-height: 1.8;
     color: #222;
     font-weight: 400;
-    font-family: Poppins
+    font-family: Poppins;
+    background-color: #f8f9fa
 }
 
 .register{

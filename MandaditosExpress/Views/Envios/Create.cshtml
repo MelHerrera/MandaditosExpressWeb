@@ -1,4 +1,4 @@
-﻿@model MandaditosExpress.Models.ViewModels.EnvioViewModel
+﻿@model MandaditosExpress.Models.ViewModels.SolicitudEnvioViewModel
 
 @{
     ViewBag.Title = "Realizar Envio";
@@ -23,7 +23,7 @@
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
 
-                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio" }))
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio", @class="frmEnvio" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -271,7 +271,7 @@
                                             <div class="col">
                                                 <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
                                                 <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
-                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CalculandoMonto"></i>
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CargandoSolicitud"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -346,7 +346,7 @@
 
         self.MostrarMonto = ko.observable(false);
         self.IsInvalidLocation = ko.observable(false);
-        self.CargandoSolicited = ko.observable(false);
+        self.CargandoSolicitud = ko.observable(false);
         self.FiltrandoServicios = ko.observable(false);
         self.NeedAddNewService = ko.observable(false);
 
@@ -427,48 +427,55 @@
         self.CalcularMonto = function (data, event) {
             event.preventDefault();
 
-            if (data.DistanciaEntregaRecep() > 0) {
-                     $.ajax(
-                    {
-                        url:  "@Url.Action("CostoDelEnvio", "Envios")",
-                        type: "Get",
-                        data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
-                        beforeSend: function () {
-                            //mostrar informacion de que se esta haciendo la peticion
-                            self.CargandoSolicited(true);
-                        },
-                        success: function (response) {
-                            if (response.exito) {
-                                self.Envio().MontoTotalDelEnvio(response.data);
-                            }
-                            else {
+            if ($('.frmEnvio').valid()) {
+                if (data.DistanciaEntregaRecep() > 0) {
+                    $.ajax(
+                        {
+                            url: "@Url.Action("CostoDelEnvio", "Envios")",
+                            type: "Get",
+                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
+                            beforeSend: function () {
+                                //mostrar informacion de que se esta haciendo la peticion
+                                self.CargandoSolicitud(true);
+                            },
+                            success: function (response) {
+                                if (response.exito) {
+                                    self.Envio().MontoTotalDelEnvio(response.data);
+                                }
+                                else {
+                                    $.notify({
+                                        icon: 'fa fa-exclamation-circle',
+                                        message: response.message
+                                    });
+                                    self.Envio().MontoTotalDelEnvio(0);//si es false, resetear el monto a 0
+                                }
+                            },
+                            error: function (e) {
                                 $.notify({
                                     icon: 'fa fa-exclamation-circle',
-                                    message: response.message
+                                    message: "Ha ocurrido un error procesando su solicitud! error 500"
                                 });
-                                self.Envio().MontoTotalDelEnvio(0);//si es false, resetear el monto a 0
+                            },
+                            complete: function () {
+                                //mostrar informacion de fin de la peticion
+                                self.CargandoSolicitud(false);
                             }
-                        },
-                        error: function (e) {
-                            $.notify({
-                                icon: 'fa fa-exclamation-circle',
-                                message: "Ha ocurrido un error procesando su solicitud! error 500"
-                            });
-                        },
-                        complete: function () {
-                           //mostrar informacion de fin de la peticion
-                            self.CargandoSolicited(false);
                         }
-                    }
-                );
+                    );
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Km debe ser mayor a 0'
+                    })
+                }
             }
             else {
                 Swal.fire({
                     icon: 'error',
-                    text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Km debe ser mayor a 0'
+                    text: 'Estimado Cliente verifique la información ingresada antes de solicitar el envío'
                 })
             }
-
         }
 
 
@@ -487,7 +494,7 @@
                             data: { __RequestVerificationToken: token, envio: ko.toJS(self.Envio()) },
                         beforeSend: function () {
                             //mostrar informacion de que se esta haciendo la peticion
-                            self.CargandoSolicited(true);
+                            self.CargandoSolicitud(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -515,7 +522,7 @@
                         },
                         complete: function () {
                            //mostrar informacion de fin de la peticion
-                            self.CargandoSolicited(true);
+                            self.CargandoSolicitud(false);
                         }
                     }
                 );

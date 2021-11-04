@@ -15,9 +15,11 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db = new MandaditosDB();
         private CostoServices CostoServices;
+        private CotizacionServices CotizacionServices;
         public CotizacionesController()
         {
             CostoServices = new CostoServices(db);
+            CotizacionServices = new CotizacionServices(db);
         }
 
         // GET: Cotizaciones
@@ -100,7 +102,12 @@ namespace MandaditosExpress.Controllers
             ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
 
-            var ValidarVigenciaCostoAsociado = CostoServices.ValidarVigenciaCostos(cotizacion.TipoDeServicioId, cotizacion.FechaDeLaCotizacion);
+            var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(cotizacion.TipoDeServicioId, cotizacion.DistanciaOrigenDestino, cotizacion.MontoDeDinero, cotizacion.FechaDeLaCotizacion);
+
+            if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
+                return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
+
+            var ValidarVigenciaCostoAsociado = CostoServices.ValidarVigenciaCostos(cotizacion.TipoDeServicioId, cotizacion.FechaDeLaCotizacion, cotizacion.MontoDeDinero);
 
             if (ValidarVigenciaCostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
                 return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
@@ -145,7 +152,7 @@ namespace MandaditosExpress.Controllers
                                 CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
 
                             if (cotizacion.EsEspecial)
-                                CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;
+                                CostoTotal += (decimal)(CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().PrecioDeRecargo : 0.0f);
                         }
                     }
                     else
@@ -209,6 +216,45 @@ namespace MandaditosExpress.Controllers
             return View(cotizacion);
         }
 
+        // GET: Cotizaciones/RealizarEnvio
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpGet]
+        public ActionResult RealizarEnvioConfirmed()
+        {
+            if (Request.IsAuthenticated)
+            {
+                //Validacion por si ya viene una cotizacion desde la autenticacion
+                var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
+
+                if (cotizacion != null)
+                {
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+                    var mCotiza = new Cotizacion
+                    {
+                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                        FechaDeValidez = cotizacion.FechaDeValidez,
+                        LugarOrigen = cotizacion.LugarOrigen,
+                        LugarDestino = cotizacion.LugarDestino,
+                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                        EsEspecial = cotizacion.EsEspecial,
+                        MontoTotal = cotizacion.MontoTotal,
+                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                        TipoDeServicioId = cotizacion.TipoDeServicioId,
+                        MontoDeDinero = cotizacion.MontoDeDinero
+                    };
+
+                    db.Cotizaciones.Add(mCotiza);
+                    db.SaveChanges();
+                    return RedirectToAction("Create", "Envios", new { CotizacionId  = mCotiza.Id});
+                    //return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Cotizaciones/Guardar
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -247,7 +293,7 @@ namespace MandaditosExpress.Controllers
             {
                 //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
                 TempData["Cotizacion"] = cotizacion;
-                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Envios/Create" });
+                return Json(new { exito = false, data = "/Cotizaciones/RealizarEnvioConfirmed" }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);

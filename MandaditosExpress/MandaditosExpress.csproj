@@ -257,6 +257,7 @@
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
     <Compile Include="Models\Extensions\DecimalModelBinder.cs" />
     <Compile Include="Models\Extensions\FloatModelBinder.cs" />
+    <Compile Include="Models\Extensions\WebServiceResponse.cs" />
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
     <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -642,6 +643,7 @@
     <Content Include="Views\Creditos\Details.cshtml" />
     <Content Include="Views\Creditos\Index.cshtml" />
     <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
+    <Content Include="Views\Envios\Asignacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

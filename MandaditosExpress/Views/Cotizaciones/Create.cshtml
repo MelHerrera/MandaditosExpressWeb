@@ -730,6 +730,102 @@ else
                                     );
                     }
                 }
+                self.RealizarEnvio = function() {
+                    let frm = $('form');
+
+                    if (frm.valid())
+                    {
+
+                        let token = $('form input[name="__RequestVerificationToken"]').val();
+
+                                    $.ajax(
+                                        {
+                        url:"@Url.Action("RealizarEnvio", "Cotizaciones")",
+                                            type: "Post",
+                                            data: { __RequestVerificationToken: token, cotizacion: ko.toJS(self.Cotizacion()) },
+                                            beforeSend: function() {
+                                self.SendingData(true);
+                                self.EnableBtnCotizar(false);
+                            },
+                                            success: function(response) {
+                                if (response.exito)
+                                {
+                                    let url = "/Envios/Create?CotizacionId=" + response.data;
+                                    window.location.replace(url);
+                                }
+                                else
+                                {
+                                                    $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                                        message: response.message
+                                                    });
+                                }
+                            },
+                                            complete: function() {
+                                self.SendingData(false);
+                                self.EnableBtnCotizar(true);
+                            },
+                                            error: function(e) {
+                                                $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                                    message: "Ha ocurrido un error procesando tu solicitud!"
+                                                });
+                            }
+                        }
+                                    );
+                    }
+                }
+                self.RealizarEnvio = function() {
+                    let frm = $('form');
+
+                    if (frm.valid())
+                    {
+
+                        let token = $('form input[name="__RequestVerificationToken"]').val();
+
+                        $.ajax({
+                            url: "@Url.Action("RealizarEnvio", "Cotizaciones")",
+                            type: "Post",
+                            data: { __RequestVerificationToken: token, cotizacion: ko.toJS(self.Cotizacion()) },
+                            beforeSend: function () {
+                                self.SendingData(true);
+                                self.EnableBtnCotizar(false);
+                            },
+                            success: function (response) {
+                                if (response.exito)
+                                {
+                                    let url = "/Envios/Create?CotizacionId=" + response.data;
+                                    window.location.replace(url);
+                                }
+                                else
+                                {
+                                    if (response.data) {
+                                        let url = "/Account/Login?ReturnUrl=" + response.data;
+                                        window.location.replace(url);
+                                    }
+                                    else {
+                                        $.notify({
+                                            icon: 'fa fa-exclamation-circle',
+                                            message: response.message
+                                        });
+                                    }
+
+
+                                }
+                            },
+                            complete: function () {
+                                self.SendingData(false);
+                                self.EnableBtnCotizar(true);
+                            },
+                            error: function (e) {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: "Ha ocurrido un error procesando tu solicitud!"
+                                });
+                            }
+                        });
+                    }
+                }
 
                 self.Guardar = function() {
                                 $(".MontoTotalInput").val(ko.toJS(self.Cotizacion().MontoTotal()));

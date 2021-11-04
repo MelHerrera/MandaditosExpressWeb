@@ -55,5 +55,35 @@ namespace MandaditosExpress.Services
             return CostoTotal;
 
         }
+
+
+        public string ValidarDatosCotizacion(int TipoDeServicioId, float Distancia, decimal MontoDinero, DateTime FechaDelEnvio)
+        {
+            string message = "";
+
+            var costoAsociado = new object();
+
+            costoAsociado = db.Costos.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= FechaDelEnvio && it.EstadoDelCosto);
+
+            if (costoAsociado != null) // si se encontro un costo asociado en costos significa que es cualquier tipo de servicio que no sea Gestiones Bancarias
+            {
+                if (Distancia <= 0)
+                    message = "Estimado cliente la distancia debe ser Mayor a 0 Km";
+            }
+            else
+            {
+                costoAsociado = db.CostoGestionBancaria.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= FechaDelEnvio && it.Estado);
+
+                if (costoAsociado != null) //si se encontro un costo en costos de gestion bancarias significa que el tipo de servicio es gestiones bancarias
+                {
+                    if (MontoDinero < Utilidades.MinGestionBancaria || MontoDinero > Utilidades.MaxGestionBancaria)
+                        message = String.Format("Estimado cliente por razones de seguridad actualmente solo realizamos gestiones bancarias con montos de {0} a {1}, para una cantidad diferente contactese con el negocio. ", Utilidades.MinGestionBancaria, Utilidades.MaxGestionBancaria);
+                }
+            }
+
+            //en este punto regresara un mensaje de error con respecto al tipo de servicio o vacio si se proporcionaron datos correctos o en el sistema aun no hay ningun costo asociado a los tipos de servicios ofrecidos
+            return message;
+        }
+
     }
 }

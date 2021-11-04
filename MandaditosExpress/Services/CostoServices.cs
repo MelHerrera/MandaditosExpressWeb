@@ -15,17 +15,23 @@ namespace MandaditosExpress.Services
         {
             this.db = db;
         }
-        public object ValidarVigenciaCostos(int TipoDeServicioId, DateTime Fecha)
+        public object ValidarVigenciaCostos(int TipoDeServicioId, DateTime FechaDeLaCotizacion, decimal MontoDeDinero)
         {
             //verificar que haya un costo vigente para el tipo de servicio dado
             var CostoAsociado = new object();
-            CostoAsociado = db.Costos.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= Fecha && it.EstadoDelCosto);
+            CostoAsociado = db.Costos.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= FechaDeLaCotizacion && it.EstadoDelCosto);
 
             if (CostoAsociado == null)
-                CostoAsociado = db.CostoGestionBancaria.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= Fecha && it.Estado);
+            {
+                CostoAsociado = db.CostoGestionBancaria.FirstOrDefault(cb=> cb.TipoDeServicioId == TipoDeServicioId &&
+                                       cb.Estado && cb.FechaDeInicio <= FechaDeLaCotizacion &&
+                                       cb.FechaDeFin >= FechaDeLaCotizacion &&
+                                       MontoDeDinero >= cb.MontoDesde &&
+                                       MontoDeDinero <= cb.MontoHasta
+                                       );
+            }
 
             return CostoAsociado;
         }
-
     }
 }

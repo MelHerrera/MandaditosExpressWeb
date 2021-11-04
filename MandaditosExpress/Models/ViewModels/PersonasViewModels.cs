@@ -1,6 +1,7 @@
 ﻿using MandaditosExpress.Models.Enum;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models.ViewModels
 {
@@ -82,8 +83,7 @@ namespace MandaditosExpress.Models.ViewModels
     {
         public MotorizadoViewModel()
         {
-            this.Color = "#3399FF";
-            this.EsAfiliado = false;
+            Color = "#3399FF";
         }
 
         [Required]
@@ -180,5 +180,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         [Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]
         public bool AceptaTerminos { get; set; }
+
+        [NotMapped]
+        public string Nombres { get { return PrimerNombre + " " + PrimerApellido + " " + SegundoApellido; } }
     }
 }

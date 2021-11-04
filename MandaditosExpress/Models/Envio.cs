@@ -73,8 +73,6 @@ namespace MandaditosExpress.Models
         [Display(Name = "¿El motorizado necesita cambio?")]
         public bool DebeRecibirCambio { get; set; }
 
-        public double PrecioDeRecargo { get; set; }
-
         [Display(Name = "¿Estado?")]
         public short EstadoDelEnvio { get; set; }
 

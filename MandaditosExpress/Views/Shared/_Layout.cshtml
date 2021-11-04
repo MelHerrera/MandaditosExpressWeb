@@ -60,7 +60,7 @@
         <div class="container d-flex align-items-center justify-content-between">
 
             <div class="logo">
-                <a href="index.html">
+                <a href="@Url.Action("Index","Home")">
                     <img src="~/Images/Logo.png" alt="" class="img-fluid">
                     <span class="text-black h5">El Mandadito Express</span>
                 </a>
@@ -68,11 +68,19 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
-                    <li><a class="nav-link scrollto" href="#about">Acerca de</a></li>
-                    <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
-                    <li><a class="nav-link scrollto" href="#clients">Clientes</a></li>
-                    <li><a class="nav-link scrollto" href="#contact">Contáctanos</a></li>
+                    @*<li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>*@
+                    @*<li><a class="nav-link scrollto" href="#about">Acerca de</a></li>*@
+                    @*<li><a class="nav-link scrollto" href="#services">Servicios</a></li>*@
+                    @*<li><a class="nav-link scrollto" href="#clients">Clientes</a></li>*@
+                    @*<li><a class="nav-link scrollto" href="#contact">Contáctanos</a></li>*@
+                    @*<li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
+                    <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>*@
+
+                    <li>@Html.ActionLink("Inicio", "Index", "Home", null, null, "hero", null, new { @class = "nav-link scrollto" })</li>
+                    <li>@Html.ActionLink("Acerca de", "Index", "Home", null, null, "about", null, new { @class = "nav-link scrollto" })</li>
+                    <li>@Html.ActionLink("Servicios", "Index", "Home", null, null, "services", null, new { @class = "nav-link scrollto" })</li>
+                    <li>@Html.ActionLink("Clientes", "Index", "Home", null, null, "clients", null, new { @class = "nav-link scrollto" })</li>
+                    <li>@Html.ActionLink("Contáctanos", "Index", "Home", null, null, "contact", null, new { @class = "nav-link scrollto" })</li>
                     <li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
                     <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>
                 </ul>
