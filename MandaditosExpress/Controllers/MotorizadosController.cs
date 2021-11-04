@@ -85,7 +85,7 @@ namespace MandaditosExpress.Controllers
                     DisponibilidadId = motorizado.DisponibilidadId,
                     FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
                 };
-                //Console.WriteLine(Motorizado);
+
                 Motorizado= db.Motorizados.Add(Motorizado);
 
                 if (db.SaveChanges() > 0)
@@ -104,7 +104,6 @@ namespace MandaditosExpress.Controllers
                     FechaDeValidez=DateTime.Parse("01/01/1900 00:00:00")
                     };
 
-                    Console.WriteLine(Motorizado);
                     Motocicleta = db.Motocicletas.Add(Motocicleta);
 
                     if(db.SaveChanges()>0)
@@ -139,7 +138,11 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
+
             Motorizado motorizado = db.Motorizados.Find(id);
+            
             if (motorizado == null)
             {
                 return HttpNotFound();
@@ -152,7 +155,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,EsAfiliado,EstadoDeAfiliado,FechaDeAfiliacion,FechaIngresoDelMotorizado,EstadoDeMotorizado,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Motorizado motorizado)
+        public ActionResult Edit([Bind(Include = "Id,EsAfiliado,EstadoDeAfiliado,FechaDeAfiliacion,EstadoDeMotorizado,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso,CorreoElectronico,Cedula,VelocidadDeConexionId, DisponibilidadId")] Motorizado motorizado)
         {
             if (ModelState.IsValid)
             {

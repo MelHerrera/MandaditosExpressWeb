@@ -92,7 +92,7 @@
                                             }
                                             @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Solicitud)
                                             {
-                                                <span class="badge badge-warning">Solicited</span>
+                                                <span class="badge badge-warning">Solicitud</span>
                                             }
 
                                             @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
@@ -164,6 +164,7 @@
                 pageLength: 10,
                 scrollX: true,
                 dom: '<"html5buttons"B>lTfgitp',
+                "order": [[3, "desc"]],
                 buttons: [
                     { extend: 'excel' },
                     { extend: 'pdf' },

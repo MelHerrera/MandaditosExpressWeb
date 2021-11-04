@@ -24,6 +24,7 @@ namespace MandaditosExpress.Models
         public short EstadoDeAfiliado { get; set; }
 
         [Display(Name = "Fecha de Afiliación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
 
         [Required(ErrorMessage = "Campo Obligatorio")]

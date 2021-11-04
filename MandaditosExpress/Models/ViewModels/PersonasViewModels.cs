@@ -84,6 +84,7 @@ namespace MandaditosExpress.Models.ViewModels
         public MotorizadoViewModel()
         {
             Color = "#3399FF";
+            FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");//default value
         }
 
         [Required]
@@ -149,6 +150,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int DisponibilidadId { get; set; }
 
         [Display(Name = "Fecha de Afiliación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
 
         [Display(Name ="¿Es Propia?")]
