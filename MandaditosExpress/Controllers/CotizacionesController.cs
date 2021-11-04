@@ -15,7 +15,6 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db = new MandaditosDB();
         private CostoServices CostoServices;
-
         public CotizacionesController()
         {
             CostoServices = new CostoServices(db);
@@ -112,35 +111,46 @@ namespace MandaditosExpress.Controllers
                 //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
                 var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
-                if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0 && cotizacion.DistanciaOrigenDestino > 0)
+                if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0)
                 {
-                    CostoTotal = (decimal)(CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
-                    ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
+                    if (cotizacion.DistanciaOrigenDestino > 0)
+                    {
+                        CostoTotal = (decimal)(CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
+                                           ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
 
-                    if (cotizacion.EsEspecial)
-                        CostoTotal += (decimal)CostoAsociado.PrecioDeRecargo;
+                        if (cotizacion.EsEspecial)
+                            CostoTotal += (decimal)CostoAsociado.PrecioDeRecargo;
+                    }
+                    else
+                        return Json(new { message = "La distancia a cotizar debe ser mayor a 0", exito = false }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
-
-                    if (CostoGestion != null)
+                    if (cotizacion.MontoDeDinero >= Utilidades.MinGestionBancaria && cotizacion.MontoDeDinero <= Utilidades.MaxGestionBancaria)//el negocio actualmente solo realiza gestiones bancarias en este rango
                     {
-                        var CostoPorcentaje = (from cb in db.CostoGestionBancaria
-                                               where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
-                                               cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
-                                               cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
-                                               cotizacion.MontoDeDinero >= cb.MontoDesde &&
-                                               cotizacion.MontoDeDinero <= cb.MontoHasta
-                                               select cb);
-                        var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
+                        var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
-                        if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                            CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
+                        if (CostoGestion != null)
+                        {
+                            var CostoPorcentaje = (from cb in db.CostoGestionBancaria
+                                                   where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
+                                                   cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
+                                                   cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
+                                                   cotizacion.MontoDeDinero >= cb.MontoDesde &&
+                                                   cotizacion.MontoDeDinero <= cb.MontoHasta
+                                                   select cb);
+                            var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
 
-                        if (cotizacion.EsEspecial)
-                            CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;
+                            if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
+                                CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
+
+                            if (cotizacion.EsEspecial)
+                                CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;
+                        }
                     }
+                    else
+                        return Json(new { message = string.Format("Actualmente el negocio solo realiza gestiones bancarias con montos de {0} a {1}, para una cantidad diferente contactese con atención al cliente", Utilidades.MinGestionBancaria, Utilidades.MaxGestionBancaria), exito = false }, JsonRequestBehavior.AllowGet);
+
                 };
 
                 cotizacion.MontoTotal = CostoTotal;
@@ -149,8 +159,8 @@ namespace MandaditosExpress.Controllers
             }
             else
             {
-                var ModelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList().Select(y=>y.ErrorMessage);
-                return Json(new { exito = false, data = cotizacion, havemodelerror = true, error =ModelErrors  });
+                var ModelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList().Select(y => y.ErrorMessage);
+                return Json(new { exito = false, data = cotizacion, havemodelerror = true, error = ModelErrors });
             }
         }
 
@@ -230,7 +240,7 @@ namespace MandaditosExpress.Controllers
 
                     db.Cotizaciones.Add(mCotiza);
                     db.SaveChanges();
-                    return Json(new { exito=true, data=mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                    return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
                 }
             }
             else

@@ -175,37 +175,44 @@ namespace MandaditosExpress.Controllers
                     }
                     else
                     {
-                        var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
 
-                        if (MontoTotalDelEnvio > 0)
+                        if (cotizacion.MontoDeDinero >= Utilidades.MinGestionBancaria && cotizacion.MontoDeDinero <= Utilidades.MaxGestionBancaria)//el negocio actualmente solo realiza gestiones bancarias en este rango
                         {
-                            mEnvio = new Envio
+
+                            var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
+
+                            if (MontoTotalDelEnvio > 0)
                             {
-                                DescripcionDeEnvio = envio.DescripcionDeEnvio,
-                                FechaDelEnvio = envio.FechaDelEnvio,
-                                TipoDePagoId = envio.TipoDeServicioId,
-                                TipoDeServicioId = envio.TipoDeServicioId,
-                                ServicioId = envio.ServicioId,
-                                NombresDelReceptor = envio.NombresDelReceptor,
-                                CedulaDelReceptor = envio.CedulaDelReceptor,
-                                TelefonoDelReceptor = envio.TelefonoDelReceptor,
-                                MontoDeDinero = envio.MontoDeDinero,
-                                EsUrgente = envio.EsUrgente,
-                                Peso = envio.Peso,
-                                DebeRegresarATienda = envio.DebeRegresarATienda,
-                                DebeRecibirDinero = envio.DebeRecibirDinero,
-                                MontoARecibir = envio.MontoARecibir,
-                                DebeRecibirCambio = envio.DebeRecibirCambio,
-                                MontoCambio = envio.MontoCambio,
-                                LugarOrigen = envio.LugarOrigen,
-                                LugarDestino = envio.LugarDestino,
-                                DistanciaEntregaRecep = envio.DistanciaEntregaRecep,
-                                EstadoDelEnvio = envio.EstadoDelEnvio,
-                                ClienteId = envio.ClienteId,
-                                CotizacionId = envio.CotizacionId,
-                                MontoTotalDelEnvio = MontoTotalDelEnvio
-                            };
+                                mEnvio = new Envio
+                                {
+                                    DescripcionDeEnvio = envio.DescripcionDeEnvio,
+                                    FechaDelEnvio = envio.FechaDelEnvio,
+                                    TipoDePagoId = envio.TipoDeServicioId,
+                                    TipoDeServicioId = envio.TipoDeServicioId,
+                                    ServicioId = envio.ServicioId,
+                                    NombresDelReceptor = envio.NombresDelReceptor,
+                                    CedulaDelReceptor = envio.CedulaDelReceptor,
+                                    TelefonoDelReceptor = envio.TelefonoDelReceptor,
+                                    MontoDeDinero = envio.MontoDeDinero,
+                                    EsUrgente = envio.EsUrgente,
+                                    Peso = envio.Peso,
+                                    DebeRegresarATienda = envio.DebeRegresarATienda,
+                                    DebeRecibirDinero = envio.DebeRecibirDinero,
+                                    MontoARecibir = envio.MontoARecibir,
+                                    DebeRecibirCambio = envio.DebeRecibirCambio,
+                                    MontoCambio = envio.MontoCambio,
+                                    LugarOrigen = envio.LugarOrigen,
+                                    LugarDestino = envio.LugarDestino,
+                                    DistanciaEntregaRecep = envio.DistanciaEntregaRecep,
+                                    EstadoDelEnvio = envio.EstadoDelEnvio,
+                                    ClienteId = envio.ClienteId,
+                                    CotizacionId = envio.CotizacionId,
+                                    MontoTotalDelEnvio = MontoTotalDelEnvio
+                                };
+                            }
                         }
+                        else
+                            return Json(new { message = string.Format("Actualmente el negocio solo realiza gestiones bancarias con montos de {0} a {1}, para una cantidad diferente contactese con atención al cliente", Utilidades.MinGestionBancaria, Utilidades.MaxGestionBancaria), exito = false }, JsonRequestBehavior.AllowGet);
                     }
 
                     //despues de asignada la informacion correspondiente
