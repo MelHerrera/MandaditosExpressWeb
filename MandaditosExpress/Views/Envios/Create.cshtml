@@ -1,4 +1,4 @@
-﻿@model MandaditosExpress.Models.ViewModels.EnvioViewModel
+﻿@model MandaditosExpress.Models.ViewModels.SolicitudEnvioViewModel
 
 @{
     ViewBag.Title = "Realizar Envio";
@@ -6,6 +6,13 @@
 
 @section Styles{
     @Styles.Render("~/Plugin/switches")
+    <style>
+        .disabledLugares {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
+    <link href="~/Content/plugins/select2/select2.css" rel="stylesheet" />
 }
 
 <div data-bind="with:Envio">
@@ -16,7 +23,7 @@
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
 
-                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio" }))
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio", @class="frmEnvio" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -32,6 +39,11 @@
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                                    <!--ko if:$root.EnvioMedianteCotizacion-->
+                                    <div class="text-danger">
+                                        <p>No puedes cambiar ninguno de los datos importantes de la cotización,  esto afectaría el monto total de tu cotización </p>
+                                    </div>
+                                    <!--/ko-->
 
                                     <div class="row">
                                         <div class="col-md-9">
@@ -55,10 +67,23 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <select class="form-control" data-bind="options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw ml-2" data-bind="visible: $root.FiltrandoServicios"></i>
+                                                <select class="form-control" data-bind="Select2:{} ,options: Servicios, optionsText:'DescripcionDelServicio',optionsValue:'Id', value:ServicioId"></select>
                                                 @Html.ValidationMessageFor(model => model.ServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+
+                                        <!--ko if:$root.NeedAddNewService-->
+                                        <div class="col-md-6" data-bind="with:Servicio">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" required title="La descripción del servicio es obligatoria" />
+                                                <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
+                                                    <span id="DescripcionDelServicio-error" class=""></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
 
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -89,7 +114,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", data_bind = "enable: $root.MostrarMonto, value:MontoDeDinero" } })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @min = 120, @max=10000, @title = "Por seguridad solo aceptamos montos de 120 a 10,000. Para enviar una cantidad Mayor contacte con el negocio", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -155,7 +180,7 @@
                                         <!--/ko-->
                                     </div>
 
-                                    <div class="row justify-content-center">
+                                    <div class="row justify-content-center" data-bind="class:$root.BlockLugares">
                                         <div class="col-sm-5 p-2">
                                             <label class="font-weight-bold"> Selecciona tu Ubicación</label>
                                             <div class="card card-origen align-items-center" style="width:95%;height:95%" data-bind="with:LugarOrigen">
@@ -242,11 +267,11 @@
                                             <div class="col">
                                                 <h4 class="font-weight-bold">Costo del envío</h4>
                                             </div>
-                                         
+
                                             <div class="col">
                                                 <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
-                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto" />
-                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CalculandoMonto"></i>
+                                                <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CargandoSolicitud"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -305,6 +330,7 @@
     <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
     @Scripts.Render("~/plugins/sparkline")
     @Scripts.Render("~/plugins/notify")
+    <script src="~/Scripts/plugins/select2/select2.js"></script>
 
     <script type="text/javascript">
 
@@ -316,9 +342,13 @@
         initialData.FechaDelEnvio = fechaFormatted;
 
         self.Envio = ko.observable(initialData);
+        self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
+
         self.MostrarMonto = ko.observable(false);
         self.IsInvalidLocation = ko.observable(false);
-        self.CalculandoMonto = ko.observable(false);
+        self.CargandoSolicitud = ko.observable(false);
+        self.FiltrandoServicios = ko.observable(false);
+        self.NeedAddNewService = ko.observable(false);
 
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
@@ -333,6 +363,7 @@
         });
 
         self.EnvioMedianteCotizacion = ko.observable(self.Envio().CotizacionId() > 0 ? true : false);
+        self.BlockLugares = ko.observable((self.EnvioMedianteCotizacion() && self.Envio().TipoDeServicioId() != 3) ? "disabledLugares" : null);
 
         self.Envio().DebeRegresarATienda.subscribe(function (debeRegresarATienda) {
             //poner a false los campos que dependen de este, cuando debe recibir dinero sea false
@@ -353,9 +384,26 @@
                     self.MostrarMonto(true);
                 else {
                     self.MostrarMonto(false);
-                    self.Envio().MontoDeDinero(0);
+                    //self.Envio().MontoDeDinero(0);
                 }
 
+                //sea el tipo de servicio que sea reiniciar la informacion con cada cambio
+                self.Envio().MontoDeDinero(0);
+                self.Envio().DistanciaEntregaRecep(0);
+                self.Envio().MontoTotalDelEnvio(0);
+
+            }
+        });
+
+        self.Envio().ServicioId.subscribe(function (valor) {
+            if (valor) {
+                if (ko.unwrap(valor) == -1) {
+                    self.NeedAddNewService(true);
+                }
+                else {
+                    self.NeedAddNewService(false);
+                    self.Envio().Servicio.DescripcionDelServicio("");
+                }
             }
         });
 
@@ -379,48 +427,55 @@
         self.CalcularMonto = function (data, event) {
             event.preventDefault();
 
-            if (data.DistanciaEntregaRecep() > 0) {
-                     $.ajax(
-                    {
-                        url:  "@Url.Action("CostoDelEnvio", "Envios")",
-                        type: "Get",
-                        data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
-                        beforeSend: function () {
-                            //mostrar informacion de que se esta haciendo la peticion
-                            self.CalculandoMonto(true);
-                        },
-                        success: function (response) {
-                            if (response.exito) {
-                                self.Envio().MontoTotalDelEnvio(response.data);
-                            }
-                            else {
+            if ($('.frmEnvio').valid()) {
+                if (data.DistanciaEntregaRecep() > 0) {
+                    $.ajax(
+                        {
+                            url: "@Url.Action("CostoDelEnvio", "Envios")",
+                            type: "Get",
+                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
+                            beforeSend: function () {
+                                //mostrar informacion de que se esta haciendo la peticion
+                                self.CargandoSolicitud(true);
+                            },
+                            success: function (response) {
+                                if (response.exito) {
+                                    self.Envio().MontoTotalDelEnvio(response.data);
+                                }
+                                else {
+                                    $.notify({
+                                        icon: 'fa fa-exclamation-circle',
+                                        message: response.message
+                                    });
+                                    self.Envio().MontoTotalDelEnvio(0);//si es false, resetear el monto a 0
+                                }
+                            },
+                            error: function (e) {
                                 $.notify({
                                     icon: 'fa fa-exclamation-circle',
-                                    message: response.message
+                                    message: "Ha ocurrido un error procesando su solicitud! error 500"
                                 });
-                                self.Envio().MontoTotalDelEnvio(0);//si es false, resetear el monto a 0
+                            },
+                            complete: function () {
+                                //mostrar informacion de fin de la peticion
+                                self.CargandoSolicitud(false);
                             }
-                        },
-                        error: function (e) {
-                            $.notify({
-                                icon: 'fa fa-exclamation-circle',
-                                message: "Ha ocurrido un error procesando su solicitud! error 500"
-                            });
-                        },
-                        complete: function () {
-                           //mostrar informacion de fin de la peticion
-                            self.CalculandoMonto(false);
                         }
-                    }
-                );
+                    );
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Km debe ser mayor a 0'
+                    })
+                }
             }
             else {
                 Swal.fire({
                     icon: 'error',
-                    text: 'Estimado Cliente debe proporcionar una ubicación origen-destino válida. La cantidad de Km debe ser mayor a 0'
+                    text: 'Estimado Cliente verifique la información ingresada antes de solicitar el envío'
                 })
             }
-
         }
 
 
@@ -438,7 +493,8 @@
                             type: "Post",
                             data: { __RequestVerificationToken: token, envio: ko.toJS(self.Envio()) },
                         beforeSend: function () {
-                           //mostrar informacion de que se esta haciendo la peticion
+                            //mostrar informacion de que se esta haciendo la peticion
+                            self.CargandoSolicitud(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -447,7 +503,7 @@
                                     message: response.message
                                 });
 
-                                //recargar la pagina despues de 2 segundos
+                                //recargar la pagina despues de 3 segundos
                                 setTimeout(function () { location.reload(); }, 3000);
                             }
                             else {
@@ -466,6 +522,7 @@
                         },
                         complete: function () {
                            //mostrar informacion de fin de la peticion
+                            self.CargandoSolicitud(false);
                         }
                     }
                 );
@@ -587,13 +644,13 @@
                         type: "Get",
                         data: { __RequestVerificationToken: token, id: id },
                         beforeSend: function () {
-                            //self.SendingData(true);
-                            //self.EnableBtnCotizar(false);
+                            self.FiltrandoServicios(true);
                         },
                         success: function (result) {
                             if (result.exito) {
                                 self.Envio().Servicios([]);
                                 ko.utils.arrayPushAll(self.Envio().Servicios, result.data);
+                                self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
                             }
                             else {
                                 if (!result.exito) {
@@ -609,8 +666,7 @@
                             alert(e.responseText);
                         },
                         complete: function () {
-                            //self.SendingData(false);
-                            //self.EnableBtnCotizar(true);
+                            self.FiltrandoServicios(false);
                         }
                     }
                 );

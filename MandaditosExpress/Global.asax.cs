@@ -9,6 +9,11 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using AutoMapper;
+using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
+using Autofac;
+using Autofac.Integration.Mvc;
 
 namespace MandaditosExpress
 {
@@ -28,6 +33,19 @@ namespace MandaditosExpress
             ModelBinders.Binders.Add(typeof(float?), new FloatModelBinder());
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-NI");
             CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-NI");
+
+            ///Maping with AutoMapper and AutoFAC Module
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            //Register AutoMapper here using AutoFacModule class (Both methods works)
+            //builder.RegisterModule(new AutoMapperModule());
+            builder.RegisterModule<AutoFacModule>();
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
         }
     }
 }

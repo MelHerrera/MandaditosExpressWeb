@@ -1,0 +1,255 @@
+﻿@model MandaditosExpress.Models.ViewModels.AsignarMotorizadoViewModel
+
+@{ ViewBag.Title = "Asignación"; }
+
+@section Styles{
+
+}
+
+<div class="wrapper wrapper-content  animated fadeInRight" data-bind="with:Asignacion">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="ibox ">
+
+                <div class="ibox-content" data-bind="with:Envio">
+                    <div class="tab-content">
+                        <div id="contact-1" class="tab-pane active">
+                            <div class="row m-b-lg">
+                                <div class="col-lg-4 text-center align-middle align-content-center">
+                                    <strong>Cliente</strong>
+                                    <div class="m-b-sm">
+                                        <img alt="image" class="rounded-circle" style="width: 62px" data-bind="attr: { src: 'data:image/png;base64,' + ClienteFoto() }">
+                                    </div>
+                                    <small data-bind="text:ClienteNombres"></small>
+                                </div>
+                                <div class="col-lg-8">
+                                    <strong> Descripción del envio</strong>
+                                    <p data-bind="text:DescripcionDeEnvio"></p>
+                                    <a class="btn btn-primary btn-sm btn-block" target="_blank" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }">
+                                        <i class="fa fa-info-circle"></i> Ver Detalles
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <strong>Debe Regresar a Tienda.</strong>
+                                    </div>
+                                    <div class="col-lg-4 m-0 p-0">
+                                        <small>---------------</small>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <span data-bind="text:(DebeRegresarATienda ? 'Si' :'No'), attr:{ class: (DebeRegresarATienda ? 'badge badge-primary' : 'badge badge-warning')}"></span>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <strong>Debe Recibir Cambio.</strong>
+                                    </div>
+                                    <div class="col-lg-4 m-0 p-0">
+                                        <small>---------------</small>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <span data-bind="text:(DebeRecibirCambio ? 'Si' :'No'), attr:{ class: (DebeRecibirCambio ? 'badge badge-primary' : 'badge badge-warning')}"></span>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="full-height-scroll">
+
+                                    <!--ko if:$root.EnvioPorCotizacion-->
+                                    <strong>Descripción de cotización</strong>
+                                    <p data-bind="text:CotizacionDescripcion"></p>
+                                    <!--/ko -->
+
+                                    <strong>Origen - Destino</strong>
+                                    <div id="vertical-timeline" class="vertical-container dark-timeline">
+
+                                        <div class="vertical-timeline-block" data-bind="with:LugarOrigen">
+                                            <div class="vertical-timeline-icon gray-bg">
+                                                <i class="fa fa-dot-circle-o"></i>
+                                            </div>
+                                            <div class="vertical-timeline-content">
+                                                <p data-bind="text:Direccion"></p>
+                                                <span class="vertical-date small text-muted">
+                                                    <span data-bind="text:Latitud" class="mr-2"></span>
+                                                    <span data-bind="text: Longitud"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="vertical-timeline-block" data-bind="with:LugarDestino">
+                                            <div class="vertical-timeline-icon gray-bg">
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="vertical-timeline-content">
+                                                <p data-bind="text:Direccion"></p>
+                                                <span class="vertical-date small text-muted">
+                                                    <span data-bind="text:Latitud" class="mr-2"></span>
+                                                    <span data-bind="text: Longitud"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <ul class="list-group clear-list">
+                                        <li class="list-group-item fist-item">
+                                            <span class="pull-right">
+                                                <i class="fa fa-money"></i>
+                                                <span data-bind="text:MontoTotalDelEnvio"></span>
+                                            </span>
+                                            <span class="font-weight-bold"> Monto Total</span>
+                                        </li>
+                                    </ul>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">Fecha de hoy: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
+                    <h2>Motorizados</h2>
+                    <p>
+                        Lista de todos los motorizados disponibles para la asignación
+                    </p>
+                    <div class="input-group">
+                        <input type="text" placeholder="Buscar Motorizado " class="input form-control">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Buscar</button>
+                        </span>
+                    </div>
+                    <div class="clients-list">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right small text-muted" data-bind="text:( ko.unwrap(Motorizados().length) )">0 </span>
+                            <span class="pull-right small text-muted ml-2"> Motorizados</span>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <!--ko if:Motorizados().length > 0-->
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <tbody data-bind="foreach:Motorizados">
+                                                <tr>
+                                                    <td data-bind="text:$index()+1"></td>
+                                                    <td class="client-avatar">
+                                                        <img alt="" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }" />
+                                                    </td>
+                                                    <td data-bind="text:Nombres"></td>
+                                                    <td>
+                                                        <i class="fa fa-phone"></i>
+                                                        <span data-bind="text:Telefono"></span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-envelope"></i>
+                                                        <span data-bind="text:CorreoElectronico"></span>
+                                                    </td>
+
+                                                    <td class="client-status">
+                                                        <span data-bind="text:( EstadoDelMotorizado()== 0 ? 'Inactivo' : EstadoDelMotorizado()== 1 ? 'Activo' : 'Ocupado'), attr:{ class:EstadoMotorizadoClass}"></span>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click:$root.Asignar"> <i class="fa fa-link"></i>  Asignar</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:Motorizados().length <= 0-->
+                                    <div class="alert alert-warning alert-Empty" role="alert">
+                                        Se encontraron 0 Motorizados <a href="@Url.Action("Create","Motorizados")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
+
+    <script type="text/javascript">
+
+        function IndexAsignacion(initialData) {
+            const self = this;
+            initialData = initialData || {};
+
+            self.Asignacion = ko.observable(initialData);
+            self.EnvioPorCotizacion = ko.observable(self.Asignacion().Envio.CotizacionId() > 0);
+            self.AsignandoMotorizado = ko.observable(false);
+
+            self.Asignar = function (motorizado, event) {
+                if (self.Asignacion().Envio.Id() >= 0 && motorizado.Id() >= 0) {
+
+                $.ajax(
+                    {
+                        url: "/Envios/AsignacionConfirmed",
+                        type: "Post",
+                        data: { MotorizadoId: motorizado.Id(), EnvioId: self.Asignacion().Envio.Id() },
+                        beforeSend: function () {
+                            self.AsignandoMotorizado(true);
+                        },
+                        success: function (response) {
+                            if (response.exito) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: response.message
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                            else {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: response.message
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: 'Ha ocurrido un error procesando su solicitud!'
+                            });
+                        },
+                        complete: function () {
+                            self.AsignandoMotorizado(false);
+                        }
+                    }
+                );
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: "El envio o el motorizado seleccionado es inválido, Consulta con atención al cliente"
+                    })
+                }
+            }
+        }
+
+        //funcion despues que carga la pagina
+        $(function () {
+
+            let data = @Html.HtmlConvertToJson(Model);
+
+            let viewModel = new IndexAsignacion(ko.mapping.fromJS(data));
+            ko.applyBindings(viewModel);
+
+        });
+    </script>
+}

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using System;
+using MandaditosExpress.Models.Enum;
 
 namespace MandaditosExpress.Models
 {
@@ -11,9 +12,11 @@ namespace MandaditosExpress.Models
     {
         public Motorizado()
         {
-            this.Motocicletas = new HashSet<Motocicleta>();
-            this.Salarios = new HashSet<Salario>();
-            this.Envios = new HashSet<Envio>();
+            Motocicletas = new HashSet<Motocicleta>();
+            Salarios = new HashSet<Salario>();
+            Envios = new HashSet<Envio>();
+            FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
+            EstadoDelMotorizado = (short) EstadoDeMotorizadoEnum.Inactivo;//el estado se refiere a inactivo, activo o ocupado porque esta realizado una entrega
         }
 
         [Required]
@@ -24,11 +27,12 @@ namespace MandaditosExpress.Models
         public short EstadoDeAfiliado { get; set; }
 
         [Display(Name = "Fecha de Afiliación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
 
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Estado")]
-        public bool EstadoDelMotorizado { get; set; }
+        public short EstadoDelMotorizado { get; set; }
 
         [Display(Name = "Velocidad de Internet")]
         public int VelocidadDeConexionId { get; set; }

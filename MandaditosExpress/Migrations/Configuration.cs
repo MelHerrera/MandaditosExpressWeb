@@ -208,7 +208,7 @@ new Models.TipoDePago
                 {
                     Id = 0,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("30/09/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2024"),
                     Descripcion = "Sin Especificar",
                     MontoDesde = 1,
                     MontoHasta = 1,
@@ -220,7 +220,7 @@ new Models.TipoDePago
                 {
                     Id = 1,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("30/09/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2025"),
                     Descripcion = "Costo minimo de Gestion Bancaria",
                     MontoDesde = 1,
                     MontoHasta = 5000.99M,
@@ -233,7 +233,7 @@ new Models.TipoDePago
                 {
                     Id = 2,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("30/09/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2026"),
                     Descripcion = "Costo maximo de Gestion Bancaria",
                     MontoDesde = 5001,
                     MontoHasta = 10000,
@@ -247,7 +247,7 @@ new Models.TipoDePago
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("30/09/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2027"),
         Descripcion = "Costo de Mandaditos",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,
@@ -261,7 +261,7 @@ new Models.TipoDePago
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("30/09/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2028"),
         Descripcion = "Costo de Gestion de Paquetería",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,

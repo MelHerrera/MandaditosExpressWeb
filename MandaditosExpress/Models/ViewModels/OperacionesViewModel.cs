@@ -36,8 +36,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         public DateTime FechaDeValidez { get; set; }
 
-        public Lugar LugarOrigen { get; set; }
-        public Lugar LugarDestino { get; set; }
+        public LugarViewModel LugarOrigen { get; set; }
+        public LugarViewModel LugarDestino { get; set; }
 
         public float DistanciaOrigenDestino { get; set; }
 
@@ -60,24 +60,20 @@ namespace MandaditosExpress.Models.ViewModels
         public List<TipoDeServicio> TiposDeServicios { get; set; }
     }
 
-    public class EnvioViewModel
+    public class SolicitudEnvioViewModel
     {
-        private MandaditosDB db = new MandaditosDB();
-        public EnvioViewModel()
+
+        public SolicitudEnvioViewModel()
         {
             FechaDelEnvio = DateTime.Now;
             LugarOrigen = new Lugar();
             LugarDestino = new Lugar();
-            TiposDeServicio = db.TiposDeServicio.ToList();
-            Servicios = db.Servicios.ToList();
+            Servicio = new ServicioViewModel();
             TipoDeServicioId = -1;
-            TiposDePago = db.TiposDePago.ToList();
-            var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("BANC"));
-            GestionBancariaId = gestion != null ? gestion.Id : -1;
             Peso = true; // poner por defecto que el peso es menor a 50 libras
             EstadoDelEnvio = (short)EstadoDelEnvioEnum.Solicitud;
         }
-
+        
         [Key]
         public int Id { get; set; }
 
@@ -155,10 +151,10 @@ namespace MandaditosExpress.Models.ViewModels
         public int TipoDePagoId { get; set; }
 
         [Display(Name = "Cotización")]
-        public int CotizacionId { get; set; }
+        public int? CotizacionId { get; set; }
 
         [Required]
-        [Display(Name ="Servicio")]
+        [Display(Name ="Descripción breve del Servicio")]
         public int ServicioId { get; set; }
 
         [Required]
@@ -167,11 +163,117 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int GestionBancariaId { get; set; }//propiedad usada solo para validaciones
 
-        public List<TipoDeServicio> TiposDeServicio { get; set; }
+        public List<TipoDeServicioViewModel> TiposDeServicio { get; set; }
 
-        public List<Servicio> Servicios { get; set; }
+        public List<ServicioViewModel> Servicios { get; set; }
 
-        public virtual ICollection<TipoDePago> TiposDePago { get; set; }
+        public virtual ICollection<TipoDePagoViewModel> TiposDePago { get; set; }
+
+        public virtual ServicioViewModel Servicio { get; set; }
 
     }
+
+    public class AsignarMotorizadoViewModel
+    {
+        public EnvioViewModel Envio { get; set; }
+        public ICollection<MotorizadoViewModel> Motorizados { get; set; }
+    }
+
+    public class EnvioViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [StringLength(250)]
+        [Required]
+        [Display(Name = "Descripción")]
+        public string DescripcionDeEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha")]
+        public DateTime FechaDelEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Origen")]
+        public Lugar LugarOrigen { get; set; }
+
+        [Required]
+        [Display(Name = "Destino")]
+        public Lugar LugarDestino { get; set; }
+
+        [Required]
+        [Display(Name = "Distancia")]
+        public float DistanciaEntregaRecep { get; set; }
+
+        [Required]
+        [Display(Name = "Nombres y Apellidos del receptor")]
+        public string NombresDelReceptor { get; set; }
+
+        [Required]
+        [Display(Name = "Cédula receptor")]
+        public string CedulaDelReceptor { get; set; }
+
+        [Display(Name = "¿El peso es menor a 50 Libras?")]
+        public bool Peso { get; set; }
+
+        [Display(Name = "Monto de la gestión")]
+        public decimal MontoDeDinero { get; set; }
+
+        [Required]
+        [Display(Name = "Monto total del envio")]
+        public decimal MontoTotalDelEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Celular del receptor")]
+        [MinLength(8)]
+        [MaxLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string TelefonoDelReceptor { get; set; }
+
+        [Display(Name = "¿Urgente?")]
+        public bool EsUrgente { get; set; }
+
+        [Display(Name = "¿Es ida y regreso?")]
+        public bool DebeRegresarATienda { get; set; }
+
+        [Display(Name = "¿El motorizado recibirá algun dinero?")]
+        public bool DebeRecibirDinero { get; set; }
+
+        [Display(Name = "¿Cuanto recibirá?")]
+        public decimal MontoARecibir { get; set; }
+
+        [Display(Name = "¿El motorizado necesita cambio?")]
+        public bool DebeRecibirCambio { get; set; }
+
+        [Display(Name = "¿Cuanto de cambio?")]
+        public decimal MontoCambio { get; set; }
+
+        [Display(Name = "¿Estado?")]
+        public short EstadoDelEnvio { get; set; }
+
+        public int ClienteId { get; set; }
+
+        public string ClienteNombres { get; set; }
+
+        public byte[] ClienteFoto { get; set; }
+
+        [Required]
+        [Display(Name = "Método de pago")]
+        public int TipoDePagoId { get; set; }
+
+        [Display(Name = "Cotización")]
+        public int CotizacionId { get; set; }
+
+        public string CotizacionDescripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Descripción breve del Servicio")]
+        public int ServicioId { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de servicio")]
+        public int TipoDeServicioId { get; set; }
+        public string TipoDeServicioDescripcion { get; set; }
+    }
+
 }
