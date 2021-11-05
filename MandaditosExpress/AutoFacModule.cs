@@ -47,5 +47,6 @@ public class MainMappingProfile : Profile
         CreateMap<Motorizado, MotorizadoViewModel>().
         ForMember(x=> x.EstadoMotorizadoClass, x=> x.MapFrom(y=> y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Activo 
         ? "badge badge-success" : y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Inactivo ? "badge badge-warning" : "badge badge-primary" ));
+        CreateMap<Lugar, LugarViewModel>().ReverseMap();
     }
 }

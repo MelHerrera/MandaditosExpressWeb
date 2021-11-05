@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
@@ -16,10 +17,12 @@ namespace MandaditosExpress.Controllers
         private MandaditosDB db = new MandaditosDB();
         private CostoServices CostoServices;
         private CotizacionServices CotizacionServices;
-        public CotizacionesController()
+        private readonly IMapper _mapper;
+        public CotizacionesController(IMapper mapper)
         {
             CostoServices = new CostoServices(db);
             CotizacionServices = new CotizacionServices(db);
+            _mapper = mapper;
         }
 
         // GET: Cotizaciones
@@ -39,8 +42,8 @@ namespace MandaditosExpress.Controllers
                     DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
                     FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                     FechaDeValidez = cotizacion.FechaDeValidez,
-                    LugarOrigen = cotizacion.LugarOrigen,
-                    LugarDestino = cotizacion.LugarDestino,
+                    LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                    LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
                     DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                     EsEspecial = cotizacion.EsEspecial,
                     MontoTotal = cotizacion.MontoTotal,
@@ -192,8 +195,8 @@ namespace MandaditosExpress.Controllers
                         DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
                         FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                         FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = cotizacion.LugarOrigen,
-                        LugarDestino = cotizacion.LugarDestino,
+                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
                         DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                         EsEspecial = cotizacion.EsEspecial,
                         MontoTotal = cotizacion.MontoTotal,
@@ -236,8 +239,8 @@ namespace MandaditosExpress.Controllers
                         DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
                         FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                         FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = cotizacion.LugarOrigen,
-                        LugarDestino = cotizacion.LugarDestino,
+                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
                         DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                         EsEspecial = cotizacion.EsEspecial,
                         MontoTotal = cotizacion.MontoTotal,
@@ -274,8 +277,8 @@ namespace MandaditosExpress.Controllers
                         DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
                         FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                         FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = cotizacion.LugarOrigen,
-                        LugarDestino = cotizacion.LugarDestino,
+                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
                         DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                         EsEspecial = cotizacion.EsEspecial,
                         MontoTotal = cotizacion.MontoTotal,

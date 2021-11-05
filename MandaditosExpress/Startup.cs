@@ -32,6 +32,7 @@ namespace MandaditosExpress
                 var usuario = new ApplicationUser();
                 usuario.UserName = "melkinantonioh@gmail.com";
                 usuario.Email = "melkinantonioh@gmail.com";
+                usuario.EmailConfirmed = true;
 
                 var resultado = AdmUsuarios.Create(usuario, "Mel#123");
                 if (resultado.Succeeded)
@@ -67,6 +68,7 @@ namespace MandaditosExpress
                 var usuario = new ApplicationUser();
                 usuario.UserName = "paty@gmail.com";
                 usuario.Email = "paty@gmail.com";
+                usuario.EmailConfirmed = true;
 
                 var resultado = AdmUsuarios.Create(usuario, "Paty#123");
                 if (resultado.Succeeded)

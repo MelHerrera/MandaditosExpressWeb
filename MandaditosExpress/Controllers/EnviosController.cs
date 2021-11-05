@@ -133,11 +133,12 @@ namespace MandaditosExpress.Controllers
         {
 
             var Motorizado = db.Motorizados.FirstOrDefault(it=> it.Id == MotorizadoId);
-            //validaciones sobre el motorizado seleccionado
-            if(Motorizado==null)
-                return Json(new { message = "El motorizado seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
-            if(Motorizado.EstadoDelMotorizado != (short)EstadoDeMotorizadoEnum.Activo)
-                return Json(new { message = "El motorizado no se encuentra disponible para realizar este envio", exito = false }, JsonRequestBehavior.AllowGet);
+            ///activar estas validaciones cuando este en produccion
+            ////validaciones sobre el motorizado seleccionado
+            //if(Motorizado==null)
+            //    return Json(new { message = "El motorizado seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
+            //if(Motorizado.EstadoDelMotorizado != (short)EstadoDeMotorizadoEnum.Activo)
+            //    return Json(new { message = "El motorizado no se encuentra disponible para realizar este envio", exito = false }, JsonRequestBehavior.AllowGet);
 
             var Envio = db.Envios.FirstOrDefault(it=> it.Id == EnvioId);
 
@@ -155,7 +156,7 @@ namespace MandaditosExpress.Controllers
                 //si todo esta correcto, como se esta haciendo manual la asignacion entonces manualmente debemos cambiar el estado del motorizado
                 Motorizado.EstadoDelMotorizado = (short)EstadoDeMotorizadoEnum.Ocupado;
 
-                return Json(new { message = "Se ha realizado con exito la asignación", exito = false }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "Se ha realizado con exito la asignación del motorizado", exito = true }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { message = "Ha ocurrido un error en la asignación del motorizado", exito = false }, JsonRequestBehavior.AllowGet);

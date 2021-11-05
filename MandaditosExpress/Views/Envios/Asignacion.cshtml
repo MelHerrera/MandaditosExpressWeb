@@ -25,7 +25,7 @@
                                 <div class="col-lg-8">
                                     <strong> Descripción del envio</strong>
                                     <p data-bind="text:DescripcionDeEnvio"></p>
-                                    <a class="btn btn-primary btn-sm btn-block" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }">
+                                    <a class="btn btn-primary btn-sm btn-block" target="_blank" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }">
                                         <i class="fa fa-info-circle"></i> Ver Detalles
                                     </a>
                                 </div>
@@ -126,7 +126,7 @@
                         <ul class="nav nav-tabs">
                             <span class="pull-right small text-muted" data-bind="text:( ko.unwrap(Motorizados().length) )">0 </span>
                             <span class="pull-right small text-muted ml-2"> Motorizados</span>
-                            
+
                         </ul>
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
@@ -181,6 +181,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/knockout")
     <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
 
     <script type="text/javascript">
 
@@ -190,9 +192,53 @@
 
             self.Asignacion = ko.observable(initialData);
             self.EnvioPorCotizacion = ko.observable(self.Asignacion().Envio.CotizacionId() > 0);
+            self.AsignandoMotorizado = ko.observable(false);
 
             self.Asignar = function (motorizado, event) {
-                console.log(ko.toJS(motorizado));
+                if (self.Asignacion().Envio.Id() >= 0 && motorizado.Id() >= 0) {
+
+                $.ajax(
+                    {
+                        url: "/Envios/AsignacionConfirmed",
+                        type: "Post",
+                        data: { MotorizadoId: motorizado.Id(), EnvioId: self.Asignacion().Envio.Id() },
+                        beforeSend: function () {
+                            self.AsignandoMotorizado(true);
+                        },
+                        success: function (response) {
+                            if (response.exito) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: response.message
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                            else {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: response.message
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: 'Ha ocurrido un error procesando su solicitud!'
+                            });
+                        },
+                        complete: function () {
+                            self.AsignandoMotorizado(false);
+                        }
+                    }
+                );
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: "El envio o el motorizado seleccionado es inválido, Consulta con atención al cliente"
+                    })
+                }
             }
         }
 

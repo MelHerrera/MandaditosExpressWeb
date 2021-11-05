@@ -43,4 +43,19 @@ namespace MandaditosExpress.Models.ViewModels
         public bool EstadoTipoDePago { get; set; }
 
     }
+
+    public class LugarViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public string Direccion { get; set; }
+
+        public string Latitud { get; set; }
+
+        public string Longitud { get; set; }
+    }
+
 }

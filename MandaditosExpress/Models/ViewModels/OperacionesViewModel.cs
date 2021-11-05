@@ -36,8 +36,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         public DateTime FechaDeValidez { get; set; }
 
-        public Lugar LugarOrigen { get; set; }
-        public Lugar LugarDestino { get; set; }
+        public LugarViewModel LugarOrigen { get; set; }
+        public LugarViewModel LugarDestino { get; set; }
 
         public float DistanciaOrigenDestino { get; set; }
 
