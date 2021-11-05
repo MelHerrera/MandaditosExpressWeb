@@ -15,12 +15,12 @@
     <AssemblyName>MandaditosExpress</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -166,6 +166,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\LoginWSController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
     <Compile Include="Models\Extensions\DecimalModelBinder.cs" />
     <Compile Include="Models\Extensions\FloatModelBinder.cs" />
+    <Compile Include="Models\Extensions\WebServiceResponse.cs" />
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
     <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CostoServices.cs" />
     <Compile Include="Services\CotizacionServices.cs" />
+    <Compile Include="Services\Utilidades.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -624,6 +627,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\js\" />
+    <Folder Include="Views\Logins\" />
+    <Folder Include="Views\LoginWS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -655,7 +660,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58443</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44320/</IISUrl>
+          <IISUrl>http://localhost/MandaditosExpress</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
