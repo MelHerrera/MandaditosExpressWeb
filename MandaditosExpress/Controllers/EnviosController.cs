@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.Extensions;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
@@ -115,9 +116,49 @@ namespace MandaditosExpress.Controllers
             var AsignacionViewModel = new AsignarMotorizadoViewModel();
 
             AsignacionViewModel.Envio = _mapper.Map<EnvioViewModel>(Envio);
-            AsignacionViewModel.Motorizados = _mapper.Map<ICollection<MotorizadoViewModel>>(db.Motorizados.Where(x=> x.EstadoDelMotorizado)).ToList();
+
+            //Los motorizados que se pueden asignar son los que estan activos a la espera de un pedido, que no hayan sido denegados y que su proceso de afiliacion no este en solicitud apenas
+            var Motorizados = db.Motorizados.Where(x => x.EstadoDelMotorizado == (short)EstadoDeMotorizadoEnum.Activo && x.EstadoDeAfiliado != (short)EstadoDeAfiliadoEnum.Denegado && x.EstadoDeAfiliado != (short)EstadoDeAfiliadoEnum.Solicitud);
+
+            //para efectos de prueba se estara trabajando todos con los motorizados sin importar su estado
+            var MotorizadosPrueba = db.Motorizados.ToList();
+            AsignacionViewModel.Motorizados = _mapper.Map<ICollection<MotorizadoViewModel>>(MotorizadosPrueba).ToList();
 
             return View(AsignacionViewModel);
+        }
+
+        // Post: Envios/Asignacion
+        [HttpPost]
+        public ActionResult AsignacionConfirmed(int? MotorizadoId, int? EnvioId)
+        {
+
+            var Motorizado = db.Motorizados.FirstOrDefault(it=> it.Id == MotorizadoId);
+            //validaciones sobre el motorizado seleccionado
+            if(Motorizado==null)
+                return Json(new { message = "El motorizado seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
+            if(Motorizado.EstadoDelMotorizado != (short)EstadoDeMotorizadoEnum.Activo)
+                return Json(new { message = "El motorizado no se encuentra disponible para realizar este envio", exito = false }, JsonRequestBehavior.AllowGet);
+
+            var Envio = db.Envios.FirstOrDefault(it=> it.Id == EnvioId);
+
+            //validaciones sobre el motorizado seleccionado
+            if (Envio == null || Envio.MontoTotalDelEnvio<=0 || Envio.DistanciaEntregaRecep<=0)
+                return Json(new { message = "El envio seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
+
+            Envio.MotorizadoId = Motorizado.Id;
+            Envio.EstadoDelEnvio = (short) EstadoDelEnvioEnum.EnProceso;
+
+            db.Entry(Envio).State = EntityState.Modified;
+
+            if(db.SaveChanges() > 0)
+            {
+                //si todo esta correcto, como se esta haciendo manual la asignacion entonces manualmente debemos cambiar el estado del motorizado
+                Motorizado.EstadoDelMotorizado = (short)EstadoDeMotorizadoEnum.Ocupado;
+
+                return Json(new { message = "Se ha realizado con exito la asignación", exito = false }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { message = "Ha ocurrido un error en la asignación del motorizado", exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Envios/Createss
@@ -127,8 +168,9 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,TipoDeServicioId,ServicioId, Servicio")] SolicitudEnvioViewModel envio)
         {
-            //capturar el valor del query string en el envioviewmodel pero que no lo valide
+            //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios
             ModelState.Remove("envio.Servicio.DescripcionDelServicio");
+            ModelState.Remove("envio.Cotizacion.DescripcionDeCotizacion");
 
             if (ModelState.IsValid)
             {

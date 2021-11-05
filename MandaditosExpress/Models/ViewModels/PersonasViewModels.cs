@@ -87,6 +87,9 @@ namespace MandaditosExpress.Models.ViewModels
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");//default value
         }
 
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Correo Electronico")]
@@ -178,6 +181,12 @@ namespace MandaditosExpress.Models.ViewModels
         public DateTime FechaDeValidez { get; set; }
         public int MotorizadoId { get; set; }
         public bool EstadoDeMotocicleta { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Estado")]
+        public short EstadoDelMotorizado { get; set; }
+
+        public string EstadoMotorizadoClass { get; set; }
 
         [Required]
         [Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]

@@ -151,7 +151,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int TipoDePagoId { get; set; }
 
         [Display(Name = "Cotización")]
-        public int CotizacionId { get; set; }
+        public int? CotizacionId { get; set; }
 
         [Required]
         [Display(Name ="Descripción breve del Servicio")]
@@ -253,12 +253,18 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int ClienteId { get; set; }
 
+        public string ClienteNombres { get; set; }
+
+        public byte[] ClienteFoto { get; set; }
+
         [Required]
         [Display(Name = "Método de pago")]
         public int TipoDePagoId { get; set; }
 
         [Display(Name = "Cotización")]
         public int CotizacionId { get; set; }
+
+        public string CotizacionDescripcion { get; set; }
 
         [Required]
         [Display(Name = "Descripción breve del Servicio")]
@@ -267,7 +273,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
-
+        public string TipoDeServicioDescripcion { get; set; }
     }
 
 }

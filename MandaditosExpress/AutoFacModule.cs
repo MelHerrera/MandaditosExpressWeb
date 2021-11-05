@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,12 @@ public class MainMappingProfile : Profile
         CreateMap<Servicio, ServicioViewModel>();
         CreateMap<Servicio, ServicioViewModel>().ReverseMap();
         CreateMap<TipoDePago, TipoDePagoViewModel>();
-        CreateMap<Envio, EnvioViewModel>();
-        CreateMap<Motorizado, MotorizadoViewModel>();
+        CreateMap<Envio, EnvioViewModel>().ForMember(x => x.TipoDeServicioDescripcion, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio))
+                                          .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
+                                          .ForMember(x => x.ClienteFoto, x => x.MapFrom(y => y.Cliente.Foto))
+                                          .ForMember(x => x.CotizacionDescripcion, x => x.MapFrom(y => y.Cotizacion.DescripcionDeCotizacion)); ;
+        CreateMap<Motorizado, MotorizadoViewModel>().
+        ForMember(x=> x.EstadoMotorizadoClass, x=> x.MapFrom(y=> y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Activo 
+        ? "badge badge-success" : y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Inactivo ? "badge badge-warning" : "badge badge-primary" ));
     }
 }

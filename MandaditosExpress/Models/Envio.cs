@@ -102,6 +102,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "Cotización")]
         public int? CotizacionId { get; set; }
 
+        public virtual Cotizacion Cotizacion { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
