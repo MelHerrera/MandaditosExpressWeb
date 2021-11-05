@@ -45,6 +45,16 @@ namespace MandaditosExpress
                 Rol = new IdentityRole();
                 Rol.Name = "Cliente";
                 AdmRoles.Create(Rol);
+
+                var usuario = new ApplicationUser();
+                usuario.UserName = "jcastillov@gmail.com";
+                usuario.Email = "jcastillov@gmail.com";
+
+                var resultado = AdmUsuarios.Create(usuario, "Jcas#123");
+                if (resultado.Succeeded)
+                {
+                    AdmUsuarios.AddToRole(usuario.Id, "Cliente");
+                }
             }
 
 
@@ -53,6 +63,16 @@ namespace MandaditosExpress
                 Rol = new IdentityRole();
                 Rol.Name = "Motorizado";
                 AdmRoles.Create(Rol);
+
+                var usuario = new ApplicationUser();
+                usuario.UserName = "paty@gmail.com";
+                usuario.Email = "paty@gmail.com";
+
+                var resultado = AdmUsuarios.Create(usuario, "Paty#123");
+                if (resultado.Succeeded)
+                {
+                    AdmUsuarios.AddToRole(usuario.Id, "Motorizado");
+                }
             }
         }
     }
