@@ -189,9 +189,6 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Guardar(CotizacionViewModel cotizacion)
         {
-            try
-            {
-
                 if (Request.IsAuthenticated)
                 {
                     if (ModelState.IsValid)
@@ -226,11 +223,7 @@ namespace MandaditosExpress.Controllers
                     TempData["Cotizacion"] = cotizacion;
                     return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
                 }
-            }
-            catch (Exception)
-            {
                 return View(cotizacion);
-            }
         }
 
         // GET: Cotizaciones/RealizarEnvio
