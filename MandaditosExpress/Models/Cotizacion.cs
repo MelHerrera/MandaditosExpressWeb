@@ -44,8 +44,8 @@ namespace MandaditosExpress.Models
         [Required]
         public decimal MontoTotal { get; set; }
 
-        public int LugarOrigenId { get; set; }
-        public int LugarDestinoId { get; set; }
+        public int? LugarOrigenId { get; set; }
+        public int? LugarDestinoId { get; set; }
 
         public int ClienteId { get; set; }
 

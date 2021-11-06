@@ -66,8 +66,8 @@ namespace MandaditosExpress.Models.ViewModels
         public SolicitudEnvioViewModel()
         {
             FechaDelEnvio = DateTime.Now;
-            LugarOrigen = new Lugar();
-            LugarDestino = new Lugar();
+            LugarOrigen = new LugarViewModel();
+            LugarDestino = new LugarViewModel();
             Servicio = new ServicioViewModel();
             TipoDeServicioId = -1;
             Peso = true; // poner por defecto que el peso es menor a 50 libras
@@ -88,11 +88,11 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Required]
         [Display(Name = "Origen")]
-        public Lugar LugarOrigen { get; set; }
+        public LugarViewModel LugarOrigen { get; set; }
 
         [Required]
         [Display(Name = "Destino")]
-        public Lugar LugarDestino { get; set; }
+        public LugarViewModel LugarDestino { get; set; }
 
         [Required]
         [Display(Name = "Distancia")]
@@ -266,7 +266,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int TipoDePagoId { get; set; }
 
         [Display(Name = "Cotización")]
-        public int CotizacionId { get; set; }
+        public int? CotizacionId { get; set; }
 
         public string CotizacionDescripcion { get; set; }
 

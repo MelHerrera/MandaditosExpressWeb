@@ -19,7 +19,7 @@ namespace MandaditosExpress.Models
 
         [StringLength(250)]
         [Required]
-        [Display(Name = "Descripción")]
+        [Display(Name = "Descripción del envío")]
         public string DescripcionDeEnvio { get; set; }
 
         [Required]
@@ -83,6 +83,9 @@ namespace MandaditosExpress.Models
         public int ClienteId { get; set; }
 
         public int? MotorizadoId { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de pago")]
         public int TipoDePagoId { get; set; }
 
         [Required]
@@ -113,6 +116,8 @@ namespace MandaditosExpress.Models
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual Servicio Servicio { get; set; }
         public virtual TipoDeServicio TipoDeServicio { get; set; }
+
+        public virtual TipoDePago TipoDePago { get; set; }
         public virtual Lugar LugarOrigen { get; set; }
         public virtual Lugar LugarDestino { get; set; }
     }

@@ -51,7 +51,16 @@
                                         <h5 class="badge badge-danger text-white align-self-end p-1 m-2" style="position:absolute">Validez: @item.FechaDeValidez</h5>
                                         <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
                                         <div class="card-body p-1">
-                                            <h5 class="card-title font-weight-bold p-1 m-0">@item.DescripcionDeCotizacion</h5>  <small class="text-muted">@item.LugarDestino.Direccion</small>
+                                            <h5 class="card-title font-weight-bold p-1 m-0">@item.DescripcionDeCotizacion</h5> 
+                                            <small class="text-muted">
+                                                @if (item.LugarDestino != null)
+                                                {
+                                                    if (item.LugarDestino.Direccion != null)
+                                                    {
+                                                        @item.LugarDestino.Direccion
+                                                    }
+                                                }
+                                            </small>
 
                                             <div class="row no-margins">
                                                 <div class="col-6 align-items-center">

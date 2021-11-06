@@ -195,15 +195,19 @@ namespace MandaditosExpress.Controllers
                     {
 
                         var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                         var mCotiza = new Cotizacion();
 
+                    if (cotizacion.DistanciaOrigenDestino > 0)
+                    {
+                        mCotiza.LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen);
+                        mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
+                    }
 
-                        var mCotiza = new Cotizacion
+                      mCotiza = new Cotizacion
                         {
                             DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
                             FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
                             FechaDeValidez = cotizacion.FechaDeValidez,
-                            LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                            LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
                             DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
                             EsEspecial = cotizacion.EsEspecial,
                             MontoTotal = cotizacion.MontoTotal,

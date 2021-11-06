@@ -18,6 +18,7 @@ namespace MandaditosExpress.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Descripción del Lugar")]
         public string Descripcion { get; set; }
 
         public string Direccion { get; set; }

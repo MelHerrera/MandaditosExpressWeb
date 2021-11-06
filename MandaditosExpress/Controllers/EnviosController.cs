@@ -77,12 +77,15 @@ namespace MandaditosExpress.Controllers
             {
                 EnvioViewModel.CotizacionId = cotizacion.Id;
                 EnvioViewModel.TipoDeServicioId = cotizacion.TipoDeServicioId;
-                EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen;
-                EnvioViewModel.LugarDestino = cotizacion.LugarDestino;
+                EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen!=null ? _mapper.Map<LugarViewModel>(cotizacion.LugarOrigen) : new LugarViewModel();
+                EnvioViewModel.LugarDestino = cotizacion.LugarDestino!=null ? _mapper.Map<LugarViewModel>(cotizacion.LugarDestino) : new LugarViewModel();
                 EnvioViewModel.MontoDeDinero = cotizacion.MontoDeDinero;
                 EnvioViewModel.EsUrgente = cotizacion.EsEspecial;
                 EnvioViewModel.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino;
                 EnvioViewModel.MontoTotalDelEnvio = cotizacion.MontoTotal;
+
+                //mandar los servicios filtrados en dependencia del tipo de servicio de la cotizacion
+                EnvioViewModel.Servicios = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios.Where(it=> it.TipoDeServicioId==cotizacion.TipoDeServicioId)).ToList();
             }
 
             //sacar el Id del Cliente que esta haciendo la solicitud del envio
@@ -195,7 +198,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,TipoDeServicioId,ServicioId, Servicio")] SolicitudEnvioViewModel envio)
+        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
         {
             //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios
             ModelState.Remove("envio.Servicio.DescripcionDelServicio");
@@ -240,20 +243,19 @@ namespace MandaditosExpress.Controllers
                             //datos que vienen por cotizacion
                             mEnvio.CotizacionId = cotizacion.Id;
                             mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
-                            mEnvio.LugarOrigen = cotizacion.LugarOrigen;
-                            mEnvio.LugarDestino = cotizacion.LugarDestino;
+                            mEnvio.LugarOrigen = cotizacion.LugarOrigen != null ? cotizacion.LugarOrigen : _mapper.Map<Lugar>(envio.LugarOrigen);//cuando es cotizacion de gestion bancaria la cotizacio no trae un lugar origen-destino
+                            mEnvio.LugarDestino = cotizacion.LugarDestino != null ? cotizacion.LugarDestino : _mapper.Map<Lugar>(envio.LugarDestino);//entonces asignarle el origen-destino seleccionado en la vista de crear envio
                             mEnvio.MontoDeDinero = cotizacion.MontoDeDinero;
                             mEnvio.EsUrgente = cotizacion.EsEspecial;
-                            mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino;
+                            mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino > 0 ? cotizacion.DistanciaOrigenDestino : envio.DistanciaEntregaRecep;
                             mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
-
 
                             //si es un nuevo servicio 
 
                             //datos que siempre se tomaran del envio
                             mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
                             mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
-                            mEnvio.TipoDePagoId = envio.TipoDeServicioId;
+                            mEnvio.TipoDePagoId = envio.TipoDePagoId;
                             mEnvio.ServicioId = envio.ServicioId;
                             mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
                             mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
@@ -292,8 +294,8 @@ namespace MandaditosExpress.Controllers
                                     MontoARecibir = envio.MontoARecibir,
                                     DebeRecibirCambio = envio.DebeRecibirCambio,
                                     MontoCambio = envio.MontoCambio,
-                                    LugarOrigen = envio.LugarOrigen,
-                                    LugarDestino = envio.LugarDestino,
+                                    LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen),
+                                    LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino),
                                     DistanciaEntregaRecep = envio.DistanciaEntregaRecep,
                                     EstadoDelEnvio = envio.EstadoDelEnvio,
                                     ClienteId = envio.ClienteId,

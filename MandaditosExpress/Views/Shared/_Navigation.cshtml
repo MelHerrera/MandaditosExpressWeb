@@ -28,8 +28,10 @@
                 <div class="dropdown profile-element text-center">
                     @Html.DisplayImage(PersonaActual!=null ? PersonaActual.Foto : null)                
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">@if (PersonaActual != null)
-                        {@PersonaActual.PrimerNombre @PersonaActual.PrimerApellido }
+                        <span class="block m-t-xs font-bold">
+                        @if (PersonaActual != null){
+                            <span>@PersonaActual.PrimerNombre @PersonaActual.PrimerApellido</span>
+                        }
                         </span>
                         <span class="text-muted text-xs block">Aqui debe ir su Rol <b class="caret"></b></span>
                     </a>

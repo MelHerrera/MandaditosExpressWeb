@@ -260,8 +260,8 @@ else
                         self.EnableBtnCotizar = ko.observable(true);
 
                         self.CalcularDistancia = ko.computed(function () {
-                            if (self.Cotizacion().LugarOrigen().Latitud() != "" && self.Cotizacion().LugarOrigen().Longitud() != "" &&
-                                self.Cotizacion().LugarDestino().Latitud() != "" && self.Cotizacion().LugarDestino().Longitud() != "") {
+                            if (self.Cotizacion().LugarOrigen().Latitud() && self.Cotizacion().LugarOrigen().Longitud() &&
+                                self.Cotizacion().LugarDestino().Latitud() && self.Cotizacion().LugarDestino().Longitud() ) {
 
                                 let origen = new google.maps.LatLng(self.Cotizacion().LugarOrigen().Latitud(), self.Cotizacion().LugarOrigen().Longitud());
                                 let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());
@@ -673,10 +673,9 @@ else
                     self.DireccionId = ko.observable("");
                     self.EnableBtnCotizar = ko.observable(true);
 
-                    self.CalcularDistancia = ko.computed(function() {
-                        if (self.Cotizacion().LugarOrigen().Latitud() != "" && self.Cotizacion().LugarOrigen().Longitud() != "" &&
-                            self.Cotizacion().LugarDestino().Latitud() != "" && self.Cotizacion().LugarDestino().Longitud() != "")
-                        {
+                    self.CalcularDistancia = ko.computed(function () {
+                        if (self.Cotizacion().LugarOrigen().Latitud() && self.Cotizacion().LugarOrigen().Longitud() &&
+                            self.Cotizacion().LugarDestino().Latitud() && self.Cotizacion().LugarDestino().Longitud()) {
 
                             let origen = new google.maps.LatLng(self.Cotizacion().LugarOrigen().Latitud(), self.Cotizacion().LugarOrigen().Longitud());
                             let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());

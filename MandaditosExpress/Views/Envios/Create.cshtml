@@ -350,6 +350,11 @@
         self.FiltrandoServicios = ko.observable(false);
         self.NeedAddNewService = ko.observable(false);
 
+        self.DefaultOrigenLatitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarOrigen.Latitud() : '12.128145869138876');
+        self.DefaultOrigenLongitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarOrigen.Longitud() : '-86.26501267501537');
+        self.DefaultDestinoLatitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarDestino.Latitud() : '12.128145869138876');
+        self.DefaultDestinoLongitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarDestino.Longitud() : '-86.26501267501537');
+
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
         });
@@ -408,15 +413,15 @@
         });
 
         self.CalcularDistancia = ko.computed(function () {
-            if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() && self.Envio().LugarOrigen.Direccion() &&
-                self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud() && self.Envio().LugarDestino.Direccion()) {
 
-                let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
-                let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
+                if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() && self.Envio().LugarOrigen.Direccion() &&
+                    self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud() && self.Envio().LugarDestino.Direccion()) {
 
-                CalcularDistancia(origen, destino);
-            }
+                    let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
+                    let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
 
+                    CalcularDistancia(origen, destino);
+                }
         });
 
         self.InicializarMapas = function () {
@@ -548,8 +553,8 @@
         function InicializarMapaOrigen() {
             $(".Map-O").locationpicker({
                 location: {
-                    latitude: self.Envio().LugarOrigen.Latitud() || 12.128145869138876,
-                    longitude: self.Envio().LugarOrigen.Longitud() || -86.26501267501537
+                    latitude: self.DefaultOrigenLatitud(),
+                    longitude: self.DefaultOrigenLongitud()
                 },
                 radius: 0,
                 enableAutocomplete: true,
@@ -581,8 +586,8 @@
         function InicializarMapaDestino() {
             $(".Map-D").locationpicker({
                 location: {
-                    latitude: self.Envio().LugarDestino.Latitud() || 12.128145869138876,
-                    longitude: self.Envio().LugarDestino.Longitud() || -86.26501267501537
+                    latitude: self.DefaultDestinoLatitud(),
+                    longitude: self.DefaultDestinoLongitud()
                 },
                 radius: 0,
                 enableAutocomplete: true,
