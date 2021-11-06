@@ -282,6 +282,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CostoServices.cs" />
     <Compile Include="Services\CotizacionServices.cs" />
+    <Compile Include="Services\MotorizadoServices.cs" />
     <Compile Include="Services\Utilidades.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

@@ -176,7 +176,7 @@ namespace MandaditosExpress.Models.ViewModels
     public class AsignarMotorizadoViewModel
     {
         public EnvioViewModel Envio { get; set; }
-        public ICollection<MotorizadoViewModel> Motorizados { get; set; }
+        public ICollection<AsignacionMotorizadoViewModel> Motorizados { get; set; }
     }
 
     public class EnvioViewModel
@@ -251,6 +251,10 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "¿Estado?")]
         public short EstadoDelEnvio { get; set; }
 
+        public string EstadoDelEnvioClass { get; set; }
+
+        public string EstadoDelEnvioDescripcion { get; set; }
+
         public int ClienteId { get; set; }
 
         public string ClienteNombres { get; set; }
@@ -274,6 +278,10 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
         public string TipoDeServicioDescripcion { get; set; }
+
+        public int? MotorizadoId { get; set; }
+
+        public string MotorizadoNombres { get; set; }
     }
 
 }

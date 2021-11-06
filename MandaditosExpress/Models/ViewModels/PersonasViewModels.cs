@@ -195,4 +195,34 @@ namespace MandaditosExpress.Models.ViewModels
         [NotMapped]
         public string Nombres { get { return PrimerNombre + " " + PrimerApellido + " " + SegundoApellido; } }
     }
+
+    public class AsignacionMotorizadoViewModel
+    {
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        public byte[] Foto { get; set; }
+
+        [Required]
+        [StringLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Estado")]
+        public short EstadoDelMotorizado { get; set; }
+
+        public string EstadoMotorizadoClass { get; set; }
+
+        public string EstadoMotorizadoDescripcion { get; set; }
+
+        [NotMapped]
+        public string Nombres { get; set; }
+    }
 }

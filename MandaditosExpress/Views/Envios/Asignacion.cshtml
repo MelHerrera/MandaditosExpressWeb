@@ -2,10 +2,6 @@
 
 @{ ViewBag.Title = "Asignación"; }
 
-@section Styles{
-
-}
-
 <div class="wrapper wrapper-content  animated fadeInRight" data-bind="with:Asignacion">
     <div class="row">
         <div class="col-sm-4">
@@ -14,7 +10,7 @@
                 <div class="ibox-content" data-bind="with:Envio">
                     <div class="tab-content">
                         <div id="contact-1" class="tab-pane active">
-                            <div class="row m-b-lg">
+                            <div class="row mb-1">
                                 <div class="col-lg-4 text-center align-middle align-content-center">
                                     <strong>Cliente</strong>
                                     <div class="m-b-sm">
@@ -28,6 +24,17 @@
                                     <a class="btn btn-primary btn-sm btn-block" target="_blank" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }">
                                         <i class="fa fa-info-circle"></i> Ver Detalles
                                     </a>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-12">
+                                    <span data-bind="text:EstadoDelEnvioDescripcion, attr:{ class:EstadoDelEnvioClass }"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-12">
+                                    <strong>Asignado a: </strong>
+                                    <small data-bind="text:MotorizadoNombres"></small>
                                 </div>
                             </div>
                             <div>
@@ -111,22 +118,29 @@
         <div class="col-sm-8">
             <div class="ibox">
                 <div class="ibox-content">
-                    <span class="text-muted small pull-right">Fecha de hoy: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
+                    <span class="text-muted small pull-right">Fecha: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
                     <h2>Motorizados</h2>
                     <p>
                         Lista de todos los motorizados disponibles para la asignación
                     </p>
                     <div class="input-group">
-                        <input type="text" placeholder="Buscar Motorizado " class="input form-control">
+                        <input type="text" placeholder="Buscar Motorizado " class="input form-control" data-bind="value:$root.TextInputBusqueda">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Buscar</button>
+                            <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarMotorizados">
+                                <i class="fa fa-search"></i> Buscar
+                                <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoMotorizados"></i>
+                            </button>
                         </span>
                     </div>
                     <div class="clients-list">
                         <ul class="nav nav-tabs">
                             <span class="pull-right small text-muted" data-bind="text:( ko.unwrap(Motorizados().length) )">0 </span>
                             <span class="pull-right small text-muted ml-2"> Motorizados</span>
-
+                            <span class="ml-lg-3 small text-muted" data-bind="visible: $root.CargandoSolicitud">
+                                Asignando...
+                                <i class="fa fa-spinner fa-pulse"></i>
+                            </span>
+                            
                         </ul>
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
@@ -151,10 +165,13 @@
                                                     </td>
 
                                                     <td class="client-status">
-                                                        <span data-bind="text:( EstadoDelMotorizado()== 0 ? 'Inactivo' : EstadoDelMotorizado()== 1 ? 'Activo' : 'Ocupado'), attr:{ class:EstadoMotorizadoClass}"></span>
+                                                        <span data-bind="text:EstadoMotorizadoDescripcion, attr:{ class:EstadoMotorizadoClass}"></span>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click:$root.Asignar"> <i class="fa fa-link"></i>  Asignar</button>
+                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click:$root.Asignar, disable:$root.CargandoSolicitud">
+                                                            <i class="fa fa-link"></i>
+                                                            <span data-bind="text:$root.AsignacionButtonText"></span>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -192,7 +209,11 @@
 
             self.Asignacion = ko.observable(initialData);
             self.EnvioPorCotizacion = ko.observable(self.Asignacion().Envio.CotizacionId() > 0);
-            self.AsignandoMotorizado = ko.observable(false);
+            self.CargandoSolicitud = ko.observable(false);
+            self.FiltrandoMotorizados = ko.observable(false);
+            self.AsignacionButtonText = ko.observable(self.Asignacion().Envio.EstadoDelEnvio() == 1 ? 'Asignar' : 'Reasignar');
+            self.TextInputBusqueda = ko.observable("");
+            self.TodosLosMotorizados = ko.observableArray(self.Asignacion().Motorizados());
 
             self.Asignar = function (motorizado, event) {
                 if (self.Asignacion().Envio.Id() >= 0 && motorizado.Id() >= 0) {
@@ -203,7 +224,7 @@
                         type: "Post",
                         data: { MotorizadoId: motorizado.Id(), EnvioId: self.Asignacion().Envio.Id() },
                         beforeSend: function () {
-                            self.AsignandoMotorizado(true);
+                            self.CargandoSolicitud(true);
                         },
                         success: function (response) {
                             if (response.exito) {
@@ -228,7 +249,7 @@
                             });
                         },
                         complete: function () {
-                            self.AsignandoMotorizado(false);
+                            self.CargandoSolicitud(false);
                         }
                     }
                 );
@@ -239,6 +260,27 @@
                         text: "El envio o el motorizado seleccionado es inválido, Consulta con atención al cliente"
                     })
                 }
+            }
+
+            self.FiltrarMotorizados = function () {
+                self.FiltrandoMotorizados(true);//mostrar progress de filtrando
+
+                if (self.TextInputBusqueda()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.TodosLosMotorizados(), function (it) {
+                        if (  it.CorreoElectronico().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
+                            it.Telefono().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
+                            it.Nombres().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
+                            it.EstadoMotorizadoDescripcion().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()))
+                        {
+                            return it;
+                        }
+                    });
+                    self.Asignacion().Motorizados(arrayFiltered);
+                } else {
+                    self.Asignacion().Motorizados(self.TodosLosMotorizados());
+                }
+
+                self.FiltrandoMotorizados(false);//ocultar progress
             }
         }
 

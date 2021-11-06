@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using AutoMapper;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
@@ -13,6 +14,7 @@ using MandaditosExpress.Models.Extensions;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
@@ -24,6 +26,7 @@ namespace MandaditosExpress.Controllers
         private Utileria Utileria;
         private CotizacionServices CotizacionServices;
         private CostoServices CostoServices;
+        private MotorizadoServices MotorizadoServices;
 
         public EnviosController(IMapper mapper)
         {
@@ -32,6 +35,7 @@ namespace MandaditosExpress.Controllers
             Utileria = new Utileria();
             CotizacionServices = new CotizacionServices(db);
             CostoServices = new CostoServices(db);
+            MotorizadoServices = new MotorizadoServices(db);
         }
 
         // GET: Envios
@@ -122,7 +126,7 @@ namespace MandaditosExpress.Controllers
 
             //para efectos de prueba se estara trabajando todos con los motorizados sin importar su estado
             var MotorizadosPrueba = db.Motorizados.ToList();
-            AsignacionViewModel.Motorizados = _mapper.Map<ICollection<MotorizadoViewModel>>(MotorizadosPrueba).ToList();
+            AsignacionViewModel.Motorizados = _mapper.Map<ICollection<AsignacionMotorizadoViewModel>>(MotorizadosPrueba).ToList();
 
             return View(AsignacionViewModel);
         }
@@ -131,6 +135,8 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         public ActionResult AsignacionConfirmed(int? MotorizadoId, int? EnvioId)
         {
+            bool Reasignacion = false;
+            Motorizado MotorizadoDelEnvio = null;
 
             var Motorizado = db.Motorizados.FirstOrDefault(it=> it.Id == MotorizadoId);
             ///activar estas validaciones cuando este en produccion
@@ -142,19 +148,41 @@ namespace MandaditosExpress.Controllers
 
             var Envio = db.Envios.FirstOrDefault(it=> it.Id == EnvioId);
 
-            //validaciones sobre el motorizado seleccionado
+            //validaciones sobre el envio seleccionado
             if (Envio == null || Envio.MontoTotalDelEnvio<=0 || Envio.DistanciaEntregaRecep<=0)
                 return Json(new { message = "El envio seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
+            if (Envio.EstadoDelEnvio == (short) EstadoDelEnvioEnum.Finalizado)
+                return Json(new { message = "Este envio ya se encuentra finalizado, no se puede realizar la asignación", exito = false }, JsonRequestBehavior.AllowGet);
+
+            //verificar si ya se encuentra asignado, en este caso seria reasignacion 
+            if (Envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && Envio.MotorizadoId > 0)
+            {
+                //guardar temporalmente el motorizado que estaba asignado para despues cambiarle su estado
+                MotorizadoDelEnvio = db.Motorizados.FirstOrDefault(it => it.Id == Envio.MotorizadoId);
+
+                if (MotorizadoDelEnvio != null)
+                    Reasignacion = true;
+            }
+            else
+                Reasignacion = false;
 
             Envio.MotorizadoId = Motorizado.Id;
             Envio.EstadoDelEnvio = (short) EstadoDelEnvioEnum.EnProceso;
-
             db.Entry(Envio).State = EntityState.Modified;
 
             if(db.SaveChanges() > 0)
             {
+                if (Reasignacion)
+                {
+                    MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Ocupado, Motorizado);//poner como ocupado el nuevo asignado
+                    MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Activo, MotorizadoDelEnvio);//poner como activo el viejo
+                    return Json(new { message = "Se ha realizado con exito la reasignación del motorizado", exito = true }, JsonRequestBehavior.AllowGet);
+                }
+
                 //si todo esta correcto, como se esta haciendo manual la asignacion entonces manualmente debemos cambiar el estado del motorizado
-                Motorizado.EstadoDelMotorizado = (short)EstadoDeMotorizadoEnum.Ocupado;
+                if (!MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Ocupado, Motorizado))
+                    return Json(new { message = "Se ha realizado con exito la asignación del motorizado pero no se pudo cambiar su estado a Ocupado", exito = false }, JsonRequestBehavior.AllowGet);
+
 
                 return Json(new { message = "Se ha realizado con exito la asignación del motorizado", exito = true }, JsonRequestBehavior.AllowGet);
             }
