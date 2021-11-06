@@ -11,7 +11,7 @@ using MandaditosExpress.Services;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Cliente")]
     public class CotizacionesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -33,28 +33,33 @@ namespace MandaditosExpress.Controllers
             //Validacion por si ya viene una cotizacion desde la autenticacion
             var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
 
-            if (cotizacion != null)
+            //guardar una cotizacion requiere el clienteId de esa cotizacion, por lo que es el unico rol que puede guardar cotizaciones
+            if (User.IsInRole("Cliente"))
             {
-                var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-
-                var mCotiza = new Cotizacion
+                if (cotizacion != null)
                 {
-                    DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                    FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                    FechaDeValidez = cotizacion.FechaDeValidez,
-                    LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                    LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
-                    DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                    EsEspecial = cotizacion.EsEspecial,
-                    MontoTotal = cotizacion.MontoTotal,
-                    ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                    TipoDeServicioId = cotizacion.TipoDeServicioId,
-                    MontoDeDinero = cotizacion.MontoDeDinero
-                };
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
-                db.Cotizaciones.Add(mCotiza);
-                db.SaveChanges();
+                    var mCotiza = new Cotizacion
+                    {
+                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                        FechaDeValidez = cotizacion.FechaDeValidez,
+                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
+                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                        EsEspecial = cotizacion.EsEspecial,
+                        MontoTotal = cotizacion.MontoTotal,
+                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                        TipoDeServicioId = cotizacion.TipoDeServicioId,
+                        MontoDeDinero = cotizacion.MontoDeDinero
+                    };
+
+                    db.Cotizaciones.Add(mCotiza);
+                    db.SaveChanges();
+                }
             }
+
 
             return View(cotizaciones.ToList());
         }
@@ -189,13 +194,13 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Guardar(CotizacionViewModel cotizacion)
         {
-                if (Request.IsAuthenticated)
+            if (Request.IsAuthenticated && User.IsInRole("Cliente"))//una cotizacion necesita de un clienteId por lo que solo el rol cliente puede guardar
+            {
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
-                    {
 
-                        var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-                         var mCotiza = new Cotizacion();
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                    var mCotiza = new Cotizacion();
 
                     if (cotizacion.DistanciaOrigenDestino > 0)
                     {
@@ -203,31 +208,31 @@ namespace MandaditosExpress.Controllers
                         mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
                     }
 
-                      mCotiza = new Cotizacion
-                        {
-                            DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                            FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                            FechaDeValidez = cotizacion.FechaDeValidez,
-                            DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                            EsEspecial = cotizacion.EsEspecial,
-                            MontoTotal = cotizacion.MontoTotal,
-                            ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                            TipoDeServicioId = cotizacion.TipoDeServicioId,
-                            MontoDeDinero = cotizacion.MontoDeDinero
-                        };
+                    mCotiza = new Cotizacion
+                    {
+                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                        FechaDeValidez = cotizacion.FechaDeValidez,
+                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                        EsEspecial = cotizacion.EsEspecial,
+                        MontoTotal = cotizacion.MontoTotal,
+                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                        TipoDeServicioId = cotizacion.TipoDeServicioId,
+                        MontoDeDinero = cotizacion.MontoDeDinero
+                    };
 
-                        db.Cotizaciones.Add(mCotiza);
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
+                    db.Cotizaciones.Add(mCotiza);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
-                    TempData["Cotizacion"] = cotizacion;
-                    return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
-                }
-                return View(cotizacion);
+            }
+            else
+            {
+                //validacion para que despues de que se autentique lo regrese a esta accion con los datos de la cotizacion
+                TempData["Cotizacion"] = cotizacion;
+                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
+            }
+            return View(cotizacion);
         }
 
         // GET: Cotizaciones/RealizarEnvio

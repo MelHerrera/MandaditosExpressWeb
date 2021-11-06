@@ -63,7 +63,7 @@ namespace MandaditosExpress.Controllers
                 {
                     if (cliente.CorreoElectronico != null && cliente.Password != null)
                     {
-                        var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
+                        var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono};
                         var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
                         var UserInDb = UserManager.FindByEmail(user.Email);
@@ -82,7 +82,7 @@ namespace MandaditosExpress.Controllers
                                 await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", confirmationMessageBody);
 
                                 //agregar a su correspondiente rol aqui
-                                //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+                                await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
                                 //Agregamos el cliente
                                 var cl = new Cliente
                                 {
