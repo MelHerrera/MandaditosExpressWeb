@@ -1,0 +1,43 @@
+﻿<template id="credito-modal-template">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="ClienteId" class="control-label">ClienteId</label>
+                <input type="text" data-bind="value:NombreCompleto, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="EstadoDelCredito" class="control-label">Estado</label>
+                <input type="checkbox" data-bind="checked: EstadoDelCredito,bsSwitchButton: {}, disable: $root.Disable" name="EstadoDelCredito" id="switch-EstadoDelCredito">
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaDeInicio" class="control-label">Fecha De Inicio</label>
+                <input type="datetime-local" data-bind="value:FechaDeInicio, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeInicio" class="form-control" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaDeVencimiento" class="control-label">Fecha De Vencimiento</label>
+                <input type="datetime-local" data-bind="value:FechaDeVencimiento, disable: $root.Disable" name="FechaDeVencimiento" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaDeCancelacion" class="control-label">Fecha De Cancelacion</label>
+                <input type="datetime-local" data-bind="value:FechaDeCancelacion, disable: $root.Disable" name="FechaDeCancelacion" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+
+</template>

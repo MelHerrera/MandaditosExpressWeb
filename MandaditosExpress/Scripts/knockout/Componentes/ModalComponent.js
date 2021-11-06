@@ -7,7 +7,13 @@
 
 function ModalBodyViewModel(params) {
     const self = this;
-    self.MonedaTemplateViewModel = ko.observable(params.MonedaTemplateViewModel);
+    self.TemplateViewModel = ko.observable(new TemplateViewModel({ Name: params.Name, Data: params.Data }));
+};
+
+function TemplateViewModel(params) {
+    const self = this;
+    self.Name = ko.observable(ko.isObservable(params.Name) ? params.Name : ko.observable(params.Name) || "");
+    self.Data = ko.observable(params.Data);
 };
 
 //viewmodel for footer modal components
@@ -63,4 +69,3 @@ ko.components.register('modal', {
     },
     template: { element: 'modal-template' }
 });
-

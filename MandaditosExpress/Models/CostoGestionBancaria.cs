@@ -33,10 +33,14 @@ namespace MandaditosExpress.Models
 
         [Required]
         [Display(Name ="Monto Desde")]
+        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoDesde { get; set; }
 
         [Required]
         [Display(Name = "Monto Hasta")]
+        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoHasta { get; set; }
 
         [Required]
@@ -50,6 +54,7 @@ namespace MandaditosExpress.Models
         public float PrecioDeRecargo { get; set; }
 
         [Required]
+        [Display(Name = "Tipo De Servicio")]
         public int TipoDeServicioId { get; set; }
 
         public virtual ICollection<TipoDeServicio> TiposDeServicio { get; set; }

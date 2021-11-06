@@ -2,11 +2,19 @@
 
 @{
     ViewBag.Title = "Agregar Cliente";
+    Layout = null;
 }
 
-@section Styles {
-    @Styles.Render("~/Content/site/register")
-}
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/font-awesome/css")
+@Styles.Render("~/Content/site/register")
+
+<style>
+    .main {
+        background: #f8f8f8;
+        padding: 20px 0px 20px 0px;
+    }
+</style>
 
 
 @if (Request.IsAuthenticated)
@@ -32,51 +40,10 @@
             -o-border-radius: 20px;
             -ms-border-radius: 20px
         }
-</style>
-}
-else
-{
-    <style>
-
-        .landing-page .navbar-default .nav li a {
-            color: #000;
-            font-family: 'Open Sans', helvetica, arial, sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .landing-page .navbar-fixed-top {
-            border-bottom: 1px solid #e7eaec !important;
-            background-color: #ffffff;
-        }
     </style>
 }
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
-@if (Request.IsAuthenticated)
-{
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Agregar Clientes</h2>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>Personas</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "Clientes")">Clientes</a>
-                </li>
-                <li class="active breadcrumb-item">
-                    <strong>Agregar</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-}
 
 
 <div class="main">
@@ -94,7 +61,7 @@ else
 
                             <div class="text-center">
                                 <img src="~/Images/default_profile.png" class="avatar img-circle img-thumbnail" alt="avatar" height="100" width="100">
-                                <h6>Sube tu Foto de Perfil Aquí...</h6>
+                                <h6 class="mt-1" style="font-size:75%">Sube tu Foto de Perfil Aquí...</h6>
                                 <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
                             </div><br>
 
@@ -102,7 +69,7 @@ else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="PrimerNombre"> <i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre" />
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                 </div>
@@ -117,31 +84,32 @@ else
                             <div class=" row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="PrimerApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido" />
+                                        <label for="PrimerApellido"><i class="fa fa-users"></i></label>
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="SegundoApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" />
+                                        <label for="SegundoApellido"><i class="fa fa-users"></i></label>
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
                                 </div>
                             </div><br />
 
                             <div class=" row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula" />
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
+                                            <input type="text" name="Cedula" placeholder="Cedula" class="Cedula"/>
+                                        </div>
                                     </div>
-                                </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="Telefono"><i class="fa fa-phone"></i></label>
-                                        <input type="text" name="Telefono" placeholder="Celular" />
+                                        <label for="Celular"><i class="fa fa-phone"></i></label>
+                                        <input type="text" name="Telefono" placeholder="Celular*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                                 </div>
@@ -164,7 +132,7 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                        <input type="text" name="Direccion" placeholder="Dirección" />
+                                        <input type="text" name="Direccion" placeholder="Dirección*" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                                 </div>
@@ -232,7 +200,8 @@ else
                         }
                     </div>
                     <div class="signup-image ">
-                        <figure><img src="/Images/signup-image.jpg" alt="sing up image"></figure>
+                        @*<figure><img src="/Images/signup-image.jpg" alt="sing up image"></figure>*@
+                        <figure><img src="~/Images/Register.png" alt="sing up image"></figure>
                         @if (Request.IsAuthenticated == false)
                         {
                             <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
@@ -244,49 +213,50 @@ else
     </section>
 </div>
 
-@section Scripts{
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
 
 <script type="text/javascript">
 
-        $(document).ready(function () {
-            //Por defecto ocultar estos campos
-            $(".nombreEmpresa").hide();
-            $(".RUCEmpresa").hide();
+    $(document).ready(function () {
+        //Por defecto ocultar estos campos
+        $(".nombreEmpresa").hide();
+        $(".RUCEmpresa").hide();
 
-            var readURL = function (input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $('.avatar').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
                 }
+
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            $(".file-upload").on('change', function () {
-                readURL(this);
-            });
-
-            $('.chkEmpresa').change(function () {
-                $(".nombreEmpresa").toggle();
-                $(".RUCEmpresa").toggle();
-            });
-
-            //validar campo NombreDeLaEmpresa y RUC
-
-            $(".chkEmpresa").on("click", function () {
-                if ($(".chkEmpresa").is(":checked")) {
-                    $("#NombreDeLaEmpresa").attr("required", "true");
-                } else {
-                    $("#NombreDeLaEmpresa").removeAttr("required");
-                }
-            });
-
+        $(".file-upload").on('change', function () {
+            readURL(this);
         });
+
+        $('.chkEmpresa').change(function () {
+            $(".nombreEmpresa").toggle();
+            $(".RUCEmpresa").toggle();
+        });
+
+        //mascara de la cédula
+        $('.Cedula').mask('000-000000-0000S', { placeholder: "001-03121995-0005D" });
+
+        //validar campo NombreDeLaEmpresa y RUC
+
+        $(".chkEmpresa").on("click", function () {
+            if ($(".chkEmpresa").is(":checked")) {
+                $("#NombreDeLaEmpresa").attr("required", "true");
+            } else {
+                $("#NombreDeLaEmpresa").removeAttr("required");
+            }
+        });
+
+    });
 </script>
-}

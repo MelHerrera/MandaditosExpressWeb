@@ -2,106 +2,80 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Iniciar sesión";
+    Layout = null;
 }
 
-@section Styles {
-    @*@Styles.Render("~/Content/site/login")*@
-    @Styles.Render("~/Content/site/register")
-}
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/font-awesome/css")
+@Styles.Render("~/Content/site/register")
 
 <style>
-
-    .landing-page .navbar-default .nav li a {
-        color: #000;
-        font-family: 'Open Sans', helvetica, arial, sans-serif;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-
-    .landing-page .navbar-fixed-top {
-        border-bottom: 1px solid #e7eaec !important;
-        background-color: #ffffff;
-    }
-
-    body.landing-page {
-        color: #676a6c;
-        font-family: 'Open Sans', helvetica, arial, sans-serif;
-        background-color: #f8f8f8;
-    }
-
     .register {
         width: 800px;
-        background: #fff;
-        margin: 0 auto;
-        box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-        -moz-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-        -webkit-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-        -o-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-        -ms-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-        border-radius: 20px;
-        -moz-border-radius: 20px;
-        -webkit-border-radius: 20px;
-        -o-border-radius: 20px;
-        -ms-border-radius: 20px
+    }
+
+    .main {
+        background: #f8f9fa;
+        padding: 20px 0px 20px 0px;
     }
 </style>
 
-<div class="main">
-    <section class="sign-in">
-        <div class="container">
-            <div class="register">
-                <div class="signin-content">
-                    <div class="signin-form">
-                        <h2 class="form-title">Inicie Sesión</h2>
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "register-form", role = "form" }))
-                        {
+<body>
+    <div class="main">
+        <section class="sign-in">
+            <div class="container">
+                <div class="register">
+                    <div class="signin-content">
+                        <div class="signin-form">
+                            <h2 class="form-title">Inicie Sesión</h2>
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "register-form", role = "form" }))
+                            {
 
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Email"><i class="fa fa-envelope" aria-hidden="true"></i></label>
-                                        <input type="text" name="Email" id="your_name" placeholder="Correo Electronico" />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Email"><i class="fa fa-envelope" aria-hidden="true"></i></label>
+                                            <input type="text" name="Email" id="your_name" placeholder="Correo Electronico" />
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                     </div>
-                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Password"><i class="fa fa-key"></i></label>
-                                        <input type="password" name="Password" id="your_pass" placeholder="Contrasña" />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Password"><i class="fa fa-key"></i></label>
+                                            <input type="password" name="Password" id="your_pass" placeholder="Contrasña" />
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <input type="checkbox" name="RememberMe" value="true" style="display:inline-block;width:auto;" />
-                                <label for="RememberMe" class="label-esEmpresa"> Recordar Cuenta</label>
-                            </div>
+                                <div class="form-group">
+                                    <input type="checkbox" name="RememberMe" value="true" style="display:inline-block;width:auto;" />
+                                    <label for="RememberMe" class="label-esEmpresa"> Recordar Cuenta</label>
+                                </div>
 
-                            <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success"> Iniciar Sesión </button>
-                                <a href="@Url.Action("ForgotPassword","Account")" class="signup-image-link" style="text-decoration:underline;">¿Ha olvidado su contraseña?</a>
-                            </div>
-                        }
-                    </div>
-                    <div class="signin-image">
-                        <figure><img src="~/Images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="@Url.Action("Create","Clientes")" class="signup-image-link" style="text-decoration:underline;">Crear una Cuenta</a>
+                                <div class="form-group form-button">
+                                    <button type="submit" class="btn btn-success"> Iniciar Sesión </button>
+                                    <a href="@Url.Action("ForgotPassword","Account")" class="signup-image-link" style="text-decoration:underline;">¿Ha olvidado su contraseña?</a>
+                                </div>
+                            }
+                        </div>
+                        <div class="signin-image">
+                            @*<figure><img src="~/Images/signin-image.jpg" alt="sing up image"></figure>*@
+                            <figure><img src="~/Images/Login.png" alt="sing up image"></figure>
+                            <a href="@Url.Action("Create","Clientes")" class="signup-image-link" target="_blank" style="text-decoration:underline;">Crear una Cuenta</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
+</body>
 
-@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery")
-}

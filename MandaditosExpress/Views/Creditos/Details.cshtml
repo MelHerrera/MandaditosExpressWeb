@@ -1,0 +1,58 @@
+﻿@model MandaditosExpress.Models.Credito
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Credito</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.CorreoElectronico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeVencimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeVencimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDelCredito)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDelCredito)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeCancelacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeCancelacion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

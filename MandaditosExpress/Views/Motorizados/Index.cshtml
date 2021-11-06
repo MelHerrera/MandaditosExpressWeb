@@ -6,7 +6,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Clientes</h2>
+        <h2>Lista de Motorizados</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -41,136 +41,109 @@
                             <a class="btn btn-success float-left" href="@Url.Action("Create","Motorizados")"><i class="fa fa-plus"></i> Agregar</a>
                         </p>
                     </div>
-                    <table class="table table-bordered table-hover">
-                        <thead id="thead">
-                            <tr class="bg-primary">
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EsAfiliado)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EstadoDeAfiliado)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaDeAfiliacion)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaIngreso)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EstadoDelMotorizado)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CorreoElectronico)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NombreCompleto)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Telefono)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Foto)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Sexo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Direccion)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Cedula)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaIngreso)
-                                </th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr class="gradeX">
-                                    <td>
-                                        @if (item.EsAfiliado)
-                                        {
-                                            <span class="badge badge-warning">Afiliado</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-success">Empresarial</span>
-                                        }
-                                    </td>
-                                    <td @using MandaditosExpress.Models.Enum>
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
-                                        {
-                                            <span class="badge badge-success">Afiliado</span>
-                                        }
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Solicitud)
-                                        {
-                                            <span class="badge badge-warning">Solicited</span>
-                                        }
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="table table-bordered table-hover text-center justify-content-center">
+                            <thead id="thead">
+                                <tr class="bg-primary">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EsAfiliado)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EstadoDeAfiliado)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CorreoElectronico)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NombreCompleto)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Telefono)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Foto)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Cedula)
+                                    </th>
 
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
-                                        {
-                                            <span class="badge badge-danger">Denegado</span>
-                                        }
-
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
-                                        {
-                                            <span class="badge badge-secondary">No Aplica</span>
-                                        }
-
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaDeAfiliacion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaIngreso)
-                                    </td>
-                                    <td>
-                                        @if (item.EstadoDelMotorizado)
-                                        {
-                                            <span class="badge badge-success">Activo</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-warning">Inactivo</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CorreoElectronico)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Telefono)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Foto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Sexo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Direccion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cedula)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaIngreso)
-                                    </td>
-                                    <td style="white-space:nowrap;">
-                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
-                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                    </td>
+                                    <th>Opciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                        <tfoot id="foot">
-                        </tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="gradeX">
+                                        <td>
+                                            @if (item.EsAfiliado)
+                                            {
+                                                <span class="badge badge-warning">Afiliado</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-success">Empresarial</span>
+                                            }
+                                        </td>
+                                        <td @using MandaditosExpress.Models.Enum>
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
+                                            {
+                                                <span class="badge badge-success">Afiliado</span>
+                                            }
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Solicitud)
+                                            {
+                                                <span class="badge badge-warning">Solicitud</span>
+                                            }
+
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
+                                            {
+                                                <span class="badge badge-danger">Denegado</span>
+                                            }
+
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
+                                            {
+                                                <span class="badge badge-secondary">No Aplica</span>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Telefono)
+                                        </td>
+                                        <td>
+                                            @if (item.Foto != null)
+                                            {
+                                                @Html.DisplayImage(item.Foto)
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cedula)
+                                        </td>
+                                        <td style="white-space:nowrap;">
+                                            <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                            <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            Se encontraron 0 Motorizados <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -188,11 +161,11 @@
         $(document).ready(function () {
 
             $('.table').DataTable({
-                pageLength: 25,
+                pageLength: 10,
                 scrollX: true,
                 dom: '<"html5buttons"B>lTfgitp',
+                "order": [[3, "desc"]],
                 buttons: [
-                    { extend: 'copy' },
                     { extend: 'excel' },
                     { extend: 'pdf' },
 
@@ -222,12 +195,6 @@
                         previous: "Anterior"
                     },
                     buttons: {
-                        copy: "Copiar",
-                        copySuccess: {
-                            1: "Copiada 1 fila al portapapeles",
-                            _: "Copiadas %d filas al portapapeles"
-                        },
-                        copyTitle: "Copiar al portapapeles",
                         excel: "Excel",
                         pdf: "PDF",
                         print: "Imprimir"
@@ -236,6 +203,5 @@
 
             });//fin del DataTable
         });//fin del ready
-
     </script>
 }

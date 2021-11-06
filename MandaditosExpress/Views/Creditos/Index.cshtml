@@ -1,0 +1,135 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Credito>
+
+@{
+    ViewBag.Title = "Créditos";
+    var Creditos = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", Creditos);
+}
+
+@Styles.Render("~/Plugin/switches")
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Créditos</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Creditos")">Créditos</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Inicio</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Créditos</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+
+                    @if (Model.Count() > 0)
+                    {
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Nº")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeVencimiento)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeCancelacion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EstadoDelCredito)
+                                    </th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:Creditos">
+                                <tr>
+                                    <td data-bind="text:$index()+1"></td>
+                                    <td data-bind="text:NombreCompleto"></td>
+                                    <td data-bind="text:FechaDeInicio"></td>
+                                    <td data-bind="text:FechaDeVencimiento"></td>
+                                    <td data-bind="text:FechaDeCancelacion"></td>
+
+                                    <td >
+                                        <input type="checkbox" data-bind="checked:EstadoDelCredito" disabled/>
+                                    </td>
+
+
+                                    <td>
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            Se encontraron 0 Créditos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Creditos/Templates/_CreditoTemplate.cshtml")
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+
+@section Scripts{
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/bundles/IndexCreditos")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
+}

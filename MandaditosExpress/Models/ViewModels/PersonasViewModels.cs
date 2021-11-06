@@ -1,6 +1,7 @@
 ﻿using MandaditosExpress.Models.Enum;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandaditosExpress.Models.ViewModels
 {
@@ -82,9 +83,12 @@ namespace MandaditosExpress.Models.ViewModels
     {
         public MotorizadoViewModel()
         {
-            this.Color = "#3399FF";
-            this.EsAfiliado = false;
+            Color = "#3399FF";
+            FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");//default value
         }
+
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -149,6 +153,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int DisponibilidadId { get; set; }
 
         [Display(Name = "Fecha de Afiliación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
 
         [Display(Name ="¿Es Propia?")]
@@ -177,8 +182,47 @@ namespace MandaditosExpress.Models.ViewModels
         public int MotorizadoId { get; set; }
         public bool EstadoDeMotocicleta { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Estado")]
+        public short EstadoDelMotorizado { get; set; }
+
+        public string EstadoMotorizadoClass { get; set; }
+
         [Required]
         [Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]
         public bool AceptaTerminos { get; set; }
+
+        [NotMapped]
+        public string Nombres { get { return PrimerNombre + " " + PrimerApellido + " " + SegundoApellido; } }
+    }
+
+    public class AsignacionMotorizadoViewModel
+    {
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        public byte[] Foto { get; set; }
+
+        [Required]
+        [StringLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Estado")]
+        public short EstadoDelMotorizado { get; set; }
+
+        public string EstadoMotorizadoClass { get; set; }
+
+        public string EstadoMotorizadoDescripcion { get; set; }
+
+        [NotMapped]
+        public string Nombres { get; set; }
     }
 }

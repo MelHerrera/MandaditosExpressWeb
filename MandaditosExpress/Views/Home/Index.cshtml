@@ -1,601 +1,198 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-<div id="top">
-    <div id="inSlider" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#inSlider" data-slide-to="0" class="active"></li>
-            <li data-target="#inSlider" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>
-                            We craft<br />
-                            brands, web apps,<br />
-                            and user interfaces<br />
-                            we are IN+ studio
-                        </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing.</p>
-                        <p>
-                            <a class="btn btn-lg btn-primary" href="#" role="button">READ MORE</a>
-                            <a class="caption-link" href="#" role="button">Inspinia Theme</a>
-                        </p>
-                    </div>
-                    <div class="carousel-image wow zoomIn">
-                        <img src="~/Images/landing/laptop.png" alt="laptop" />
-                    </div>
-                </div>
-                <!-- Set background for slide in css -->
-                <div class="header-back one"></div>
+﻿    <!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
 
-            </div>
-            <div class="carousel-item">
-                <div class="container">
-                    <div class="carousel-caption blank">
-                        <h1>We create meaningful <br /> interfaces that inspire.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-                    </div>
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <h1>Somos la mejor opción para realizar tus envíos y gestiones</h1>
+                <h2>Tenemos un equipo de motorizados altamente comprometidos por el servicio al cliente, nos caracterizamos por brindarle el mejor servicio en el menor tiempo posible.</h2>
+                <div>
+                    <a href="@Url.Action("Login","Account")" target="_blank" class="btn-get-started scrollto btn btn-success" style="border-radius:5px 5px"> Iniciar Sesión </a>
                 </div>
-                <!-- Set background for slide in css -->
-                <div class="header-back two"></div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                <img src="~/Images/landing/delivery.svg" class="img-fluid animated" alt="" style="width:80%">
             </div>
         </div>
-        <a class="carousel-control-prev" href="#inSlider" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#inSlider" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
 
+</section><!-- End Hero -->
 
-    <section id="features" class="container services">
-        <div class="row">
-            <div class="col-sm-3">
-                <h2>Full responsive</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
-            </div>
-            <div class="col-sm-3">
-                <h2>LESS/SASS Files</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
-            </div>
-            <div class="col-sm-3">
-                <h2>6 Charts Library</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
-            </div>
-            <div class="col-sm-3">
-                <h2>Advanced Forms</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
-            </div>
-        </div>
-    </section>
+<main id="main">
 
-    <section class="container features">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>Over 40+ unique view<br /> <span class="navy"> with many custom components</span> </h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 text-center wow fadeInLeft">
-                <div>
-                    <i class="fa fa-mobile features-icon"></i>
-                    <h2>Full responsive</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-                <div class="m-t-lg">
-                    <i class="fa fa-bar-chart features-icon"></i>
-                    <h2>6 Charts Library</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-            </div>
-            <div class="col-md-6 text-center  wow zoomIn">
-                <img src="~/Images/landing/perspective.png" alt="dashboard" class="img-fluid">
-            </div>
-            <div class="col-md-3 text-center wow fadeInRight">
-                <div>
-                    <i class="fa fa-envelope features-icon"></i>
-                    <h2>Mail pages</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-                <div class="m-t-lg">
-                    <i class="fa fa-google features-icon"></i>
-                    <h2>AngularJS version</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>Discover great feautres</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row features-block">
-            <div class="col-lg-6 features-text wow fadeInLeft">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                <a href="" class="btn btn-primary">Learn more</a>
-            </div>
-            <div class="col-lg-6 text-right wow fadeInRight">
-                <img src="~/Images/landing/dashboard.png" alt="dashboard" class="img-fluid float-right">
-            </div>
-        </div>
-    </section>
-
-    <section id="team" class="gray-section team">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
         <div class="container">
-            <div class="row m-b-lg">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Our Team</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 wow fadeInLeft">
-                    <div class="team-member">
-                        <img src="~/Images/landing/avatar3.jpg" class="img-fluid rounded-circle img-small" alt="">
-                        <h4><span class="navy">Amelia</span> Smith</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus. </p>
-                        <ul class="list-inline social-icon">
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="team-member wow zoomIn">
-                        <img src="~/Images/landing/avatar1.jpg" class="img-fluid rounded-circle" alt="">
-                        <h4><span class="navy">John</span> Novak</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
-                        <ul class="list-inline social-icon">
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4 wow fadeInRight">
-                    <div class="team-member">
-                        <img src="~/Images/landing/avatar2.jpg" class="img-fluid rounded-circle img-small" alt="">
-                        <h4><span class="navy">Peter</span> Johnson</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
-                        <ul class="list-inline social-icon">
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center m-t-lg m-b-lg">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Even more great feautres</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+            <div class="row justify-content-between">
+                <div class="col-lg-5 d-flex align-items-center justify-content-center about-img">
+                    <img src="~/Images/atwork.png" class="img-fluid" alt="" data-aos="zoom-in">
                 </div>
-            </div>
-            <div class="row features-block">
-                <div class="col-lg-3 features-text wow fadeInLeft">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                    <a href="" class="btn btn-primary">Learn more</a>
-                </div>
-                <div class="col-lg-6 text-right m-t-n-lg wow zoomIn">
-                    <img src="~/Images/landing/iphone.jpg" class="img-fluid" alt="dashboard">
-                </div>
-                <div class="col-lg-3 features-text text-right wow fadeInRight">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                    <a href="" class="btn btn-primary">Learn more</a>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="timeline gray-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Our workflow</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-                </div>
-            </div>
-            <div class="row features-block">
-
-                <div class="col-lg-12">
-                    <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-briefcase"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Meeting</h2>
-                                <p>
-                                    Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
-                                </p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Today <br /> <small>Dec 24</small> </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-file-text"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Decision</h2>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Tomorrow <br /> <small>Dec 26</small> </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-cogs"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Implementation</h2>
-                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Monday <br /> <small>Jan 02</small> </span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </section>
-
-    <section id="testimonials" class="navy-section testimonials" style="margin-top: 0">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center wow zoomIn">
-                    <i class="fa fa-comment big-icon"></i>
-                    <h1>
-                        What our users say
-                    </h1>
-                    <div class="testimonials-text">
-                        <i>"Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."</i>
-                    </div>
-                    <small>
-                        <strong>12.02.2014 - Andy Smith</strong>
-                    </small>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="comments gray-section" style="margin-top: 0">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>What our partners say</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada. </p>
-                </div>
-            </div>
-            <div class="row features-block">
-                <div class="col-lg-4">
-                    <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                    </div>
-                    <div class="comments-avatar">
-                        <a href="" class="float-left">
-                            <img alt="image" src="~/Images/landing/avatar3.jpg">
-                        </a>
-                        <div class="media-body">
-                            <div class="commens-name">
-                                Andrew Williams
-                            </div>
-                            <small class="text-muted">Company X from California</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                    </div>
-                    <div class="comments-avatar">
-                        <a href="" class="float-left">
-                            <img alt="image" src="~/Images/landing/avatar1.jpg">
-                        </a>
-                        <div class="media-body">
-                            <div class="commens-name">
-                                Andrew Williams
-                            </div>
-                            <small class="text-muted">Company X from California</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                    </div>
-                    <div class="comments-avatar">
-                        <a href="" class="float-left">
-                            <img alt="image" src="~/Images/landing/avatar2.jpg">
-                        </a>
-                        <div class="media-body">
-                            <div class="commens-name">
-                                Andrew Williams
-                            </div>
-                            <small class="text-muted">Company X from California</small>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
-
-    </section>
-
-    <section class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>More and more extra great feautres</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-bar-chart big-icon float-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-                </div>
-                <div class="col-lg-5 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-bolt big-icon float-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-clock-o big-icon float-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-                </div>
-                <div class="col-lg-5 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-users big-icon float-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-                </div>
-            </div>
-        </div>
-
-    </section>
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <div class="row m-b-lg">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>App Pricing</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled">
-                        <li class="pricing-title">
-                            Basic
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$16</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled selected">
-                        <li class="pricing-title">
-                            Standard
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$22</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <strong>Support platform</strong>
-                        </li>
-                        <li class="plan-action">
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled">
-                        <li class="pricing-title">
-                            Premium
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$160</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row m-t-lg">
-                <div class="col-lg-12 text-center m-t-lg">
-                    <p>*Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. <span class="navy">Various versions</span>  have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <section id="contact" class="gray-section contact">
-        <div class="container">
-            <div class="row m-b-lg">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Contact Us</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
-                </div>
-            </div>
-            <div class="row m-b-lg justify-content-center">
-                <div class="col-lg-3 col-lg-offset-3">
-                    <address>
-                        <strong><span class="navy">Company name, Inc.</span></strong><br />
-                        795 Folsom Ave, Suite 600<br />
-                        San Francisco, CA 94107<br />
-                        <abbr title="Phone">P:</abbr> (123) 456-7890
-                    </address>
-                </div>
-                <div class="col-lg-4">
-                    <p class="text-color">
-                        Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam veritatis quis ad perspiciatis, totam corporis laboriosam veritatis, consectetur adipisicing elit quos non quis ad perspiciatis, totam corporis ea,
+                <div class="col-lg-6 pt-5 pt-lg-0">
+                    <h3 data-aos="fade-up">Tenemos muchas opciones para ti</h3>
+                    <p data-aos="fade-up" data-aos-delay="100">
+                        Puedes contactarte con atención al cliente para consultar acerca de todas las opciones que tenemos para tí
                     </p>
+                    <div class="row">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                            <i class="bx bx-receipt"></i>
+                            <h4>Cotizá</h4>
+                            <p>Realiza la cotización de tus envios del punto A al punto B</p>
+                            <div>
+                                <a href="@Url.Action("Create","Cotizaciones")" class="btn btn-success text-white"> Cotizar </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                            <i class="bx bx-cube-alt"></i>
+                            <h4>Afíliate</h4>
+                            <p>Si tienes tu propia moto y quieres ganar un dinero extra</p>
+                            <div>
+                                <a href="@Url.Action("Create","Motorizados")" class="btn btn-success text-white"> Afiliarme </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
+                            <i class="bx bx-receipt"></i>
+                            <h4>Gestiona</h4>
+                            <p>Mantén toda la información de tus gestiones al alcance de tus manos, por este medio ó a través de nuestra aplicación movil</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <a href="mailto:test@email.com" class="btn btn-primary">Send us mail</a>
-                    <p class="m-t-sm">
-                        Or follow us on social platform
-                    </p>
-                    <ul class="list-inline social-icon">
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center m-t-lg m-b-lg">
-                    <p><strong>&copy; Con Amor | Mandadito Express @DateTime.Now.Year</strong><br /> consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-                </div>
-            </div>
+
         </div>
-    </section>
-</div>
+    </section><!-- End About Section -->
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Servicios</h2>
+                <p>Echa un vistazo a los excelentes servicios que ofrecemos</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bi bi-box"></i></div>
+                        <h4 class="title"><a href="">Paquetería</a></h4>
+                        <p class="description">Realiza el envío de cualquier paquete con nosotros de forma fácil y rápida</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bi bi-bag-check"></i></div>
+                        <h4 class="title"><a href="">Mandaditos</a></h4>
+                        <p class="description"> Te hacemos tus mandados y pequeñas gestiones. ¿Olvidaste tus llaves en algún lugar?</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bi bi-bank"></i></div>
+                        <h4 class="title"><a href="">Gestiones bancarias</a></h4>
+                        <p class="description">Realizamos todas tus gestiones bancarias que puedan ser delegadas</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Services Section -->
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Clientes</h2>
+                <p>Ellos confian en nosotros</p>
+            </div>
+
+            <div class="clients-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper align-items-center">
+                    <div class="swiper-slide"><img src="~/Images/clients/vetplus.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/silver.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/colectivo-shops.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/christina-closets.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/uniformania.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/vvjoyas.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/fashion.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/raymari.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/acuarela.jpg" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="~/Images/clients/toys.jpg" class="img-fluid" alt=""></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section><!-- End Clients Section -->
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>contáctanos</h2>
+                <p>contáctanos para brindarte la información que necesites</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="info">
+                        <div class="address">
+                            <i class="bi bi-geo-alt"></i>
+                            <h4>Ubicación:</h4>
+                            <p>Colonia Miguel Bonilla</p>
+                        </div>
+
+                        <div class="email">
+                            <i class="bi bi-envelope"></i>
+                            <h4>Email:</h4>
+                            <p>elmandaditoexpressni@gmail.com</p>
+                        </div>
+
+                        <div class="phone">
+                            <i class="bi bi-phone"></i>
+                            <h4>Llamanos:</h4>
+                            <p>+505 7799 9885</p>
+                        </div>
+
+
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.1433057316654!2d-86.27749318537072!3d12.102340386629171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f71559841588fab%3A0x2f2c08ebd43d4d4d!2sColonia%20Miguel%20Bonilla%2C%20Managua%2C%20Nicaragua!5e0!3m2!1ses!2sbg!4v1634497404285!5m2!1ses!2sbg" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @class = "php-email-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="form-group col-md-10 mt-3 mt-md-0">
+                                <label for="name">Tu correo:</label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="name">Asunto:</label>
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="name">Mensaje:</label>
+                            <textarea class="form-control" name="message" rows="7" required></textarea>
+                        </div>
+                        <div class="text-center"><button type="submit" class="btn btn-success">Enviar Mensaje</button></div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Us Section -->
+
+</main><!-- End #main -->

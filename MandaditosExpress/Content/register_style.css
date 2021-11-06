@@ -200,9 +200,9 @@ body {
     font-size: 13px;
     line-height: 1.8;
     color: #222;
-    background: #f8f8f8;
     font-weight: 400;
-    font-family: Poppins
+    font-family: Poppins;
+    background-color: #f8f9fa
 }
 
 .register{
@@ -531,7 +531,7 @@ label.valid {
 }
 
 .signin-content {
-    padding-top: 67px;
+    padding-top: 20px;
     padding-bottom: 87px
 }
 
@@ -607,7 +607,7 @@ label.valid {
 }
 
 .signin-image {
-    margin-left: 110px;
+    margin-left: 10px;
     margin-right: 20px;
     margin-top: 10px
 }

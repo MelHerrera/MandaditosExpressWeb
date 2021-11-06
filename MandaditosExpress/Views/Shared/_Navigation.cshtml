@@ -1,24 +1,7 @@
 ﻿
 @{
-    var existeSession = false;
-    var PersonaActual = new MandaditosExpress.Models.Persona();
-
-    if (Session != null)
-    {
-        if (Session["CurrentUser"] != null)
-        {
-            PersonaActual = (MandaditosExpress.Models.Persona)Session["CurrentUser"];
-            existeSession = true;
-        }
-        else { existeSession = false; }
-    }
-
-    if (!existeSession)
-    {
-        PersonaActual = new MandaditosExpress.Models.Utileria.Utileria().BuscarPersonaPorUsuario(Request.GetOwinContext().Authentication.User.Identity.Name);
-        Session["CurrentUser"] = PersonaActual;
-    }
-
+    var PersonaActual = new MandaditosExpress.Models.Utileria.Utileria().BuscarPersonaPorUsuario(Request.GetOwinContext().Authentication.User.Identity.Name);
+    var PersonaActualRol = new MandaditosExpress.Models.Utileria.Utileria().GetRolesDeUsuario(User.Identity.Name);
 }
 
 <nav class="navbar-default navbar-static-side" role="navigation">
@@ -26,10 +9,15 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element text-center">
-                    @Html.DisplayImage(PersonaActual.Foto)
+                    @Html.DisplayImage(PersonaActual != null ? PersonaActual.Foto : null)
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">@PersonaActual.PrimerNombre @PersonaActual.PrimerApellido</span>
-                        <span class="text-muted text-xs block">Aqui debe ir su Rol <b class="caret"></b></span>
+                        <span class="block m-t-xs font-bold">
+                            @if (PersonaActual != null)
+                            {
+                                <span>@PersonaActual.PrimerNombre @PersonaActual.PrimerApellido</span>
+                            }
+                        </span>
+                        <span class="text-muted text-xs block">@PersonaActualRol<b class="caret"></b></span>
                     </a>
                     @*<ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
                     <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
@@ -38,60 +26,76 @@
                     <li class="dropdown-divider"></li>
                 </ul>*@
                 </div>
-                <div class="logo-element">
-                    MExpr..
-                </div>
             </li>
             <li class="@Html.IsSelected(controller: "HomeUser")">
                 <a href="@Url.Action("Index", "HomeUser")"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Inicio</span></a>
             </li>
 
-            <!--Personas Option-->
-            <li class="@Html.IsSelected(controller: "Personas")">
-                <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse ">
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Clientes")">Clientes</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Motorizados")">Motorizados</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Asistentes")">Asistentes</a>
-                    </li>
-                </ul>
-            </li>
-            <!--Catalogos Option-->
-            <li class="@Html.IsSelected(controller: "Catalogos")">
-                <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse ">
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Costos")">Costos</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Disponibilidad")">Disponibilidad</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad de Conexion</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "TipoDeServicios")">Tipo de Servicios</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Servicios")">Servicios</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "Monedas")">Monedas</a>
-                    </li>
-                    <li class="@Html.IsSelected(action: "Index")">
-                        <a href="@Url.Action("Index", "CostosGestionBancaria")">Costos de Gestion Bancaria</a>
-                    </li>
-                </ul>
-            </li>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <!--Personas Option-->
+                <li class="@Html.IsSelected(controller: "Personas")">
+                    <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse ">
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Clientes")">Clientes</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Motorizados")">Motorizados</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Asistentes")">Asistentes</a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            @if (User.IsInRole("Admin"))
+            {
+                <!--Catalogos Option-->
+                <li class="@Html.IsSelected(controller: "Catalogos")">
+                    <a href=""><i class="fa fa-list-alt"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse ">
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Costos")">Costos</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Disponibilidad")">Disponibilidad</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad de Conexion</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "TipoDeServicios")">Tipo de Servicios</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Servicios")">Servicios</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Monedas")">Monedas</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "CostosGestionBancaria")">Costos Gestion Bancaria</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "TipoDePagos")">Tipos de Pago</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Creditos")">Creditos</a>
+                        </li>
+                    </ul>
+                </li>
+            }
 
             <!--Cotizacion -->
             <li class="@Html.IsSelected(controller: "Cotizaciones")">
-                <a href="@Url.Action("Create", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotización</span></a>
+                <a href="@Url.Action("Index", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotizaciónes</span></a>
+            </li>
+
+            <!--Envios -->
+            <li class="@Html.IsSelected(controller: "Envios")">
+                <a href="@Url.Action("Index", "Envios")"><i class="fa fa-motorcycle"></i> <span class="nav-label" data-i18n="nav.dashboard">Envios</span></a>
             </li>
 
             <li class="@Html.IsSelected(controller: "Layouts")">

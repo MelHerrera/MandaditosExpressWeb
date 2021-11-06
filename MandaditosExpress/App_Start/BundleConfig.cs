@@ -21,7 +21,8 @@ namespace MandaditosExpress
 
             //Knockout
             bundles.Add(new ScriptBundle("~/plugins/knockout").Include(
-                      "~/Scripts/knockout-3.5.1.debug.js"));
+                      "~/Scripts/knockout/knockout-3.5.1.js",
+                      "~/Scripts/knockout/extensions/CustomBindins.js"));
 
             //JqueryUi
             bundles.Add(new ScriptBundle("~/plugins/jqueryui").Include(
@@ -80,6 +81,10 @@ namespace MandaditosExpress
             bundles.Add(new ScriptBundle("~/plugins/sweetalert").Include(
                       "~/Scripts/plugins/sweetalert/sweetalert2.all.min.js"));
 
+            // notify bootstrap
+            bundles.Add(new ScriptBundle("~/plugins/notify").Include(
+                      "~/Scripts/plugins/notify/bootstrap-notify.min.js"));
+
             // Peity
             bundles.Add(new ScriptBundle("~/plugins/peity").Include(
                       "~/Scripts/plugins/peity/jquery.peity.min.js"));
@@ -87,6 +92,10 @@ namespace MandaditosExpress
             // Custom switches
             bundles.Add(new ScriptBundle("~/plugins/switch").Include(
                       "~/Scripts/plugins/switch/bootstrap-switch-button.min.js"));
+
+            // Location Picker jquery
+            bundles.Add(new ScriptBundle("~/plugins/locationpicker").Include(
+                      "~/Scripts/plugins/locationpicker/locationpicker.jquery.js"));
 
             // dataTables scripts
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
@@ -105,20 +114,48 @@ namespace MandaditosExpress
                          "~/Scripts/knockout/ViewModel/Moneda/MonedaTemplateViewModel.js",
                         "~/Scripts/knockout/ViewModel/Moneda/IndexMoneda.js"));
 
+            // IndexTipoDePagos
+            bundles.Add(new ScriptBundle("~/bundles/IndexTipoDePagos").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/TiposDePago/TipoDePagoViewModel.js",
+                        "~/Scripts/knockout/ViewModel/TiposDePago/IndexTipoDePago.js"));
 
-                //Styles
+            // IndexCreditos
+            bundles.Add(new ScriptBundle("~/bundles/IndexCreditos").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Creditos/CreditoViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Creditos/IndexCredito.js"));
 
-                bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
-          "~/Content/bootstrap.min.css",
-          "~/Content/animate.css",
-          "~/Content/landing_style.css"));
+            //Styles
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
+                "~/Content/bootstrap.min.css",
+                "~/Content/animate.css"));
+
+            bundles.Add(new StyleBundle("~/Content/landing").Include(
+                "~/Content/landing_style.css"));
 
             bundles.Add(new StyleBundle("~/Content/site/login").Include(
                   "~/Content/site_login.css"));
 
+            bundles.Add(new StyleBundle("~/Content/site/cotizacion").Include(
+      "~/Content/site_cotizacion.css"));
+
 
             bundles.Add(new StyleBundle("~/Content/site/register").Include(
                   "~/Content/register_style.css"));
+
+            bundles.Add(new StyleBundle("~/Content/site/forgotpass").Include(
+                "~/Content/forgot_pass.css"));
+
+            bundles.Add(new StyleBundle("~/Content/site/confirmarcorreo").Include(
+                "~/Content/confirm_correo.css"));
+
+
+            bundles.Add(new StyleBundle("~/Content/site/resetpass").Include(
+                "~/Content/reset_password.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -134,7 +171,7 @@ namespace MandaditosExpress
                       "~/Content/plugins/dataTables/dataTables.min.css"));
 
             // custom switches 
-            bundles.Add(new StyleBundle("~/Plugind/switches").Include(
+            bundles.Add(new StyleBundle("~/Plugin/switches").Include(
                       "~/Content/plugins/switch/bootstrap-switch-button.min.css"));
 
         }

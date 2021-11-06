@@ -18,9 +18,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -44,6 +44,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=e767ac9c89543656, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.8.1.1\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -53,15 +65,52 @@
     <Reference Include="Json.Net, Version=1.0.33.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Json.Net.1.0.33\lib\netstandard2.0\Json.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.6.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -111,9 +160,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -171,13 +217,16 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="AutoFacModule.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CostosController.cs" />
     <Compile Include="Controllers\CostosGestionBancariaController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
+    <Compile Include="Controllers\CreditosController.cs" />
     <Compile Include="Controllers\DisponibilidadController.cs" />
+    <Compile Include="Controllers\EnviosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -185,6 +234,7 @@
     <Compile Include="Controllers\MotorizadosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
+    <Compile Include="Controllers\TipoDePagosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
     <Compile Include="Controllers\VelocidadDeConexionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -202,12 +252,16 @@
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
     <Compile Include="Models\Disponibilidad.cs" />
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
-    <Compile Include="Models\Enum\TiposDeServicioEnum.cs" />
+    <Compile Include="Models\Enum\EstadoDeMotorizadoEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
+    <Compile Include="Models\Extensions\DecimalModelBinder.cs" />
+    <Compile Include="Models\Extensions\FloatModelBinder.cs" />
+    <Compile Include="Models\Extensions\WebServiceResponse.cs" />
     <Compile Include="Models\HistorialDetalleSeguimiento.cs" />
     <Compile Include="Models\HistorialSeguimiento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Lugar.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MandaditosDB.cs" />
     <Compile Include="Models\Moneda.cs" />
@@ -222,18 +276,88 @@
     <Compile Include="Models\TipoDeServicio.cs" />
     <Compile Include="Models\Utileria\Utileria.cs" />
     <Compile Include="Models\VelocidadDeConexion.cs" />
+    <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
+    <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CostoServices.cs" />
+    <Compile Include="Services\CotizacionServices.cs" />
+    <Compile Include="Services\MotorizadoServices.cs" />
+    <Compile Include="Services\Utilidades.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ninestar_style.css" />
+    <Content Include="Content\plugins\select2\select2.css" />
+    <Content Include="Images\atwork.png" />
+    <Content Include="Images\clients\acuarela.jpg" />
+    <Content Include="Images\clients\christina-closets.jpg" />
+    <Content Include="Images\clients\colectivo-shops.jpg" />
+    <Content Include="Images\clients\fashion.jpg" />
+    <Content Include="Images\clients\raymari.jpg" />
+    <Content Include="Images\clients\silver.jpg" />
+    <Content Include="Images\clients\toys.jpg" />
+    <Content Include="Images\clients\uniformania.jpg" />
+    <Content Include="Images\clients\vetplus.jpg" />
+    <Content Include="Images\clients\vvjoyas.jpg" />
+    <Content Include="Images\moto.png" />
+    <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />
+    <Content Include="Content\bootstrap-icons\index.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap5\css\bootstrap.rtl.min.css" />
+    <Content Include="Content\plugins\boxicons\css\animations.css" />
+    <Content Include="Content\plugins\boxicons\css\boxicons.css" />
+    <Content Include="Content\plugins\boxicons\css\boxicons.min.css" />
+    <Content Include="Content\plugins\boxicons\css\transformations.css" />
+    <Content Include="Content\plugins\boxicons\fonts\boxicons.svg" />
+    <Content Include="Content\plugins\glightbox\css\glightbox.css" />
+    <Content Include="Content\plugins\glightbox\css\glightbox.min.css" />
+    <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
+    <Content Include="Scripts\knockout\ViewModel\Creditos\CreditoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
+    <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
+    <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
+    <Content Include="Scripts\plugins\jquerymask\jquery.mask.js" />
+    <Content Include="Scripts\plugins\select2\select2.js" />
+    <Content Include="Scripts\plugins\swiper\swiper-bundle.min.js" />
+    <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.js" />
+    <Content Include="Scripts\plugins\isotope-layout\isotope.pkgd.min.js" />
+    <Content Include="Scripts\plugins\glightbox\js\glightbox.js" />
+    <Content Include="Scripts\plugins\glightbox\js\glightbox.min.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.js" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.min.js" />
+    <Content Include="Content\plugins\aos\aos.css" />
+    <Content Include="Scripts\plugins\aos\aos.js" />
+    <Content Include="Content\reset_password.css" />
+    <Content Include="Content\confirm_correo.css" />
+    <Content Include="Content\forgot_pass.css" />
     <Content Include="Content\landing_style.css" />
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
     <Content Include="Content\plugins\switch\bootstrap-switch-button.min.css" />
     <Content Include="Content\register_style.css" />
+    <Content Include="Content\site_cotizacion.css" />
     <Content Include="Content\site_login.css" />
     <Content Include="Content\style.css" />
     <Content Include="fonts\font-awesome\css\font-awesome-1.min.css" />
@@ -244,7 +368,11 @@
     <Content Include="Images\a4.jpg" />
     <Content Include="Images\a5.jpg" />
     <Content Include="Images\a7.jpg" />
+    <Content Include="Images\favicon-apple-touch.png" />
+    <Content Include="Images\card-header.jpg" />
     <Content Include="Images\default_profile.png" />
+    <Content Include="Images\Done.png" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\food-delivery.png" />
     <Content Include="Images\landing\avatar1.jpg" />
     <Content Include="Images\landing\avatar2.jpg" />
@@ -257,6 +385,7 @@
     <Content Include="Images\landing\avatar9.jpg" />
     <Content Include="Images\landing\avatar_all.png" />
     <Content Include="Images\landing\dashboard.png" />
+    <Content Include="Images\landing\delivery.svg" />
     <Content Include="Images\landing\header_one.jpg" />
     <Content Include="Images\landing\header_two.jpg" />
     <Content Include="Images\landing\iphone.jpg" />
@@ -264,9 +393,13 @@
     <Content Include="Images\landing\perspective.png" />
     <Content Include="Images\landing\shattered.png" />
     <Content Include="Images\landing\word_map.png" />
+    <Content Include="Images\Login.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\LogoIcon.ico" />
+    <Content Include="Images\mail_sent.png" />
+    <Content Include="Images\marker.png" />
     <Content Include="Images\profile.jpg" />
-    <Content Include="Images\signin-image.jpg" />
-    <Content Include="Images\signup-image.jpg" />
+    <Content Include="Images\Register.png" />
     <Content Include="Scripts\app\inspinia.js" />
     <Content Include="Scripts\app\inspinia_landing.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -276,6 +409,7 @@
     <Content Include="Scripts\knockout\Componentes\ModalComponent.js" />
     <Content Include="Scripts\knockout\extensions\CustomBindins.js" />
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
+    <Content Include="Scripts\knockout\knockout.mapping.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
@@ -291,11 +425,14 @@
     <Content Include="Scripts\plugins\jquery-ui\jquery-ui.min.js" />
     <Content Include="Scripts\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
+    <Content Include="Scripts\plugins\locationpicker\locationpicker.jquery.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\plugins\moment\moment.js" />
+    <Content Include="Scripts\plugins\notify\bootstrap-notify.min.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
     <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Scripts\plugins\sweetalert\sweetalert2.all.min.js" />
+    <Content Include="Scripts\plugins\switch\bootstrap-switch-button-2019.js" />
     <Content Include="Scripts\plugins\switch\bootstrap-switch-button.min.js" />
     <Content Include="Scripts\plugins\wow\wow.min.js" />
     <Content Include="favicon.ico" />
@@ -339,6 +476,35 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap5\css\bootstrap.rtl.min.css.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap5\js\bootstrap.min.js.map" />
+    <Content Include="Content\bootstrap-icons\bootstrap-icons.json" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff2" />
+    <Content Include="Content\plugins\boxicons\fonts\boxicons.eot" />
+    <Content Include="Content\plugins\boxicons\fonts\boxicons.ttf" />
+    <Content Include="Content\plugins\boxicons\fonts\boxicons.woff" />
+    <Content Include="Content\plugins\boxicons\fonts\boxicons.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -448,7 +614,6 @@
     <Content Include="Views\Servicios\Details.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Cotizaciones\Create.cshtml" />
     <Content Include="Views\Monedas\Create.cshtml" />
     <Content Include="Views\Monedas\Details.cshtml" />
     <Content Include="Views\Monedas\Index.cshtml" />
@@ -459,6 +624,27 @@
     <Content Include="Views\CostosGestionBancaria\Details.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
+    <Content Include="Views\Cotizaciones\Create.cshtml" />
+    <Content Include="Views\pruebas\Create.cshtml" />
+    <Content Include="Views\pruebas\Delete.cshtml" />
+    <Content Include="Views\pruebas\Details.cshtml" />
+    <Content Include="Views\pruebas\Edit.cshtml" />
+    <Content Include="Views\Cotizaciones\Index.cshtml" />
+    <Content Include="Views\Envios\Create.cshtml" />
+    <Content Include="Views\Envios\Delete.cshtml" />
+    <Content Include="Views\Envios\Details.cshtml" />
+    <Content Include="Views\Envios\Edit.cshtml" />
+    <Content Include="Views\Envios\Index.cshtml" />
+    <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\TipoDePagos\Details.cshtml" />
+    <Content Include="Views\TipoDePagos\Index.cshtml" />
+    <Content Include="Views\TipoDePagos\Templates\_TipoDePagosTemplate.cshtml" />
+    <Content Include="Views\TipoDePagos\Create.cshtml" />
+    <Content Include="Views\Creditos\Create.cshtml" />
+    <Content Include="Views\Creditos\Details.cshtml" />
+    <Content Include="Views\Creditos\Index.cshtml" />
+    <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
+    <Content Include="Views\Envios\Asignacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

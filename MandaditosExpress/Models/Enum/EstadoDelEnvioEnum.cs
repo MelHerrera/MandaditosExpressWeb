@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MandaditosExpress.Models
+﻿namespace MandaditosExpress.Models.Enum
 {
     public enum EstadoDelEnvioEnum
     {
-        Aprobado,
-        Recepcionado,
-        EnProceso,
-        Entregado
+        Solicitud=1,
+        EnProceso=2,
+        Finalizado=3
     }
 }

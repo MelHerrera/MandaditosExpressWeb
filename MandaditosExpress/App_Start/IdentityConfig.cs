@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using MandaditosExpress.Models;
+using System.Net.Mail;
 
 namespace MandaditosExpress
 {
@@ -19,6 +20,17 @@ namespace MandaditosExpress
         public Task SendAsync(IdentityMessage message)
         {
             // Conecte su servicio de correo electrónico aquí para enviar correo electrónico.
+            SmtpClient client = new SmtpClient();
+            MailMessage mailMessage = new MailMessage();
+
+            mailMessage.To.Add(message.Destination);
+            mailMessage.Subject = message.Subject;
+            mailMessage.Body = message.Body;
+            mailMessage.Priority = MailPriority.High;
+            mailMessage.IsBodyHtml = true;
+
+            client.Send(mailMessage);
+           
             return Task.FromResult(0);
         }
     }

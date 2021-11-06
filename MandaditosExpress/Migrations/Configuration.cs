@@ -158,28 +158,72 @@ namespace MandaditosExpress.Migrations
         EstadoTipoDeServicio = true
     });
 
+            context.Servicios.AddOrUpdate(p => p.Id,
+new Models.Servicio
+{
+Id = 1,
+DescripcionDelServicio = "Ir a traerme las llaves",
+TipoDeServicioId = 1,
+Estado = true
+},
+new Models.Servicio
+{
+Id = 2,
+DescripcionDelServicio = "Ir a traerme el cargador de mi laptop",
+TipoDeServicioId = 1,
+Estado = true
+},
+new Models.Servicio
+{
+Id = 3,
+DescripcionDelServicio = "Entrega de perfumes",
+TipoDeServicioId = 2,
+Estado = true
+});
+
+            context.TiposDePago.AddOrUpdate(p => p.Id,
+new Models.TipoDePago
+{
+Id = 1,
+Descripcion = "Efectivo",
+EstadoTipoDePago = true
+},
+new Models.TipoDePago
+{
+    Id = 2,
+    Descripcion = "Transferencia electrónica",
+    EstadoTipoDePago = true
+},
+new Models.TipoDePago
+{
+    Id = 3,
+    Descripcion = "Crédito",
+    EstadoTipoDePago = true
+});
+
+
             context.CostoGestionBancaria.AddOrUpdate(
                 p => p.Id,
                 new Models.CostoGestionBancaria
                 {
                     Id = 0,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
-                    Descripcion ="Sin Especificar",
-                    MontoDesde = 0,
-                    MontoHasta = 0,
+                    FechaDeFin = DateTime.Parse("30/09/2024"),
+                    Descripcion = "Sin Especificar",
+                    MontoDesde = 1,
+                    MontoHasta = 1,
                     Porcentaje = 0,
-                    TipoDeServicioId=3,
-                    Estado=true
+                    TipoDeServicioId = 3,
+                    Estado = true
                 },
                 new Models.CostoGestionBancaria
                 {
                     Id = 1,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2025"),
                     Descripcion = "Costo minimo de Gestion Bancaria",
                     MontoDesde = 1,
-                    MontoHasta = 5000,
+                    MontoHasta = 5000.99M,
                     Porcentaje = 2.4f,
                     TipoDeServicioId = 3,
                     PrecioDeRecargo = 20,
@@ -189,10 +233,10 @@ namespace MandaditosExpress.Migrations
                 {
                     Id = 2,
                     FechaDeInicio = DateTime.Parse("01/08/2021"),
-                    FechaDeFin = DateTime.Parse("31/08/2021"),
+                    FechaDeFin = DateTime.Parse("30/09/2026"),
                     Descripcion = "Costo maximo de Gestion Bancaria",
                     MontoDesde = 5001,
-                    MontoHasta = 50000000,
+                    MontoHasta = 10000,
                     Porcentaje = 3,
                     TipoDeServicioId = 3,
                     PrecioDeRecargo = 20,
@@ -203,7 +247,7 @@ namespace MandaditosExpress.Migrations
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("31/08/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2027"),
         Descripcion = "Costo de Mandaditos",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,
@@ -217,7 +261,7 @@ namespace MandaditosExpress.Migrations
     new Models.Costo
     {
         FechaDeInicio = DateTime.Parse("01/08/2021"),
-        FechaDeFin = DateTime.Parse("31/08/2021"),
+        FechaDeFin = DateTime.Parse("30/09/2028"),
         Descripcion = "Costo de Gestion de Paquetería",
         CostoDeGasolina = 20, //float.Parse("20"),
         CostoDeAsistencia = 20,
