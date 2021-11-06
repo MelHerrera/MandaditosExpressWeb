@@ -12,6 +12,9 @@
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
             </li>
+            <li class="breadcrumb-item">
+                <a>Personas</a>
+            </li>
             <li class="active breadcrumb-item">
                 <strong>Clientes</strong>
             </li>
@@ -70,7 +73,7 @@
 }
 else
 {
-    <div class="alert alert-warning alert-Empty" role="alert">
-        Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+    <div class="alert alert-warning alert-Empty m-2" role="alert">
+        Se encontraron 0 Clientes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
     </div>
 }

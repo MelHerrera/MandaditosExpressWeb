@@ -13,7 +13,7 @@ using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MotorizadosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();

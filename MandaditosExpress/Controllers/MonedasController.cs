@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MonedasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();

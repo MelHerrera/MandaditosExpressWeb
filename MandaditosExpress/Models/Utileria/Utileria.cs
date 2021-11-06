@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -8,6 +11,12 @@ namespace MandaditosExpress.Models.Utileria
     public class Utileria
     {
         private MandaditosDB db = new MandaditosDB();
+        private ApplicationDbContext userContext;
+
+        public Utileria()
+        {
+            userContext = new ApplicationDbContext();
+        }
 
         public Persona BuscarPersonaPorUsuario(string UserName)
         {
@@ -31,6 +40,21 @@ namespace MandaditosExpress.Models.Utileria
                 }
             }
             return null;
+        }
+
+        public string GetRolesDeUsuario(string UserName)
+        {
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            //extraer los datos del usuario
+            var UserInDb = UserManager.FindByEmail(UserName);
+
+            if (UserInDb != null)
+            {
+                List<string> rolesName = UserManager.GetRoles(UserInDb.Id).ToList();
+                return string.Join(",", rolesName);
+            }
+            else
+                return "";
         }
     }
 }

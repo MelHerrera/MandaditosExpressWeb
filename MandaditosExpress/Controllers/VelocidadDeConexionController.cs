@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class VelocidadDeConexionController : Controller
     {
         private MandaditosDB db = new MandaditosDB();

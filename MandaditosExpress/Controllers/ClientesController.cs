@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ClientesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();

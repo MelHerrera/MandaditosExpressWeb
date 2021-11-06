@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class TipoDeServiciosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
