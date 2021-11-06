@@ -167,12 +167,16 @@
                                                     <td class="client-status">
                                                         <span data-bind="text:EstadoMotorizadoDescripcion, attr:{ class:EstadoMotorizadoClass}"></span>
                                                     </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click:$root.Asignar, disable:$root.CargandoSolicitud">
-                                                            <i class="fa fa-link"></i>
-                                                            <span data-bind="text:$root.AsignacionButtonText"></span>
-                                                        </button>
-                                                    </td>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <td>
+                                                            <button type="button" class="btn btn btn-primary btn-sm" data-bind="click:$root.Asignar, disable:$root.CargandoSolicitud">
+                                                                <i class="fa fa-link"></i>
+                                                                <span data-bind="text:$root.AsignacionButtonText"></span>
+                                                            </button>
+                                                        </td>
+                                                    }
+
                                                 </tr>
                                             </tbody>
                                         </table>

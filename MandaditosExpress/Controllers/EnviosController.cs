@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Cliente")]
     public class EnviosController : Controller
     {
         private readonly IMapper _mapper;
@@ -64,6 +64,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult Create(int? CotizacionId)
         {
             var EnvioViewModel = new SolicitudEnvioViewModel();
+
             EnvioViewModel.TiposDeServicio = _mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio).ToList();
             EnvioViewModel.Servicios = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios).ToList();
             EnvioViewModel.TiposDePago = _mapper.Map<ICollection<TipoDePagoViewModel>>(db.TiposDePago).ToList();
@@ -111,6 +112,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Asignacion
+        [Authorize(Roles ="Admin")]
         public ActionResult Asignacion(int? id)
         {
             var Envio = db.Envios.FirstOrDefault(it => it.Id == id);
@@ -136,6 +138,7 @@ namespace MandaditosExpress.Controllers
 
         // Post: Envios/Asignacion
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult AsignacionConfirmed(int? MotorizadoId, int? EnvioId)
         {
             bool Reasignacion = false;
@@ -217,61 +220,63 @@ namespace MandaditosExpress.Controllers
                     return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
                 else
                 {
-                    var mEnvio = new Envio();
-
-                    //si es un nuevo servicio guardarlo antes de ocupar servicioId
-                    if (envio.ServicioId == -1)
+                    if (User.IsInRole("Cliente"))//un envio necesita el clienteId por lo que solo este rol puede crear
                     {
-                        envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
-                        envio.Servicio.Estado = true;
+                        var mEnvio = new Envio();
 
-                        var service = _mapper.Map<Servicio>(envio.Servicio);
-                        db.Servicios.Add(service);
-                        db.SaveChanges();
-
-                        //Una vez guardado el nuevo servicio actualizar la informacion del envio
-                        envio.ServicioId = service.Id;
-                    }
-
-                    //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
-                    var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
-
-                    if (cotizacion != null)//si el envio es mediante cotizacion entonces ocupar los datos de la cotizacion, porque en la vista del envio los pudieron corromper
-                    {
-                        if (cotizacion.MontoTotal > 0)
+                        //si es un nuevo servicio guardarlo antes de ocupar servicioId
+                        if (envio.ServicioId == -1)
                         {
-                            //datos que vienen por cotizacion
-                            mEnvio.CotizacionId = cotizacion.Id;
-                            mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
-                            mEnvio.LugarOrigen = cotizacion.LugarOrigen != null ? cotizacion.LugarOrigen : _mapper.Map<Lugar>(envio.LugarOrigen);//cuando es cotizacion de gestion bancaria la cotizacio no trae un lugar origen-destino
-                            mEnvio.LugarDestino = cotizacion.LugarDestino != null ? cotizacion.LugarDestino : _mapper.Map<Lugar>(envio.LugarDestino);//entonces asignarle el origen-destino seleccionado en la vista de crear envio
-                            mEnvio.MontoDeDinero = cotizacion.MontoDeDinero;
-                            mEnvio.EsUrgente = cotizacion.EsEspecial;
-                            mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino > 0 ? cotizacion.DistanciaOrigenDestino : envio.DistanciaEntregaRecep;
-                            mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
+                            envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
+                            envio.Servicio.Estado = true;
 
-                            //si es un nuevo servicio 
+                            var service = _mapper.Map<Servicio>(envio.Servicio);
+                            db.Servicios.Add(service);
+                            db.SaveChanges();
 
-                            //datos que siempre se tomaran del envio
-                            mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
-                            mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
-                            mEnvio.TipoDePagoId = envio.TipoDePagoId;
-                            mEnvio.ServicioId = envio.ServicioId;
-                            mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
-                            mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
-                            mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
-                            mEnvio.Peso = envio.Peso;
-                            mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
-                            mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
-                            mEnvio.MontoARecibir = envio.MontoARecibir;
-                            mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
-                            mEnvio.MontoCambio = envio.MontoCambio;
-                            mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
-                            mEnvio.ClienteId = envio.ClienteId;
+                            //Una vez guardado el nuevo servicio actualizar la informacion del envio
+                            envio.ServicioId = service.Id;
                         }
-                    }
-                    else
-                    {
+
+                        //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
+                        var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
+
+                        if (cotizacion != null)//si el envio es mediante cotizacion entonces ocupar los datos de la cotizacion, porque en la vista del envio los pudieron corromper
+                        {
+                            if (cotizacion.MontoTotal > 0)
+                            {
+                                //datos que vienen por cotizacion
+                                mEnvio.CotizacionId = cotizacion.Id;
+                                mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
+                                mEnvio.LugarOrigen = cotizacion.LugarOrigen != null ? cotizacion.LugarOrigen : _mapper.Map<Lugar>(envio.LugarOrigen);//cuando es cotizacion de gestion bancaria la cotizacio no trae un lugar origen-destino
+                                mEnvio.LugarDestino = cotizacion.LugarDestino != null ? cotizacion.LugarDestino : _mapper.Map<Lugar>(envio.LugarDestino);//entonces asignarle el origen-destino seleccionado en la vista de crear envio
+                                mEnvio.MontoDeDinero = cotizacion.MontoDeDinero;
+                                mEnvio.EsUrgente = cotizacion.EsEspecial;
+                                mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino > 0 ? cotizacion.DistanciaOrigenDestino : envio.DistanciaEntregaRecep;
+                                mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
+
+                                //si es un nuevo servicio 
+
+                                //datos que siempre se tomaran del envio
+                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
+                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
+                                mEnvio.TipoDePagoId = envio.TipoDePagoId;
+                                mEnvio.ServicioId = envio.ServicioId;
+                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
+                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
+                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
+                                mEnvio.Peso = envio.Peso;
+                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
+                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
+                                mEnvio.MontoARecibir = envio.MontoARecibir;
+                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
+                                mEnvio.MontoCambio = envio.MontoCambio;
+                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
+                                mEnvio.ClienteId = envio.ClienteId;
+                            }
+                        }
+                        else
+                        {
                             var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
 
                             if (MontoTotalDelEnvio > 0)
@@ -303,15 +308,19 @@ namespace MandaditosExpress.Controllers
                                     MontoTotalDelEnvio = MontoTotalDelEnvio
                                 };
                             }
+                        }
+
+                        //despues de asignada la informacion correspondiente
+                        db.Envios.Add(mEnvio);
+
+                        if (db.SaveChanges() > 0)
+                            return Json(new { exito = true, message = "Estimado cliente se ha realizado con éxito la solicitud de su envío" }, JsonRequestBehavior.AllowGet);
+                        else
+                            return Json(new { exito = false, message = "No se ha podido guardar tu solicitud, para mayor información contactese con atención al cliente" }, JsonRequestBehavior.AllowGet);
+
                     }
-
-                    //despues de asignada la informacion correspondiente
-                    db.Envios.Add(mEnvio);
-
-                    if (db.SaveChanges() > 0)
-                        return Json(new { exito = true, message = "Estimado cliente se ha realizado con éxito la solicitud de su envío" }, JsonRequestBehavior.AllowGet);
                     else
-                        return Json(new { exito = false, message = "No se ha podido guardar tu solicitud, para mayor información contactese con atención al cliente" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { message = "Ha ocurrido un error procesando su solicitud. Solo un usuario cliente puede solicitar un envio", exito = false }, JsonRequestBehavior.AllowGet);
                 }
             }
 

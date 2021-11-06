@@ -63,7 +63,7 @@ else
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
 {
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
@@ -281,7 +281,7 @@ else
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
-                                        @if (Request.IsAuthenticated)
+                                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                                         {
                                             <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" />
                                         }
