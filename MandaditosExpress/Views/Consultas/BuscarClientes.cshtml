@@ -1,0 +1,189 @@
+﻿@model IEnumerable<MandaditosExpress.Models.Cliente>
+@{
+    ViewBag.Title = "Buscar Clientes";
+}
+
+<style>
+    .ibox-tools a{
+        color: #ffffff !important;
+    }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Clientes</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Busquedas</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Búsqueda de Clientes</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Clientes por Fecha</h5>
+                  
+                    <div class="ibox-tools">
+                        @if (ViewBag.FechaDesde != null && ViewBag.FechaHasta != null && Model.Count() > 0)//Que muestre el boton de imprimir solo cuando ya se hayan seleccionado las fechas y al menos haya un cliente que mostrar en el reporte
+                        {
+                            <a target="_blank" href="@Url.Action("ListClientesxFec","Informes", new {Desde= ViewBag.FechaDesde, Hasta=ViewBag.FechaHasta })" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
+                        }
+
+                        <a class="collapse-link" style="color:#c4c4c4 !important">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link" style="color:#c4c4c4 !important">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("BuscarClientes", "Consultas", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-row align-items-center mb-3">
+                            <label for="inputdesde">Fecha Desde</label>
+                            <div class="col-sm-3 my-1">
+                                <div class="input-group">
+                                   
+                                        @Html.Editor("FechaDesde", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @required = "required" } })
+                                    
+                                </div>
+                            </div>
+                            <label for="inputhasta">Fecha Hasta</label>
+                            <div class="col-sm-3 my-1">
+                                <div class="input-group">
+                                    @Html.Editor("FechaHasta", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @required = "required" } })
+                                </div>
+                            </div>
+                            <div class="col-auto my-1">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search btnconsul"></i> Consultar</button>
+
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            @if (Model.Count() > 0)
+                            {
+                                <table class="table">
+                                    <thead id="thead">
+                                        <tr class="bg-primary">
+
+                                            <th>@Html.DisplayNameFor(model => model.EsEmpresa)</th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FechaIngreso)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.CorreoElectronico)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.NombreCompleto)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Telefono)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Foto)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Sexo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Direccion)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Cedula)
+                                            </th>
+                                            <th>@Html.DisplayNameFor(model => model.NombreDeLaEmpresa)</th>
+                                            <th>@Html.DisplayNameFor(model => model.RUC)</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="gradeX">
+                                                <td>
+                                                    @if (item.EsEmpresa)
+                                                    {
+                                                        <span class="badge badge-success">Empresa</span>}
+                                                    else
+                                                    {
+                                                        <span class="badge badge-warning">Persona</span>
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FechaIngreso)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Telefono)
+                                                </td>
+                                                <td>
+                                                    @if (item.Foto != null)
+                                                    {
+                                                        @Html.DisplayImage(item.Foto)
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Sexo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Direccion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Cedula)
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.NombreDeLaEmpresa)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.RUC)
+                                                </td>
+                                                <td style="white-space:nowrap;">
+                                                    <a class="btn btn-success" href="@Url.Action("Edit/","Clientes")@item.Id"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning alert-Empty m-3" role="alert" style="width:100%">
+                                    Se encontraron 0 Clientes para mostrar en el rango de fecha proporcionado. Intenta modificando la consulta.
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

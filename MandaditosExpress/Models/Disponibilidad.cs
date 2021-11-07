@@ -17,10 +17,12 @@ namespace MandaditosExpress.Models
 
         [Required]
         [StringLength(20)]
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
 
+        [Display(Name = "Estado")]
         public bool EstadoDeLaDisponibilidad { get; set; }
-
+        
         public virtual  ICollection<Motorizado> Motorizados { get; set; }
     }
 }

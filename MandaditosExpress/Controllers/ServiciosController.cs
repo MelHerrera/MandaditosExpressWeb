@@ -109,13 +109,18 @@ namespace MandaditosExpress.Controllers
         // POST: Servicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Servicio servicio)
         {
-            Servicio servicio = db.Servicios.Find(id);
-            db.Servicios.Remove(servicio);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Servicio xservicio = db.Servicios.Find(servicio.Id);
+            db.Servicios.Remove(xservicio);
+
+            if (db.SaveChanges() > 0)
+            {
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
+
 
         //public JsonResult MontoTotal(int TipoDeServicioId,int CostoId )
         //{

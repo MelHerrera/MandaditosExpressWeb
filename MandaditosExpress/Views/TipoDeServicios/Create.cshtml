@@ -1,17 +1,17 @@
 ﻿@model MandaditosExpress.Models.TipoDeServicio
 
+
 @{
-    ViewBag.Title = "Crear Tipo de Servicio";
+    ViewBag.Title = "Agregar tipo de servicio";
 }
 
 <body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/plugins/switch")
+    @Styles.Render("~/Plugin/switches")
+
 
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Agregar Tipo de Servicio</h2>
+            <h2>EstadoTipoDeServicio</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -20,14 +20,15 @@
                     <a>Catálogos</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "TipoDeServicios")">Tipos de Servicios</a>
+                    <a href="@Url.Action("Index")"> Tipo de servicios</a>
                 </li>
                 <li class="active breadcrumb-item">
-                    <strong>Agregar</strong>
+                    <strong>Agrega  tipo de servicio</strong>
                 </li>
             </ol>
         </div>
     </div>
+
 
     <div class="container">
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -36,33 +37,35 @@
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
 
+
                             @using (Html.BeginForm())
                             {
                                 @Html.AntiForgeryToken()
 
                                 <div class="form-horizontal">
-                                    <h4>Ingrese la Información del Tipo de Servicio</h4>
+                                    <h4>Tipos de servicios.</h4>
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                    <div class="row">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DescripcionTipoDeServicio, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.DescripcionTipoDeServicio, htmlAttributes: new { @class = "control-label" })
-                                                    @Html.EditorFor(model => model.DescripcionTipoDeServicio, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.DescripcionTipoDeServicio, "", new { @class = "text-danger" })
-                                            </div>
+                                            @Html.EditorFor(model => model.DescripcionTipoDeServicio, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionTipoDeServicio, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.EstadoTipoDeServicio, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" value="true" name="EstadoTipoDeServicio" checked hidden>
-                                                        <input type="checkbox" data-toggle="switchbutton" value="true" data-onstyle="info" name="EstadoTipoDeServicio" disabled checked>
-                                                    </div>
-                                            </div>
-                                        </div>
+                                    </div>
 
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.EstadoTipoDeServicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <div class="checkbox">
+                                                @*@Html.EditorFor(model => model.Estado)*@
+                                                @Html.ValidationMessageFor(model => model.EstadoTipoDeServicio, "", new { @class = "text-danger" })
+
+                                                <input type="checkbox" value="true" name="EstadoTipoDeServicio" checked hidden>
+                                                <input type="checkbox" data-toggle="switchbutton" data-size="xs" value="true" data-onstyle="info" name="EstadoTipoDeServicio" disabled checked>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group">
@@ -72,17 +75,25 @@
                                     </div>
                                 </div>
                             }
-                        </div>
 
-                        <div class="ibox-footer">
-                            <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                            <div>
+                                @Html.ActionLink("Regresar ", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+
+
+  
+    }

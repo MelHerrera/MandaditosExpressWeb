@@ -1,0 +1,69 @@
+﻿<template id="costo-modal-template">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="TipoServicioId" class="control-label">TipoServicioId</label>
+                <input type="text" data-bind="value:DescripcionTipoDeServicio, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" disabled />
+            </div>
+        </div>
+     </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaDeInicio" class="control-label">Fecha De Inicio</label>
+                <input type="datetime-local" data-bind="value:FechaDeInicio, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeInicio" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaFin" class="control-label">Fecha De fin</label>
+                <input type="datetime-local" data-bind="value:FechaFin, disable: $root.Disable" name="FechaFin" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="CostoDeGasolina" class="control-label">Costo De Gasolina</label>
+                <input type="number" data-bind="value:CostoDeGasolina, disable: $root.Disable" name="CostoDeGasolina" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="CostoDeAsistencia" class="control-label">Costo De Asistencia</label>
+                <input type="number" data-bind="value:CostoDeAsistencia, disable: $root.Disable" name="CostoDeAsistencia" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="DistanciaBase" class="control-label">Distancia Base</label>
+                <input type="number" data-bind="value:DistanciaBase, disable: $root.Disable" name="DistanciaBase" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="PrecioPorKm" class="control-label">PrecioPorKm</label>
+                <input type="number" data-bind="value:PrecioPorKm, disable: $root.Disable" name="PrecioPorKm" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="EstadoDelCosto" class="control-label">Estado de costo</label>
+                    <input type="checkbox" data-bind="checked: EstadoDelCosto, bsSwitchButton: {}" data-toggle="switchbutton" data-onstyle="info" name="" id="switch-estado">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="PrecioDeRecargo" class="control-label">PrecioPorKm</label>
+                <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+</template>

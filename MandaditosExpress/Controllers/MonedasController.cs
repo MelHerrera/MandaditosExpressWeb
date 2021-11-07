@@ -52,6 +52,7 @@ namespace MandaditosExpress.Controllers
         {
             if (ModelState.IsValid)
             {
+                moneda.Estado = true;
                 db.Monedas.Add(moneda);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -86,9 +87,9 @@ namespace MandaditosExpress.Controllers
             {
                 db.Entry(moneda).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { exito = true },JsonRequestBehavior.AllowGet);
             }
-            return View(moneda);
+            return Json(new { exito = false },JsonRequestBehavior.AllowGet);
         }
 
         // GET: Monedas/Delete/5
@@ -113,8 +114,12 @@ namespace MandaditosExpress.Controllers
         {
             Moneda Omoneda = db.Monedas.Find(moneda.Id);
             db.Monedas.Remove(Omoneda);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (db.SaveChanges() > 0)
+            {
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

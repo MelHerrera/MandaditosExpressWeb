@@ -107,19 +107,15 @@ namespace MandaditosExpress.Controllers
         // POST: Costos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Costo costo)
         {
-            Costo costo = db.Costos.Find(id);
-            db.Costos.Remove(costo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            Costo xcosto = db.Costos.Find(costo.Id);
+            db.Costos.Remove(xcosto);
 
-        public JsonResult getTipoDeServicioId(string tp)
-        {
-            TipoDeServicio TipoDeServicio = db.TiposDeServicio.First(x => x.DescripcionTipoDeServicio.Contains(tp) && x.EstadoTipoDeServicio);
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
 
-            return Json(TipoDeServicio.Id, JsonRequestBehavior.AllowGet);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

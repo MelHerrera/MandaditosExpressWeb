@@ -59,20 +59,20 @@ namespace MandaditosExpress.Controllers
             return View(velocidadDeConexion);
         }
 
-        // GET: VelocidadDeConexion/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
-            if (velocidadDeConexion == null)
-            {
-                return HttpNotFound();
-            }
-            return View(velocidadDeConexion);
-        }
+        //// GET: VelocidadDeConexion/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
+        //    if (velocidadDeConexion == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(velocidadDeConexion);
+        //}
 
         // POST: VelocidadDeConexion/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
@@ -85,35 +85,38 @@ namespace MandaditosExpress.Controllers
             {
                 db.Entry(velocidadDeConexion).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(velocidadDeConexion);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: VelocidadDeConexion/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
-            if (velocidadDeConexion == null)
-            {
-                return HttpNotFound();
-            }
-            return View(velocidadDeConexion);
-        }
+        //// GET: VelocidadDeConexion/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
+        //    if (velocidadDeConexion == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(velocidadDeConexion);
+        //}
 
         // POST: VelocidadDeConexion/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(VelocidadDeConexion velocidadDeConexion)
         {
-            VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
-            db.VelocidadDeConexion.Remove(velocidadDeConexion);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            VelocidadDeConexion OvelocidadDeConexion = db.VelocidadDeConexion.Find(velocidadDeConexion.Id);
+            db.VelocidadDeConexion.Remove(OvelocidadDeConexion);
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

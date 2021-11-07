@@ -1,0 +1,20 @@
+﻿<template id="tipodeservicio-modal-template">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="DescripcionTipoDeServicio" class="control-label">DescripcionTipoDeServicio</label>
+                <input type="text" data-bind="value:DescripcionTipoDeServicio" name="DescripcionTipoDeServicio" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-10">
+            <div class="form-group">
+                <label for="EstadoTipoDeServicio" class="control-label">EstadoTipoDeServicio</label>
+                <input type="checkbox" data-bind="checked: EstadoTipoDeServicio,bsSwitchButton: {}" name="EstadoTipoDeServicio" id="switch-estadotipodeservicio">
+            </div>
+        </div>
+
+    </div>
+</template>

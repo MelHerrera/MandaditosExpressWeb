@@ -57,6 +57,7 @@ namespace MandaditosExpress.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.TipoDeServicio = new SelectList(db.TiposDeServicio, "Id", "Descripcion", costoGestionBancaria.TipoDeServicioId);
             return View(costoGestionBancaria);
         }
 
@@ -86,10 +87,13 @@ namespace MandaditosExpress.Controllers
             {
                 db.Entry(costoGestionBancaria).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(costoGestionBancaria);
+
+            ViewBag.TipoDeServicio = new SelectList(db.TiposDeServicio, "Id", "Descripcion", costoGestionBancaria.TipoDeServicioId);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
+
 
         // GET: CostosGestionBancaria/Delete/5
         public ActionResult Delete(int? id)
@@ -105,16 +109,18 @@ namespace MandaditosExpress.Controllers
             }
             return View(costoGestionBancaria);
         }
-
-        // POST: CostosGestionBancaria/Delete/5
+        // POST: Creditos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(CostoGestionBancaria costoGestionBancaria)
         {
-            CostoGestionBancaria costoGestionBancaria = db.CostoGestionBancaria.Find(id);
-            db.CostoGestionBancaria.Remove(costoGestionBancaria);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            CostoGestionBancaria xcosto = db.CostoGestionBancaria.Find(costoGestionBancaria.Id);
+            db.CostoGestionBancaria.Remove(xcosto);
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
