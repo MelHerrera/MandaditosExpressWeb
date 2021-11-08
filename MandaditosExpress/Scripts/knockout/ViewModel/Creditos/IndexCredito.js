@@ -59,7 +59,6 @@ function IndexCredito(creditoCollection) {
             data: { __RequestVerificationToken: token, credito: CreditoSelected },
             success: function (res) {
                 if (res.exito) {
-                    console.log(self.ModalViewModel());
                     $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
 
                     $.notify({
@@ -67,8 +66,7 @@ function IndexCredito(creditoCollection) {
                         message: "Se actualizó la informacion Correctamente"
                     });
 
-                    setTimeout(function () { location.reload(); },2000);
-                    
+                    setTimeout(function () { location.reload(); },2000);            
                 }
             },
             error: function (e) {

@@ -59,21 +59,6 @@ namespace MandaditosExpress.Controllers
             return View(disponibilidad);
         }
 
-        // GET: Disponibilidad/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            if (disponibilidad == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disponibilidad);
-        }
-
         // POST: Disponibilidad/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -84,25 +69,11 @@ namespace MandaditosExpress.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(disponibilidad).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(disponibilidad);
-        }
 
-        // GET: Disponibilidad/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (db.SaveChanges() > 0)
+                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            if (disponibilidad == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disponibilidad);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Disponibilidad/Delete/5

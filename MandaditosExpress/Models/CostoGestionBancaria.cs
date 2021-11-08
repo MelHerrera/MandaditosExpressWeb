@@ -10,10 +10,6 @@ namespace MandaditosExpress.Models
     [Table("CostosGestionBancaria")]
     public class CostoGestionBancaria
     {
-        public CostoGestionBancaria()
-        {
-            TiposDeServicio = new HashSet<TipoDeServicio>();
-        }
         public int Id { get; set; }
 
         [Required]
@@ -33,13 +29,13 @@ namespace MandaditosExpress.Models
 
         [Required]
         [Display(Name ="Monto Desde")]
-        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+        [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
     "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoDesde { get; set; }
 
         [Required]
         [Display(Name = "Monto Hasta")]
-        [Range(1, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+        [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
     "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoHasta { get; set; }
 
@@ -57,6 +53,6 @@ namespace MandaditosExpress.Models
         [Display(Name = "Tipo De Servicio")]
         public int TipoDeServicioId { get; set; }
 
-        public virtual ICollection<TipoDeServicio> TiposDeServicio { get; set; }
+        public virtual TipoDeServicio TipoDeServicio { get; set; }
     }
 }

@@ -24,7 +24,7 @@
                 <a href="@Url.Action("Index", "Servicio")">Servicio</a>
             </li>
             <li class="active breadcrumb-item">
-                <strong>Inicio</strong>
+                <strong>Servicios</strong>
             </li>
         </ol>
     </div>
@@ -65,28 +65,26 @@
                                         @Html.DisplayNameFor(model => model.DescripcionDelServicio)
                                     </th>
                                     <th>
+                                        @Html.DisplayNameFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
+                                    </th>
+                                    <th>
                                         @Html.DisplayNameFor(model => model.Estado)
                                     </th>
-                                    <th></th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach:Servicio">
                                 <tr>
                                     <td data-bind="text:$index()+1"></td>
                                     <td data-bind="text:DescripcionDelServicio"></td>
+                                    <td data-bind="text:DescripcionTipoDeServicio"></td>
                                     <td>
                                         <input type="checkbox" data-bind="checked:Estado" disabled />
                                     </td>
                                     <td>
-                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-
-
                                     </td>
                                 </tr>
                             </tbody>

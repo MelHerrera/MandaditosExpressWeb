@@ -18,7 +18,8 @@ namespace MandaditosExpress.Controllers
         // GET: CostosGestionBancaria
         public ActionResult Index()
         {
-            return View(db.CostoGestionBancaria.ToList());
+            var data = db.CostoGestionBancaria.ToList();
+            return View(data);
         }
 
         // GET: CostosGestionBancaria/Details/5
@@ -61,21 +62,6 @@ namespace MandaditosExpress.Controllers
             return View(costoGestionBancaria);
         }
 
-        // GET: CostosGestionBancaria/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CostoGestionBancaria costoGestionBancaria = db.CostoGestionBancaria.Find(id);
-            if (costoGestionBancaria == null)
-            {
-                return HttpNotFound();
-            }
-            return View(costoGestionBancaria);
-        }
-
         // POST: CostosGestionBancaria/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -94,21 +80,6 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
-
-        // GET: CostosGestionBancaria/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CostoGestionBancaria costoGestionBancaria = db.CostoGestionBancaria.Find(id);
-            if (costoGestionBancaria == null)
-            {
-                return HttpNotFound();
-            }
-            return View(costoGestionBancaria);
-        }
         // POST: Creditos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

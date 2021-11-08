@@ -92,7 +92,7 @@
                                             }
 
                                             <div class="mt-2">
-                                                @if (!User.IsInRole("Admin"))
+                                                @if (User.IsInRole("Cliente"))
                                                 {
                                                 <a class="btn-success btn" href="@Url.Action("Create", "Envios",new { CotizacionId = item.Id})">Solicitar Envio</a>
                                                 }

@@ -59,20 +59,6 @@ namespace MandaditosExpress.Controllers
             return View(tipoDeServicio);
         }
 
-        // GET: TipoDeServicios/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TipoDeServicio tipoDeServicio = db.TiposDeServicio.Find(id);
-            if (tipoDeServicio == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tipoDeServicio);
-        }
 
         // POST: TipoDeServicios/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
@@ -84,25 +70,12 @@ namespace MandaditosExpress.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(tipoDeServicio).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(tipoDeServicio);
-        }
 
-        // GET: TipoDeServicios/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (db.SaveChanges() > 0)
+                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            TipoDeServicio tipoDeServicio = db.TiposDeServicio.Find(id);
-            if (tipoDeServicio == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tipoDeServicio);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: TipoDeServicios/Delete/5
@@ -114,9 +87,8 @@ namespace MandaditosExpress.Controllers
             db.TiposDeServicio.Remove(xtiposdeservicio);
 
             if (db.SaveChanges() > 0)
-            {
                 return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
-            }
+
            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 

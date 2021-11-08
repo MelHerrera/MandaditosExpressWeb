@@ -159,7 +159,7 @@ else
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="form-grou|p">
+                                    <div class="form-group">
                                         <label for="Telefono"><i class="fa fa-phone"></i></label>
                                         <input type="text" name="Telefono" placeholder="Celular" value="@Model.Telefono" />
                                     </div>
@@ -265,7 +265,7 @@ else
                                 </div>
 
                                 <div class="col-md-1" style="margin-right:10px; top:5px;">
-                                    <label class="label-radio-sexo"><strong>Color:</strong></label>
+                                    <label class="label-radio-sexo text-center align-middle"><strong>Color:</strong></label>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -293,20 +293,24 @@ else
 
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="form-group EstadoDeAfiliado">
-                                    <label for="EstadoDeAfiliado" class="label-agree-term">Estado de Afiliación</label>
-                                    <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;width:auto;" value="@Model.EstadoDeAfiliado">
-                                        @if (ViewBag.EstadoDeAfiliado != null)
-                                        {
-                                            foreach (var option in ViewBag.EstadoDeAfiliado)
+                            <div class=" row mt-2">
+                                <div class="col-md-8">
+                                    <div class="form-group EstadoDeAfiliado">
+                                        <label for="EstadoDeAfiliado" class="control-label label-agree-term">Estado de Afiliación</label>
+                                        <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;" value="@Model.EstadoDeAfiliado">
+                                            @if (ViewBag.EstadoDeAfiliado != null)
                                             {
-                                                var OptionToShort = (short)option;
+                                                foreach (var option in ViewBag.EstadoDeAfiliado)
+                                                {
+                                                    var OptionToShort = (short)option;
 
-                                                <option value="@OptionToShort">@option</option>
+                                                    <option value="@OptionToShort">@option</option>
+                                                }
                                             }
-                                        }
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -316,9 +320,15 @@ else
                                 @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success"> Solicitar Afiliarme  </button>
+                            <div class="row mt-4">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-button">
+                                        <button type="submit" class="btn btn-success"> Solicitar Afiliarme  </button>
+                                    </div>
+                                </div>
                             </div>
+
+                           
                         }
                     </div>
 

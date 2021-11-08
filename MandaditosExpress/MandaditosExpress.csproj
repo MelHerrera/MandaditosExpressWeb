@@ -458,7 +458,6 @@
     <Content Include="Scripts\knockout\ViewModel\Disponibilidad\DisponibilidadViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Disponibilidad\IndexDisponibilidad.js" />
     <Content Include="Scripts\knockout\knockout.mapping.js" />
-    <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
     <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
@@ -707,7 +706,6 @@
     <Content Include="Views\Envios\Asignacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Content Include="Views\VelocidadDeConexion\Templates\_VelocidadDeConexionTemplate.cshtml" />
     <Content Include="Views\Informes\ListClientesxFec.cshtml" />
     <Content Include="Views\Clientes\FiltrarClientes.cshtml" />
@@ -730,7 +728,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>

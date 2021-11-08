@@ -1,84 +1,69 @@
-﻿<template>
-    id="costogestionbancaria-modal-template">
+﻿<template id="costogestionbancaria-modal-template">
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="form-group">
-                <label for="TipoDeServicioId" class="control-label">TipoDeServicioId</label>
-                <input type="text" data-bind="value:Descripcion, disable: $root.Disable, disable: $root.DisableEver" name="TipoDeServicioId" class="form-control" disabled />
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="Estado" class="control-label">Estado</label>
-                <input type="checkbox" data-bind="checked: Estado,bsSwitchButton: {}, disable: $root.Disable" name="Estado" id="switch-Estado">
+                <label for="Descripcion" class="control-label">Descripcion</label>
+                <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="Descripcion" class="control-label">Descripcion</label>
-            <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
 
+    <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="FechaDeInicio" class="control-label">Fecha De Inicio</label>
                 <input type="datetime-local" data-bind="value:FechaDeInicio, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeInicio" class="form-control" disabled />
             </div>
         </div>
-
         <div class="col-md-6">
             <div class="form-group">
                 <label for="FechaDeFin" class="control-label">Fecha De fin</label>
                 <input type="datetime-local" data-bind="value:FechaDeFin, disable: $root.Disable" name="FechaDeFin" class="form-control" />
             </div>
         </div>
+    </div>
 
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
-                <label for="Descripcion" class="control-label">Descripcion</label>
-                <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="MontoDesde" class="control-label">MontoDesde</label>
+                <label for="MontoDesde" class="control-label">Monto Desde</label>
                 <input type="number" data-bind="value:MontoDesde, disable: $root.Disable" name="MontoDesde" class="form-control" />
             </div>
         </div>
-
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="MontoHasta" class="control-label">Monto Hasta</label>
                 <input type="number" data-bind="value:MontoHasta, disable: $root.Disable" name="MontoHasta" class="form-control" />
             </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="Porcentaje" class="control-label">Porcentaje</label>
-                    <input type="number" data-bind="value:Porcentaje, disable: $root.Disable" name="Porcentaje" class="form-control" />
-                </div>
-
-            <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="PrecioDeRecargo" class="control-label">Precio De Recargo</label>
-                        <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" />
-                    </div>
-
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Porcentaje" class="control-label">Porcentaje</label>
+                <input type="number" data-bind="value:Porcentaje, disable: $root.Disable" name="Porcentaje" class="form-control" />
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Descripcion" class="control-label">Descripcion</label>
-                <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
+                <label for="DescripcionTipoDeServicio" class="control-label">Tipo De Servicio</label>
+                <input type="text" data-bind="value:DescripcionTipoDeServicio, disable: $root.Disable, disable: $root.DisableEver" name="DescripcionTipoDeServicio" class="form-control" disabled />
             </div>
         </div>
-
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="PrecioDeRecargo" class="control-label">Precio Recargo</label>
+                <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="Estado" class="control-label">Estado</label>
+                <input type="checkbox" data-bind="checked: Estado,bsSwitchButton: {}, disable: $root.Disable" name="Estado" id="switch-Estado">
+            </div>
+        </div>
     </div>
 
 </template>

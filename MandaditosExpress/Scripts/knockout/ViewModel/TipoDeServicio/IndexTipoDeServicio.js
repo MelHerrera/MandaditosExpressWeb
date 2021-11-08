@@ -50,11 +50,13 @@
             data: { __RequestVerificationToken: token, tipoDeServicio: tipoDeServicio },
             success: function (res) {
                 if (res.exito) {
-                    location.reload();
+                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
+
                     $.notify({
                         icon: 'fa fa-check-circle',
-                        message: "Se edito la informacion Correctamente"
+                        message: "Se actualizó la información Correctamente"
                     });
+                    setTimeout(function () { location.reload(); }, 2000);
                 }
             },
             error: function (e) {

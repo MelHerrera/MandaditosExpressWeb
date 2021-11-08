@@ -12,12 +12,12 @@ function IndexDisponibilidad(disponibilidadCollection) {
     self.ShowModal = function (disponiblidad, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de la disponibilidad").ModalHeaderClass("bg-success");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la informacion de la disponibilidad").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "disponibilidad-modal-template", Data: new DisponibilidadViewModel(ko.toJS(disponiblidad)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de disponibilidad").ModalHeaderClass("bg-danger");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la informacion de disponibilidad").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "disponibilidad-modal-template", Data: new DisponibilidadViewModel(ko.toJS(disponiblidad)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }

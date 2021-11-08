@@ -194,36 +194,39 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Guardar(CotizacionViewModel cotizacion)
         {
-            if (Request.IsAuthenticated && User.IsInRole("Cliente"))//una cotizacion necesita de un clienteId por lo que solo el rol cliente puede guardar
+            if (Request.IsAuthenticated )//una cotizacion necesita de un clienteId por lo que solo el rol cliente puede guardar
             {
-                if (ModelState.IsValid)
+                if (User.IsInRole("Cliente"))
                 {
-
-                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-                    var mCotiza = new Cotizacion();
-
-                    if (cotizacion.DistanciaOrigenDestino > 0)
+                    if (ModelState.IsValid)
                     {
-                        mCotiza.LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen);
-                        mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
+
+                        var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                        var mCotiza = new Cotizacion();
+
+                        if (cotizacion.DistanciaOrigenDestino > 0)
+                        {
+                            mCotiza.LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen);
+                            mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
+                        }
+
+                        mCotiza = new Cotizacion
+                        {
+                            DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                            FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                            FechaDeValidez = cotizacion.FechaDeValidez,
+                            DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                            EsEspecial = cotizacion.EsEspecial,
+                            MontoTotal = cotizacion.MontoTotal,
+                            ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                            TipoDeServicioId = cotizacion.TipoDeServicioId,
+                            MontoDeDinero = cotizacion.MontoDeDinero
+                        };
+
+                        db.Cotizaciones.Add(mCotiza);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
-
-                    mCotiza = new Cotizacion
-                    {
-                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                        FechaDeValidez = cotizacion.FechaDeValidez,
-                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                        EsEspecial = cotizacion.EsEspecial,
-                        MontoTotal = cotizacion.MontoTotal,
-                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                        TipoDeServicioId = cotizacion.TipoDeServicioId,
-                        MontoDeDinero = cotizacion.MontoDeDinero
-                    };
-
-                    db.Cotizaciones.Add(mCotiza);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
             }
             else
@@ -232,7 +235,7 @@ namespace MandaditosExpress.Controllers
                 TempData["Cotizacion"] = cotizacion;
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
             }
-            return View(cotizacion);
+            return View("Create",cotizacion);
         }
 
         // GET: Cotizaciones/RealizarEnvio
@@ -241,7 +244,7 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public ActionResult RealizarEnvioConfirmed()
         {
-            if (Request.IsAuthenticated)
+            if (Request.IsAuthenticated && User.IsInRole("Cliente"))
             {
                 //Validacion por si ya viene una cotizacion desde la autenticacion
                 var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
@@ -271,6 +274,9 @@ namespace MandaditosExpress.Controllers
                     //return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
                 }
             }
+            else
+                return Json(new { exito = false, message = "Ha ocurrido un error. Solo clientes pueden realizar la solicitud de envios!" }, JsonRequestBehavior.AllowGet);
+
             return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -284,29 +290,35 @@ namespace MandaditosExpress.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                if (ModelState.IsValid)
+                if (User.IsInRole("Cliente"))
                 {
-                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-
-                    var mCotiza = new Cotizacion
+                    if (ModelState.IsValid)
                     {
-                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                        FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
-                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                        EsEspecial = cotizacion.EsEspecial,
-                        MontoTotal = cotizacion.MontoTotal,
-                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                        TipoDeServicioId = cotizacion.TipoDeServicioId,
-                        MontoDeDinero = cotizacion.MontoDeDinero
-                    };
+                        var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
-                    db.Cotizaciones.Add(mCotiza);
-                    db.SaveChanges();
-                    return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                        var mCotiza = new Cotizacion
+                        {
+                            DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                            FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                            FechaDeValidez = cotizacion.FechaDeValidez,
+                            LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                            LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
+                            DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                            EsEspecial = cotizacion.EsEspecial,
+                            MontoTotal = cotizacion.MontoTotal,
+                            ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                            TipoDeServicioId = cotizacion.TipoDeServicioId,
+                            MontoDeDinero = cotizacion.MontoDeDinero
+                        };
+
+                        db.Cotizaciones.Add(mCotiza);
+                        db.SaveChanges();
+                        return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                    }
                 }
+                else
+                    return Json(new { exito = false, message = "Ha ocurrido un error. Solo clientes pueden realizar la solicitud de envios!" }, JsonRequestBehavior.AllowGet);
+
             }
             else
             {
@@ -317,14 +329,6 @@ namespace MandaditosExpress.Controllers
 
             return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Save(CotizacionViewModel cotizacion)
-        {
-            return Json("Succesfull");
-        }
-
 
         // GET: Cotizaciones/Edit/5
         public ActionResult Edit(int? id)

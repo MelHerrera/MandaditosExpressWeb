@@ -13,9 +13,16 @@ namespace MandaditosExpress.Models
         {
             this.Pagos = new HashSet<Pago>();
         }
+
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Estado Tipo De Pago")]
         public bool EstadoTipoDePago { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

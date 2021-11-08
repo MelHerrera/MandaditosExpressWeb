@@ -1,6 +1,8 @@
 ﻿function IndexCosto(CostoCollection) {
     const self = this;
     self.Costo = ko.observableArray(CostoCollection);
+    self.Disable = ko.observable(false);
+    self.DisableEver = ko.observable(true);
 
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "costo-modal",
@@ -12,11 +14,13 @@
     self.ShowModal = function (costo, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información del costo ").ModalHeaderClass("bg-success");
+            self.Disable(false);
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del costo ").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "costo-modal-template", Data: new CostoViewModel(ko.toJS(costo)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
+            self.Disable(true);
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de costo ").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "costo-modal-template", Data: new CostoViewModel(ko.toJS(costo)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
@@ -55,7 +59,7 @@
 
                     $.notify({
                         icon: 'fa fa-check-circle',
-                        message: "Se actualizó la informacion Correctamente"
+                        message: "Se actualizó la información Correctamente"
                     });
                     setTimeout(function () { location.reload(); }, 2000);
                 }

@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class CostosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -41,7 +41,7 @@ namespace MandaditosExpress.Controllers
         // GET: Costos/Create
         public ActionResult Create()
         {
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp=>!(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC"))), "Id", "DescripcionTipoDeServicio");
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => !(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC"))), "Id", "DescripcionTipoDeServicio");
             return View(new Costo());
         }
 
@@ -59,8 +59,8 @@ namespace MandaditosExpress.Controllers
 
                 //desactivar el costo de ese mismo tipo que ya estaban, para que no hayan dos costos para el mismo tipo de servicio.
                 var CostosAntiguo = (from c in db.Costos
-                                   where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
-                                   select c).ToList();
+                                     where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
+                                     select c).ToList();
 
                 CostosAntiguo.ForEach(x => x.EstadoDelCosto = false);
 
@@ -83,25 +83,12 @@ namespace MandaditosExpress.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(costo).State = EntityState.Modified;
-                db.SaveChanges();
-                return View();
-            }
-            return View(costo);
-        }
 
-        // GET: Costos/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (db.SaveChanges() > 0)
+                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            Costo costo = db.Costos.Find(id);
-            if (costo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(costo);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Costos/Delete/5

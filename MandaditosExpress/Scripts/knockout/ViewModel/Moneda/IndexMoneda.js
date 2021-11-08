@@ -13,7 +13,7 @@ function MonedasViewModel(monedasCollection) {
     self.ShowModal = function (moneda, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de la moneda").ModalHeaderClass("bg-success");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información de la moneda").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "moneda-modal-template", Data: new MonedaViewModel(ko.toJS(moneda)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
@@ -51,11 +51,13 @@ function MonedasViewModel(monedasCollection) {
             data: { __RequestVerificationToken: token, moneda: moneda },
             success: function (res) {
                 if (res.exito) {
-                    location.reload();
+                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
+
                     $.notify({
                         icon: 'fa fa-check-circle',
-                        message: "Se edito la informacion Correctamente"
+                        message: "Se actualizó la información Correctamente"
                     });
+                    setTimeout(function () { location.reload(); }, 2000);
                 }
             },
             error: function (e) {

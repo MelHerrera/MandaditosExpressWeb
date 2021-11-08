@@ -5,11 +5,12 @@ function CostoGestionBancariaViewModel(Cgbancaria) {
     self.Id = ko.observable(Cgbancaria.Id);
     self.FechaDeInicio = ko.observable(Cgbancaria.FechaDeInicio || "01/01/1900");
     self.FechaDeFin = ko.observable(Cgbancaria.FechaDeFin || "01/01/1900");
-    self.Descripcion = ko.observable(Cgbancaria.Descripcion);
-    self.MontoDesde = ko.observable(Cgbancaria.MontoDesde);
+    self.Descripcion = ko.observable(Cgbancaria.Descripcion || "");
+    self.MontoDesde = ko.observable(Cgbancaria.MontoDesde || 0);
+    self.MontoHasta = ko.observable(Cgbancaria.MontoHasta || 0);
     self.Estado = ko.observable(Cgbancaria.Estado || false);
-    self.Porcentaje = ko.observable(Cgbancaria.Porcentaje);
-    self.PrecioDeRecargo = ko.observable(Cgbancaria.PrecioDeRecargo);
+    self.Porcentaje = ko.observable(Cgbancaria.Porcentaje || 0);
+    self.PrecioDeRecargo = ko.observable(Cgbancaria.PrecioDeRecargo || 0);
     self.TipoDeServicioId = ko.observable(Cgbancaria.TipoDeServicioId || -1);
-    self.Descripcion = ko.observable(Cgbancaria.Descripcion ? Cgbancaria.Descripcion : Cgbancaria.TipoDeServicio ? Cgbancaria.TipoDeServicio.Descripcion : "");
+    self.DescripcionTipoDeServicio = ko.observable(Cgbancaria.DescripcionTipoDeServicio ? Cgbancaria.DescripcionTipoDeServicio : Cgbancaria.TipoDeServicio ? Cgbancaria.TipoDeServicio.DescripcionTipoDeServicio : "");
 };

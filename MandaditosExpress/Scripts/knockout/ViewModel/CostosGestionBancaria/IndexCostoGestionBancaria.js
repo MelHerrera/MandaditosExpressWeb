@@ -1,6 +1,8 @@
 ﻿function IndexCostoGestionBancaria(CostoGetionBancariaCollection) {
     const self = this;
-    self.CostoGetionBancaria = ko.observableArray(CostoGetionBancariaCollection);
+    self.CostoGetionBancaria = ko.observableArray(CostoGetionBancariaCollection ? ko.utils.arrayMap(CostoGetionBancariaCollection, function (it) { return new CostoGestionBancariaViewModel(it) }) : []);
+    self.Disable = ko.observable(false);
+    self.DisableEver = ko.observable(true);
 
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "costogestionbancaria-modal",
@@ -12,11 +14,13 @@
     self.ShowModal = function (costogestionbancaria, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información del costo de gestion Bancaria ").ModalHeaderClass("bg-success");
+            self.Disable(false);
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del costo de gestion Bancaria ").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "costogestionbancaria-modal-template", Data: new CostoGestionBancariaViewModel(ko.toJS(costogestionbancaria)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
+            self.Disable(true);
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información delcosto de gestion Bancariad").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "costogestionbancaria-modal-template", Data: new CostoGestionBancariaViewModel(ko.toJS(costogestionbancaria)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
@@ -72,7 +76,7 @@
     }
 
     self.mostrarAlertVacio = ko.computed(function () {
-        return self.CostoGestionBancaria().length <= 0;
+        return self.CostoGetionBancaria().length <= 0;
     });
 }
 
@@ -85,5 +89,5 @@ $(function () {
     $("#dt").remove();
 
 
-    ko.applyBindings(new IndexCostoGestionBancaria(costoGestionBancaria));
+    ko.applyBindings(new IndexCostoGestionBancaria(costogestionbancaria));
 });

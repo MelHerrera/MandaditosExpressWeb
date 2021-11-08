@@ -24,7 +24,7 @@
                 <a href="@Url.Action("Index", "Costos")">Costos</a>
             </li>
             <li class="active breadcrumb-item">
-                <strong>Inicio</strong>
+                <strong>Costos</strong>
             </li>
         </ol>
     </div>
@@ -55,11 +55,14 @@
                     @if (Model.Count() > 0)
                     {
 
-                        <table class="table table-bordered-costo">
+                        <table class="table table-bordered costo ">
                             <thead>
                                 <tr>
                                     <th>
                                         @Html.DisplayName("Nº")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
                                     </th>
 
                                     <th>
@@ -69,21 +72,6 @@
                                         @Html.DisplayNameFor(model => model.FechaDeFin)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Descripcion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CostoDeGasolina)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CostoDeAsistencia)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CostoDeMotorizado)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DistanciaBase)
-                                    </th>
-                                    <th>
                                         @Html.DisplayNameFor(model => model.PrecioPorKm)
                                     </th>
                                     <th>
@@ -91,9 +79,6 @@
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.EstadoDelCosto)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.PrecioDeRecargo)
                                     </th>
                                     <th>Opciones</th>
                                 </tr>
@@ -105,20 +90,13 @@
                                     <td data-bind="text:Descripcion"></td>
                                     <td data-bind="text:FechaDeInicio"></td>
                                     <td data-bind="text:FechaDeFin"></td>
-                                    <td data-bind="text:CostoDeGasolina"></td>
-                                    <td data-bind="text:CostoDeAsistencia"></td>
-                                    <td data-bind="text:CostoDeMotorizado"></td>
-                                    <td data-bind="text:DistanciaBase"></td>
                                     <td data-bind="text:PrecioPorKm"></td>
                                     <td data-bind="text:TipoDeServicio.DescripcionTipoDeServicio"></td>
                                     <td>
                                         <input type="checkbox" data-bind="checked:EstadoDelCosto" disabled />
                                     </td>
-                                    <td data-bind="text:PrecioDeRecargo"></td>
 
-
-
-                                    <td>
+                                    <td style="white-space:nowrap;">
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i></a>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
@@ -131,7 +109,7 @@
                     {
 
                         <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 Créditos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                            Se encontraron 0 Costos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
                         </div>
 
                     }

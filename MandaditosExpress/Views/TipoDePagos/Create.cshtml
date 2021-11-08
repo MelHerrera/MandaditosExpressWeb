@@ -23,7 +23,7 @@
                     <a href="@Url.Action("Index")">Tipos de pago</a>
                 </li>
                 <li class="active breadcrumb-item">
-                    <strong>Agrega tipo de pago</strong>
+                    <strong>Agregar</strong>
                 </li>
             </ol>
         </div>
@@ -36,50 +36,51 @@
                 <div class="col-md-12">
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
+                         
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
 
+                                    <div class="form-horizontal">
+                                        <h4><i class="fa fa-info-circle"></i> Ingrese la información del Tipo de pago.</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            @using (Html.BeginForm())
-                            {
-                                @Html.AntiForgeryToken()
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
+                                                <div class="form-group">
+                                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.EstadoTipoDePago, htmlAttributes: new { @class = "control-label" })
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        @*@Html.EditorFor(model => model.Estado)*@
+                                                        @Html.ValidationMessageFor(model => model.EstadoTipoDePago, "", new { @class = "text-danger" })
 
-                                <div class="form-horizontal">
-                                    <h4>Tipos de pago.</h4>
-                                    <hr />
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                                        <input type="checkbox" value="true" name="EstadoTipoDePago" checked hidden>
+                                                        <input type="checkbox" data-toggle="switchbutton" value="true" data-onstyle="info" name="EstadoTipoDePago" disabled checked>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.EstadoTipoDePago, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            <div class="checkbox">
-                                                @*@Html.EditorFor(model => model.Estado)*@
-                                                @Html.ValidationMessageFor(model => model.EstadoTipoDePago, "", new { @class = "text-danger" })
-
-                                                <input type="checkbox" value="true" name="EstadoTipoDePago" checked hidden>
-                                                <input type="checkbox" data-toggle="switchbutton" data-size="xs" value="true" data-onstyle="info" name="EstadoTipoDePago" disabled checked>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Guardar" class="btn btn-success" />
                                             </div>
                                         </div>
                                     </div>
+                                }
 
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Guardar" class="btn btn-success" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-
-                            <div>
-                                @Html.ActionLink("Regresar ", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                        </div>
+                        <div class="ibox-footer">
+                            <div class="col-md-12">
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
-
                         </div>
                     </div>
                 </div>
