@@ -55,7 +55,7 @@
 
                                     </div>
 
-                                    <hr class="m-1"/>
+                                    <hr class="m-1" />
 
                                     <div class="row">
                                         <div class="col-md-8">
@@ -67,15 +67,19 @@
                                         <div class="col-md-4 ">
                                             @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud)
                                             {
-                                                <span class="badge badge-success">Solicitud</span>
+                                                <span class="badge badge-success">@EstadoDelEnvioEnum.Solicitud.ToString()</span>
                                             }
                                             @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso)
                                             {
                                                 <span class="badge badge-info">En Proceso</span>
                                             }
-                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Finalizado)
+                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
                                             {
-                                                <span class="badge badge-warning">Finalizado</span>
+                                                <span class="badge badge-warning">@EstadoDelEnvioEnum.Realizado.ToString()</span>
+                                            }
+                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                                            {
+                                                <span class="badge badge-danger">@EstadoDelEnvioEnum.Rechazado.ToString()</span>
                                             }
                                         </div>
                                     </div>
@@ -103,7 +107,7 @@
 }
 else
 {
-    <div class="alert alert-warning alert-Empty" role="alert">
+    <div class="alert alert-warning alert-Empty mt-3" role="alert">
         Se encontraron 0 Envios <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para solicitar uno.
     </div>
 }

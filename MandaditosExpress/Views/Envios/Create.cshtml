@@ -77,7 +77,7 @@
                                         <div class="col-md-6" data-bind="with:Servicio">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" required title="La descripción del servicio es obligatoria" />
+                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio"/>
                                                 <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
                                                     <span id="DescripcionDelServicio-error" class=""></span>
                                                 </span>
@@ -278,7 +278,7 @@
                                             </div>
 
                                             <div class="col">
-                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
+                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" data-bind="disable:$root.CargandoSolicitud"/>
                                                 <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CargandoSolicitud"></i>
                                             </div>
@@ -519,7 +519,7 @@
                                 });
 
                                 //recargar la pagina despues de 3 segundos
-                                setTimeout(function () { location.reload(); }, 3000);
+                                setTimeout(function () { window.location.assign("/Envios/Index"); }, 3000);
                             }
                             else {
                                 $.notify({

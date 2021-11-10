@@ -102,7 +102,6 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Nombres y Apellidos del receptor")]
         public string NombresDelReceptor { get; set; }
 
-        [Required]
         [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
@@ -153,9 +152,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Cotización")]
         public int? CotizacionId { get; set; }
 
-        [Required]
         [Display(Name ="Descripción breve del Servicio")]
-        public int ServicioId { get; set; }
+        public int? ServicioId { get; set; }
 
         [Required]
         [Display(Name = "Tipo de servicio")]

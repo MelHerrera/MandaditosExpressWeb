@@ -34,7 +34,6 @@ namespace MandaditosExpress.Models
         [Display(Name = "Nombres del receptor")]
         public string NombresDelReceptor { get; set; }
 
-        [Required]
         [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
@@ -73,7 +72,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "¿El motorizado necesita cambio?")]
         public bool DebeRecibirCambio { get; set; }
 
-        [Display(Name = "¿Estado?")]
+        [Display(Name = "Estado")]
         public short EstadoDelEnvio { get; set; }
 
         public int? MotocicletaId { get; set; }
@@ -92,9 +91,8 @@ namespace MandaditosExpress.Models
         [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
 
-        [Required]
         [Display(Name = "Servicio")]
-        public int ServicioId { get; set; }
+        public int? ServicioId { get; set; }
 
         [Display(Name = "Lugar Origen")]
         public int LugarOrigenId { get; set; }

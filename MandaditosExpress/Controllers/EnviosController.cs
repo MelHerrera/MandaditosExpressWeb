@@ -46,11 +46,71 @@ namespace MandaditosExpress.Controllers
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it=> it.ClienteId==ClienteId).ToList();
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId).ToList();
             else
                 envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).ToList();
 
-            return View(envios.ToList());
+            return View("Index", envios.ToList());
+        }
+
+        // GET: Envios//Solicitud
+        public ActionResult IndexSolicitudes()
+        {
+            var envios = new List<Envio>();
+            var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
+            var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
+
+            if (User.IsInRole("Cliente"))
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList();
+            else
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList();
+
+            return View("Index", envios.ToList());
+        }
+
+        // GET: Envios//Proceso
+        public ActionResult IndexEnProceso()
+        {
+            var envios = new List<Envio>();
+            var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
+            var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
+
+            if (User.IsInRole("Cliente"))
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList();
+            else
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList();
+
+            return View("Index", envios.ToList());
+        }
+
+        // GET: Envios//Finalizados
+        public ActionResult IndexFinalizados()
+        {
+            var envios = new List<Envio>();
+            var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
+            var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
+
+            if (User.IsInRole("Cliente"))
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList();
+            else
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList();
+
+            return View("Index", envios.ToList());
+        }
+
+        // GET: Envios//Rechazados
+        public ActionResult IndexRechazados()
+        {
+            var envios = new List<Envio>();
+            var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
+            var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
+
+            if (User.IsInRole("Cliente"))
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList();
+            else
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList();
+
+            return View("Index", envios.ToList());
         }
 
         // GET: Envios/Details/5
@@ -61,10 +121,23 @@ namespace MandaditosExpress.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Envio envio = db.Envios.Find(id);
+
+            //verificar si el envio que quiere ver esta en su dominio en el caso que sean clientes
+            if (User.IsInRole("Cliente"))
+            {
+                var Cliente = Utileria.GetClienteByUser(User.Identity.Name);
+
+                if (envio.ClienteId!= Cliente.Id)
+                {
+                    return HttpNotFound();
+                }
+            }
+
             if (envio == null)
             {
                 return HttpNotFound();
             }
+
             return View(envio);
         }
 
@@ -86,15 +159,15 @@ namespace MandaditosExpress.Controllers
             {
                 EnvioViewModel.CotizacionId = cotizacion.Id;
                 EnvioViewModel.TipoDeServicioId = cotizacion.TipoDeServicioId;
-                EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen!=null ? _mapper.Map<LugarViewModel>(cotizacion.LugarOrigen) : new LugarViewModel();
-                EnvioViewModel.LugarDestino = cotizacion.LugarDestino!=null ? _mapper.Map<LugarViewModel>(cotizacion.LugarDestino) : new LugarViewModel();
+                EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen != null ? _mapper.Map<LugarViewModel>(cotizacion.LugarOrigen) : new LugarViewModel();
+                EnvioViewModel.LugarDestino = cotizacion.LugarDestino != null ? _mapper.Map<LugarViewModel>(cotizacion.LugarDestino) : new LugarViewModel();
                 EnvioViewModel.MontoDeDinero = cotizacion.MontoDeDinero;
                 EnvioViewModel.EsUrgente = cotizacion.EsEspecial;
                 EnvioViewModel.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino;
                 EnvioViewModel.MontoTotalDelEnvio = cotizacion.MontoTotal;
 
                 //mandar los servicios filtrados en dependencia del tipo de servicio de la cotizacion
-                EnvioViewModel.Servicios = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios.Where(it=> it.TipoDeServicioId==cotizacion.TipoDeServicioId)).ToList();
+                EnvioViewModel.Servicios = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios.Where(it => it.TipoDeServicioId == cotizacion.TipoDeServicioId)).ToList();
             }
 
             //sacar el Id del Cliente que esta haciendo la solicitud del envio
@@ -122,12 +195,12 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Asignacion
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Asignacion(int? id)
         {
             var Envio = db.Envios.FirstOrDefault(it => it.Id == id);
 
-            if (id == null || Envio==null)
+            if (id == null || Envio == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
@@ -154,7 +227,7 @@ namespace MandaditosExpress.Controllers
             bool Reasignacion = false;
             Motorizado MotorizadoDelEnvio = null;
 
-            var Motorizado = db.Motorizados.FirstOrDefault(it=> it.Id == MotorizadoId);
+            var Motorizado = db.Motorizados.FirstOrDefault(it => it.Id == MotorizadoId);
             ///activar estas validaciones cuando este en produccion
             ////validaciones sobre el motorizado seleccionado
             //if(Motorizado==null)
@@ -162,12 +235,12 @@ namespace MandaditosExpress.Controllers
             //if(Motorizado.EstadoDelMotorizado != (short)EstadoDeMotorizadoEnum.Activo)
             //    return Json(new { message = "El motorizado no se encuentra disponible para realizar este envio", exito = false }, JsonRequestBehavior.AllowGet);
 
-            var Envio = db.Envios.FirstOrDefault(it=> it.Id == EnvioId);
+            var Envio = db.Envios.FirstOrDefault(it => it.Id == EnvioId);
 
             //validaciones sobre el envio seleccionado
-            if (Envio == null || Envio.MontoTotalDelEnvio<=0 || Envio.DistanciaEntregaRecep<=0)
+            if (Envio == null || Envio.MontoTotalDelEnvio <= 0 || Envio.DistanciaEntregaRecep <= 0)
                 return Json(new { message = "El envio seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
-            if (Envio.EstadoDelEnvio == (short) EstadoDelEnvioEnum.Finalizado)
+            if (Envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
                 return Json(new { message = "Este envio ya se encuentra finalizado, no se puede realizar la asignación", exito = false }, JsonRequestBehavior.AllowGet);
 
             //verificar si ya se encuentra asignado, en este caso seria reasignacion 
@@ -183,10 +256,10 @@ namespace MandaditosExpress.Controllers
                 Reasignacion = false;
 
             Envio.MotorizadoId = Motorizado.Id;
-            Envio.EstadoDelEnvio = (short) EstadoDelEnvioEnum.EnProceso;
+            Envio.EstadoDelEnvio = (short)EstadoDelEnvioEnum.EnProceso;
             db.Entry(Envio).State = EntityState.Modified;
 
-            if(db.SaveChanges() > 0)
+            if (db.SaveChanges() > 0)
             {
                 if (Reasignacion)
                 {
@@ -221,7 +294,7 @@ namespace MandaditosExpress.Controllers
             {
                 var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(envio.TipoDeServicioId, envio.DistanciaEntregaRecep, envio.MontoDeDinero, envio.FechaDelEnvio);
 
-                if(!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
+                if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
                     return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
 
                 var CostoAsociado = CostoServices.ValidarVigenciaCostos(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero);
@@ -237,16 +310,21 @@ namespace MandaditosExpress.Controllers
                         //si es un nuevo servicio guardarlo antes de ocupar servicioId
                         if (envio.ServicioId == -1)
                         {
-                            envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
-                            envio.Servicio.Estado = true;
+                            if (envio.Servicio.DescripcionDelServicio != null)
+                            {
+                                envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
+                                envio.Servicio.Estado = true;
 
-                            var service = _mapper.Map<Servicio>(envio.Servicio);
-                            db.Servicios.Add(service);
-                            db.SaveChanges();
+                                var service = _mapper.Map<Servicio>(envio.Servicio);
+                                db.Servicios.Add(service);
+                                db.SaveChanges();
 
-                            //Una vez guardado el nuevo servicio actualizar la informacion del envio
-                            envio.ServicioId = service.Id;
+                                //Una vez guardado el nuevo servicio actualizar la informacion del envio
+                                mEnvio.ServicioId = service.Id;
+                            }
                         }
+                        else
+                            mEnvio.ServicioId = envio.ServicioId;
 
                         //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
                         var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
@@ -271,7 +349,7 @@ namespace MandaditosExpress.Controllers
                                 mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
                                 mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
                                 mEnvio.TipoDePagoId = envio.TipoDePagoId;
-                                mEnvio.ServicioId = envio.ServicioId;
+                                //mEnvio.ServicioId = envio.ServicioId;
                                 mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
                                 mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
                                 mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
@@ -292,33 +370,32 @@ namespace MandaditosExpress.Controllers
 
                             if (MontoTotalDelEnvio > 0)
                             {
-                                mEnvio = new Envio
-                                {
-                                    DescripcionDeEnvio = envio.DescripcionDeEnvio,
-                                    FechaDelEnvio = envio.FechaDelEnvio,
-                                    TipoDePagoId = envio.TipoDeServicioId,
-                                    TipoDeServicioId = envio.TipoDeServicioId,
-                                    ServicioId = envio.ServicioId,
-                                    NombresDelReceptor = envio.NombresDelReceptor,
-                                    CedulaDelReceptor = envio.CedulaDelReceptor,
-                                    TelefonoDelReceptor = envio.TelefonoDelReceptor,
-                                    MontoDeDinero = envio.MontoDeDinero,
-                                    EsUrgente = envio.EsUrgente,
-                                    Peso = envio.Peso,
-                                    DebeRegresarATienda = envio.DebeRegresarATienda,
-                                    DebeRecibirDinero = envio.DebeRecibirDinero,
-                                    MontoARecibir = envio.MontoARecibir,
-                                    DebeRecibirCambio = envio.DebeRecibirCambio,
-                                    MontoCambio = envio.MontoCambio,
-                                    LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen),
-                                    LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino),
-                                    DistanciaEntregaRecep = envio.DistanciaEntregaRecep,
-                                    EstadoDelEnvio = envio.EstadoDelEnvio,
-                                    ClienteId = envio.ClienteId,
-                                    CotizacionId = envio.CotizacionId,
-                                    MontoTotalDelEnvio = MontoTotalDelEnvio,
-                                    EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
-                            };
+
+
+                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
+                                    mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
+                                    mEnvio.TipoDePagoId = envio.TipoDeServicioId;
+                                    mEnvio.TipoDeServicioId = envio.TipoDeServicioId;
+                                    mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
+                                    mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
+                                    mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
+                                    mEnvio.MontoDeDinero = envio.MontoDeDinero;
+                                    mEnvio.EsUrgente = envio.EsUrgente;
+                                    mEnvio.Peso = envio.Peso;
+                                    mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
+                                    mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
+                                    mEnvio.MontoARecibir = envio.MontoARecibir;
+                                    mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
+                                    mEnvio.MontoCambio = envio.MontoCambio;
+                                    mEnvio.LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen);
+                                    mEnvio.LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino);
+                                    mEnvio.DistanciaEntregaRecep = envio.DistanciaEntregaRecep;
+                                    mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
+                                    mEnvio.ClienteId = envio.ClienteId;
+                                    mEnvio.CotizacionId = envio.CotizacionId;
+                                    mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
+                                    mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+                                
                             }
                         }
 
@@ -383,7 +460,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Delete/5
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -62,13 +62,16 @@
                                     @Html.DisplayFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
                                 </dd>
 
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.ServicioId)
-                                </dt>
+                                @if (Model.Servicio != null)
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ServicioId)
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Servicio.DescripcionDelServicio)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Servicio.DescripcionDelServicio)
+                                    </dd>
+                                }
 
                                 <dt>
                                     @Html.DisplayNameFor(model => model.TipoDePagoId)
@@ -258,9 +261,13 @@
                                     {
                                         <span class="badge badge-success">@EstadoDelEnvioEnum.EnProceso.ToString()</span>
                                     }
-                                    @if (Model.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Finalizado)
+                                    @if (Model.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
                                     {
-                                        <span class="badge badge-warning">@EstadoDelEnvioEnum.Finalizado.ToString()</span>
+                                        <span class="badge badge-warning">@EstadoDelEnvioEnum.Realizado.ToString()</span>
+                                    }
+                                    @if (Model.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                                    {
+                                        <span class="badge badge-warning">@EstadoDelEnvioEnum.Rechazado.ToString()</span>
                                     }
                                 </dd>
 

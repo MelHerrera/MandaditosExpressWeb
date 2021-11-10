@@ -46,7 +46,7 @@ public class MainMappingProfile : Profile
                                           .ForMember(x => x.ClienteFoto, x => x.MapFrom(y => y.Cliente.Foto))
                                           .ForMember(x => x.CotizacionDescripcion, x => x.MapFrom(y => y.Cotizacion.DescripcionDeCotizacion))
                                           .ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio ==(short)EstadoDelEnvioEnum.Solicitud ? "badge badge-primary" : y.EstadoDelEnvio== (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-success" : "badge badge-warning"))
-                                          .ForMember(x => x.EstadoDelEnvioDescripcion, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() : EstadoDelEnvioEnum.Finalizado.ToString()))
+                                          .ForMember(x => x.EstadoDelEnvioDescripcion, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() : EstadoDelEnvioEnum.Realizado.ToString()))
                                           .ForMember(x => x.MotorizadoNombres, x => x.MapFrom(y => y.Motorizado.NombreCompleto));
 
         CreateMap<Motorizado, MotorizadoViewModel>().
