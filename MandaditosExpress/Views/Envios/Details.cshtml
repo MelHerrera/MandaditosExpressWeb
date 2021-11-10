@@ -9,7 +9,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Detalle del envio</h2>
+        <h2>Envíos</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -76,6 +76,21 @@
 
                                 <dd>
                                     @Html.DisplayFor(model => model.TipoDePago.Descripcion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.EsAlCredito)
+                                </dt>
+
+                                <dd>
+                                    @if (Model.EsAlCredito)
+                                    {
+                                        <span class="badge badge-warning">Si</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-primary">No</span>
+                                    }
                                 </dd>
 
                                 @if (Model.Cotizacion != null)
@@ -251,14 +266,14 @@
 
                             </dl>
                         </div>
-
-                        <div class="ibox-footer">
-                            <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-Primary fa fa-arrow-left" })
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="ibox-footer">
+                        <div class="col-md-12">
+                            @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

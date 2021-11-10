@@ -41,7 +41,15 @@ namespace MandaditosExpress.Controllers
         // GET: Envios
         public ActionResult Index()
         {
-            var envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio);
+            var envios = new List<Envio>();
+            var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
+            var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
+
+            if (User.IsInRole("Cliente"))
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it=> it.ClienteId==ClienteId).ToList();
+            else
+                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).ToList();
+
             return View(envios.ToList());
         }
 
@@ -96,17 +104,19 @@ namespace MandaditosExpress.Controllers
             EnvioViewModel.ClienteId = Cliente != null ? Cliente.Id : -1;
 
             //sino tiene credito ocultar de la lista de tipos de pagos la ópcion de creditos
-            var TieneCredito = db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Today && it.FechaDeVencimiento >= DateTime.Today && it.ClienteId == EnvioViewModel.ClienteId).Count() > 0;
+            //var TieneCredito = db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == EnvioViewModel.ClienteId && it.Pagos.Count <= 0).Count() > 0;
+            var TieneCredito = TieneCreditoCliente(EnvioViewModel.ClienteId);
 
-            if (!TieneCredito)
-            {
-                //Buscar en los tipos de pagos si existe el Id del credito
-                var Credito = db.TiposDePago.FirstOrDefault(it => it.Descripcion.ToUpper().StartsWith("CRED") || it.Descripcion.ToUpper().StartsWith("CRÉD"));
-                var CreditoId = Credito != null ? Credito.Id : -1;
+            EnvioViewModel.TieneCredito = TieneCredito;
+            //if (!TieneCredito)
+            //{
+            //    //Buscar en los tipos de pagos si existe el Id del credito
+            //    var Credito = db.TiposDePago.FirstOrDefault(it => it.Descripcion.ToUpper().StartsWith("CRED") || it.Descripcion.ToUpper().StartsWith("CRÉD"));
+            //    var CreditoId = Credito != null ? Credito.Id : -1;
 
-                //excluir ese registro de los tipos de pagos
-                EnvioViewModel.TiposDePago = EnvioViewModel.TiposDePago.Where(it => it.Id != CreditoId).ToList();
-            }
+            //    //excluir ese registro de los tipos de pagos
+            //    EnvioViewModel.TiposDePago = EnvioViewModel.TiposDePago.Where(it => it.Id != CreditoId).ToList();
+            //}
 
             return View(EnvioViewModel);
         }
@@ -201,7 +211,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
+        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,EsAlCredito,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
         {
             //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios
             ModelState.Remove("envio.Servicio.DescripcionDelServicio");
@@ -273,6 +283,7 @@ namespace MandaditosExpress.Controllers
                                 mEnvio.MontoCambio = envio.MontoCambio;
                                 mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
                                 mEnvio.ClienteId = envio.ClienteId;
+                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false; //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
                             }
                         }
                         else
@@ -305,8 +316,9 @@ namespace MandaditosExpress.Controllers
                                     EstadoDelEnvio = envio.EstadoDelEnvio,
                                     ClienteId = envio.ClienteId,
                                     CotizacionId = envio.CotizacionId,
-                                    MontoTotalDelEnvio = MontoTotalDelEnvio
-                                };
+                                    MontoTotalDelEnvio = MontoTotalDelEnvio,
+                                    EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+                            };
                             }
                         }
 
@@ -328,6 +340,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -352,6 +365,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,DireccionDeRecepcion,DireccionDeEntrega,DistanciaEntregaRecep,NombresDelReceptor,ApellidosDelReceptor,CedulaDelReceptor,Ancho,Alto,Peso,MontoDeDinero,TelefonoDelReceptor,FechaDeEntrega,EsUrgente,HoraDeEntrega,PrecioDeRecargo,EstadoDelEnvio,MotocicletaId,AsistenteId,ClienteId,MotorizadoId,Credito,ServicioId")] Envio envio)
         {
             if (ModelState.IsValid)
@@ -369,6 +383,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Delete/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -386,6 +401,7 @@ namespace MandaditosExpress.Controllers
         // POST: Envios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Envio envio = db.Envios.Find(id);
@@ -432,6 +448,11 @@ namespace MandaditosExpress.Controllers
                 return Json(new { message = "Ha sucedido un inconveniente al realizar tu cotización, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
         }
 
+        public bool TieneCreditoCliente(int ClienteId)
+        {
+            return db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == ClienteId && it.Pagos.Count <= 0 && it.EstadoDelCredito).Count() > 0;
+
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

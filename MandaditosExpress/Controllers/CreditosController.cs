@@ -49,16 +49,27 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
+        public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
+            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
+
             if (ModelState.IsValid)
             {
+                //validaciones sobre el credito a guardar
+                ////creditos del cliente en el mismo periodo y que sean creditos que no tengan pagos
+                //var ExisteCreditoMismoPeriodo = db.Creditos.FirstOrDefault(it=> it.FechaDeInicio>=credito.FechaDeInicio && it.FechaDeVencimiento<=credito.FechaDeInicio &&
+                //                                                           it.FechaDeInicio<=credito.FechaDeVencimiento && 
+                //                                                           it.ClienteId == credito.ClienteId && it.Pagos.Count<= 0);
+                //if (ExisteCreditoMismoPeriodo != null)
+                //{
+                //    ModelState.AddModelError("","No se puede grabar otro credito a este cliente en el mismo periodo");
+                //    return View(credito);
+                //}
+
                 db.Creditos.Add(credito);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
             return View(credito);
         }
 
@@ -67,7 +78,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
+        public ActionResult Edit([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
             if (ModelState.IsValid)
             {

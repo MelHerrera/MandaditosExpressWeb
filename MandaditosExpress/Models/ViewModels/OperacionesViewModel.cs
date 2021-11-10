@@ -161,6 +161,10 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
 
+        public bool TieneCredito { get; set; }
+
+        public bool EsAlCredito { get; set; }
+
         public int GestionBancariaId { get; set; }//propiedad usada solo para validaciones
 
         public List<TipoDeServicioViewModel> TiposDeServicio { get; set; }
@@ -284,4 +288,25 @@ namespace MandaditosExpress.Models.ViewModels
         public string MotorizadoNombres { get; set; }
     }
 
+    public class EnvioPagoViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [StringLength(250)]
+        [Required]
+        [Display(Name = "Descripción")]
+        public string DescripcionDeEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha")]
+        public DateTime FechaDelEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Monto total del envio")]
+        public decimal MontoTotalDelEnvio { get; set; }
+
+        public int ClienteId { get; set; }
+
+    }
 }

@@ -60,6 +60,9 @@
                                         @Html.DisplayName("Nº")
                                     </th>
                                     <th>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
+                                    </th>
+                                    <th>
                                         @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
                                     </th>
                                     <th>
@@ -71,26 +74,27 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.FechaDeCancelacion)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EstadoDelCredito)
-                                    </th>
+                                    @*<th>
+                                            @Html.DisplayNameFor(model => model.EstadoDelCredito)
+                                        </th>*@
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach:Creditos">
                                 <tr>
                                     <td data-bind="text:$index()+1"></td>
+                                    <td data-bind="text:Descripcion"></td>
                                     <td data-bind="text:NombreCompleto"></td>
                                     <td data-bind="text:FechaDeInicio"></td>
                                     <td data-bind="text:FechaDeVencimiento"></td>
                                     <td data-bind="text:FechaDeCancelacion"></td>
 
-                                    <td >
-                                        <input type="checkbox" data-bind="checked:EstadoDelCredito" disabled/>
-                                    </td>
+                                    @*<td>
+                                        <input type="checkbox" data-bind="checked:EstadoDelCredito" disabled />
+                                    </td>*@
 
 
-                                    <td>
+                                    <td style="white-space:nowrap">
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>

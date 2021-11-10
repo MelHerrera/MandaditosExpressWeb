@@ -57,7 +57,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, disable: $root.EnvioMedianteCotizacion" required></select>
+                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:(ko.unwrap(TiposDeServicio()).length > 0 ? TiposDeServicio : [{ DescripcionTipoDeServicio: 'Sin registros'}] ), optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, disable: $root.EnvioMedianteCotizacion" required title="El campo es obligatorio"></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -106,7 +106,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", @type = "number", data_bind = "value:TelefonoDelReceptor" } })
+                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", data_bind = "value:TelefonoDelReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -253,13 +253,22 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
+                                                <select class="form-control" name="TipoDePagoId" data-bind="options:( ko.unwrap(TiposDePago()).length > 0 ? TiposDePago : [{Descripcion:'Sin registros'}] ), optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required title="El campo es obligatorio"></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        <!--ko if:$root.MostrarBtnAlCredito-->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label name="EsAlCredito" class="control-label font-weight-bold" style="display:block">Al Crédito</label>
+                                                <input type="checkbox" data-bind="checked: EsAlCredito, bsSwitchButton: {}" data-size="xs" id="chk_escredito" name="EsAlCredito">
+                                                @Html.ValidationMessageFor(model => model.EsAlCredito, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
                                     </div>
 
                                     <div class="mt-4">
@@ -345,6 +354,7 @@
         self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
 
         self.MostrarMonto = ko.observable(false);
+        self.MostrarBtnAlCredito = ko.observable(self.Envio().TieneCredito());
         self.IsInvalidLocation = ko.observable(false);
         self.CargandoSolicitud = ko.observable(false);
         self.FiltrandoServicios = ko.observable(false);

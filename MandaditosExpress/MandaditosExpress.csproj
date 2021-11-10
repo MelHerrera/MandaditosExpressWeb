@@ -258,6 +258,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\MotorizadosController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\TipoDePagosController.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Models\Utileria\Utileria.cs" />
     <Compile Include="Models\VelocidadDeConexion.cs" />
     <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
+    <Compile Include="Models\ViewModels\HomeUserViewModel.cs" />
     <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -364,6 +366,8 @@
     <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\CreditoViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
+    <Content Include="Scripts\knockout\ViewModel\Pagos\IndexPago.js" />
+    <Content Include="Scripts\knockout\ViewModel\Pagos\PagoViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
     <Content Include="Scripts\plugins\jquerymask\jquery.mask.js" />
@@ -704,6 +708,11 @@
     <Content Include="Views\Creditos\Index.cshtml" />
     <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
     <Content Include="Views\Envios\Asignacion.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Delete.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\VelocidadDeConexion\Templates\_VelocidadDeConexionTemplate.cshtml" />

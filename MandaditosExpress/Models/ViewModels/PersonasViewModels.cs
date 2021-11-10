@@ -79,6 +79,32 @@ namespace MandaditosExpress.Models.ViewModels
         public bool AceptaTerminos { get; set; }
     }
 
+    public class ClientePagoViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        [Required]
+        [StringLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        [StringLength(16)]//132-090994-2000F
+        public string Cedula { get; set; }
+
+        [Display(Name = "Fecha de Ingreso")]
+        public DateTime FechaIngreso { get; set; }
+
+        [NotMapped]
+        public string Nombres { get; set; }
+
+    }
+
+
     public class MotorizadoViewModel
     {
         public MotorizadoViewModel()

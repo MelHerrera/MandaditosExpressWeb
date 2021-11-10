@@ -62,5 +62,11 @@ public class MainMappingProfile : Profile
 
 
         CreateMap<Lugar, LugarViewModel>().ReverseMap();
+        CreateMap<Cliente, ClientePagoViewModel>()
+            .ForMember(x => x.Nombres, x => x.MapFrom(y => y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
+        CreateMap<Envio, EnvioPagoViewModel>().ReverseMap();
+        CreateMap<Moneda, MonedaViewModel>().ReverseMap();
+        CreateMap<Credito, CreditoViewModel>().ReverseMap();
+        CreateMap<Pago, PagoViewModel>().ReverseMap();
     }
 }

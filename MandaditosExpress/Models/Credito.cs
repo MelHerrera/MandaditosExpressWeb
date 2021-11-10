@@ -12,10 +12,15 @@ namespace MandaditosExpress.Models
         public Credito()
         {
             this.FechaDeCancelacion = DateTime.Parse("01/01/1900");
+            Pagos = new HashSet<Pago>();
         }
 
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Descripción")]
+        [Required]
+        public string Descripcion { get; set; }
 
         [Display(Name = "Fecha De Inicio")]
         public DateTime FechaDeInicio { get; set; }
@@ -34,5 +39,7 @@ namespace MandaditosExpress.Models
         public int ClienteId { get; set; }
 
         public virtual Cliente Cliente { get; set; }
+
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }
