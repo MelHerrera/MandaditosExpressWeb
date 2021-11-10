@@ -1,115 +1,149 @@
 ﻿@model IEnumerable<MandaditosExpress.Models.Asistente>
 
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Asistentes";
+    var Asistentes = Html.HtmlConvertToJson(Model);
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoDeAsistente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoDeAsistente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeBaja)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CorreoElectronico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrimerNombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SegundoNombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrimerApellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SegundoApellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Foto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sexo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cedula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngresoDeAsistente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoDeAsistente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeBaja)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CorreoElectronico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrimerNombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SegundoNombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrimerApellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SegundoApellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Foto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sexo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngreso)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+    @Html.Hidden("dt", Asistentes);
+}
+
+@Styles.Render("~/Plugin/switches")
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Monedas</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Asistentes")">Asistente</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Inicio</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Asistentes</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create","Asistentes")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+
+                    <table class="table table-bordered table-asistentes">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Nº")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeBaja)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CorreoElectronico)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreCompleto)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Telefono)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Foto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sexo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Direccion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Cedula)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoDeAsistente)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Asistentes">
+                            <tr>
+
+                                <td data-bind="text:$index()+1"></td>
+                                <td data-bind="text:FechaIngreso"></td>
+
+                                <td data-bind="text:FechaDeBaja"></td>
+                                <td data-bind="text:CorreoElectronico">
+                                <td data-bind="text:NombreCompleto"></td>
+
+                                <td data-bind="text:Telefono"></td>
+                                <td class="img-circle">
+                                    <img alt="" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }" />
+                                </td>
+                                <td data-bind="text:Sexo"></td>
+                                <td data-bind="text:Direccion"></td>
+                                <td data-bind="text:Cedula"></td>
+                                <td><input type="checkbox" data-bind="checked:EstadoDeAsistente, enable:false" /></td>
+                                <td>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                    <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Asistentes/Templates/_AsistenteTemplate.cshtml")
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+
+@*<pre>
+    <code data-bind="html: JSON.stringify(ko.toJS($root), null, 3)"></code>
+    </pre>*@
+
+
+@section Scripts{
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/bundles/IndexAsistentes")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
+
+}

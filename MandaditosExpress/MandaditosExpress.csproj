@@ -18,9 +18,12 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -331,6 +334,8 @@
     <Content Include="Content\plugins\glightbox\css\glightbox.css" />
     <Content Include="Content\plugins\glightbox\css\glightbox.min.css" />
     <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
+    <Content Include="Scripts\knockout\ViewModel\Asistente\AsistenteViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Asistente\IndexAsistente.js" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\CreditoViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
@@ -645,6 +650,7 @@
     <Content Include="Views\Creditos\Index.cshtml" />
     <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
     <Content Include="Views\Envios\Asignacion.cshtml" />
+    <Content Include="Views\Asistentes\Templates\_AsistenteTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
