@@ -487,6 +487,17 @@ namespace MandaditosExpress.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPosr]
+        public ActionResult RechazarEnvio()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FinalizarEnvio()
+        {
+            return View();
+        }
         public JsonResult FiltrarServicio(int id)
         {
 
