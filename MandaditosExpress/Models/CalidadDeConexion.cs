@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MandaditosExpress.Models
 {
     [Table("VelocidadDeConexiones")]
-    public class VelocidadDeConexion
+    public class CalidadDeConexion
     {
-        public VelocidadDeConexion()
+        public CalidadDeConexion()
         {
             this.Motorizados = new HashSet<Motorizado>();
         }

@@ -58,22 +58,22 @@
                     <a href=""><i class="fa fa-list-alt"></i> <span class="nav-label" data-i18n="nav.dashboard">Catalogos</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse ">
                         <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("Index", "Costos")">Costos</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Disponibilidad")">Disponibilidad</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad de Conexion</a>
+                            <a href="@Url.Action("Index", "CalidadDeConexion")">Calidad de Conexión</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("Index", "TipoDeServicios")">Tipo de Servicios</a>
+                            <a href="@Url.Action("Index", "TipoDeServicios")">Tipos de Servicio</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Servicios")">Servicios</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Monedas")">Monedas</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Costos")">Costos</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "CostosGestionBancaria")">Costos Gestion Bancaria</a>

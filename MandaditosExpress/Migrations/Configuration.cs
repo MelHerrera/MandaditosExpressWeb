@@ -115,23 +115,23 @@ new Models.Persona
                      });
 
             context.VelocidadDeConexion.AddOrUpdate(p => p.Id,
-                new Models.VelocidadDeConexion
+                new Models.CalidadDeConexion
                 {
                     Descripcion = "Lento",
                     Estado = true
                 },
-                new Models.VelocidadDeConexion
+                new Models.CalidadDeConexion
                 {
                     Descripcion = "Medio",
                     Estado = true
                 },
-                         new Models.VelocidadDeConexion
+                         new Models.CalidadDeConexion
                          {
                              Descripcion = "Rapido",
                              Estado = true
                          },
 
-                 new Models.VelocidadDeConexion
+                 new Models.CalidadDeConexion
                  {
                      Descripcion = "Super Rapido",
                      Estado = true

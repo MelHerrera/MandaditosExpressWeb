@@ -263,7 +263,7 @@
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\TipoDePagosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
-    <Compile Include="Controllers\VelocidadDeConexionController.cs" />
+    <Compile Include="Controllers\CalidadDeConexionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -307,7 +307,7 @@
     <Compile Include="Models\TipoDePago.cs" />
     <Compile Include="Models\TipoDeServicio.cs" />
     <Compile Include="Models\Utileria\Utileria.cs" />
-    <Compile Include="Models\VelocidadDeConexion.cs" />
+    <Compile Include="Models\CalidadDeConexion.cs" />
     <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeUserViewModel.cs" />
     <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
@@ -663,9 +663,9 @@
     <Content Include="Views\Disponibilidad\Details.cshtml" />
     <Content Include="Views\Disponibilidad\Edit.cshtml" />
     <Content Include="Views\Disponibilidad\Index.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Create.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Details.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Index.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Create.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Details.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Index.cshtml" />
     <Content Include="Views\Costos\Create.cshtml" />
     <Content Include="Views\Costos\Delete.cshtml" />
     <Content Include="Views\Costos\Details.cshtml" />
@@ -715,7 +715,7 @@
     <Content Include="Views\Pagos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\VelocidadDeConexion\Templates\_VelocidadDeConexionTemplate.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
     <Content Include="Views\Informes\ListClientesxFec.cshtml" />
     <Content Include="Views\Clientes\FiltrarClientes.cshtml" />
     <Content Include="Views\Consultas\BuscarClientes.cshtml" />

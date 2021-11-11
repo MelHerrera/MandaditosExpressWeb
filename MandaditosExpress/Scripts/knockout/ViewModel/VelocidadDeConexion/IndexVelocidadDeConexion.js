@@ -13,12 +13,12 @@ function VelocidadesDeConexionViewModel(VelocidadDeConexionCollection) {
     self.ShowModal = function (VelocidadDeConexion, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("editar la información de Velocidad De Conexion").ModalHeaderClass("bg-success");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información de Calidad De Conexión").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "Velocidad-modal-template", Data: new VelocidadDeConexionViewModel(ko.toJS(VelocidadDeConexion)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de Velocidad De Conexion").ModalHeaderClass("bg-danger");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar la información de Calidad de Conexión").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "Velocidad-modal-template", Data: new VelocidadDeConexionViewModel(ko.toJS(VelocidadDeConexion)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }

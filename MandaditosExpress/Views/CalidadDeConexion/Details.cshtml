@@ -1,4 +1,4 @@
-﻿@model MandaditosExpress.Models.VelocidadDeConexion
+﻿@model MandaditosExpress.Models.CalidadDeConexion
 
 
 @{
@@ -9,7 +9,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Detalle de la Velocidad de Conexion</h2>
+        <h2>Calidad de conexión</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -18,7 +18,7 @@
                 <a>Catálogos</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "VelocidadDeConexion")">Velocidad De Conexion</a>
+                <a href="@Url.Action("Index", "VelocidadDeConexion")">Calidad de conexión</a>
             </li>
             <li class="active breadcrumb-item">
                 <strong>Detalles</strong>
@@ -36,7 +36,7 @@
                         <div class="ibox-content align-items-center">
 
                             <div>
-                                <h4>Informacion detallada de la Velocidad de Conexion</h4>
+                                <h4><i class="fa fa-info-circle"></i> Información detallada de la Calidad de Conexión</h4>
                                 <hr />
                                 <dl class="dl-horizontal">
                                     <dt>
@@ -62,7 +62,7 @@
 
                         <div class="ibox-footer">
                             <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-Primary fa fa-arrow-left" })
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
                         </div>
 

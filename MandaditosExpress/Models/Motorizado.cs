@@ -40,7 +40,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "Disponibilidad")]
         public int DisponibilidadId { get; set; }
 
-        public virtual VelocidadDeConexion VelocidadDeConexion { get; set; }
+        public virtual CalidadDeConexion VelocidadDeConexion { get; set; }
 
         public virtual Disponibilidad Disponibilidad { get; set; }
 

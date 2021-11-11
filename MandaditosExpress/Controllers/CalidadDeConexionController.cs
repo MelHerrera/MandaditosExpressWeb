@@ -11,7 +11,7 @@ using MandaditosExpress.Models;
 namespace MandaditosExpress.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class VelocidadDeConexionController : Controller
+    public class CalidadDeConexionController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
 
@@ -28,7 +28,7 @@ namespace MandaditosExpress.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
+            CalidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
             if (velocidadDeConexion == null)
             {
                 return HttpNotFound();
@@ -47,7 +47,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Descripcion,Estado")] VelocidadDeConexion velocidadDeConexion)
+        public ActionResult Create([Bind(Include = "Id,Descripcion,Estado")] CalidadDeConexion velocidadDeConexion)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Descripcion,Estado")] VelocidadDeConexion velocidadDeConexion)
+        public ActionResult Edit([Bind(Include = "Id,Descripcion,Estado")] CalidadDeConexion velocidadDeConexion)
         {
             if (ModelState.IsValid)
             {
@@ -108,9 +108,9 @@ namespace MandaditosExpress.Controllers
         // POST: VelocidadDeConexion/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(VelocidadDeConexion velocidadDeConexion)
+        public ActionResult DeleteConfirmed(CalidadDeConexion velocidadDeConexion)
         {
-            VelocidadDeConexion OvelocidadDeConexion = db.VelocidadDeConexion.Find(velocidadDeConexion.Id);
+            CalidadDeConexion OvelocidadDeConexion = db.VelocidadDeConexion.Find(velocidadDeConexion.Id);
             db.VelocidadDeConexion.Remove(OvelocidadDeConexion);
 
             if (db.SaveChanges() > 0)

@@ -1,4 +1,4 @@
-﻿@model MandaditosExpress.Models.VelocidadDeConexion
+﻿@model MandaditosExpress.Models.CalidadDeConexion
 
 
 @{
@@ -11,7 +11,7 @@
 
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Velocidad de Conexión</h2>
+            <h2>Calidad de Conexión</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -20,7 +20,7 @@
                     <a>Catálogos</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="@Url.Action("Index", "VelocidadDeConexion")">VelocidadDeConexion</a>
+                    <a href="@Url.Action("Index", "CalidadDeConexion")">Calidad de Conexión</a>
                 </li>
                 <li class="active breadcrumb-item">
                     <strong>Agregar</strong>
@@ -43,7 +43,7 @@
                                 @Html.AntiForgeryToken()
 
                                 <div class="form-horizontal">
-                                    <h4><i class="fa fa-info-circle"></i> Ingrese la información de la Velocidad De Conexion</h4>
+                                    <h4><i class="fa fa-info-circle"></i> Ingrese la información de la calidad de conexión</h4>
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
