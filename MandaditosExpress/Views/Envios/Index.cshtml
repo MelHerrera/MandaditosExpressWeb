@@ -124,7 +124,16 @@ else
             const self = this;
             envios = envios || {};
 
-            self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) { return ko.mapping.fromJS(it) }) : {});
+            self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) {
+
+                let e = ko.mapping.fromJS(it)
+
+                e.Finalizado.subscribe(function (it) {
+                    alert(it);
+                });
+
+                return e;
+            }) : {});
             self.EnvioSelected = ko.observable({});
 
             self.Finalizar = function (data, event) {
