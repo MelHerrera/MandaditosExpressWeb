@@ -68,5 +68,13 @@ public class MainMappingProfile : Profile
         CreateMap<Moneda, MonedaViewModel>().ReverseMap();
         CreateMap<Credito, CreditoViewModel>().ReverseMap();
         CreateMap<Pago, PagoViewModel>().ReverseMap();
+        CreateMap<Envio, IndexEnvioViewModel>().
+                            ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? "badge badge-info" : "badge badge-danger"))
+                            .ForMember(x => x.EstadoDelEnvioText, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() 
+                            : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? EstadoDelEnvioEnum.Realizado.ToString() : EstadoDelEnvioEnum.Rechazado.ToString()))
+                            .ForMember(x => x.Cliente, x => x.MapFrom(y => y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
+                            .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false ))
+                            .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false)).ReverseMap();
+
     }
 }

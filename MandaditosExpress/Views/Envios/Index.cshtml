@@ -1,5 +1,5 @@
 ﻿@using MandaditosExpress.Models.Enum
-@model IEnumerable<MandaditosExpress.Models.Envio>
+@model IEnumerable<MandaditosExpress.Models.ViewModels.IndexEnvioViewModel>
 
 @{
     ViewBag.Title = "Envios";
@@ -20,101 +20,86 @@
     <div class="align-items-center pb-lg-5">
         <div class="row">
             <div class="col-md-12">
-                <div class="row justify-content-center">
-                    @foreach (var item in Model)
-                    {
-                        <div class="card w-25 my-2 mx-2 p-0">
-                            <div class="card-body">
-                                <div class="ibox m-0">
-                                    <div class="row">
-                                        <div class="col-md-6 pb-0">
-                                            <label class="font-weight-bold form-label">Monto Total</label>
-                                            <div class="form-group">
-                                                <small class="h4"><i class="fa fa-money"></i> @item.MontoTotalDelEnvio</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 float-right text-center m-0">
-                                            <img src="~/Images/Logo.png" style="width:70%" />
+                <div class="row justify-content-center" data-bind="foreach:Envios">
+
+                    <div class="card w-25 my-2 mx-2 p-0">
+                        <div class="card-body">
+                            <div class="ibox m-0">
+                                <div class="row">
+                                    <div class="col-md-6 pb-0">
+                                        <label class="font-weight-bold form-label">Monto Total</label>
+                                        <div class="form-group">
+                                            <small class="h4"><i class="fa fa-money"></i> <span data-bind="text:MontoTotalDelEnvio"></span> </small>
                                         </div>
                                     </div>
-
-                                    <hr class="m-0" />
-
-                                    <div class="row">
-                                        <div class="col-md-2 mt-2 ml-2 text-center align-self-center">
-                                            <i class="fa fa-dot-circle-o fa-2x"></i>
-                                        </div>
-                                        <div class="col-md-9 mt-1 px-0 text-center align-middle">
-                                            <small>@item.LugarOrigen.Direccion</small>
-                                        </div>
-
+                                    <div class="col-md-4 float-right text-center m-0">
+                                        <img src="~/Images/Logo.png" style="width:70%" />
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-2 mt-2 ml-2 text-center align-self-center">
-                                            <i class="fa fa-map-marker fa-2x"></i>
-                                        </div>
-                                        <div class="col-md-9 mt-1 px-0 text-center align-middle">
-                                            <small>@item.LugarDestino.Direccion</small>
-                                        </div>
+                                </div>
 
+                                <hr class="m-0" />
+
+                                <div class="row">
+                                    <div class="col-md-2 mt-2 ml-2 text-center align-self-center">
+                                        <i class="fa fa-dot-circle-o fa-2x"></i>
                                     </div>
-
-                                    <hr class="m-1" />
-
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <label class="font-weight-bold form-label m-0">Cliente</label>
-                                            <div class="form-group m-0">
-                                                <small>@item.Cliente.NombreCompleto</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 ">
-                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud)
-                                            {
-                                                <span class="badge badge-success">@EstadoDelEnvioEnum.Solicitud.ToString()</span>
-                                            }
-                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso)
-                                            {
-                                                <span class="badge badge-info">En Proceso</span>
-                                            }
-                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
-                                            {
-                                                <span class="badge badge-warning">@EstadoDelEnvioEnum.Realizado.ToString()</span>
-                                            }
-                                            @if (item.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
-                                            {
-                                                <span class="badge badge-danger">@EstadoDelEnvioEnum.Rechazado.ToString()</span>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <div class="col-sm-6 align-self-center">
-                                                <div class="form-group align-self-center">
-                                                    <label for="check_finalizar" class="font-weight-bold">Finalizar</label>
-                                                    <input type="checkbox" class="mgc-switch mgc-sm align-middle chk" id="check_finalizar" _data-bind="checked:$root.FinalizarChecked" />
-                                                </div>
-                                            </div>
-                                        }
-
-                                        <div class="col-md-6">
-                                            <div class=" btn-group float-right">
-                                                @if (User.IsInRole("Admin"))
-                                                {
-                                                    <a class="btn btn-danger" href="#" data-bind="click:function(data,event){$root.Rechazar(data, event, @item.Id)}"><i class="fa fa-times-circle" title="Rechazar Envío"></i></a>
-                                                    <a class="btn btn-primary" href="@Url.Action("Asignacion", new { id = item.Id })"><i class="fa fa-link" title="Asignar Motorizado"></i></a>
-                                                }
-                                                <a class="btn btn-warning" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-9 mt-1 px-0 text-center align-middle">
+                                        <small data-bind="text:LugarOrigen.Direccion"></small>
                                     </div>
 
                                 </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-2 mt-2 ml-2 text-center align-self-center">
+                                        <i class="fa fa-map-marker fa-2x"></i>
+                                    </div>
+                                    <div class="col-md-9 mt-1 px-0 text-center align-middle">
+                                        <small data-bind="text:LugarDestino.Direccion"></small>
+                                    </div>
+
+                                </div>
+
+                                <hr class="m-1" />
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label class="font-weight-bold form-label m-0">Cliente</label>
+                                        <div class="form-group m-0">
+                                            <small data-bind="text:Cliente"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span data-bind="text:EstadoDelEnvioText, attr:{ class:EstadoDelEnvioClass }"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="col-auto align-self-center">
+                                            <div class="form-group align-self-center">
+                                                <label for="check_finalizar" class="font-weight-bold">Finalizar</label>
+                                                <input type="checkbox" class="mgc-switch mgc-sm align-middle chk" id="check_finalizar" data-bind="checked:Finalizado, disable:Finalizado, click:$root.Finalizar" />
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="col">
+                                        <div class=" btn-group float-right">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <!--ko if:( !Rechazado() )-->
+                                                <a class="btn btn-danger" href="#" data-bind="click:$root.Rechazar"><i class="fa fa-times-circle" title="Rechazar Envío"></i></a>
+                                                <!--/ko-->
+                                                <a class="btn btn-primary" data-bind="attr: { href: '@Url.Action("Asignacion")/' + Id() }"><i class="fa fa-link" title="Asignar Motorizado"></i></a>
+                                            }
+                                            <a class="btn btn-warning" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,79 +115,151 @@ else
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
     @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
 
     <script>
-        $(function () {
-            ko.applyBindings(new IndexEnvio());
-        });
+        function IndexEnvio(envios) {
+            const self = this;
+            envios = envios || {};
 
-        $('.chk').on('click', function () {
-            if ($(this).is(':checked')) {
+            self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) { return ko.mapping.fromJS(it) }) : {});
+            self.EnvioSelected = ko.observable({});
+
+            self.Finalizar = function (data, event) {
+                //todo validar cuando se cancela el sweet alert
                 Swal.fire({
-                    title: '¿Esta seguro(a) que desea finalizar este envío?',
+                    title: '¿Esta seguro(a) que desea finalizarlo?',
                     text: "!Esta acción no es reversible!!!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, Finalizarlo!'
+                    confirmButtonText: 'Sí, Finalizarlo!',
+                    cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax(
-                            {
-                                url: "/Envios/FinalizarEnvio",
-                                type: "Post",
-                                data: { EnvioId:  },
-                                beforeSend: function () {
-                                    self.CargandoSolicitud(true);
-                                },
-                                success: function (response) {
-                                    if (response.exito) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            text: response.message
-                                        }).then(() => {
-                                            window.location.reload();
-                                        });
-                                    }
-                                    else {
-                                        $.notify({
-                                            icon: 'fa fa-exclamation-circle',
-                                            message: response.message
-                                        });
-                                    }
-                                },
-                                error: function (e) {
-                                    $.notify({
-                                        icon: 'fa fa-exclamation-circle',
-                                        message: 'Ha ocurrido un error procesando su solicitud!'
-                                    });
-                                },
-                                complete: function () {
-                                    self.CargandoSolicitud(false);
-                                }
-                            }
-                        );
+                        self.EnvioSelected(data);//guardarlo temporalmente para aplicar sobre el operaciones despues de que regresa del server
+
+                        FinalizarEnvio(data.Id());
                     }
                 })
-            } else {
-                alert("El checkbox con valor " + $(this).val() + " ha sido deseleccionado");
+
+                return true;
             }
-        });
 
-        function IndexEnvio() {
-            const self = this;
+            self.Rechazar = function (data, event) {
 
-            self.FinalizarChecked = ko.observable(false);
+                Swal.fire({
+                    title: 'Esta seguro(a) que desea rechazarlo?',
+                    icon: 'warning',
+                    input: 'textarea',
+                    inputLabel: 'Motivo de rechazo:',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, Rechazarlo!',
+                    cancelButtonText: 'Cancelar',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'El Campo motivo es obligaorio!'
+                        }
+                    },
+                    inputAttributes: {
+                        maxlength: 150
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (result.value) {
+                            //Swal.fire(result.value)
+                            RechazarEnvio(data.Id(), result.value);
+                        }
+                    }
+                })
+            }
 
-            self.FinalizarChecked.subscribe(function (it) {
-                alert(it);
-            });
+            function FinalizarEnvio(id) {
 
-            self.Rechazar = function (data, event, id) {
-                console.log(id);
+                    $.ajax(
+                        {
+                            url: "/Envios/FinalizarEnvio",
+                            type: "Post",
+                            data: { id: id },
+                            beforeSend: function () {
+                                //self.CargandoSolicitud(true);
+                            },
+                            success: function (response) {
+                                if (response.exito) {
+                                    $.notify({
+                                        icon: 'fa fa-check-circle',
+                                        message: response.message
+                                    });
+                                }
+                                else {
+                                    $.notify({
+                                        icon: 'fa fa-exclamation-circle',
+                                        message: response.message
+                                    });
+                                }
+                                self.EnvioSelected().Finalizado(response.check);//marcarlo como finalizado o no en dependencia de como haya quedado en el server
+                            },
+                            error: function (e) {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: 'Ha ocurrido un error procesando su solicitud!'
+                                });
+                            },
+                            complete: function () {
+                                // self.CargandoSolicitud(false);
+                            }
+                        }
+                    );
+            }
+
+            function RechazarEnvio(id, motivo) {
+
+                $.ajax(
+                    {
+                        url: "/Envios/RechazarEnvio",
+                        type: "Post",
+                        data: { id: id, motivo: motivo },
+                        beforeSend: function () {
+                            //self.CargandoSolicitud(true);
+                        },
+                        success: function (response) {
+                            if (response.exito) {
+                                $.notify({
+                                    icon: 'fa fa-check-circle',
+                                    message: response.message
+                                });
+                            }
+                            else {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: response.message
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: 'Ha ocurrido un error procesando su solicitud!'
+                            });
+                        },
+                        complete: function () {
+                            window.location.reload();
+                            // self.CargandoSolicitud(false);
+                        }
+                    }
+                );
             }
         }
+
+        $(function () {
+            let envios = @Html.HtmlConvertToJson(Model);
+
+            ko.applyBindings(new IndexEnvio(envios));
+        });
     </script>
 }

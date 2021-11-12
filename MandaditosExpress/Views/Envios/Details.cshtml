@@ -271,6 +271,17 @@
                                     }
                                 </dd>
 
+                                @if (Model.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.MotivoDeRechazo)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.MotivoDeRechazo)
+                                    </dd>
+                                }
+
                             </dl>
                         </div>
                     </div>

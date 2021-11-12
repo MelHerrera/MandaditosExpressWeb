@@ -106,6 +106,7 @@ namespace MandaditosExpress.Models
         [Display(Name ="Al crédito")]
         public bool EsAlCredito { get; set; }
 
+        [StringLength(150)]
         public string MotivoDeRechazo { get; set; }
 
         public virtual Cotizacion Cotizacion { get; set; }

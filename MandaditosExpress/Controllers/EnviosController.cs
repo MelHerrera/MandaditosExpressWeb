@@ -41,44 +41,44 @@ namespace MandaditosExpress.Controllers
         // GET: Envios
         public ActionResult Index()
         {
-            var envios = new List<Envio>();
+            var envios = new List<IndexEnvioViewModel>();
             var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId).ToList()).ToList();
             else
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).ToList()).ToList();
 
-            return View("Index", envios.ToList());
+            return View("Index", envios);
         }
 
         // GET: Envios//Solicitud
         public ActionResult IndexSolicitudes()
         {
-            var envios = new List<Envio>();
+            var envios = new List<IndexEnvioViewModel>();
             var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList()).ToList();
             else
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).ToList()).ToList();
 
-            return View("Index", envios.ToList());
+            return View("Index", envios);
         }
 
         // GET: Envios//Proceso
         public ActionResult IndexEnProceso()
         {
-            var envios = new List<Envio>();
+            var envios = new List<IndexEnvioViewModel>();
             var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList()).ToList();
             else
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList()).ToList();
 
             return View("Index", envios.ToList());
         }
@@ -86,14 +86,14 @@ namespace MandaditosExpress.Controllers
         // GET: Envios//Finalizados
         public ActionResult IndexFinalizados()
         {
-            var envios = new List<Envio>();
+            var envios = new List<IndexEnvioViewModel>();
             var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList()).ToList();
             else
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList()).ToList();
 
             return View("Index", envios.ToList());
         }
@@ -101,14 +101,14 @@ namespace MandaditosExpress.Controllers
         // GET: Envios//Rechazados
         public ActionResult IndexRechazados()
         {
-            var envios = new List<Envio>();
+            var envios = new List<IndexEnvioViewModel>();
             var CurrentUser = new Utileria().GetClienteByUser(User.Identity.Name);
             var ClienteId = CurrentUser != null ? CurrentUser.Id : -1;
 
             if (User.IsInRole("Cliente"))
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.ClienteId == ClienteId && it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList()).ToList();
             else
-                envios = db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList();
+                envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList()).ToList();
 
             return View("Index", envios.ToList());
         }
@@ -127,7 +127,7 @@ namespace MandaditosExpress.Controllers
             {
                 var Cliente = Utileria.GetClienteByUser(User.Identity.Name);
 
-                if (envio.ClienteId!= Cliente.Id)
+                if (envio.ClienteId != Cliente.Id)
                 {
                     return HttpNotFound();
                 }
@@ -373,29 +373,29 @@ namespace MandaditosExpress.Controllers
 
 
                                 mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
-                                    mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
-                                    mEnvio.TipoDePagoId = envio.TipoDeServicioId;
-                                    mEnvio.TipoDeServicioId = envio.TipoDeServicioId;
-                                    mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
-                                    mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
-                                    mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
-                                    mEnvio.MontoDeDinero = envio.MontoDeDinero;
-                                    mEnvio.EsUrgente = envio.EsUrgente;
-                                    mEnvio.Peso = envio.Peso;
-                                    mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
-                                    mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
-                                    mEnvio.MontoARecibir = envio.MontoARecibir;
-                                    mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
-                                    mEnvio.MontoCambio = envio.MontoCambio;
-                                    mEnvio.LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen);
-                                    mEnvio.LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino);
-                                    mEnvio.DistanciaEntregaRecep = envio.DistanciaEntregaRecep;
-                                    mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
-                                    mEnvio.ClienteId = envio.ClienteId;
-                                    mEnvio.CotizacionId = envio.CotizacionId;
-                                    mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
-                                    mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
-                                
+                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
+                                mEnvio.TipoDePagoId = envio.TipoDeServicioId;
+                                mEnvio.TipoDeServicioId = envio.TipoDeServicioId;
+                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
+                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
+                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
+                                mEnvio.MontoDeDinero = envio.MontoDeDinero;
+                                mEnvio.EsUrgente = envio.EsUrgente;
+                                mEnvio.Peso = envio.Peso;
+                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
+                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
+                                mEnvio.MontoARecibir = envio.MontoARecibir;
+                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
+                                mEnvio.MontoCambio = envio.MontoCambio;
+                                mEnvio.LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen);
+                                mEnvio.LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino);
+                                mEnvio.DistanciaEntregaRecep = envio.DistanciaEntregaRecep;
+                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
+                                mEnvio.ClienteId = envio.ClienteId;
+                                mEnvio.CotizacionId = envio.CotizacionId;
+                                mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
+                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+
                             }
                         }
 
@@ -487,16 +487,65 @@ namespace MandaditosExpress.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPosr]
-        public ActionResult RechazarEnvio()
+        [HttpPost]
+        public ActionResult RechazarEnvio(int id, string motivo)
         {
-            return View();
+            var envio = db.Envios.Find(id);
+
+            if (envio != null)
+            {
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
+                    return Json(new { exito = false, message = "No se puede rechazar porque este envio ya se encuentra finalizado" }, JsonRequestBehavior.AllowGet); ;
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                    return Json(new { exito = false, message = "Este envio ya se encuentra rechazado" }, JsonRequestBehavior.AllowGet);
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso)
+                    return Json(new { exito = false, message = "No se puede rechazar porque este envio ya se encuentra en proceso" }, JsonRequestBehavior.AllowGet);
+
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud)
+                {
+                    envio.EstadoDelEnvio = (short)EstadoDelEnvioEnum.Rechazado;
+                    envio.MotivoDeRechazo = motivo.Trim();
+
+                    db.Entry(envio).State = EntityState.Modified;
+
+                    if (db.SaveChanges() > 0)
+                        return Json(new { exito = true, message = "Se realizo con exito el rechazo del envio" }, JsonRequestBehavior.AllowGet);
+                    else
+                        return Json(new { exito = false, message = "Tuvimos un inconveniente realizando el rechazo del envio" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            return Json(new { exito = false, message = "No se pudo realizar el rechazo del envio" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult FinalizarEnvio()
+        public ActionResult FinalizarEnvio(int id)
         {
-            return View();
+            var envio = db.Envios.Find(id);
+
+            if (envio != null)
+            {
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
+                    return Json(new { exito = false, check= envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false, message = "Este envio ya se encuentra finalizado" }, JsonRequestBehavior.AllowGet); ;
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                    return Json(new { exito = false, check = envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false, message = "No se puede finalizar este envio, porque se encuentra rechazado" }, JsonRequestBehavior.AllowGet);
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud)
+                    return Json(new { exito = false, check = envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false, message = "No se puede finalizar este envio, porque apenas se encuentra en solicitud" }, JsonRequestBehavior.AllowGet);
+                
+                if (envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso)
+                {
+                    envio.EstadoDelEnvio = (short)EstadoDelEnvioEnum.Realizado;
+                    db.Entry(envio).State = EntityState.Modified;
+
+                    if(db.SaveChanges() > 0)
+                        return Json(new { exito = true, check = envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false, message = "Se realizo con exito la finalización del envio" }, JsonRequestBehavior.AllowGet);
+                    else
+                        return Json(new { exito = false, check = envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false, message = "Tuvimos un inconveniente realizando la finalización del envio" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+            return Json(new { exito = false, message = "No se pudo realizar la finalización del envio" }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult FiltrarServicio(int id)
         {

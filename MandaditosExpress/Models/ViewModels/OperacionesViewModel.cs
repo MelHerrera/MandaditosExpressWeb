@@ -307,4 +307,84 @@ namespace MandaditosExpress.Models.ViewModels
         public int ClienteId { get; set; }
 
     }
+
+    public class IndexEnvioViewModel
+    {
+
+        [Key]
+        public int Id { get; set; }
+
+        [StringLength(250)]
+        [Required]
+        [Display(Name = "Descripción del envío")]
+        public string DescripcionDeEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha")]
+        public DateTime FechaDelEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Distancia")]
+        public double DistanciaEntregaRecep { get; set; }
+
+        [Required]
+        [Display(Name = "Nombres del receptor")]
+        public string NombresDelReceptor { get; set; }
+
+        [Display(Name = "Cédula receptor")]
+        public string CedulaDelReceptor { get; set; }
+
+        [Display(Name = "El peso es menor a 50 Libras?")]
+        public bool Peso { get; set; }
+
+        [Required]
+        [Display(Name = "Monto de la gestión")]
+        public decimal MontoDeDinero { get; set; }
+
+        [Required]
+        [Display(Name = "Monto total del envio")]
+        public decimal MontoTotalDelEnvio { get; set; }
+
+        [Required]
+        [Display(Name = "Celular del receptor")]
+        [MinLength(8)]
+        [MaxLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string TelefonoDelReceptor { get; set; }
+
+        [Display(Name = "¿Urgente?")]
+        public bool EsUrgente { get; set; }
+
+        [Display(Name = "¿Es ida y regreso?")]
+        public bool DebeRegresarATienda { get; set; }
+
+        [Display(Name = "¿El motorizado recibirá algun dinero?")]
+        public bool DebeRecibirDinero { get; set; }
+
+        [Display(Name = "¿Cuanto recibirá?")]
+        public decimal MontoARecibir { get; set; }
+        [Display(Name = "¿Cuanto de cambio?")]
+        public decimal MontoCambio { get; set; }
+
+        [Display(Name = "¿El motorizado necesita cambio?")]
+        public bool DebeRecibirCambio { get; set; }
+
+        //[Display(Name = "Estado")]
+        //public short EstadoDelEnvio { get; set; }
+        public string EstadoDelEnvioClass { get; set; }
+        public string EstadoDelEnvioText { get; set; }
+
+        public bool Finalizado { get; set; }
+        public bool Rechazado { get; set; }
+
+        [Display(Name = "Al crédito")]
+        public bool EsAlCredito { get; set; }
+
+        [StringLength(250)]
+        public string MotivoDeRechazo { get; set; }
+        public string Cliente { get; set; }
+
+        public virtual Lugar LugarOrigen { get; set; }
+        public virtual Lugar LugarDestino { get; set; }
+    }
 }
