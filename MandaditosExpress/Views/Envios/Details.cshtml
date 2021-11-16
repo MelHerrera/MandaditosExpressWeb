@@ -131,6 +131,16 @@
                                     @Html.DisplayFor(model => model.TelefonoDelReceptor)
                                 </dd>
 
+                                @if (Model.Motorizado != null)
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.MotorizadoId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Motorizado.NombreCompleto)
+                                    </dd>
+                                }
 
                                 <dt>
                                     @Html.DisplayNameFor(model => model.MontoDeDinero)

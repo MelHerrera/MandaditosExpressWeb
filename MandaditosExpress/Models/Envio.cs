@@ -81,6 +81,7 @@ namespace MandaditosExpress.Models
 
         public int ClienteId { get; set; }
 
+        [Display(Name = "Motorizado")]
         public int? MotorizadoId { get; set; }
 
         [Required]

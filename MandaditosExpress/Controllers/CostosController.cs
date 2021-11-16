@@ -57,6 +57,9 @@ namespace MandaditosExpress.Controllers
                 //activar el costo actual
                 costo.EstadoDelCosto = true;
 
+                // TODO validar antes de crear 
+
+
                 //desactivar el costo de ese mismo tipo que ya estaban, para que no hayan dos costos para el mismo tipo de servicio.
                 var CostosAntiguo = (from c in db.Costos
                                      where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
@@ -103,6 +106,22 @@ namespace MandaditosExpress.Controllers
                 return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
 
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string ValidarCreate(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
+        {
+            var error = string.Empty;
+
+            if (FIncicio < DateTime.Now)
+                return error = "La fecha de inicio debe ser igual o mayor  a la fecha y hora actual. No puede iniciar un costo en un instante de tiempo pasado";
+            if (FIncicio >= Ffin)
+                return error = "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
+            if (Ffin <= FIncicio)
+                return error = "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
+
+            var Costos = db.Costos.FirstOrDefault(it=> it.TipoDeServicioId == TipoDeServicioId && it.FechaDeInicio>= FIncicio && it.FechaDeFin <= Ffin && it.EstadoDelCosto);
+
+            return error;
         }
 
         protected override void Dispose(bool disposing)
