@@ -60,7 +60,7 @@
 
                                 <hr class="m-1" />
 
-                                <div class="row">
+                                <div class="row mb-2">
                                     <div class="col-md-8">
                                         <label class="font-weight-bold form-label m-0">Cliente</label>
                                         <div class="form-group m-0">
@@ -96,7 +96,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--ko if:Rechazado()-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span class="fa fa-info-circle">
+                                            <small class="font-weight-bold">Rechazado por: </small>
+                                            <small data-bind="text:MotivoDeRechazo"></small>
+                                        </span>
 
+                                    </div>
+                                </div>
+                                <!--/ko-->
                             </div>
                         </div>
                     </div>
@@ -124,20 +134,12 @@ else
             const self = this;
             envios = envios || {};
 
-            self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) {
-
-                let e = ko.mapping.fromJS(it)
-
-                e.Finalizado.subscribe(function (it) {
-                    alert(it);
-                });
-
-                return e;
-            }) : {});
+            self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) { return ko.mapping.fromJS(it) }) : {});
             self.EnvioSelected = ko.observable({});
 
             self.Finalizar = function (data, event) {
-                //todo validar cuando se cancela el sweet alert
+                self.EnvioSelected(data);//guardarlo temporalmente para aplicar sobre el operaciones despues de que regresa del server
+
                 Swal.fire({
                     title: '¿Esta seguro(a) que desea finalizarlo?',
                     text: "!Esta acción no es reversible!!!",
@@ -148,11 +150,12 @@ else
                     confirmButtonText: 'Sí, Finalizarlo!',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        self.EnvioSelected(data);//guardarlo temporalmente para aplicar sobre el operaciones despues de que regresa del server
 
+                    if (result.isConfirmed) {
                         FinalizarEnvio(data.Id());
                     }
+                    if (result.isDenied || result.isDismissed)
+                        self.EnvioSelected().Finalizado(!self.EnvioSelected().Finalizado());
                 })
 
                 return true;
@@ -181,7 +184,6 @@ else
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if (result.value) {
-                            //Swal.fire(result.value)
                             RechazarEnvio(data.Id(), result.value);
                         }
                     }
@@ -220,7 +222,7 @@ else
                                 });
                             },
                             complete: function () {
-                                // self.CargandoSolicitud(false);
+                                setTimeout(function () { window.location.reload(); }, 3000);
                             }
                         }
                     );
@@ -257,8 +259,8 @@ else
                             });
                         },
                         complete: function () {
-                            window.location.reload();
-                            // self.CargandoSolicitud(false);
+                            //recargar la pagina despues de 3 segundos
+                            setTimeout(function () { window.location.reload(); }, 3000);
                         }
                     }
                 );

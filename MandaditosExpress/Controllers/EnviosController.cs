@@ -488,6 +488,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public ActionResult RechazarEnvio(int id, string motivo)
         {
             var envio = db.Envios.Find(id);
@@ -515,10 +516,12 @@ namespace MandaditosExpress.Controllers
                 }
 
             }
+
             return Json(new { exito = false, message = "No se pudo realizar el rechazo del envio" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult FinalizarEnvio(int id)
         {
             var envio = db.Envios.Find(id);
