@@ -32,6 +32,37 @@
             </li>
 
 
+            @if (User.IsInRole("Cliente") || User.IsInRole("Admin"))
+            {
+                <!--Envios Option-->
+                <li class="@Html.IsSelected(controller: "Envios")">
+                    <a href=""><i class="fa fa-motorcycle"></i> <span class="nav-label" data-i18n="nav.dashboard">Envíos</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse ">
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Envios")">Todos</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("IndexSolicitudes", "Envios")">Solicitud</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("IndexEnProceso", "Envios")">En Proceso</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("IndexFinalizados", "Envios")">Realizados</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("IndexRechazados", "Envios")">Rechazados</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--Cotizacion -->
+                <li class="@Html.IsSelected(controller: "Cotizaciones")">
+                    <a href="@Url.Action("Index", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotizaciónes</span></a>
+                </li>
+
+            }
+
             @if (User.IsInRole("Admin"))
             {
                 <!--Personas Option-->
@@ -89,37 +120,6 @@
                         </li>
                     </ul>
                 </li>
-            }
-
-            @if (User.IsInRole("Cliente") || User.IsInRole("Admin"))
-            {
-                <!--Cotizacion -->
-                <li class="@Html.IsSelected(controller: "Cotizaciones")">
-                    <a href="@Url.Action("Index", "Cotizaciones")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.dashboard">Cotizaciónes</span></a>
-                </li>
-
-                <!--Envios Option-->
-                <li class="@Html.IsSelected(controller: "Envios")">
-                    <a href=""><i class="fa fa-motorcycle"></i> <span class="nav-label" data-i18n="nav.dashboard">Envíos</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse ">
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("Index", "Envios")">Todos</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("IndexSolicitudes", "Envios")">Solicitud</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("IndexEnProceso", "Envios")">En Proceso</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("IndexFinalizados", "Envios")">Realizados</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("IndexRechazados", "Envios")">Rechazados</a>
-                        </li>
-                    </ul>
-                </li>
-
             }
 
             @if (User.IsInRole("Admin"))

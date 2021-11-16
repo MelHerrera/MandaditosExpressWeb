@@ -14,7 +14,12 @@
                                 <div class="col-lg-4 text-center align-middle align-content-center">
                                     <strong>Cliente</strong>
                                     <div class="m-b-sm">
+                                        <!--ko if:ClienteFoto().length >0 -->
                                         <img alt="image" class="rounded-circle" style="width: 62px" data-bind="attr: { src: 'data:image/png;base64,' + ClienteFoto() }">
+                                        <!--/ko-->
+                                        <!--ko ifnot:ClienteFoto().length >0 -->
+                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                        <!--/ko-->
                                     </div>
                                     <small data-bind="text:ClienteNombres"></small>
                                 </div>
@@ -40,7 +45,7 @@
                             <div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <strong>Debe Regresar a Tienda.</strong>
+                                        <strong>Regresar a Tienda.</strong>
                                     </div>
                                     <div class="col-lg-4 m-0 p-0">
                                         <small>---------------</small>
@@ -49,10 +54,10 @@
                                         <span data-bind="text:(DebeRegresarATienda ? 'Si' :'No'), attr:{ class: (DebeRegresarATienda ? 'badge badge-primary' : 'badge badge-warning')}"></span>
                                     </div>
                                 </div>
-                                <hr />
+                                <hr class="m-0"/>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <strong>Debe Recibir Cambio.</strong>
+                                        <strong>Recibir Cambio.</strong>
                                     </div>
                                     <div class="col-lg-4 m-0 p-0">
                                         <small>---------------</small>
@@ -61,8 +66,9 @@
                                         <span data-bind="text:(DebeRecibirCambio ? 'Si' :'No'), attr:{ class: (DebeRecibirCambio ? 'badge badge-primary' : 'badge badge-warning')}"></span>
                                     </div>
                                 </div>
-                                <hr />
-                                <div class="full-height-scroll">
+                                <hr class="m-0"/>
+
+                                <div class="full-height-scroll mt-4">
 
                                     <!--ko if:$root.EnvioPorCotizacion-->
                                     <strong>Descripción de cotización</strong>
@@ -98,16 +104,16 @@
                                         </div>
 
                                     </div>
+                                    <hr class="m-0"/>
                                     <ul class="list-group clear-list">
                                         <li class="list-group-item fist-item">
                                             <span class="pull-right">
-                                                <i class="fa fa-money"></i>
-                                                <span data-bind="text:MontoTotalDelEnvio"></span>
+                                                <i class="fa fa-money fa-2x"></i>
+                                                <span data-bind="text:MontoTotalDelEnvio, attr:{ class:'h5 font-weight-bold'}"></span>
                                             </span>
-                                            <span class="font-weight-bold"> Monto Total</span>
+                                            <span class="font-weight-bold h5"> Monto Total</span>
                                         </li>
                                     </ul>
-                                    <hr />
                                 </div>
                             </div>
                         </div>
@@ -115,7 +121,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-8 ">
             <div class="ibox">
                 <div class="ibox-content">
                     <span class="text-muted small pull-right">Fecha: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
@@ -132,7 +138,7 @@
                             </button>
                         </span>
                     </div>
-                    <div class="clients-list">
+                    <div class="clients-list small">
                         <ul class="nav nav-tabs">
                             <span class="pull-right small text-muted" data-bind="text:( ko.unwrap(Motorizados().length) )">0 </span>
                             <span class="pull-right small text-muted ml-2"> Motorizados</span>
@@ -152,7 +158,12 @@
                                                 <tr>
                                                     <td data-bind="text:$index()+1"></td>
                                                     <td class="client-avatar">
+                                                        <!--ko if:Foto().length >0 -->
                                                         <img alt="" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }" />
+                                                        <!--/ko-->
+                                                        <!--ko ifnot:Foto().length >0 -->
+                                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                                        <!--/ko-->
                                                     </td>
                                                     <td data-bind="text:Nombres"></td>
                                                     <td>

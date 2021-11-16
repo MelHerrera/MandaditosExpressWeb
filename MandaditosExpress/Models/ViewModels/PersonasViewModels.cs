@@ -171,7 +171,7 @@ namespace MandaditosExpress.Models.ViewModels
         public short EstadoDeAfiliado { get; set; }
 
         [Required]
-        [Display(Name ="Velocidad de Internet")]
+        [Display(Name ="Calidad de su Internet")]
         public int VelocidadDeConexionId { get; set; }
 
         [Required]
