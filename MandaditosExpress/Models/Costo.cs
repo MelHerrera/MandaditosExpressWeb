@@ -61,6 +61,10 @@ namespace MandaditosExpress.Models
         [Display(Name = "Precio De Recargo")]
         public float PrecioDeRecargo { get; set; }
 
+        [Required]
+        [Display(Name = "Precio de ida y regreso")]
+        public float PrecioDeRegreso { get; set; }
+
         public virtual  TipoDeServicio TipoDeServicio { get; set; }
     }
 }
