@@ -58,7 +58,7 @@ namespace MandaditosExpress.Controllers
                 costo.EstadoDelCosto = true;
 
                 // TODO validar antes de crear 
-                var errorMessage = ValidarCreate(costo.FechaDeInicio, costo.FechaDeFin, costo.TipoDeServicioId);
+                var errorMessage = ValidarFechaDelCosto(costo.FechaDeInicio, costo.FechaDeFin, costo.TipoDeServicioId);
 
                 if (string.IsNullOrEmpty(errorMessage))
                 {
@@ -88,15 +88,28 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioDeRecargo,PrecioDeRegreso")] Costo costo)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(costo).State = EntityState.Modified;
+                if (ModelState.IsValid)
+                {
+                    var error = validateFechaEdit(costo);
 
-                if (db.SaveChanges() > 0)
-                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+                    if (!string.IsNullOrEmpty(error))
+                        return Json(new { exito = false, message = error }, JsonRequestBehavior.AllowGet);
+
+                    db.Entry(costo).State = EntityState.Modified;
+
+                    if (db.SaveChanges() > 0)
+                        return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
             }
-
-            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+                return Json(new { exito = false, message="Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         // POST: Costos/Delete/5
@@ -113,7 +126,7 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
-        public string ValidarCreate(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
+        public string ValidarFechaDelCosto(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
         {
             // fecha de inicio no puede ser menor por mas de 3 minutos a la fecha actual
             // fecha inicio no puede ser mayor o igual a la fecha de fin
@@ -147,6 +160,29 @@ namespace MandaditosExpress.Controllers
             return error;
         }
 
+        public string validateFechaEdit(Costo costo)
+        {
+            var error = string.Empty;
+
+            if (costo.EstadoDelCosto == false)//si se esta queriendo desactivar el costo verificar que haya uno el cual la fecha de fin sea mayor a la fecha y hora actual
+            {
+
+                if (costo.FechaDeInicio >= costo.FechaDeFin)
+                    return error = "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
+                if (costo.FechaDeFin <= costo.FechaDeInicio)
+                    return error = "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
+
+                //cosotos vigentes asociados
+                var CostosAntiguo = (from c in db.Costos
+                                     where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
+                                     select c).ToList();
+
+                if (CostosAntiguo.All(it => it.FechaDeFin <= DateTime.Now))//si todos los elementos tienen una fecha de fin menos a la fecha actual entonces no quedaria ningun costo vigente
+                    error = "No se puede inhabilitar el costo debido a que no quedaria ningun costo vigente";
+            }
+
+            return error;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

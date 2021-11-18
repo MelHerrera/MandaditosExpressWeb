@@ -53,15 +53,19 @@
             type: "Post",
             data: { __RequestVerificationToken: token, costo: costo},
             success: function (res) {
+                $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
                 if (res.exito) {
-
-                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
-
                     $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se actualizó la información Correctamente"
                     });
                     setTimeout(function () { location.reload(); }, 2000);
+                }
+                else {
+                    $.notify({
+                        icon: 'fa fa-triangle-circle',
+                        message: res.message
+                    });
                 }
             },
             error: function (e) {

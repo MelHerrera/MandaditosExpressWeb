@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="Descripcion" class="control-label">Descripción</label>
-                <input type="text" data-bind="value:Descripcion, disable: $root.Disable" name="Descripcion" class="form-control" />
+                <input type="text" data-bind="value:Descripcion, disable: $root.Disable" name="Descripcion" class="form-control" required/>
             </div>
         </div>
     </div>
@@ -19,13 +19,13 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="PrecioPorKm" class="control-label">Precio Km</label>
-                <input type="number" data-bind="value:PrecioPorKm, disable: $root.Disable" name="PrecioPorKm" class="form-control" />
+                <input type="number" data-bind="value:PrecioPorKm, disable: $root.Disable" name="PrecioPorKm" class="form-control" required/>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="DistanciaBase" class="control-label">Distancia B.</label>
-                <input type="number" data-bind="value:DistanciaBase, disable: $root.Disable" name="DistanciaBase" class="form-control" />
+                <input type="number" data-bind="value:DistanciaBase, disable: $root.Disable" name="DistanciaBase" class="form-control" required/>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="FechaDeFin" class="control-label">Fecha De fin</label>
-                <input type="datetime-local" data-bind="value:FechaDeFin, disable: $root.Disable" name="FechaDeFin" class="form-control" />
+                <input type="datetime-local" data-bind="value:FechaDeFin, disable: $root.Disable" name="FechaDeFin" class="form-control" required/>
             </div>
         </div>
     </div>
@@ -50,21 +50,21 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="CostoDeGasolina" class="control-label">Costo Gasolina</label>
-                <input type="number" data-bind="value:CostoDeGasolina, disable: $root.Disable" name="CostoDeGasolina" class="form-control" />
+                <input type="number" data-bind="value:CostoDeGasolina, disable: $root.Disable" name="CostoDeGasolina" class="form-control" required/>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
                 <label for="CostoDeAsistencia" class="control-label">Costo Asistencia</label>
-                <input type="number" data-bind="value:CostoDeAsistencia, disable: $root.Disable" name="CostoDeAsistencia" class="form-control" />
+                <input type="number" data-bind="value:CostoDeAsistencia, disable: $root.Disable" name="CostoDeAsistencia" class="form-control" required/>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
                 <label for="CostoDeMotorizado" class="control-label">Costo Motorizado</label>
-                <input type="number" data-bind="value:CostoDeMotorizado, disable: $root.Disable" name="CostoDeMotorizado" class="form-control" />
+                <input type="number" data-bind="value:CostoDeMotorizado, disable: $root.Disable" name="CostoDeMotorizado" class="form-control" required/>
             </div>
         </div>
     </div>
@@ -79,7 +79,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="PrecioDeRecargo" class="control-label">Precio Recargo</label>
-                <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" />
+                <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" required/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="PrecioDeRegreso" class="control-label">Precio De Regreso</label>
+                <input type="number" data-bind="value:PrecioDeRegreso, disable: $root.Disable" name="PrecioDeRegreso" class="form-control" required/>
             </div>
         </div>
     </div>
