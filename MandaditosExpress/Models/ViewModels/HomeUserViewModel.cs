@@ -10,5 +10,6 @@ namespace MandaditosExpress.Models.ViewModels
         public int EnviosMensuales { get; set; }
         public int EnviosAnuales { get; set; }
         public int EnviosDelDia { get; set; }
+        public int CreditosPendientes { get; set; }
     }
 }

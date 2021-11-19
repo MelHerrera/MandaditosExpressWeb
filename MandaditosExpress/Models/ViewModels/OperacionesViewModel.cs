@@ -379,6 +379,9 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Display(Name = "Al crédito")]
         public bool EsAlCredito { get; set; }
+        public bool EstaRetrasado { get; set; }
+
+        public DateTime TiempoRetraso { get; set; }
 
         [StringLength(250)]
         public string MotivoDeRechazo { get; set; }

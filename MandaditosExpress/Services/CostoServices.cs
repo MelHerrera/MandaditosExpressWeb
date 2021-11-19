@@ -26,9 +26,7 @@ namespace MandaditosExpress.Services
                 CostoAsociado = db.CostoGestionBancaria.FirstOrDefault(cb => cb.TipoDeServicioId == TipoDeServicioId &&
                                        cb.Estado && cb.FechaDeInicio <= FechaDeLaCotizacion &&
                                        cb.FechaDeFin >= FechaDeLaCotizacion &&
-                                       MontoDeDinero >= cb.MontoDesde &&
-                                       MontoDeDinero <= cb.MontoHasta
-                                       );
+                                       MontoDeDinero >= cb.MontoDesde && MontoDeDinero <= cb.MontoHasta );
             }
 
             return CostoAsociado;
