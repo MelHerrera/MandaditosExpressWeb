@@ -71,7 +71,10 @@
                                         @Html.DisplayNameFor(model => model.MontoHasta)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
+                                        @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Estado)
                                     </th>
                                     <th>Opciones</th>
                                 </tr>
@@ -86,6 +89,9 @@
                                     <td data-bind="text:MontoDesde"></td>
                                     <td data-bind="text:MontoHasta"></td>
                                     <td data-bind="text:DescripcionTipoDeServicio"></td>
+                                    <td>
+                                        <input type="checkbox" data-bind="checked:Estado" disabled/>
+                                    </td>
                                     <td style="white-space:nowrap">
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>

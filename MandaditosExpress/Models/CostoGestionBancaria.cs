@@ -24,17 +24,16 @@ namespace MandaditosExpress.Models
 
         [Required]
         [MaxLength(200)]
-        [DataType(DataType.MultilineText)]
         public string Descripcion { get; set; }
 
         [Required]
-        [Display(Name ="Monto Desde")]
+        [Display(Name ="Monto Desde C$ (MD)")]
         [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
     "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoDesde { get; set; }
 
         [Required]
-        [Display(Name = "Monto Hasta")]
+        [Display(Name = "Monto Hasta C$ (MH)")]
         [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
     "Contactate con nosotros si deseas enviar una cantidad mayor")]
         public decimal MontoHasta { get; set; }
@@ -42,12 +41,19 @@ namespace MandaditosExpress.Models
         [Required]
         public bool Estado { get; set; }
 
-        [Required]
+        [Display(Name = "Porcentaje (P)")]
         public float Porcentaje { get; set; }
 
+        [Display(Name ="Valor C$ (V)")]
+        public int Valor { get; set; }
+
         [Required]
-        [Display(Name = "Precio De Recargo")]
+        [Display(Name = "Precio De Recargo C$ (PR)")]
         public float PrecioDeRecargo { get; set; }
+
+        [Required]
+        [Display(Name = "Precio ida y regreso C$ (PIR)")]
+        public float PrecioDeRegreso{ get; set; }
 
         [Required]
         [Display(Name = "Tipo De Servicio")]

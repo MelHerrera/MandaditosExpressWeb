@@ -81,7 +81,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.DistanciaBase, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.DistanciaBase, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.DistanciaBase, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1, @title= "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.DistanciaBase, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@
                                         <div class="col-md-3 CostoDeGasolinaContainer">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.CostoDeGasolina, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeGasolina, new { htmlAttributes = new { @class = "form-control CostoDeGasolina", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.CostoDeGasolina, new { htmlAttributes = new { @class = "form-control CostoDeGasolina", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.CostoDeGasolina, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -100,7 +100,7 @@
                                         <div class="col-md-3 CostoDeAsistenciaContainer">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.CostoDeAsistencia, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeAsistencia, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.CostoDeAsistencia, new { htmlAttributes = new { @class = "form-control CostoDeAsistencia", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.CostoDeAsistencia, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                         <div class="col-md-3 CostoDeMotorizadoContainer">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.CostoDeMotorizado, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostoDeMotorizado, new { htmlAttributes = new { @class = "form-control CostoDeMotorizado", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.CostoDeMotorizado, new { htmlAttributes = new { @class = "form-control CostoDeMotorizado", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.CostoDeMotorizado, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -119,27 +119,33 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.PrecioPorKm, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PrecioPorKm, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.PrecioPorKm, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.PrecioPorKm, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group PrecioDeRecargoContainer">
                                                 @Html.LabelFor(model => model.PrecioDeRecargo, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PrecioDeRecargo, new { htmlAttributes = new { @class = "form-control PrecioDeRecargo", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.PrecioDeRecargo, new { htmlAttributes = new { @class = "form-control PrecioDeRecargo", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.PrecioDeRecargo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group PrecioDeRecargoContainer">
                                                 @Html.LabelFor(model => model.PrecioDeRegreso, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.PrecioDeRegreso, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                                                @Html.EditorFor(model => model.PrecioDeRegreso, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1, @title = "Ingresa un valor mayor a 0" } })
                                                 @Html.ValidationMessageFor(model => model.PrecioDeRegreso, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <small>Monto Total del envío = CG + CA + CM + ( PK(DB + DE) ) + PR(si es urgente) + PIR(si es ida y regreso)</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mt-3">
                                         <div class="col-md-offset-2 col-md-10">
                                             <input type="submit" value="Guardar" class="btn btn-success" />
                                         </div>

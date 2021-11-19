@@ -6,34 +6,13 @@ using System.Web;
 
 namespace MandaditosExpress.Services
 {
-    public class CostoServices
+    public class CostoBancarioServices
     {
-
         private MandaditosDB db;
-
-        public CostoServices(MandaditosDB db)
+        public CostoBancarioServices(MandaditosDB db)
         {
             this.db = db;
         }
-        public object ValidarVigenciaCostos(int TipoDeServicioId, DateTime FechaDeLaCotizacion, decimal MontoDeDinero)
-        {
-            //verificar que haya un costo vigente para el tipo de servicio dado
-            var CostoAsociado = new object();
-            CostoAsociado = db.Costos.FirstOrDefault(it => it.TipoDeServicioId == TipoDeServicioId && it.FechaDeFin >= FechaDeLaCotizacion && it.EstadoDelCosto);
-
-            if (CostoAsociado == null)
-            {
-                CostoAsociado = db.CostoGestionBancaria.FirstOrDefault(cb => cb.TipoDeServicioId == TipoDeServicioId &&
-                                       cb.Estado && cb.FechaDeInicio <= FechaDeLaCotizacion &&
-                                       cb.FechaDeFin >= FechaDeLaCotizacion &&
-                                       MontoDeDinero >= cb.MontoDesde &&
-                                       MontoDeDinero <= cb.MontoHasta
-                                       );
-            }
-
-            return CostoAsociado;
-        }
-
         public string ValidarFechaCreate(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
         {
             // fecha de inicio no puede ser menor por mas de 3 minutos a la fecha actual
@@ -52,34 +31,40 @@ namespace MandaditosExpress.Services
             if (Ffin <= FIncicio)
                 return error = "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
 
-            var CostosAntiguo = (from c in db.Costos
-                                 where c.TipoDeServicioId == TipoDeServicioId && c.EstadoDelCosto
+            var CostosAntiguo = (from c in db.CostoGestionBancaria
+                                 where c.TipoDeServicioId == TipoDeServicioId && c.Estado
                                  select c).ToList();
 
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && FIncicio <= it.FechaDeInicio))
+            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.Estado&& FIncicio <= it.FechaDeInicio))
                 return error = "No se puede agregar, ya existe un costo(s) vigentes para este periodo";
 
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && Ffin <= it.FechaDeInicio))
+            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.Estado && Ffin <= it.FechaDeInicio))
                 return error = "No se puede agregar, ya existe un costo(s) vigentes para este periodo";
 
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && Ffin <= it.FechaDeFin))
+            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.Estado && Ffin <= it.FechaDeFin))
                 return error = "No se puede agregar, ya existe un costo(s) vigentes para este periodo";
 
             return error;
         }
 
-        public string validateFechaEdit(Costo costo)
+        public string validateFechaEdit(CostoGestionBancaria costo)
         {
+            if (costo.Porcentaje <= 0 && costo.Valor <= 0)
+                return "Debe especificar el porcentaje a o el valor a cobrar por la gestion bancaria";
+
+            if (costo.Porcentaje > 0 && costo.Valor > 0)
+                return "No puede especificar el porcentaje y valor a la vez, solo se debe especificar uno de ellos.";
+
             if (costo.FechaDeInicio >= costo.FechaDeFin)
                 return "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
             if (costo.FechaDeFin <= costo.FechaDeInicio)
                 return "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
 
-            if (costo.EstadoDelCosto == false)//si se esta queriendo desactivar el costo verificar que haya uno el cual la fecha de fin sea mayor a la fecha y hora actual
+            if (costo.Estado == false)//si se esta queriendo desactivar el costo verificar que haya uno el cual la fecha de fin sea mayor a la fecha y hora actual
             {
                 //cosotos vigentes asociados
-                var CostosAntiguo = (from c in db.Costos
-                                     where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto && c.FechaDeFin > DateTime.Now
+                var CostosAntiguo = (from c in db.CostoGestionBancaria
+                                     where c.TipoDeServicioId == costo.TipoDeServicioId && c.Estado && c.FechaDeFin > DateTime.Now
                                      select c).ToList();
 
                 if (CostosAntiguo.Count == 1)//si hay algun costo activo y vigente entonces validar, si solo hay uno no hacer nada ya que, si se desactiva no quedarian costos vigentes
@@ -97,15 +82,15 @@ namespace MandaditosExpress.Services
                 }
             }
 
-            var CostoInDb = db.Costos.Find(costo.Id);
+            var CostoInDb = db.CostoGestionBancaria.Find(costo.Id);
 
             if (CostoInDb != null)
             {
-                if (costo.EstadoDelCosto && CostoInDb.EstadoDelCosto== false)//si se esta queriendo activar un costo entonces evitar que hayan 2 costos activos, si en la bd es false y en el enviado es true significa que se esta queriendo habilitar
+                if (costo.Estado && CostoInDb.Estado == false)//si se esta queriendo activar un costo entonces evitar que hayan 2 costos activos, si en la bd es false y en el enviado es true significa que se esta queriendo habilitar
                 {
                     //costos activos y vigentes
-                    var CostosAntiguo = (from c in db.Costos
-                                         where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto && c.FechaDeFin > DateTime.Now
+                    var CostosAntiguo = (from c in db.CostoGestionBancaria
+                                         where c.TipoDeServicioId == costo.TipoDeServicioId && c.Estado && c.FechaDeFin > DateTime.Now
                                          select c).ToList();
 
                     if (CostosAntiguo.Count >= 1)

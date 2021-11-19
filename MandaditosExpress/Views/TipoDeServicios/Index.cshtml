@@ -12,7 +12,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Tipos De Servicios</h2>
+        <h2>Tipos De Servicio</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
@@ -20,11 +20,8 @@
             <li class="breadcrumb-item">
                 <a>Catálogos</a>
             </li>
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "TipoDeServicio")">TipoDeServicio</a>
-            </li>
             <li class="active breadcrumb-item">
-                <strong>Tipos de Servicios</strong>
+                <strong>Tipos de Servicio</strong>
             </li>
         </ol>
     </div>
@@ -78,15 +75,9 @@
                                         <input type="checkbox" data-bind="checked:EstadoTipoDeServicio" disabled />
                                     </td>
                                     <td>
-                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-
-
                                     </td>
                                 </tr>
                             </tbody>

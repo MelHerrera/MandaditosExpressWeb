@@ -32,21 +32,21 @@ namespace MandaditosExpress.Models
         [DataType(DataType.MultilineText)]
         public string  Descripcion { get; set; }
 
-        [Display(Name = "Costo por Gasolina")]
+        [Display(Name = "Costo por Gasolina (CG)")]
         public float CostoDeGasolina { get; set; }
 
-        [Display(Name = "Costo por Asistencia")]
+        [Display(Name = "Costo por Asistencia (CA)")]
         public float CostoDeAsistencia { get; set; }
 
-        [Display(Name = "Costo por Motorizado")]
+        [Display(Name = "Costo por Motorizado (CM)")]
         public float CostoDeMotorizado { get; set; }
 
         [Required]
-        [Display(Name = "Distancia Base (Km)")]
+        [Display(Name = "Distancia Base en Km (DB)")]
         public float DistanciaBase { get; set; }
 
         [Required]
-        [Display(Name = "Precio por Km (C$)")]
+        [Display(Name = "Precio por Km en C$ (PK)")]
         public float PrecioPorKm { get; set; }
 
         [Display(Name = "Tipo De Servicio")]
@@ -58,11 +58,11 @@ namespace MandaditosExpress.Models
         public bool EstadoDelCosto { get; set; }
 
         [Required]
-        [Display(Name = "Precio De Recargo")]
+        [Display(Name = "Precio De Recargo (PR)")]
         public float PrecioDeRecargo { get; set; }
 
         [Required]
-        [Display(Name = "Precio de ida y regreso")]
+        [Display(Name = "Precio de ida y regreso (PIR)")]
         public float PrecioDeRegreso { get; set; }
 
         public virtual  TipoDeServicio TipoDeServicio { get; set; }

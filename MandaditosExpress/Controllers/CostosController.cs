@@ -17,11 +17,9 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db = new MandaditosDB();
         private CostoServices CostoServices;
-        private IMapper _mapper;
 
         public CostosController(IMapper mapper)
         {
-            _mapper = mapper;
             CostoServices = new CostoServices(db);
         }
 

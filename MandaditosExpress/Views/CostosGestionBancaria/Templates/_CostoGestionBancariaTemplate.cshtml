@@ -1,4 +1,5 @@
-﻿<template id="costogestionbancaria-modal-template">
+﻿
+<template id="costogestionbancaria-modal-template">
 
     <div class="row">
         <div class="col-md-12">
@@ -54,10 +55,26 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
+                <label for="Valor" class="control-label">Valor</label>
+                <input type="number" data-bind="value:Valor, disable: $root.Disable" name="Valor" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="PrecioDeRegreso" class="control-label">Precio de regreso</label>
+                <input type="text" data-bind="value:PrecioDeRegreso, disable: $root.Disable" name="PrecioDeRegreso" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
                 <label for="PrecioDeRecargo" class="control-label">Precio Recargo</label>
                 <input type="number" data-bind="value:PrecioDeRecargo, disable: $root.Disable" name="PrecioDeRecargo" class="form-control" />
             </div>
         </div>
+
         <div class="col-md-2">
             <div class="form-group">
                 <label for="Estado" class="control-label">Estado</label>
