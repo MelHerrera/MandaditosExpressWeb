@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Services;
+using AutoMapper;
 
 namespace MandaditosExpress.Controllers
 {
@@ -14,6 +16,14 @@ namespace MandaditosExpress.Controllers
     public class CostosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private CostoServices CostoServices;
+        private IMapper _mapper;
+
+        public CostosController(IMapper mapper)
+        {
+            _mapper = mapper;
+            CostoServices = new CostoServices(db);
+        }
 
         // GET: Costos
         public ActionResult Index()
@@ -58,7 +68,7 @@ namespace MandaditosExpress.Controllers
                 costo.EstadoDelCosto = true;
 
                 // TODO validar antes de crear 
-                var errorMessage = ValidarFechaDelCosto(costo.FechaDeInicio, costo.FechaDeFin, costo.TipoDeServicioId);
+                var errorMessage = CostoServices.ValidarFechaCreate(costo.FechaDeInicio, costo.FechaDeFin, costo.TipoDeServicioId);
 
                 if (string.IsNullOrEmpty(errorMessage))
                 {
@@ -92,23 +102,41 @@ namespace MandaditosExpress.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var error = validateFechaEdit(costo);
+                    var error = CostoServices.validateFechaEdit(costo);
 
                     if (!string.IsNullOrEmpty(error))
                         return Json(new { exito = false, message = error }, JsonRequestBehavior.AllowGet);
 
-                    db.Entry(costo).State = EntityState.Modified;
+                    var CostoInDb = db.Costos.Find(costo.Id);
 
-                    if (db.SaveChanges() > 0)
-                        return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+                    if (CostoInDb != null)
+                    {
+                        //el controlador no esta recibiendo las propiedades de navegacion por lo que sino las lleva la detecta como si fuera una nueva entidad y no logra modificarla
+                        //para resolver esto que me tiene hasta la madre hice esto aunque no es correcto
+                        //asignar a la que ya esta en la bd los campos que se permiten editar en la vista
+                        CostoInDb.Descripcion = costo.Descripcion;
+                        CostoInDb.PrecioPorKm = costo.PrecioPorKm;
+                        CostoInDb.DistanciaBase = costo.DistanciaBase;
+                        CostoInDb.FechaDeFin = costo.FechaDeFin;
+                        CostoInDb.CostoDeGasolina = costo.CostoDeGasolina;
+                        CostoInDb.CostoDeAsistencia = costo.CostoDeAsistencia;
+                        CostoInDb.CostoDeMotorizado = costo.CostoDeMotorizado;
+                        CostoInDb.EstadoDelCosto = costo.EstadoDelCosto;
+                        CostoInDb.PrecioDeRecargo = costo.PrecioDeRecargo;
+                        CostoInDb.PrecioDeRegreso = costo.PrecioDeRegreso;
+
+                        db.Entry(CostoInDb).State = EntityState.Modified;
+
+                        if (db.SaveChanges() > 0)
+                            return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+                    }
                 }
 
                 return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                var error = ex.Message;
-                return Json(new { exito = false, message="Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+                return Json(new { exito = false, message = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -126,63 +154,6 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
-        public string ValidarFechaDelCosto(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
-        {
-            // fecha de inicio no puede ser menor por mas de 3 minutos a la fecha actual
-            // fecha inicio no puede ser mayor o igual a la fecha de fin
-            // fecha fin no puede ser menor o igual a la fecha de inicio
-            // fecha inicio no puede ser menos a una de las fechas de inicio de los costos vigentes para el mismo tipo de servicio
-            // la fecha fin no puede ser menor a una de las fechas de inicio de los costos vigentes para el mismo tipo de servicio
-            // la fecha fin no puede ser menor o igual a una de las fechas de fin de los costos vigentes para el mismo tipo de servicio
-
-            var error = string.Empty;
-
-            if (FIncicio.AddMinutes(3) < DateTime.Now)//permitirle que la fecha de inicio solo pueda ser 3 minutos antes de la hora y fecha actual
-                return error = "La fecha de inicio debe ser igual o mayor  a la fecha y hora actual. No puede iniciar un costo en un instante de tiempo pasado";
-            if (FIncicio >= Ffin)
-                return error = "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
-            if (Ffin <= FIncicio)
-                return error = "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
-
-            var CostosAntiguo = (from c in db.Costos
-                                 where c.TipoDeServicioId == TipoDeServicioId && c.EstadoDelCosto
-                                 select c).ToList();
-
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && FIncicio <= it.FechaDeInicio))
-                return error = "No se puede agregar un costo cuya fecha de inicio sea menor a la fecha de inicio del costo(s) vigente";
-
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && Ffin <= it.FechaDeInicio))
-                return error = "No se puede agregar un costo cuya fecha de finalizacion sea menor a la fecha de inicio del costo(s) vigente";
-
-            if (CostosAntiguo.Any(it => it.TipoDeServicioId == TipoDeServicioId && it.EstadoDelCosto && Ffin <= it.FechaDeFin))
-                return error = "No se puede agregar un costo cuya fecha de finalizacion sea menor a la fecha de fim del costo(s) vigente";
-
-            return error;
-        }
-
-        public string validateFechaEdit(Costo costo)
-        {
-            var error = string.Empty;
-
-            if (costo.EstadoDelCosto == false)//si se esta queriendo desactivar el costo verificar que haya uno el cual la fecha de fin sea mayor a la fecha y hora actual
-            {
-
-                if (costo.FechaDeInicio >= costo.FechaDeFin)
-                    return error = "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
-                if (costo.FechaDeFin <= costo.FechaDeInicio)
-                    return error = "La fecha de fin no puede ser menor o igual a la fecha de inicio del costo";
-
-                //cosotos vigentes asociados
-                var CostosAntiguo = (from c in db.Costos
-                                     where c.TipoDeServicioId == costo.TipoDeServicioId && c.EstadoDelCosto
-                                     select c).ToList();
-
-                if (CostosAntiguo.All(it => it.FechaDeFin <= DateTime.Now))//si todos los elementos tienen una fecha de fin menos a la fecha actual entonces no quedaria ningun costo vigente
-                    error = "No se puede inhabilitar el costo debido a que no quedaria ningun costo vigente";
-            }
-
-            return error;
-        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -63,7 +63,7 @@
                 }
                 else {
                     $.notify({
-                        icon: 'fa fa-triangle-circle',
+                        icon: 'fa fa-exclamation-circle',
                         message: res.message
                     });
                 }
@@ -71,8 +71,7 @@
             error: function (e) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops... Disculpa',
-                    text: 'Algo salio mal!',
+                    text: 'Ha sucedido un error procesando tu solicitud',
                     footer: 'Contactese con el Administrador del Sistema'
                 })
             }
