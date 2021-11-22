@@ -11,5 +11,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int EnviosAnuales { get; set; }
         public int EnviosDelDia { get; set; }
         public int CreditosPendientes { get; set; }
+
+        public ICollection<EnvioHistorialViewModel> EnviosHistorial { get; set; }
     }
 }

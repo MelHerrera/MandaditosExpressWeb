@@ -1,8 +1,10 @@
-﻿using MandaditosExpress.Models;
+﻿using AutoMapper;
+using MandaditosExpress.Models;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,8 +15,13 @@ namespace MandaditosExpress.Controllers
     public class HomeUserController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
 
-        // GET: HomeUser
+        public HomeUserController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+        // GET: HomeUser 
         public ActionResult Index()
         {
             var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
@@ -27,7 +34,8 @@ namespace MandaditosExpress.Controllers
             IndexData.EnviosMensuales = User.IsInRole("Admin") ? getEnviosMensuales() : User.IsInRole("Cliente") ? getEnviosMensuales(PersonaActual.Id) : 0;
             IndexData.EnviosAnuales = User.IsInRole("Admin") ? getEnviosAnuales() : User.IsInRole("Cliente") ? getEnviosAnuales(PersonaActual.Id) : 0;
             IndexData.CreditosPendientes = User.IsInRole("Admin") ? CreditosPendientes() : User.IsInRole("Cliente") ? CreditosPendientes(PersonaActual.Id) : 0;
-
+            IndexData.EnviosHistorial = User.IsInRole("Admin") ? _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios()) : _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios(PersonaActual.Id));
+            
             ViewBag.IndexHomeUserData = JsonConvert.SerializeObject(IndexData);
             return View();
         }
@@ -79,6 +87,15 @@ namespace MandaditosExpress.Controllers
             var defaultCancelacionDate = DateTime.Parse("01/01/1900");
             var Creditos = db.Creditos.Where(it => it.FechaDeCancelacion == defaultCancelacionDate && it.ClienteId == ClienteId).ToList();
             return Creditos.Count;
+        }
+
+        public ICollection<Envio> GetLastFiveEnvios()
+        {
+            return db.Envios.OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
+        }
+        public ICollection<Envio> GetLastFiveEnvios(int ClienteId)
+        {
+            return db.Envios.Where(it=> it.ClienteId == ClienteId).OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
         }
     }
 }

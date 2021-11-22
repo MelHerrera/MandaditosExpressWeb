@@ -381,7 +381,7 @@ namespace MandaditosExpress.Models.ViewModels
         public bool EsAlCredito { get; set; }
         public bool EstaRetrasado { get; set; }
 
-        public DateTime TiempoRetraso { get; set; }
+        public double TiempoRetraso { get; set; }
 
         [StringLength(250)]
         public string MotivoDeRechazo { get; set; }
@@ -389,5 +389,11 @@ namespace MandaditosExpress.Models.ViewModels
 
         public virtual Lugar LugarOrigen { get; set; }
         public virtual Lugar LugarDestino { get; set; }
+    }
+
+    public class EnvioHistorialViewModel
+    {
+        public string DescripcionDeEnvio { get; set; }
+        public double TiempoTranscurrido { get; set; }
     }
 }

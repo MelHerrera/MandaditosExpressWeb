@@ -75,8 +75,8 @@ public class MainMappingProfile : Profile
                             .ForMember(x => x.Cliente, x => x.MapFrom(y => y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
                             .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false ))
                             .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false))
-                            .ForMember(x => x.EstaRetrasado, x=> x.MapFrom(y=> y.EsUrgente && y.FechaDelEnvio.AddMinutes(35) > DateTime.Now ? true : !y.EsUrgente && y.FechaDelEnvio.AddMinutes(90) > DateTime.Now ? true : false))
-                            .ForMember(x=> x.TiempoRetraso, x=> x.MapFrom(y=> DateTime.Now - y.FechaDelEnvio)).ReverseMap();
+                            .ForMember(x => x.EstaRetrasado, x=> x.MapFrom(y=> y.EsUrgente && y.FechaDelEnvio.AddMinutes(35) > DateTime.Now ? true : !y.EsUrgente && y.FechaDelEnvio.AddMinutes(90) > DateTime.Now ? true : false)).ReverseMap();
+        CreateMap<Envio, EnvioHistorialViewModel>().ReverseMap();
 
     }
 }
