@@ -394,6 +394,6 @@ namespace MandaditosExpress.Models.ViewModels
     public class EnvioHistorialViewModel
     {
         public string DescripcionDeEnvio { get; set; }
-        public double TiempoTranscurrido { get; set; }
+        public int TiempoTranscurrido { get; set; }
     }
 }

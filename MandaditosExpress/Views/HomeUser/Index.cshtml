@@ -11,9 +11,21 @@
         }
     </style>
     <link href="~/Content/NiceAdmin.css" rel="stylesheet" />
-    }
+}
 
 <div class="row mt-4">
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-white pull-right text-white">Todos</span>
+                <h5>Envíos</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins" data-bind="text:HomeUserData().TodosEnvios">0</h1>
+                <small>Total de envíos</small>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-3">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -22,8 +34,7 @@
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins" data-bind="text:HomeUserData().EnviosMensuales">0</h1>
-                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                <small>Total envios</small>
+                <small>Total envios mensuales</small>
             </div>
         </div>
     </div>
@@ -35,8 +46,7 @@
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins" data-bind="text:HomeUserData().EnviosAnuales">0</h1>
-                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                <small>Total envios</small>
+                <small>Total envios anuales</small>
             </div>
         </div>
     </div>
@@ -48,83 +58,66 @@
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins" data-bind="text:HomeUserData().EnviosDelDia">0</h1>
-                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                <small>Total envios</small>
+                <small>Total envios del día</small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title p-2">Actividad reciente <span>| Últimos envíos</span></h5>
+
+                <div class="activity" data-bind="template:{foreach:HomeUserData().EnviosHistorial}">
+
+                    <div class="activity-item d-flex">
+                        <div class="activite-label">
+                            <span data-bind="text:TiempoTranscurrido">0</span> Min
+                        </div>
+                        <i class="fa fa-circle activity-badge text-success align-self-start"></i>
+                        <div class="activity-content">
+                            <span data-bind="expandText:DescripcionDeEnvio"></span>
+                        </div>
+                    </div><!-- End activity item-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <canvas id="gr_enviosem"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-white pull-right text-white">Todos</span>
+                <h5>Envíos</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins" data-bind="text:HomeUserData().TodosEnvios">0</h1>
+                <small>Total de envíos</small>
             </div>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <span class="label label-danger pull-right">Low value</span>
-                <h5>User activity</h5>
+                <span class="label label-success pull-right">Mensual</span>
+                <h5>Envios</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">80,600</h1>
-                <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
-                <small>In first month</small>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="card w-50">
-            <div class="card-body">
-                <h5 class="card-title">Actividad reciente <span>| Últimos envíos</span></h5>
-
-                <div class="activity">
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">32 min</div>
-                        <i class="fa fa-circle activity-badge text-success align-self-start"></i>
-                        <div class="activity-content">
-                            Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                        </div>
-                    </div><!-- End activity item-->
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">56 min</div>
-                        <i class="fa fa-circle activity-badge text-danger align-self-start"></i>
-                        <div class="activity-content">
-                            Voluptatem blanditiis blanditiis eveniet
-                        </div>
-                    </div><!-- End activity item-->
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">2 hrs</div>
-                        <i class="fa fa-circle activity-badge text-primary align-self-start"></i>
-                        <div class="activity-content">
-                            Voluptates corrupti molestias voluptatem
-                        </div>
-                    </div><!-- End activity item-->
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">1 day</div>
-                        <i class="fa fa-circle activity-badge text-info align-self-start"></i>
-                        <div class="activity-content">
-                            Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                        </div>
-                    </div><!-- End activity item-->
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">2 days</div>
-                        <i class="fa fa-circle activity-badge text-warning align-self-start"></i>
-                        <div class="activity-content">
-                            Est sit eum reiciendis exercitationem
-                        </div>
-                    </div><!-- End activity item-->
-
-                    <div class="activity-item d-flex">
-                        <div class="activite-label">4 weeks</div>
-                        <i class="fa fa-circle activity-badge text-muted align-self-start"></i>
-                        <div class="activity-content">
-                            Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                        </div>
-                    </div><!-- End activity item-->
-
-                </div>
-
+                <h1 class="no-margins" data-bind="text:HomeUserData().EnviosMensuales">0</h1>
+                <small>Total envios mensuales</small>
             </div>
         </div>
     </div>
@@ -627,6 +620,44 @@
 
             let HomeUserData = $("#IndexHomeUserData").val();
             ko.applyBindings(new IndexHomeUser(ko.mapping.fromJSON(HomeUserData)));
+
+            //gráfico de barra sobre envios semanales
+            let diasSemana = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+            @*let dataDiasSemana = @Html.Raw(Json.Encode(ViewBag.EnviosSemana));*@
+            let dataDiasSemana = [65, 59, 80, 81, 56, 55, 40];
+            let ctx_envioSem = $("#gr_enviosem");
+
+            const chart_envioSem = new Chart(ctx_envioSem, {
+                type: 'bar',
+                data: {
+                    labels: diasSemana,
+                    datasets: [{
+                        label: "Envios en la semana",
+                        data: dataDiasSemana,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 205, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+
+
 
             $(".bar_dashboard").peity("bar", {
                 fill: ["#1ab394", "#d7d7d7"],

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using Newtonsoft.Json;
@@ -33,11 +34,41 @@ namespace MandaditosExpress.Controllers
             IndexData.EnviosDelDia = User.IsInRole("Admin") ? getEnviosDia() : User.IsInRole("Cliente") ? getEnviosDia(PersonaActual.Id) : 0;
             IndexData.EnviosMensuales = User.IsInRole("Admin") ? getEnviosMensuales() : User.IsInRole("Cliente") ? getEnviosMensuales(PersonaActual.Id) : 0;
             IndexData.EnviosAnuales = User.IsInRole("Admin") ? getEnviosAnuales() : User.IsInRole("Cliente") ? getEnviosAnuales(PersonaActual.Id) : 0;
+            IndexData.TodosEnvios = User.IsInRole("Admin") ? getTodosEnvio() : User.IsInRole("Cliente") ? getTodosEnvio(PersonaActual.Id) : 0;
             IndexData.CreditosPendientes = User.IsInRole("Admin") ? CreditosPendientes() : User.IsInRole("Cliente") ? CreditosPendientes(PersonaActual.Id) : 0;
             IndexData.EnviosHistorial = User.IsInRole("Admin") ? _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios()) : _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios(PersonaActual.Id));
-            
+            IndexData.EnviosRechazados = User.IsInRole("Admin") ? GetEnvioRechazados() : User.IsInRole("Cliente") ? GetEnvioRechazados(PersonaActual.Id) : 0;
+            IndexData.EnviosRealizados = User.IsInRole("Admin") ? GetEnvioRealizados() : User.IsInRole("Cliente") ? GetEnvioRealizados(PersonaActual.Id) : 0;
+
+            ViewBag.EnviosSemana = GetEnviosSemana();
             ViewBag.IndexHomeUserData = JsonConvert.SerializeObject(IndexData);
             return View();
+        }
+
+        public int GetEnvioRealizados()
+        {
+            return db.Envios.Where(it=> it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList().Count;
+        }
+        public int GetEnvioRealizados(int ClienteId)
+        {
+            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado && it.ClienteId==ClienteId).ToList().Count;
+        }
+        public int GetEnvioRechazados()
+        {
+            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).ToList().Count;
+        }
+        public int GetEnvioRechazados(int ClienteId)
+        {
+            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado && it.ClienteId == ClienteId).ToList().Count;
+        }
+        public int getTodosEnvio()
+        {
+            return db.Envios.ToList().Count;
+        }
+
+        public int getTodosEnvio(int ClienteId)
+        {
+            return db.Envios.Where(it => it.ClienteId == ClienteId).ToList().Count;
         }
 
         public int getEnviosMensuales()
@@ -89,13 +120,39 @@ namespace MandaditosExpress.Controllers
             return Creditos.Count;
         }
 
-        public ICollection<Envio> GetLastFiveEnvios()
+        public ICollection<EnvioHistorialViewModel> GetLastFiveEnvios()
         {
-            return db.Envios.OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
+            var envios = db.Envios.OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
+
+            var config = new MapperConfiguration(cfg =>
+            cfg.CreateMap<Envio, EnvioHistorialViewModel>().ForMember(x => x.TiempoTranscurrido, x => x.MapFrom(y => (DateTime.Now - y.FechaDelEnvio).TotalMinutes)));
+
+            var MExplicitMap = new Mapper(config);
+            var enviosMapped = MExplicitMap.Map<ICollection<EnvioHistorialViewModel>>(envios);
+
+            return enviosMapped;
         }
-        public ICollection<Envio> GetLastFiveEnvios(int ClienteId)
+        public ICollection<EnvioHistorialViewModel> GetLastFiveEnvios(int ClienteId)
         {
-            return db.Envios.Where(it=> it.ClienteId == ClienteId).OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
+            var envios = db.Envios.Where(it => it.ClienteId == ClienteId).OrderByDescending(it => it.FechaDelEnvio).Take(5).ToList();
+
+            var config = new MapperConfiguration(cfg =>
+            cfg.CreateMap<Envio, EnvioHistorialViewModel>().ForMember(x => x.TiempoTranscurrido, x => x.MapFrom(y => (int)(DateTime.Now - y.FechaDelEnvio).TotalMinutes)));
+
+            var MExplicitMap = new Mapper(config);
+            var enviosMapped = MExplicitMap.Map<ICollection<EnvioHistorialViewModel>>(envios);
+
+            return enviosMapped;
+        }
+        public List<int> GetEnviosSemana()
+        {
+            int diasTrasncurridos = DateTime.Today.DayOfWeek - DayOfWeek.Sunday;
+            DateTime diasRange = DateTime.Today.AddDays(-diasTrasncurridos);
+
+            var envios = db.Envios.Where(it=> it.FechaDelEnvio >= diasRange)
+                .GroupBy(x=> x.Id)
+                .Select(x=> x.Count());
+            return envios.ToList();
         }
     }
 }

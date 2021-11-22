@@ -74,7 +74,7 @@ namespace MandaditosExpress
 
             // ChartJS chart
             bundles.Add(new ScriptBundle("~/plugins/chartJs").Include(
-                      "~/Scripts/plugins/chartjs/Chart.min.js"));
+                      "~/Scripts/plugins/chartjs/chart.min.js"));
 
 
             // sweet Alert 2

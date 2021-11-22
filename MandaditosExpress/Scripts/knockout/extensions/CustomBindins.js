@@ -39,3 +39,26 @@ ko.bindingHandlers.Select2 = {
         }
     }
 };
+
+//expand or collapse text is more that 80 letters
+ko.bindingHandlers.expandText = {
+    init: function (element, valueAccessor) {
+        element.appendChild(document.createElement('span'));
+        var toggle = document.createElement('a');
+        toggle.appendChild(document.createTextNode("..."));
+        toggle.href = "#";
+        element.appendChild(toggle);
+    },
+    update: function (element, valueAccessor) {
+        var text = ko.unwrap(valueAccessor());
+        var textElement = element.getElementsByTagName('span')[0];
+        var toggle = element.getElementsByTagName('a')[0];
+        var collapsed = true;
+        toggle.onclick = function () {
+            collapsed = !collapsed;
+            ko.utils.setTextContent(textElement, collapsed ? text.substr(0, 80) : text);
+        }
+        toggle.style.display = text.length > 80 ? 'inline' : 'none';
+        ko.utils.setTextContent(textElement, collapsed ? text.substr(0, 80) : text);
+    }
+};
