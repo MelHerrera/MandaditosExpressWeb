@@ -40,18 +40,18 @@ namespace MandaditosExpress.Controllers
             IndexData.EnviosRechazados = User.IsInRole("Admin") ? GetEnvioRechazados() : User.IsInRole("Cliente") ? GetEnvioRechazados(PersonaActual.Id) : 0;
             IndexData.EnviosRealizados = User.IsInRole("Admin") ? GetEnvioRealizados() : User.IsInRole("Cliente") ? GetEnvioRealizados(PersonaActual.Id) : 0;
 
-            ViewBag.EnviosSemana = GetEnviosSemana();
+            ViewBag.EnviosSemana = User.IsInRole("Admin") ? GetEnviosSemana() : User.IsInRole("Cliente") ? GetEnviosSemana(PersonaActual.Id) : new List<int>();
             ViewBag.IndexHomeUserData = JsonConvert.SerializeObject(IndexData);
             return View();
         }
 
         public int GetEnvioRealizados()
         {
-            return db.Envios.Where(it=> it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList().Count;
+            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).ToList().Count;
         }
         public int GetEnvioRealizados(int ClienteId)
         {
-            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado && it.ClienteId==ClienteId).ToList().Count;
+            return db.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado && it.ClienteId == ClienteId).ToList().Count;
         }
         public int GetEnvioRechazados()
         {
@@ -146,13 +146,43 @@ namespace MandaditosExpress.Controllers
         }
         public List<int> GetEnviosSemana()
         {
-            int diasTrasncurridos = DateTime.Today.DayOfWeek - DayOfWeek.Sunday;
-            DateTime diasRange = DateTime.Today.AddDays(-diasTrasncurridos);
+            int diasTrasncurridos = DayOfWeek.Monday - DateTime.Today.DayOfWeek;
+            DateTime firstDayWeek = diasTrasncurridos <= 0 ? DateTime.Today.AddDays(diasTrasncurridos) : DateTime.Today.AddDays(-6);
 
-            var envios = db.Envios.Where(it=> it.FechaDelEnvio >= diasRange)
-                .GroupBy(x=> x.Id)
-                .Select(x=> x.Count());
-            return envios.ToList();
+            var envios1 = db.Envios.Where(x => x.FechaDelEnvio >= firstDayWeek && x.FechaDelEnvio <= DateTime.Now).GroupBy(x => x.FechaDelEnvio.Day)
+            .Select(x => new { day = x.Key, cant = x.Count() });
+
+            var enviosLastWeek = new List<int>();
+
+            for (var date = firstDayWeek; date <= DateTime.Now; date = date.AddDays(1))
+            {
+                var CantByDay = envios1.FirstOrDefault(it => it.day == date.Day && it.cant > 0);
+
+                var cantidad = CantByDay != null ? CantByDay.cant > 0 ? CantByDay.cant : 0 : 0;
+                enviosLastWeek.Add(cantidad);
+            }
+
+            return enviosLastWeek.ToList();
+        }
+        public List<int> GetEnviosSemana(int ClienteId)
+        {
+            int diasTrasncurridos = DayOfWeek.Monday - DateTime.Today.DayOfWeek;
+            DateTime firstDayWeek = diasTrasncurridos <= 0 ? DateTime.Today.AddDays(diasTrasncurridos) : DateTime.Today.AddDays(-6);
+
+            var envios1 = db.Envios.Where(x => x.FechaDelEnvio >= firstDayWeek && x.FechaDelEnvio <= DateTime.Now && x.ClienteId == ClienteId).GroupBy(x => x.FechaDelEnvio.Day)
+            .Select(x => new { day = x.Key, cant = x.Count() });
+
+            var enviosLastWeek = new List<int>();
+
+            for (var date = firstDayWeek; date <= DateTime.Now; date = date.AddDays(1))
+            {
+                var CantByDay = envios1.FirstOrDefault(it => it.day == date.Day && it.cant > 0);
+
+                var cantidad = CantByDay != null ? CantByDay.cant > 0 ? CantByDay.cant : 0 : 0;
+                enviosLastWeek.Add(cantidad);
+            }
+
+            return enviosLastWeek.ToList();
         }
     }
 }

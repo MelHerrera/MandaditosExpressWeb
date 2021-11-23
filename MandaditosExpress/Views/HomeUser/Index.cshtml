@@ -1,6 +1,5 @@
 ﻿
 @{
-
     @Html.Hidden("IndexHomeUserData");
 }
 
@@ -145,7 +144,7 @@
     @Scripts.Render("~/plugins/chartJs")
     @Scripts.Render("~/plugins/peity")
 
-    <script type="text/javascript">
+<script type="text/javascript">
         function IndexHomeUser(data) {
             let self = this;
             data = data || {};
@@ -153,16 +152,15 @@
             self.HomeUserData = ko.observable(data);
         }
 
-
         $(document).ready(function () {
 
             let HomeUserData = $("#IndexHomeUserData").val();
             ko.applyBindings(new IndexHomeUser(ko.mapping.fromJSON(HomeUserData)));
 
             //gráfico de barra sobre envios semanales
-            let diasSemana = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
-            @*let dataDiasSemana = @Html.Raw(Json.Encode(ViewBag.EnviosSemana));*@
-            let dataDiasSemana = [65, 59, 80, 81, 56, 55, 40];
+            let diasSemana = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+            let dataDiasSemana = @Html.Raw(Json.Encode(ViewBag.EnviosSemana));
+         /*   let dataDiasSemana = [12,13,14,0,5,9,0];*/
             let ctx_envioSem = $("#gr_enviosem");
 
             const chart_envioSem = new Chart(ctx_envioSem, {
@@ -199,8 +197,8 @@
             var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
 
             var data3 = [
-                { label: "Data 1", data: d1, color: '#fbbe7b' },
-                { label: "Data 2", data: d2, color: '#f8ac59' }
+                { label: "Data 1", data: d1, color: '#488c6c' },
+                { label: "Data 2", data: d2, color: '#198754' }
             ];
 
             $.plot($("#flot-chart3"), data3, {
@@ -234,11 +232,11 @@
             });
 
             var data4 = [
-                { label: "Data 1", data: d1, color: '#488c6c' },
-                { label: "Data 2", data: d2, color: '#198754' }
+                { label: "Data 1", data: d1, color: '#f2786f' },
+                { label: "Data 2", data: d2, color: '#eb0f00' }
             ];
 
-            $.plot($("#flot-chart4"), data4, {  
+            $.plot($("#flot-chart4"), data4, {
                 xaxis: {
                     tickDecimals: 0
                 },
@@ -268,161 +266,6 @@
                 }
             });
 
-            $(".bar_dashboard").peity("bar", {
-                fill: ["#1ab394", "#d7d7d7"],
-                width: 100
-            })
-
-            $("#sparkline8").sparkline([5, 6, 7, 2, 0, 4, 2, 4, 5, 7, 2, 4, 12, 14, 4, 2, 14, 12, 7], {
-                type: 'bar',
-                barWidth: 8,
-                height: '150px',
-                barColor: '#1ab394',
-                negBarColor: '#c6c6c6'
-            });
-
-            var updatingChart = $(".updating-chart").peity("line", { fill: '#1ab394', stroke: '#169c81', width: 64 })
-
-            setInterval(function () {
-                var random = Math.round(Math.random() * 10)
-                var values = updatingChart.text().split(",")
-                values.shift()
-                values.push(random)
-
-                updatingChart
-                    .text(values.join(","))
-                    .change()
-            }, 1000);
-
-            var data1 = [
-                [0, 4], [1, 8], [2, 5], [3, 10], [4, 4], [5, 16], [6, 5], [7, 11], [8, 6], [9, 11], [10, 30], [11, 10], [12, 13], [13, 4], [14, 3], [15, 3], [16, 6]
-            ];
-            var data2 = [
-                [0, 1], [1, 0], [2, 2], [3, 0], [4, 1], [5, 3], [6, 1], [7, 5], [8, 2], [9, 3], [10, 2], [11, 1], [12, 0], [13, 2], [14, 8], [15, 0], [16, 0]
-            ];
-            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-                data1, data2
-            ],
-                {
-                    series: {
-                        lines: {
-                            show: false,
-                            fill: true
-                        },
-                        splines: {
-                            show: true,
-                            tension: 0.4,
-                            lineWidth: 1,
-                            fill: 0.4
-                        },
-                        points: {
-                            radius: 0,
-                            show: true
-                        },
-                        shadowSize: 2
-                    },
-                    grid: {
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#d5d5d5",
-                        borderWidth: 1,
-                        color: '#d5d5d5'
-                    },
-                    colors: ["#1ab394", "#464f88"],
-                    xaxis: {
-                    },
-                    yaxis: {
-                        ticks: 4
-                    },
-                    tooltip: false
-                }
-            );
-
-
-            var data1 = [
-                [0, 4], [1, 8], [2, 5], [3, 10], [4, 4], [5, 16], [6, 5], [7, 11], [8, 6], [9, 11], [10, 30], [11, 10], [12, 13], [13, 4], [14, 3], [15, 3], [16, 6]
-            ];
-            var data2 = [
-                [0, 1], [1, 0], [2, 2], [3, 0], [4, 1], [5, 3], [6, 1], [7, 5], [8, 2], [9, 3], [10, 2], [11, 1], [12, 0], [13, 2], [14, 8], [15, 0], [16, 0]
-            ];
-            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-                data1, data2
-            ],
-                {
-                    series: {
-                        lines: {
-                            show: false,
-                            fill: true
-                        },
-                        splines: {
-                            show: true,
-                            tension: 0.4,
-                            lineWidth: 1,
-                            fill: 0.4
-                        },
-                        points: {
-                            radius: 0,
-                            show: true
-                        },
-                        shadowSize: 2
-                    },
-                    grid: {
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#d5d5d5",
-                        borderWidth: 1,
-                        color: '#d5d5d5'
-                    },
-                    colors: ["#1ab394", "#1C84C6"],
-                    xaxis: {
-                    },
-                    yaxis: {
-                        ticks: 4
-                    },
-                    tooltip: false
-                }
-            );
-
-            var doughnutData = {
-                labels: ["App", "Software", "Laptop"],
-                datasets: [{
-                    data: [300, 50, 100],
-                    backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"]
-                }]
-            };
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-            new Chart(ctx4, { type: 'doughnut', data: doughnutData, options: doughnutOptions });
-
-            var doughnutData = {
-                labels: ["App", "Software", "Laptop"],
-                datasets: [{
-                    data: [70, 27, 85],
-                    backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"]
-                }]
-            };
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
-            new Chart(ctx4, { type: 'doughnut', data: doughnutData, options: doughnutOptions });
-
         });
-    </script>
+</script>
 }
