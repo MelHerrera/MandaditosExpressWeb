@@ -122,11 +122,7 @@ namespace MandaditosExpress.Controllers
                         }
                     }
                 }
-                {
-                    if (cliente.RUC != null && cliente.RUC.Length > 14)
-                        ModelState.AddModelError("", "El número RUC no debe exeder los 14 caracteres de longitud");
-                }
-
+              
                 return View(cliente);
             }
             catch (Exception ex)

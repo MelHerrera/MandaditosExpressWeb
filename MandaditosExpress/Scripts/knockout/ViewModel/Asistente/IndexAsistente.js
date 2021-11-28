@@ -1,7 +1,7 @@
 ﻿function IndexAsistente(asistenteCollection) {
     const self = this;
 
-    self.Asistentes = ko.observableArray(asistenteCollection || []);
+    self.Asistentes = ko.observableArray(ko.utils.arrayMap(asistenteCollection, function (item) { return new AsistenteViewModel(item) }) || []);
 
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "asistente-modal",
@@ -12,12 +12,16 @@
 
     self.ShowModal = function (asistente, event) {
 
-        if (event.currentTarget.id == "btn-edit") {
+        if (event.currentTarget.id == "btn-edit")
+        {
+            
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del Asistente").ModalHeaderClass("bg-success");
-            self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "asistente-modal-template", Data: new AsistenteViewModel(ko.toJS(asistente)) });
+            self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "asistente-modal-template", Data: new AsistenteViewModel(ko.toJS(asistente)) });   
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
-        if (event.currentTarget.id == "btn-del") {
+        if (event.currentTarget.id == "btn-del")
+        {
+            
             self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar el Asistente").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "asistente-modal-template", Data: new AsistenteViewModel(ko.toJS(asistente)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
@@ -55,7 +59,7 @@
                     console.log(self.ModalViewModel());
                     $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
 
-                    $.notify({  
+                    $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se actualizó la informacion Correctamente"
                     });
@@ -82,8 +86,8 @@
 $(function () {
 
     var asistentes = JSON.parse($("#dt").val());
-   ko.utils.arrayMap(asistentes, function (item) { return new AsistenteViewModel(item); });
+    ko.utils.arrayMap(asistentes, function (item) { return new AsistenteViewModel(item); });
     $("#dt").remove();
-  
+
     ko.applyBindings(new IndexAsistente(asistentes));
 });
