@@ -110,7 +110,7 @@ namespace MandaditosExpress.Controllers
         public int CreditosPendientes()
         {
             var defaultCancelacionDate = DateTime.Parse("01/01/1900");
-            var Creditos = db.Creditos.Where(it => it.FechaDeCancelacion == defaultCancelacionDate).ToList();
+            var Creditos = db.Creditos.Where(it => it.FechaDeCancelacion == defaultCancelacionDate && it.Pagos.Count <=0).ToList();
             return Creditos.Count;
         }
         public int CreditosPendientes(int ClienteId)

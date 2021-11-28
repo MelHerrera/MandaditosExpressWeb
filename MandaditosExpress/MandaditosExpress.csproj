@@ -325,6 +325,9 @@
     <Content Include="Content\ninestar_style.css" />
     <Content Include="Content\plugins\checkbox\magic-input.min.css" />
     <Content Include="Content\plugins\select2\select2.css" />
+    <Content Include="Images\3.png" />
+    <Content Include="Images\4.png" />
+    <Content Include="Images\5.png" />
     <Content Include="Images\atwork.png" />
     <Content Include="Images\clients\acuarela.jpg" />
     <Content Include="Images\clients\christina-closets.jpg" />
@@ -336,7 +339,10 @@
     <Content Include="Images\clients\uniformania.jpg" />
     <Content Include="Images\clients\vetplus.jpg" />
     <Content Include="Images\clients\vvjoyas.jpg" />
+    <Content Include="Images\Empt.png" />
     <Content Include="Images\Empty-pana.svg" />
+    <Content Include="Images\Empty.png" />
+    <Content Include="Images\mel.png" />
     <Content Include="Images\moto.png" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />

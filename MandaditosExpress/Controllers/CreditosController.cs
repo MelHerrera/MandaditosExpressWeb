@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Cliente")]
     public class CreditosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -38,6 +38,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Creditos/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.ClienteId = new SelectList(db.Clientes, "Id", "NombreCompleto");
@@ -49,6 +50,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
             ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
@@ -78,6 +80,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
             if (ModelState.IsValid)
@@ -95,6 +98,7 @@ namespace MandaditosExpress.Controllers
         // POST: Creditos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(Credito credito)
         {
             Credito Ocredito = db.Creditos.Find(credito.Id);

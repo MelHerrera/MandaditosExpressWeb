@@ -89,16 +89,17 @@
                                     <td data-bind="text:FechaDeVencimiento"></td>
                                     <td data-bind="text:FechaDeCancelacion"></td>
 
-                                    @*<td>
-                                        <input type="checkbox" data-bind="checked:EstadoDelCredito" disabled />
-                                    </td>*@
-
-
                                     <td style="white-space:nowrap">
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                        }
+                                        else
+                                        {
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                        }
                                     </td>
                                 </tr>
                             </tbody>

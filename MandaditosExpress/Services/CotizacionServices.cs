@@ -42,10 +42,19 @@ namespace MandaditosExpress.Services
                                            MontoDeDinero >= cb.MontoDesde &&
                                            MontoDeDinero <= cb.MontoHasta
                                            select cb);
+
+                    //se cobra un porcentaje o un valor directamente si asi se definio en el costo
                     var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
 
                     if (Porcentaje > 0 && MontoDeDinero > 0)
                         CostoTotal = MontoDeDinero * ((decimal)(Porcentaje / 100));
+                    else
+                    {
+                        var valor = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Valor : 0;
+
+                        if (valor > 0 && MontoDeDinero > 0)
+                            CostoTotal = valor;
+                    }
 
                     if (EsUrgente)
                         CostoTotal += (decimal)CostoGestion.PrecioDeRecargo;

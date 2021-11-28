@@ -66,7 +66,7 @@
             @if (User.IsInRole("Cliente") || User.IsInRole("Admin"))
             {
                 <!--Creditos Option-->
-                <li class="@Html.IsSelected(action: "Index")">
+                <li class="@Html.IsSelected(controller: "Creditos")">
                     <a href="@Url.Action("Index", "Creditos")"><i class="fa fa-credit-card"></i> <span class="nav-label" data-i18n="nav.dashboard">Créditos</span></a>
                 </li>
 

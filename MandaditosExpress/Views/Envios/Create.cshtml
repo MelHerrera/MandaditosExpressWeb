@@ -448,7 +448,7 @@
                         {
                             url: "@Url.Action("CostoDelEnvio", "Envios")",
                             type: "Get",
-                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
+                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero(), debeRegresar:data.DebeRegresarATienda() },
                             beforeSend: function () {
                                 //mostrar informacion de que se esta haciendo la peticion
                                 self.CargandoSolicitud(true);

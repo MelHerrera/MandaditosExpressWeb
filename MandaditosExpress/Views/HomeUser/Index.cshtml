@@ -66,7 +66,7 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title p-2">Actividad reciente <span>| Últimos envíos</span></h5>
+                <h5 class="card-title p-1">Actividad reciente <span>| Últimos envíos</span></h5>
 
                 <!--ko if: HomeUserData().EnviosHistorial().length > 0-->
                 <div class="activity" data-bind="template:{foreach:HomeUserData().EnviosHistorial}">
@@ -83,9 +83,11 @@
                 </div>
                 <!--/ko-->
                 <!--ko ifnot:HomeUserData().EnviosHistorial().length > 0-->
-                <img src="~/Images/Empty-pana.svg"/>
-                <div class="alert alert-warning alert-Empty" role="alert">
-                    Se encontraron 0 envíos para mostrar.
+                <div class="justify-content-center">
+                    <img src="~/Images/5.png" />
+                    <div class="alert alert-warning alert-Empty m-0" role="alert">
+                        Se encontraron 0 envíos para mostrar.
+                    </div>
                 </div>
                 <!--/ko-->
             </div>
@@ -128,6 +130,17 @@
             </div>
             <div class="flot-chart">
                 <div class="flot-chart-content" id="flot-chart4" style="padding: 0px; position: relative;"><canvas class="flot-base" width="362" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 289.8px; height: 100px;"></canvas><canvas class="flot-overlay" width="362" height="125" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 289.8px; height: 100px;"></canvas></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="widget bg-primary p-lg text-center">
+            <div class="m-b-md">
+                <i class="fa fa-credit-card fa-4x"></i>
+                <h1 class="m-xs" data-bind="text:HomeUserData().CreditosPendientes">0</h1>
+                <h3 class="font-bold no-margins">
+                    Crédito(s) Pendiente.
+                </h3>
             </div>
         </div>
     </div>
@@ -233,8 +246,8 @@
             });
 
             var data4 = [
-                { label: "Data 1", data: d1, color: '#f2786f' },
-                { label: "Data 2", data: d2, color: '#eb0f00' }
+                { label: "Data 1", data: d1, color: '#fad29b' },
+                { label: "Data 2", data: d2, color: '#f7a42f' }
             ];
 
             $.plot($("#flot-chart4"), data4, {

@@ -181,16 +181,6 @@ namespace MandaditosExpress.Controllers
             var TieneCredito = TieneCreditoCliente(EnvioViewModel.ClienteId);
 
             EnvioViewModel.TieneCredito = TieneCredito;
-            //if (!TieneCredito)
-            //{
-            //    //Buscar en los tipos de pagos si existe el Id del credito
-            //    var Credito = db.TiposDePago.FirstOrDefault(it => it.Descripcion.ToUpper().StartsWith("CRED") || it.Descripcion.ToUpper().StartsWith("CRÉD"));
-            //    var CreditoId = Credito != null ? Credito.Id : -1;
-
-            //    //excluir ese registro de los tipos de pagos
-            //    EnvioViewModel.TiposDePago = EnvioViewModel.TiposDePago.Where(it => it.Id != CreditoId).ToList();
-            //}
-
             return View(EnvioViewModel);
         }
 
@@ -333,6 +323,12 @@ namespace MandaditosExpress.Controllers
                         {
                             if (cotizacion.MontoTotal > 0)
                             {
+                                if (envio.DebeRegresarATienda)
+                                {
+                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
+                                    cotizacion.MontoTotal += (decimal)CostoA.PrecioDeRegreso;
+                                }
+                                 
                                 //datos que vienen por cotizacion
                                 mEnvio.CotizacionId = cotizacion.Id;
                                 mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
@@ -370,7 +366,11 @@ namespace MandaditosExpress.Controllers
 
                             if (MontoTotalDelEnvio > 0)
                             {
-
+                                if (envio.DebeRegresarATienda)
+                                {
+                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
+                                    MontoTotalDelEnvio += (decimal)CostoA.PrecioDeRegreso;
+                                }
 
                                 mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
                                 mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
@@ -572,15 +572,23 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpGet]
-        public JsonResult CostoDelEnvio(int TipoDeServicioId, DateTime Fecha, float Distancia, bool Urgente, decimal MontoGestion)
+        public JsonResult CostoDelEnvio(int TipoDeServicioId, DateTime Fecha, float Distancia, bool Urgente, decimal MontoGestion, bool debeRegresar = false)
         {
+            Fecha = DateTime.Now;
             var CostoAsociado = CostoServices.ValidarVigenciaCostos(TipoDeServicioId, Fecha, MontoGestion);
 
             if (CostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
                 return Json(new { message = "No se encontró ningun costo asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
 
-
             var MontoTotal = CotizacionServices.Cotizar(TipoDeServicioId, Fecha, MontoGestion, Distancia, Urgente);
+
+            if (debeRegresar)
+            {
+                System.Reflection.PropertyInfo propertyInfo = CostoAsociado.GetType().GetProperty("PrecioDeRegreso");
+                var PrecioDeRegreso = propertyInfo.GetValue(CostoAsociado,null);
+
+                MontoTotal += Convert.ToDecimal(PrecioDeRegreso.ToString());
+            } 
 
             if (MontoTotal > 0)
                 return Json(new { data = MontoTotal, exito = true }, JsonRequestBehavior.AllowGet);
@@ -590,8 +598,40 @@ namespace MandaditosExpress.Controllers
 
         public bool TieneCreditoCliente(int ClienteId)
         {
-            return db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == ClienteId && it.Pagos.Count <= 0 && it.EstadoDelCredito).Count() > 0;
+            var defaultCancelacionDate = DateTime.Parse("01/01/1900");
+            //creditos vigentes, activos, sin pagos y sin fecha de cancelacion
+            return db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == ClienteId && it.Pagos.Count <= 0 && it.EstadoDelCredito && it.FechaDeCancelacion==defaultCancelacionDate ).Count() > 0;
 
+        }
+       
+        public Costo GetCostoAsociado(int TipoDeServicioId, DateTime FechaDeLaCotizacion, decimal MontoDeDinero, float DistanciaOrigenDestino)
+        {
+            var CostoAsociado = new object();
+
+            //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
+            CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => x.TipoDeServicioId == TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > FechaDeLaCotizacion);
+
+            if (CostoAsociado != null && MontoDeDinero <= 0 && DistanciaOrigenDestino > 0)
+                return CostoAsociado as Costo;
+            else
+            {
+                CostoAsociado = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == TipoDeServicioId && x.Estado && x.FechaDeFin > FechaDeLaCotizacion));
+
+                if (CostoAsociado != null)
+                {
+                    var CostoPorcentaje = (from cb in db.CostoGestionBancaria
+                                           where cb.TipoDeServicioId == TipoDeServicioId &&
+                                           cb.Estado && cb.FechaDeInicio < FechaDeLaCotizacion &&
+                                           cb.FechaDeFin > FechaDeLaCotizacion &&
+                                           MontoDeDinero >= cb.MontoDesde &&
+                                           MontoDeDinero <= cb.MontoHasta
+                                           select cb);
+
+                    CostoAsociado = CostoPorcentaje.First();
+                }
+            };
+
+            return CostoAsociado as Costo;
         }
         protected override void Dispose(bool disposing)
         {

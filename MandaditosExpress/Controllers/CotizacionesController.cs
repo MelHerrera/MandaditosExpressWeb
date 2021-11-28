@@ -156,10 +156,19 @@ namespace MandaditosExpress.Controllers
                                                        cotizacion.MontoDeDinero >= cb.MontoDesde &&
                                                        cotizacion.MontoDeDinero <= cb.MontoHasta
                                                        select cb);
+
+                                //se cobra un porcentaje o un valor directamente si asi se definio en el costo
                                 var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
 
                                 if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
                                     CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
+                                else
+                                {
+                                   var valor = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Valor : 0;
+
+                                    if (valor > 0 && cotizacion.MontoDeDinero > 0)
+                                        CostoTotal = valor;
+                                }
 
                                 if (cotizacion.EsEspecial)
                                     CostoTotal += (decimal)(CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().PrecioDeRecargo : 0.0f);
@@ -228,6 +237,8 @@ namespace MandaditosExpress.Controllers
                         return RedirectToAction("Index");
                     }
                 }
+                else
+                    ModelState.AddModelError("", "No se puede guardar una cotización como Administrador");
             }
             else
             {

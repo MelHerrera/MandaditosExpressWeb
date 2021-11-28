@@ -1,7 +1,7 @@
 ﻿function PagoViewModel(pago) {
     const self = this;
 
-    self.Id = ko.observable(pago.);
+    self.Id = ko.observable(pago.Id);
     self.NumeroDePago = ko.observable(pago.NumeroDePago);
     self.FechaDePago = ko.observable(pago.FechaDePago);
     self.MontoDelPago = ko.observable(pago.MontoDelPago);
