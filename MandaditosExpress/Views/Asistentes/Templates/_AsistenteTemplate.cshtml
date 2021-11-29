@@ -1,0 +1,98 @@
+﻿<template id="asistente-modal-template">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaIngreso" class="control-label">Fecha Ingreso</label>
+                <input type="datetime-local" data-bind="value:FechaIngreso, disable: $root.Disable, disable: $root.DisableEver " name="FechaIngreso" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="Estado" class="control-label">Estado De Asistente</label>
+                <input type="checkbox" data-bind="checked: EstadoDeAsistente,bsSwitchButton: {}, disable: $root.Disable" name="EstadoDeAsistente" id="switch-EstadoDeAsistente">
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="FechaDeBaja" class="control-label">Fecha De Baja</label>
+                <input type="datetime-local" data-bind="value:FechaDeBaja, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeBaja" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Descripcion" class="control-label">CorreoElectronico</label>
+                <input type="text" data-bind="value:CorreoElectronico" name="CorreoElectronico" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="NombreCompleto" class="control-label">Nombre Completo</label>
+                <input type="text" data-bind="value:NombreCompleto" name="NombreCompleto" class="form-control" />
+            </div>
+        </div>
+
+        @*<div class="col-md-6">
+                <div class="form-group">
+                    <label for="SegundoNombre" class="control-label">Segundo Nombre</label>
+                    <input type="text" data-bind="value:SegundoNombre" name="SegundoNombre" class="form-control" />
+                </div>
+            </div>*@
+    </div>
+    <div class="row">
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label for="PrimerApellido" class="control-label">Primer Apellido</label>
+                <input type="text" data-bind="value:PrimerApellido" name="PrimerApellido" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="SegundoApellido" class="control-label">Segundo Apellido</label>
+                    <input type="text" data-bind="value:SegundoApellido" name="SegundoApellido" class="form-control" />
+                </div>*@
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Telefono" class="control-label">Telefono</label>
+                <input type="number" data-bind="value:Telefono" name="Telefono" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Foto" class="control-label">Foto</label>
+                <input type="image" data-bind="value:Foto" name="Foto" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Telefono" class="control-label">Sexo</label>
+                <input type="text" data-bind="value:Sexo" name="Sexo" class="form-control" />
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Direccion" class="control-label">Direccion</label>
+                <input type="text" data-bind="value:Direccion" name="Direccion" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Cedula" class="control-label">Cedula</label>
+                <input type="text" data-bind="value:" name="Cedula" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+</template>

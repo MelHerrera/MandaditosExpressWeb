@@ -93,6 +93,13 @@ namespace MandaditosExpress
                     AdmUsuarios.AddToRole(usuario.Id, "Motorizado");
                 }
             }
+            if (!AdmRoles.RoleExists("Asistente"))
+            {
+                Rol = new IdentityRole();
+                Rol.Name = "Asistente";
+                AdmRoles.Create(Rol);
+            }
         }
+
     }
 }

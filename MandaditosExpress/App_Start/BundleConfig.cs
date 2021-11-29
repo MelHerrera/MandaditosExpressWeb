@@ -170,6 +170,14 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/ViewModel/Creditos/CreditoViewModel.js",
                         "~/Scripts/knockout/ViewModel/Creditos/IndexCredito.js"));
 
+
+            //IndexAsistentes
+            bundles.Add(new ScriptBundle("~/bundles/IndexAsistentes").Include(
+                        "~/Scripts/knockout/Componentes/ModalComponent.js",
+                        "~/Scripts/knockout/extensions/CustomBindins.js",
+                        "~/Scripts/knockout/ViewModel/Asistente/AsistenteViewModel.js",
+                        "~/Scripts/knockout/ViewModel/Asistente/IndexAsistente.js"));
+
             //Styles
             //datapicker
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(

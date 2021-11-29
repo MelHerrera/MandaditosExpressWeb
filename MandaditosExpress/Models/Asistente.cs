@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MandaditosExpress.Models
 {
     [Table("Asistentes")]
-    public class Asistente:Persona
+    public class Asistente : Persona
     {
 
         public Asistente()
@@ -13,7 +13,6 @@ namespace MandaditosExpress.Models
             this.Envios = new HashSet<Envio>();
         }
 
-        public DateTime FechaIngresoDeAsistente { get; set; }
         public bool EstadoDeAsistente { get; set; }
         public DateTime FechaDeBaja { get; set; }
 
