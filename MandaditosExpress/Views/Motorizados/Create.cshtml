@@ -17,40 +17,14 @@
             padding: 10px 0px 10px 0px;
         }
 
-        .register {
-            width: 1100px;
-            background: #fff;
-            margin: 0 auto;
-            box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -moz-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -webkit-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -o-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -ms-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            border-radius: 20px;
-            -moz-border-radius: 20px;
-            -webkit-border-radius: 20px;
-            -o-border-radius: 20px;
-            -ms-border-radius: 20px
+        .signup {
+            margin-bottom: 40px;
         }
     </style>
 }
 else
 {
     <style>
-
-        .landing-page .navbar-default .nav li a {
-            color: #000;
-            font-family: 'Open Sans', helvetica, arial, sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .landing-page .navbar-fixed-top {
-            border-bottom: 1px solid #e7eaec !important;
-            background-color: #ffffff;
-        }
-
         h2 {
             font-size: 24px;
             font-weight: 100;
@@ -92,24 +66,24 @@ else
             <div class="register">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">Queremos Conocerte!!! Haznos Saber un poco sobre tí</h2>
+                        <h2 class="form-title text-center">Queremos Conocerte!!! Haznos Saber un poco sobre tí</h2>
                         @using (Html.BeginForm("Create", "Motorizados", FormMethod.Post, new { @class = "register-form", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <div class="text-center">
+                            <div class="text-center" style="text-align-last:center;">
                                 <img src="~/Images/default_profile.png" class="avatar img-circle img-thumbnail rounded-circle" alt="avatar" height="100" width="100" style="height:100px">
                                 <h6 class="mt-1" style="font-size:75%">Sube tu Foto de Perfil Aquí...</h6>
-                                <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
-                            </div><br>
+                                <input type="file" accept="image/*" class="file-upload" name="file_foto" style="border-bottom:none;">
+                            </div>
+                            <br>
 
                             <div class=" row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
-                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" value="@Model.CorreoElectronico" />
-                                        @*@Html.TextBoxFor(m=>m.CorreoElectronico, new {@class=" ",@placeholder= "Correo Electronico"})*@
+                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico*" value="@Model.CorreoElectronico" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
                                 </div>
@@ -119,7 +93,7 @@ else
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="PrimerNombre"> <i class="fa fa-user" aria-hidden="true"></i></label>
-                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre" value="@Model.PrimerNombre" />
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" value="@Model.PrimerNombre" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                 </div>
@@ -136,14 +110,14 @@ else
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="PrimerApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido" value="@Model.PrimerApellido" />
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" value="@Model.PrimerApellido" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="SegundoApellido"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido" value="@Model.SegundoApellido" />
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" value="@Model.SegundoApellido" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
                                 </div>
@@ -161,7 +135,7 @@ else
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Telefono"><i class="fa fa-phone"></i></label>
-                                        <input type="text" name="Telefono" placeholder="Celular" value="@Model.Telefono" />
+                                        <input type="text" name="Telefono" placeholder="Celular*" value="@Model.Telefono" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                                 </div>
@@ -184,82 +158,70 @@ else
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                        <input type="text" name="Direccion" placeholder="Dirección" value="@Model.Direccion" />
+                                        <input type="text" name="Direccion" placeholder="Dirección*" value="@Model.Direccion" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                            <br />
                             <div class=" row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="Placa"> <i class="fa fa-motorcycle" aria-hidden="true"></i></label>
-                                        <input type="text" name="Placa" placeholder="# de Placa" value="@Model.Placa" />
+                                        <input type="text" name="Placa" placeholder="# de Placa*" value="@Model.Placa" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
                                 </div>
 
-                                <div class="col-sm-5">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="Modelo"><i class="fa fa-ticket"></i></label>
-                                        <input type="text" name="Modelo" placeholder="Modelo" value="@Model.Modelo" />
+                                        <input type="text" name="Modelo" placeholder="Modelo*" value="@Model.Modelo" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
+                                        <input type="number" name="Kilometraje" placeholder="Kilometraje*" @*value="@Model.Kilometraje"*@ />
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="Anio"><i class="fa fa-calendar"></i></label>
-                                        <input type="number" name="Anio" placeholder="Año" @*value="@Model.Anio"*@ />
+                                        <input type="number" name="Anio" placeholder="Año de la moto*" @*value="@Model.Anio"*@ />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
                                 </div>
-                            </div><br />
+                            </div>
+                            <br />
                             <div class="row">
 
                                 @if (!User.IsInRole("Admin"))
                                 {
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.DisponibilidadId, htmlAttributes: new { @class = "control-label label-agree-term" })
-                                            @Html.DropDownList("DisponibilidadId", null, htmlAttributes: new { @class = "form-control", @style = "display:inline-block;width:auto;" })
+                                            @Html.DropDownList("DisponibilidadId", null, htmlAttributes: new { @class = "form-control form-control-sm", @style = "display:inline-block;width:auto;" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.DisponibilidadId, "", new { @class = "text-danger" })
                                     </div>
-                                }
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Kilometraje"><i class="fa fa-motorcycle"></i></label>
-                                        <input type="number" name="Kilometraje" placeholder="Kilometraje" @*value="@Model.Kilometraje"*@ />
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <br />
-
-                            if (!User.IsInRole("Admin"))
-                            {
-                                <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.VelocidadDeConexionId, htmlAttributes: new { @class = "control-label label-agree-term" })
-                                            @Html.DropDownList("VelocidadDeConexionId", null, htmlAttributes: new { @class = "form-control col-md-12", @style = "display:inline-block;width:auto;" })
+                                            @Html.DropDownList("VelocidadDeConexionId", null, htmlAttributes: new { @class = "form-control col-md-12 form-control-sm", @style = "display:inline-block;width:auto;" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.VelocidadDeConexionId, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                            }
-
-                            <br />
-
-                            <div class=" row">
-                                <div class="col-md-3">
+                                }
+                                <div class="col-md-2">
                                     <label class="label-esEmpresa">¿Es Propia?</label>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="EsPropia" class="label-agree-term">Si</label>
                                         <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked />
@@ -268,56 +230,9 @@ else
                                         <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
                                     </div>
                                 </div>
-
-                                <div class="col-md-1" style="margin-right:10px; top:5px;">
-                                    <label class="label-radio-sexo text-center align-middle"><strong>Color:</strong></label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" style="border:1px solid #999" />
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
-                                </div>
                             </div>
 
                             <br />
-
-                            <div class=" row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="EsAfiliado" class="label-esEmpresa">¿Es Afiliado?</label>
-                                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                                        {
-                                            <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" checked hidden />
-                                            <input type="checkbox" name="EsAfiliado" class="chkAfiliado" style="display:inline-block; width:auto;" value="true" checked disabled />
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class=" row mt-2">
-                                <div class="col-md-8">
-                                    <div class="form-group EstadoDeAfiliado">
-                                        <label for="EstadoDeAfiliado" class="control-label label-agree-term">Estado de Afiliación</label>
-                                        <select class="form-control" name="EstadoDeAfiliado" style="display:inline-block;" value="@Model.EstadoDeAfiliado">
-                                            @if (ViewBag.EstadoDeAfiliado != null)
-                                            {
-                                                foreach (var option in ViewBag.EstadoDeAfiliado)
-                                                {
-                                                    var OptionToShort = (short)option;
-
-                                                    <option value="@OptionToShort">@option</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
@@ -334,14 +249,6 @@ else
                             </div>
 
 
-                        }
-                    </div>
-
-                    <div class="signup-image">
-                        <figure class="align-content-center"><img src="~/Images/moto.png" alt="singup-image"></figure>
-                        @if (!Request.IsAuthenticated)
-                        {
-                            <a href="@Url.Action("Login","Account")" class="signup-image-link" style="text-decoration:underline;">Ya Soy Miembro</a>
                         }
                     </div>
                 </div>
@@ -362,7 +269,26 @@ else
     {
         if (ViewBag.Exito = true)
         {
-            <script type="text/javascript">
+            if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <script type="text/javascript">
+            $(function () {
+                swal.fire({
+                    title: 'Exito!',
+                    text: 'Se ha enviado con exito su solicitud de Afiliación. Te contactaremos para darte respuesta!',
+                    type: 'success',
+                    icon:'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = "@Url.Action("Index", "HomeUser")";
+                });
+
+            });
+                </script>
+            }
+            else
+            {
+                <script type="text/javascript">
             $(function () {
                 swal.fire({
                     title: 'Exito!',
@@ -375,7 +301,8 @@ else
                 });
 
             });
-            </script>
+                </script>
+            }
         }
     }
 

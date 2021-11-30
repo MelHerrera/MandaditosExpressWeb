@@ -44,10 +44,17 @@ namespace MandaditosExpress.Controllers
         public ActionResult Create()
         {
             var MotorizadoVM = new MotorizadoViewModel();
+            var Disponibilidades = db.Disponibilidad.ToList();
+            var Calidades = db.VelocidadDeConexion.ToList();
 
-            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
-            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion");
-            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion");
+            if (Disponibilidades.Count <= 0)
+            Disponibilidades.Insert(0, new Disponibilidad() {Id=-1, Descripcion ="--Sin Registros--" });
+
+            if (Calidades.Count <= 0)
+                Calidades.Insert(0, new CalidadDeConexion() { Id = -1, Descripcion = "--Sin Registros--" });
+
+            ViewBag.DisponibilidadId = new SelectList(Disponibilidades,"Id", "Descripcion");
+            ViewBag.VelocidadDeConexionId = new SelectList(Calidades, "Id", "Descripcion");
 
             return View(MotorizadoVM);
         }
@@ -60,9 +67,17 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(MotorizadoViewModel motorizado)
         {
-            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
-            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion", motorizado.DisponibilidadId);
-            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
+            var Disponibilidades = db.Disponibilidad.ToList();
+            var Calidades = db.VelocidadDeConexion.ToList();
+
+            if (Disponibilidades.Count <= 0)
+                Disponibilidades.Insert(0, new Disponibilidad() { Id = -1, Descripcion = "--Sin Registros--" });
+
+            if (Calidades.Count <= 0)
+                Calidades.Insert(0, new CalidadDeConexion() { Id = -1, Descripcion = "--Sin Registros--" });
+
+            ViewBag.DisponibilidadId = new SelectList(Disponibilidades, "Id", "Descripcion", motorizado.DisponibilidadId);
+            ViewBag.VelocidadDeConexionId = new SelectList(Calidades, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
 
 
             if (ModelState.IsValid && motorizado.DisponibilidadId > 0 && motorizado.VelocidadDeConexionId > 0)
@@ -80,8 +95,8 @@ namespace MandaditosExpress.Controllers
                     Direccion = motorizado.Direccion,
                     Cedula = motorizado.Cedula,
                     FechaIngreso = DateTime.Now,
-                    EsAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? motorizado.EsAfiliado : true,
-                    EstadoDeAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? motorizado.EstadoDeAfiliado : ((short)EstadoDeAfiliadoEnum.Solicitud),
+                    EsAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? false : true,
+                    EstadoDeAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? (short) EstadoDeAfiliadoEnum.NoAplica : ((short)EstadoDeAfiliadoEnum.Solicitud),
                     VelocidadDeConexionId = motorizado.VelocidadDeConexionId,
                     DisponibilidadId = motorizado.DisponibilidadId,
                     FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
@@ -125,10 +140,6 @@ namespace MandaditosExpress.Controllers
             }
             else
                 ModelState.AddModelError("", new Exception("Lo sentimos, ocurrio un error procesando su solicitud"));
-
-            ViewBag.EstadoDeAfiliado = ListarEstadoAfiliacion();
-            ViewBag.DisponibilidadId = new SelectList(db.Disponibilidad, "Id", "Descripcion", motorizado.DisponibilidadId);
-            ViewBag.VelocidadDeConexionId = new SelectList(db.VelocidadDeConexion, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
 
             return View(motorizado);
         }
