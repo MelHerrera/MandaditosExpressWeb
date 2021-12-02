@@ -4,16 +4,29 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class PersonasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private ApplicationDbContext SecurityDB;
+        private ApplicationUserManager UserManager;
+
+        public PersonasController()
+        {
+            SecurityDB = new ApplicationDbContext();
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        }
 
         // GET: Personas
         public ActionResult Index()
@@ -114,6 +127,63 @@ namespace MandaditosExpress.Controllers
             db.Personas.Remove(persona);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult CambiarContrasenia()
+        {
+            var Usuarios = SecurityDB.Users.ToList();
+
+            var Personas = from usuarios in Usuarios
+                           join personas in db.Personas on usuarios.Email equals personas.CorreoElectronico
+                           select new UsuarioViewModel
+                           {
+                               Id = personas.Id,
+                               CorreoElectronico = personas.CorreoElectronico,
+                               EmailConfirmed = usuarios.EmailConfirmed,
+                               Telefono = personas.Telefono,
+                               Foto = personas.Foto,
+                               Nombres = personas.PrimerNombre + " " + personas.PrimerApellido + " " + personas.SegundoApellido,
+                               EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
+                               EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
+                           };
+
+            ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CambiarContrasenia(int PersonaId, string NPassword)
+        {
+            var Persona = db.Personas.Find(PersonaId);
+
+            if(Persona != null)
+            {
+                var User = SecurityDB.Users.FirstOrDefault(it=> it.Email == Persona.CorreoElectronico);
+
+                if (User !=null)
+                {
+                    var code = await UserManager.GeneratePasswordResetTokenAsync(User.Id);
+
+                    var result = await UserManager.ResetPasswordAsync(User.Id, code, NPassword);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("CambiarContrasenia", "Personas");
+                    }
+                    AddErrors(result);
+                }
+            }
+
+            return View();
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
 
         protected override void Dispose(bool disposing)

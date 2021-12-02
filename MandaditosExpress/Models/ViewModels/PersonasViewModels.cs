@@ -251,4 +251,31 @@ namespace MandaditosExpress.Models.ViewModels
         [NotMapped]
         public string Nombres { get; set; }
     }
+
+    public class UsuarioViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        public byte[] Foto { get; set; }
+
+        [Required]
+        [StringLength(8)]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+
+        public string EmailConfirmedClass { get; set; }
+
+        public string EmailConfirmedDescripcion { get; set; }
+
+        [NotMapped]
+        public string Nombres { get; set; }
+    }
 }

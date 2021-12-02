@@ -152,6 +152,9 @@
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Personas")">Personas</a>
                         </li>
+                        <li class="@Html.IsSelected(controller: "Personas")">
+                            <a href="@Url.Action("CambiarContrasenia", "Personas")">Cambiar Contraseña</a>
+                        </li>
                     </ul>
                 </li>
             }
