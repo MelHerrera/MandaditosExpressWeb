@@ -72,33 +72,32 @@ ko.bindingHandlers.toggleValue = {
         $(i).css("float", "right");
         $(i).css("margin-top", "-25px");
         $(i).css("margin-right", "10px");
+        $(i).addClass("fa fa-eye");
 
-        //agregar el icono correspondiente
-        var mostrado = ko.unwrap(valueAccessor()) || false;
+        //valor del observable
+        var toggleObservable = valueAccessor() || false;
 
-        if (mostrado)
-            $(i).addClass("fa fa-eye-slash");
-        else
-            $(i).addClass("fa fa-eye");
-
-        $(element).after(i);
-    },
-    update: function (element, valueAccessor) {
-
-        var mostrado = ko.unwrap(valueAccessor()) || false;
-        var iconNode = element.nextSibling;
-
-        ko.utils.registerEventHandler(iconNode, "click", function (event) {
+        //add event lister for click event for each click in icon toggle.
+        ko.utils.registerEventHandler(i, "click", function (event) {
             //mostrar u ocultar el valor del input finalmente
-            console.log(ko.unwrap(valueAccessor()));
 
-            if (mostrado)
+            toggleObservable(!toggleObservable());
+
+            if (toggleObservable()) {
                 element.type = "text";
-            else
+                $(i).addClass("fa-eye-slash");
+                $(i).removeClass("fa-eye");
+            }
+            else {
                 element.type = "password";
+                $(i).removeClass("fa-eye-slash");
+                $(i).addClass("fa-eye");
+            }
 
             //cambiar el valor del observable
-            return valueAccessor(!mostrado);
+            return toggleObservable();
         });
+
+        $(element).after(i);
     }
 };

@@ -117,13 +117,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Password" class="control-label font-weight-bold">Contraseña</label>
-                <input type="password" id="field-pass" data-bind="value:$root.Password, toggleValue:$root.Toggle" name="Password" class="form-control" />
+                <input type="password" id="field-pass" data-bind="value:$root.Password, toggleValue:$root.TogglePassword" name="Password" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="ConfirmPassword" class="control-label font-weight-bold">Confirmar Contraseña</label>
-                <input type="password" data-bind="value:$root.ConfirmPassword" name="ConfirmPassword" class="form-control" />
+                <input type="password" data-bind="value:$root.ConfirmPassword, toggleValue:$root.ToggleConfirmPassword" name="ConfirmPassword" class="form-control" />
             </div>
         </div>
     </div>
@@ -157,7 +157,8 @@
             self.Password = ko.observable('');
             self.ConfirmPassword = ko.observable('');
             self.ModalViewModel = ko.observable(new ModalViewModel({}));
-            self.Toggle = ko.observable(false);
+            self.TogglePassword = ko.observable(false);
+            self.ToggleConfirmPassword = ko.observable(false);
 
             self.ShowModal = function (usuario, event) {
                 self.PersonaSelected(usuario);
