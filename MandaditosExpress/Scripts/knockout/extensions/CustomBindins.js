@@ -62,3 +62,43 @@ ko.bindingHandlers.expandText = {
         ko.utils.setTextContent(textElement, collapsed ? text.substr(0, 80) : text);
     }
 };
+
+//put toggle icon to show/hide input type text
+ko.bindingHandlers.toggleValue = {
+    init: function (element, valueAccessor) {
+
+        //crear un icono para el input element
+        var i = document.createElement('i');
+        $(i).css("float", "right");
+        $(i).css("margin-top", "-25px");
+        $(i).css("margin-right", "10px");
+
+        //agregar el icono correspondiente
+        var mostrado = ko.unwrap(valueAccessor()) || false;
+
+        if (mostrado)
+            $(i).addClass("fa fa-eye-slash");
+        else
+            $(i).addClass("fa fa-eye");
+
+        $(element).after(i);
+    },
+    update: function (element, valueAccessor) {
+
+        var mostrado = ko.unwrap(valueAccessor()) || false;
+        var iconNode = element.nextSibling;
+
+        ko.utils.registerEventHandler(iconNode, "click", function (event) {
+            //mostrar u ocultar el valor del input finalmente
+            console.log(ko.unwrap(valueAccessor()));
+
+            if (mostrado)
+                element.type = "text";
+            else
+                element.type = "password";
+
+            //cambiar el valor del observable
+            return valueAccessor(!mostrado);
+        });
+    }
+};

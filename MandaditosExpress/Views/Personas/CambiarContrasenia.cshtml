@@ -4,6 +4,12 @@
     @Html.Hidden("Personas");
 }
 
+<style>
+    .swal2-container {
+        z-index: 2051
+    }
+</style>
+
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
         <div class="col-sm-12 ">
@@ -76,37 +82,68 @@
                                                     </td>
 
                                                     <td>
-                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click: $root.Reset">
+                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click: $root.ShowModal, attr:{ href:'@Url.Action("/CambiarContrasenia")'}">
                                                             <i class="fa fa-key"></i>
                                                         </button>
                                                     </td>
 
                                                 </tr>
-                                    </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:ko.unwrap(Personas()).length <= 0-->
+                                    <div class="alert alert-warning alert-Empty" role="alert">
+                                        Se encontraron 0 usuarios <a href="@Url.Action("Create","Motorizados")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                                    </div>
+                                    <!--/ko-->
                                 </div>
-                                <!--/ko-->
-                                <!--ko if:ko.unwrap(Personas()).length <= 0-->
-                                <div class="alert alert-warning alert-Empty" role="alert">
-                                    Se encontraron 0 usuarios <a href="@Url.Action("Create","Motorizados")" class="alert-link">Click aqui</a>. Para Agregar uno.
-                                </div>
-                                <!--/ko-->
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
+<template id="template-reset-passsword">
+    <div class="row justify-content-center">
+        <h3 class="font-weight-bold" data-bind="text:$root.PersonaSelected().Nombres()">Melkin Antonio Herrera Mendoza</h3>
+    </div>
+    <hr class="mb-4 mt-0" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Password" class="control-label font-weight-bold">Contraseña</label>
+                <input type="password" id="field-pass" data-bind="value:$root.Password, toggleValue:$root.Toggle" name="Password" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="ConfirmPassword" class="control-label font-weight-bold">Confirmar Contraseña</label>
+                <input type="password" data-bind="value:$root.ConfirmPassword" name="ConfirmPassword" class="form-control" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
 
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/knockout")
     <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/knockout/Componentes/ModalComponent.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
+    <script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
 
     <script type="text/javascript">
 
@@ -115,8 +152,71 @@
             data = data || {};
 
             self.Personas = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
-            self.Reset = function (data, event) {
-                console.log(data);
+            self.PersonaSelected = ko.observable();
+            self.PersonaSelected = ko.observable(-1);
+            self.Password = ko.observable('');
+            self.ConfirmPassword = ko.observable('');
+            self.ModalViewModel = ko.observable(new ModalViewModel({}));
+            self.Toggle = ko.observable(false);
+
+            self.ShowModal = function (usuario, event) {
+                self.PersonaSelected(usuario);
+                self.Password('');
+                self.ConfirmPassword('');
+
+                self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Cambio de la contraseña del usuario.").ModalHeaderClass("bg-primary");
+                self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-reset-passsword", Data: "" });
+                self.ModalViewModel().FooterViewModel().ActionName("Cambiar").UrlAction($(event.currentTarget).attr("href"));
+
+                self.ModalViewModel().ShowModal();
+            };
+            self.GuardarCambios = function (data, event) {
+
+                if (self.Password().length >= 6 && self.ConfirmPassword().length >= 6) {
+                    if (self.Password() == self.ConfirmPassword()) {
+                        $.ajax({
+                            url: ko.toJS(data).UrlAction,
+                            type: "Post",
+                            data: { PersonaId: self.PersonaSelected().Id(), NPassword: self.Password() },
+                            success: function (res) {
+                                if (res.exito) {
+                                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
+
+                                    $.notify({
+                                        element: 'modal',
+                                        icon: 'fa fa-check-circle',
+                                        message: res.message,
+                                    });
+                                    setTimeout(function () { location.reload(); }, 2000);
+                                }
+                                else {
+                                    $.notify({
+                                        icon: 'fa fa-exclamation-circle',
+                                        message: res.message
+                                    });
+                                }
+                            },
+                            error: function (e) {
+                                $.notify({
+                                    icon: 'fa fa-exclamation-circle',
+                                    message: "Ha sucedido un error procesando tu solicitud"
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: "La contraseña y contraseña de confirmaciòn no coinciden"
+                        })
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: "La contraseña debe tener al menos 6 caracteres",
+                    })
+                }
             }
         }
 

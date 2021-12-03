@@ -25,7 +25,6 @@ namespace MandaditosExpress.Controllers
         public PersonasController()
         {
             SecurityDB = new ApplicationDbContext();
-            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 
         // GET: Personas
@@ -153,11 +152,12 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CambiarContrasenia(int PersonaId, string NPassword)
+        public async Task<JsonResult> CambiarContrasenia(int PersonaId, string NPassword)
         {
             var Persona = db.Personas.Find(PersonaId);
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-            if(Persona != null)
+            if (Persona != null)
             {
                 var User = SecurityDB.Users.FirstOrDefault(it=> it.Email == Persona.CorreoElectronico);
 
@@ -168,14 +168,11 @@ namespace MandaditosExpress.Controllers
                     var result = await UserManager.ResetPasswordAsync(User.Id, code, NPassword);
 
                     if (result.Succeeded)
-                    {
-                        return RedirectToAction("CambiarContrasenia", "Personas");
-                    }
-                    AddErrors(result);
+                        return Json(new { exito=true, message= "Se actualizó la contraseña del usuario correctamente" }, JsonRequestBehavior.AllowGet);
                 }
             }
 
-            return View();
+            return Json(new { exito = false, message = "Lo sentimos, ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
         }
 
         private void AddErrors(IdentityResult result)
