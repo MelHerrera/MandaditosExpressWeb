@@ -166,17 +166,18 @@ namespace MandaditosExpress.Controllers
                     var code = await UserManager.GeneratePasswordResetTokenAsync(User.Id);
 
                     var result = await UserManager.ResetPasswordAsync(User.Id, code, NPassword);
-                    var e = string.Join(" | ", result.Errors.ToList());
 
                     if (result.Succeeded)
+                    {
                         return Json(new { exito = true, message = "Se actualizó la contraseña del usuario correctamente" }, JsonRequestBehavior.AllowGet);
+                    }
                     else
-                        return Json(new { exito = false, message = e }, JsonRequestBehavior.AllowGet);
+                        return Json(new { exito = false, message = string.Join(" | ", result.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
                 }
             }
 
             return Json(new { exito = false, message = "Lo sentimos, ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
-        }
+         }
 
         private void AddErrors(IdentityResult result)
         {

@@ -35,6 +35,10 @@ function ModalViewModel(params) {
         let modal = document.getElementById(ko.unwrap(self.ModalId));
         $(modal).modal('show');
     };
+    self.HideModal = function () {
+        let modal = document.getElementById(ko.unwrap(self.ModalId));
+        $(modal).modal('hide');
+    };
 };
 
 ko.components.register('modal-header', {

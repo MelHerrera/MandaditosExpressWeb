@@ -20,24 +20,24 @@
                     <p>
                         Lista de todos los usuarios registrados en el sistema
                     </p>
-                    @*<div class="input-group">
-                            <input type="text" placeholder="Buscar Motorizado " class="input form-control" data-bind="value:$root.TextInputBusqueda">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarMotorizados">
-                                    <i class="fa fa-search"></i> Buscar
-                                    <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoMotorizados"></i>
-                                </button>
-                            </span>
-                        </div>*@
+
+                    <div class="row">
+                        <div class="col-sm-6 float-right">
+                            <div class="input-group">
+                                <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarPersonas">
+                                        <i class="fa fa-search"></i> Buscar
+                                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoPersonas"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clients-list small">
                         <ul class="nav nav-tabs">
-                            <span class="pull-right small text-muted" data-bind="text:( ko.unwrap(Personas()).length )">0 </span>
-                            <span class="pull-right small text-muted ml-2"> Usuario(s)</span>
-                            <span class="ml-lg-3 small text-muted" _data-bind="visible: $root.CargandoSolicitud">
-                                Asignando...
-                                <i class="fa fa-spinner fa-pulse"></i>
-                            </span>
-
+                            <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Personas()).length )">0 </span>
+                            <span class="pull-right text-muted ml-2"> Usuario(s)</span>
                         </ul>
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
@@ -93,8 +93,11 @@
                                     </div>
                                     <!--/ko-->
                                     <!--ko if:ko.unwrap(Personas()).length <= 0-->
-                                    <div class="alert alert-warning alert-Empty" role="alert">
-                                        Se encontraron 0 usuarios <a href="@Url.Action("Create","Motorizados")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                                    <div class="justify-content-center" style="text-align:center;">
+                                        <img src="~/Images/5.png" />
+                                        <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                            Se encontraron 0 usuarios para mostrar.
+                                        </div>
                                     </div>
                                     <!--/ko-->
                                 </div>
@@ -160,21 +163,29 @@
             data = data || {};
 
             self.Personas = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
+            self.AllPersonas = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
             self.PersonaSelected = ko.observable();
             self.PersonaSelected = ko.observable(-1);
             self.Password = ko.observable('');
             self.ConfirmPassword = ko.observable('');
-            self.ModalViewModel = ko.observable(new ModalViewModel({}));
+            self.TextInputBusqueda = ko.observable('');
+            self.ModalViewModel = ko.observable(new ModalViewModel({
+                ModalId: '#resetpassword-modal',
+                ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),
+                ModalBodyViewModel: new ModalBodyViewModel(new TemplateViewModel({ Name: "template-reset-passsword", Data: "" })),
+                FooterViewModel: new FooterModalViewModel({ ActionName: "Initial", UrlAction: "/Index" })
+            }));
             self.TogglePassword = ko.observable(false);
             self.ToggleConfirmPassword = ko.observable(false);
             self.error = ko.observable('');
+            self.FiltrandoPersonas = ko.observable(false);
 
             self.ShowModal = function (usuario, event) {
                 self.PersonaSelected(usuario);
                 self.Password('');
                 self.ConfirmPassword('');
 
-                self.ModalViewModel().ModalId("#reset-password").ModalHeaderViewModel().ModalTitle("Cambio de la contraseña del usuario.").ModalHeaderClass("bg-primary");
+                self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Cambio de la contraseña del usuario.").ModalHeaderClass("bg-primary");
                 self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-reset-passsword", Data: "" });
                 self.ModalViewModel().FooterViewModel().ActionName("Cambiar").UrlAction($(event.currentTarget).attr("href"));
 
@@ -190,13 +201,14 @@
                             data: { PersonaId: self.PersonaSelected().Id(), NPassword: self.Password() },
                             success: function (res) {
                                 if (res.exito) {
-                                    $(ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
+                                    /*$(ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');*/
+                                    self.ModalViewModel().HideModal();
                                     $.notify({
                                         element: 'body',
                                         icon: 'fa fa-check-circle',
                                         message: res.message,
                                     });
-                                    setTimeout(function () { location.reload(); }, 2000);
+                                    setTimeout(function () { location.reload(); }, 3000);
                                 }
                                 else {
                                     self.error(res.message);
@@ -227,6 +239,24 @@
                     })
                 }
             }
+            self.FiltrarPersonas = function () {
+                self.FiltrandoPersonas(true);//mostrar progress de filtrando
+
+                if (self.TextInputBusqueda()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.AllPersonas(), function (it) {
+                        if (it.CorreoElectronico().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
+                            it.Nombres().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ) {
+                            return it;
+                        }
+                    });
+                    self.Personas(arrayFiltered);
+                } else {
+                    self.Personas(self.AllPersonas());
+                }
+
+                self.FiltrandoPersonas(false);//ocultar progress
+            }
+
         }
 
         $(function () {
