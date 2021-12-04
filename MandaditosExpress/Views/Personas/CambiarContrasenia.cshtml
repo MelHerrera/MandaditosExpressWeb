@@ -112,8 +112,16 @@
     <div class="row justify-content-center">
         <h3 class="font-weight-bold" data-bind="text:$root.PersonaSelected().Nombres()">Melkin Antonio Herrera Mendoza</h3>
     </div>
-    <hr class="mb-4 mt-0" />
-    <div class="row">
+    <hr class="mt-0" />
+
+    <div class="row justify-content-center">
+        <!--ko if:$root.error-->
+        <small class="text-danger" data-bind="text:$root.error">  </small>
+        <!--/ko-->
+    </div>
+
+
+    <div class="row mt-4">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Password" class="control-label font-weight-bold">Contraseña</label>
@@ -159,13 +167,14 @@
             self.ModalViewModel = ko.observable(new ModalViewModel({}));
             self.TogglePassword = ko.observable(false);
             self.ToggleConfirmPassword = ko.observable(false);
+            self.error = ko.observable('');
 
             self.ShowModal = function (usuario, event) {
                 self.PersonaSelected(usuario);
                 self.Password('');
                 self.ConfirmPassword('');
 
-                self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Cambio de la contraseña del usuario.").ModalHeaderClass("bg-primary");
+                self.ModalViewModel().ModalId("#reset-password").ModalHeaderViewModel().ModalTitle("Cambio de la contraseña del usuario.").ModalHeaderClass("bg-primary");
                 self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-reset-passsword", Data: "" });
                 self.ModalViewModel().FooterViewModel().ActionName("Cambiar").UrlAction($(event.currentTarget).attr("href"));
 
@@ -181,27 +190,26 @@
                             data: { PersonaId: self.PersonaSelected().Id(), NPassword: self.Password() },
                             success: function (res) {
                                 if (res.exito) {
-                                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
-
+                                    $(ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
                                     $.notify({
-                                        element: 'modal',
+                                        element: 'body',
                                         icon: 'fa fa-check-circle',
                                         message: res.message,
                                     });
                                     setTimeout(function () { location.reload(); }, 2000);
                                 }
                                 else {
-                                    $.notify({
-                                        icon: 'fa fa-exclamation-circle',
-                                        message: res.message
-                                    });
+                                    self.error(res.message);
                                 }
                             },
                             error: function (e) {
-                                $.notify({
-                                    icon: 'fa fa-exclamation-circle',
-                                    message: "Ha sucedido un error procesando tu solicitud"
-                                });
+                                Swal.fire({
+                                    icon: 'error',
+                                    text: "Ha sucedido un error procesando tu solicitud"
+                                })
+                            },
+                            complete: function () {
+                                $(ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
                             }
                         });
                     }
