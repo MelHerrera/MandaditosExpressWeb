@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.ViewModels;
+using MandaditosExpress.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
@@ -131,21 +132,7 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public ActionResult CambiarContrasenia()
         {
-            var Usuarios = SecurityDB.Users.ToList();
-
-            var Personas = from usuarios in Usuarios
-                           join personas in db.Personas on usuarios.Email equals personas.CorreoElectronico
-                           select new UsuarioViewModel
-                           {
-                               Id = personas.Id,
-                               CorreoElectronico = personas.CorreoElectronico,
-                               EmailConfirmed = usuarios.EmailConfirmed,
-                               Telefono = personas.Telefono,
-                               Foto = personas.Foto,
-                               Nombres = personas.PrimerNombre + " " + personas.PrimerApellido + " " + personas.SegundoApellido,
-                               EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
-                               EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
-                           };
+            var Personas = GetUserList();
 
             ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
             return View();
@@ -178,6 +165,75 @@ namespace MandaditosExpress.Controllers
 
             return Json(new { exito = false, message = "Lo sentimos, ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
          }
+
+        [HttpGet]
+        public ActionResult DefaultPassword()
+        {
+            var Personas = GetUserList();
+
+            ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DefaultPassword(int PersonaId)
+        {
+            var Persona = db.Personas.Find(PersonaId);
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            if (Persona != null)
+            {
+                var User = SecurityDB.Users.FirstOrDefault(it => it.Email == Persona.CorreoElectronico);
+
+                if (User != null)
+                {
+                    var code = await UserManager.GeneratePasswordResetTokenAsync(User.Id);
+                    var defaultPassword = Utilidades.GenerateDefaultPasswordByEmail(Persona.CorreoElectronico.Trim());
+                    
+                    var result = await UserManager.ResetPasswordAsync(User.Id, code, defaultPassword);
+
+                    if (result.Succeeded)
+                    {
+                        return Json(new { exito = true, message = "Se establecio correctamente la contraseña por defecto al usuario : " + defaultPassword }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(new { exito = false, message = string.Join(" | ", result.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { exito = false, message = "Lo sentimos, ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmacionManual()
+        {
+            var Personas = GetUserList();
+
+            ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
+            return View();
+        }
+
+
+        public IEnumerable<UsuarioViewModel> GetUserList()
+        {
+            var Usuarios = SecurityDB.Users.ToList();
+
+            var Personas = from usuarios in Usuarios
+                           join personas in db.Personas on usuarios.Email equals personas.CorreoElectronico
+                           select new UsuarioViewModel
+                           {
+                               Id = personas.Id,
+                               CorreoElectronico = personas.CorreoElectronico,
+                               EmailConfirmed = usuarios.EmailConfirmed,
+                               Telefono = personas.Telefono,
+                               Foto = personas.Foto,
+                               Nombres = personas.PrimerNombre + " " + personas.PrimerApellido + " " + personas.SegundoApellido,
+                               EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
+                               EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
+                           };
+
+            return Personas;
+        }
 
         private void AddErrors(IdentityResult result)
         {

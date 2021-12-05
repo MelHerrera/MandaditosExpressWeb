@@ -82,13 +82,13 @@
                 <li class="@Html.IsSelected(controller: "Personas")">
                     <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse ">
-                        <li class="@Html.IsSelected(action: "Index")">
+                        <li class="@Html.IsSelected(controller: "Clientes")">
                             <a href="@Url.Action("Index", "Clientes")">Clientes</a>
                         </li>
-                        <li class="@Html.IsSelected(action: "Index")">
+                        <li class="@Html.IsSelected(controller: "Motorizados")">
                             <a href="@Url.Action("Index", "Motorizados")">Motorizados</a>
                         </li>
-                        <li class="@Html.IsSelected(action: "Index")">
+                        <li class="@Html.IsSelected(controller: "Asistentes")">
                             <a href="@Url.Action("Index", "Asistentes")">Asistentes</a>
                         </li>
                     </ul>
@@ -152,14 +152,14 @@
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Personas")">Personas</a>
                         </li>
-                        <li class="@Html.IsSelected(controller: "Personas")">
+                        <li class="@Html.IsSelected(action: "CambiarContrasenia")">
                             <a href="@Url.Action("CambiarContrasenia", "Personas")">Cambiar Contraseña</a>
                         </li>
-                        <li class="@Html.IsSelected(controller: "Personas")">
-                            <a href="@Url.Action("CambiarContrasenia", "Personas")">Establecer Contraseña por defecto</a>
+                        <li class="@Html.IsSelected(action: "DefaultPassword")">
+                            <a href="@Url.Action("DefaultPassword", "Personas")">Contraseña por defecto</a>
                         </li>
-                        <li class="@Html.IsSelected(controller: "Personas")">
-                            <a href="@Url.Action("CambiarContrasenia", "Personas")">Confirmación manual de correo</a>
+                        <li class="@Html.IsSelected(action: "ConfirmacionManual")">
+                            <a href="@Url.Action("ConfirmacionManual", "Personas")">Confirmación manual</a>
                         </li>
                     </ul>
                 </li>

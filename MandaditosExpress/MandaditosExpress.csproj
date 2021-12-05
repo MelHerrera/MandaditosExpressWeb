@@ -724,6 +724,8 @@
     <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
     <Content Include="Views\Personas\CambiarContrasenia.cshtml" />
+    <Content Include="Views\Personas\DefaultPassword.cshtml" />
+    <Content Include="Views\Personas\ConfirmacionManual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
