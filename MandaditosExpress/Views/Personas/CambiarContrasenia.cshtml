@@ -158,7 +158,7 @@
 
     <script type="text/javascript">
 
-        function IndexResetPassword(data) {
+        function IndexChangePassword(data) {
             const self = this;
             data = data || {};
 
@@ -263,7 +263,7 @@
             let data = $("#Personas").val();
             $("#Personas").remove();
 
-            let IndexViewModel = new IndexResetPassword(JSON.parse(data));
+            let IndexViewModel = new IndexChangePassword(JSON.parse(data));
 
             ko.applyBindings(IndexViewModel);
 

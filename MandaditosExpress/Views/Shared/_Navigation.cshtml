@@ -79,7 +79,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <!--Personas Option-->
-                <li class="@Html.IsSelected(controller: "Personas")">
+                <li class="@Html.IsSelected(controller: "Clientes")">
                     <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.dashboard">Personas</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse ">
                         <li class="@Html.IsSelected(controller: "Clientes")">
@@ -151,6 +151,9 @@
                     <ul class="nav nav-second-level collapse ">
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Personas")">Usuarios</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "GetRoles")">
+                            <a href="@Url.Action("GetRoles", "Account")">Roles</a>
                         </li>
                         <li class="@Html.IsSelected(action: "CambiarContrasenia")">
                             <a href="@Url.Action("CambiarContrasenia", "Personas")">Cambiar Contraseña</a>
