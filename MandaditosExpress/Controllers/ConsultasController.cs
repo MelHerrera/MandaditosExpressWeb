@@ -30,7 +30,5 @@ namespace MandaditosExpress.Controllers
             var clientes = db.Clientes.Where(x => x.FechaIngreso >= FechaDesde && x.FechaIngreso <= FechaHasta);
                 return View(clientes);
         }
-
-
     }
 }

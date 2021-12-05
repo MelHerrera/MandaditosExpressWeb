@@ -276,6 +276,9 @@
     <Compile Include="Models\CostoGestionBancaria.cs" />
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\Credito.cs" />
+    <Compile Include="Models\DataSets\FltListCltsFecha.cs">
+      <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataSets\FltListCltsFecha.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -344,6 +347,7 @@
     <Content Include="Images\Empty.png" />
     <Content Include="Images\mel.png" />
     <Content Include="Images\moto.png" />
+    <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />

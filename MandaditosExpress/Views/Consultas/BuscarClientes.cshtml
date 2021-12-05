@@ -33,7 +33,7 @@
         <div class="table-responsive">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>Lista de Clientes por Fecha</h5>
+                    <h5><i class="fa fa-info-circle"></i> Lista de Clientes por Fecha</h5>
 
                     <div class="ibox-tools">
                         @if (ViewBag.FechaDesde != null && ViewBag.FechaHasta != null && Model.Count() > 0)//Que muestre el boton de imprimir solo cuando ya se hayan seleccionado las fechas y al menos haya un cliente que mostrar en el reporte
@@ -56,7 +56,7 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="form-row align-items-center mb-3">
-                            <label for="inputdesde">Fecha Desde</label>
+                            <label for="inputdesde" class="font-weight-bold">Fecha Desde</label>
                             <div class="col-sm-3 my-1">
                                 <div class="input-group">
 
@@ -64,7 +64,7 @@
 
                                 </div>
                             </div>
-                            <label for="inputhasta">Fecha Hasta</label>
+                            <label for="inputhasta" class="font-weight-bold">Fecha Hasta</label>
                             <div class="col-sm-3 my-1">
                                 <div class="input-group">
                                     @Html.Editor("FechaHasta", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @required = "required" } })
@@ -78,8 +78,8 @@
                         <div class="row align-items-center">
                             @if (Model.Count() > 0)
                             {
-                                <table class="table table-bordered">
-                                    <thead id="thead">
+                                <table class="table table-bordered table-sm table-hover">
+                                    <thead id="thead" class="thead-light">
                                         <tr>
 
                                             <th>@Html.DisplayNameFor(model => model.EsEmpresa)</th>
@@ -144,7 +144,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                                        <img src="~/Images/default_profile.png" class="img-circle" height="30" width="30" />
                                                     }
                                                 </td>
                                                 <td>
@@ -157,7 +157,7 @@
                                                     @Html.DisplayFor(modelItem => item.Cedula)
                                                 </td>
                                                 <td style="white-space:nowrap;">
-                                                    <a class="btn btn-success" href="@Url.Action("Details/","Clientes")@item.Id"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                                    <a class="btn btn-success btn-sm" href="@Url.Action("Details/","Clientes")@item.Id"><i class="fa fa-info-circle" title="Detalles"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -167,9 +167,13 @@
                             }
                             else
                             {
-                                <div class="alert alert-warning alert-Empty m-3" role="alert" style="width:100%">
+                        <div class="col-md-11" style="text-align:center;">
+                                <img src="~/Images/5.png" />
+                                <div class="alert alert-warning alert-Empty mx-3" role="alert" style="width:100%">
+                                    <i class="fa fa-warning"></i>
                                     Se encontraron 0 Clientes para mostrar en el rango de fecha proporcionado. Intenta modificando la consulta.
                                 </div>
+                        </div>
                             }
                         </div>
                     }

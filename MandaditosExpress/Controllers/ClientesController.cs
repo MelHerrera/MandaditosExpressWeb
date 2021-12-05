@@ -95,7 +95,7 @@ namespace MandaditosExpress.Controllers
                                     Sexo = cliente.Sexo,
                                     Direccion = cliente.Direccion,
                                     Cedula = cliente.Cedula,
-                                    FechaIngreso = DateTime.Today,
+                                    FechaIngreso = DateTime.Now,
                                     EsEmpresa = cliente.EsEmpresa,
                                     NombreDeLaEmpresa = cliente.NombreDeLaEmpresa,
                                     RUC = cliente.RUC

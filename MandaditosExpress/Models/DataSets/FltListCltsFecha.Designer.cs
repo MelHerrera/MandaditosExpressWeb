@@ -279,6 +279,8 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class FltListCltsFechDataTable : global::System.Data.TypedTableBase<FltListCltsFechRow> {
             
+            private global::System.Data.DataColumn columnId;
+            
             private global::System.Data.DataColumn columnNombres;
             
             private global::System.Data.DataColumn columnCorreo;
@@ -320,6 +322,14 @@ namespace MandaditosExpress.Models.DataSets {
             protected FltListCltsFechDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn IdColumn {
+                get {
+                    return this.columnId;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -402,6 +412,7 @@ namespace MandaditosExpress.Models.DataSets {
             public FltListCltsFechRow AddFltListCltsFechRow(string Nombres, string Correo, string Telefono, System.DateTime FechaDeIngreso, string Empresa) {
                 FltListCltsFechRow rowFltListCltsFechRow = ((FltListCltsFechRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        null,
                         Nombres,
                         Correo,
                         Telefono,
@@ -410,6 +421,13 @@ namespace MandaditosExpress.Models.DataSets {
                 rowFltListCltsFechRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowFltListCltsFechRow);
                 return rowFltListCltsFechRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public FltListCltsFechRow FindById(int Id) {
+                return ((FltListCltsFechRow)(this.Rows.Find(new object[] {
+                            Id})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -429,6 +447,7 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
+                this.columnId = base.Columns["Id"];
                 this.columnNombres = base.Columns["Nombres"];
                 this.columnCorreo = base.Columns["Correo"];
                 this.columnTelefono = base.Columns["Telefono"];
@@ -439,6 +458,8 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnId);
                 this.columnNombres = new global::System.Data.DataColumn("Nombres", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNombres);
                 this.columnCorreo = new global::System.Data.DataColumn("Correo", typeof(string), null, global::System.Data.MappingType.Element);
@@ -449,8 +470,16 @@ namespace MandaditosExpress.Models.DataSets {
                 base.Columns.Add(this.columnFechaDeIngreso);
                 this.columnEmpresa = new global::System.Data.DataColumn("Empresa", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmpresa);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnId}, true));
+                this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = -1;
+                this.columnId.AutoIncrementStep = -1;
+                this.columnId.AllowDBNull = false;
+                this.columnId.ReadOnly = true;
+                this.columnId.Unique = true;
                 this.columnNombres.ReadOnly = true;
-                this.columnNombres.MaxLength = 123;
+                this.columnNombres.MaxLength = 90;
                 this.columnCorreo.AllowDBNull = false;
                 this.columnCorreo.MaxLength = 2147483647;
                 this.columnTelefono.AllowDBNull = false;
@@ -595,6 +624,17 @@ namespace MandaditosExpress.Models.DataSets {
             internal FltListCltsFechRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
                 this.tableFltListCltsFech = ((FltListCltsFechDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Id {
+                get {
+                    return ((int)(this[this.tableFltListCltsFech.IdColumn]));
+                }
+                set {
+                    this[this.tableFltListCltsFech.IdColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -846,6 +886,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "FltListCltsFech";
+            tableMapping.ColumnMappings.Add("Id", "Id");
             tableMapping.ColumnMappings.Add("Nombres", "Nombres");
             tableMapping.ColumnMappings.Add("Correo", "Correo");
             tableMapping.ColumnMappings.Add("Telefono", "Telefono");
