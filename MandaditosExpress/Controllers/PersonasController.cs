@@ -31,7 +31,10 @@ namespace MandaditosExpress.Controllers
         // GET: Personas
         public ActionResult Index()
         {
-            return View(db.Personas.ToList());
+            var Personas = GetUserList();
+
+            ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
+            return View();
         }
 
         // GET: Personas/Details/5
@@ -207,12 +210,42 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public ActionResult ConfirmacionManual()
         {
-            var Personas = GetUserList();
+            var Personas = GetUserList().Where(it=> it.EmailConfirmed==false);
 
             ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
             return View();
         }
 
+        [HttpPost]
+        public async Task<JsonResult> ConfirmacionManual(int PersonaId)
+        {
+            var Persona = db.Personas.Find(PersonaId);
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            if (Persona != null)
+            {
+                var User = SecurityDB.Users.FirstOrDefault(it => it.Email == Persona.CorreoElectronico);
+
+                if (User != null)
+                {
+                    if (!User.EmailConfirmed)
+                    {
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(User.Id);
+
+                        var result = await UserManager.ConfirmEmailAsync(User.Id, code);
+
+                        if (result.Succeeded)
+                            return Json(new { exito = true, message = "Se realizó la confirmación del correo exitosamente" }, JsonRequestBehavior.AllowGet);
+                        else
+                            return Json(new { exito = false, message = string.Join(" | ", result.Errors.ToList()).Length > 0 ? string.Join(" | ", result.Errors.ToList()) : "Ha ocurrido un error procesando su solicitud" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(new { exito = false, message = "El usuario seleccionado ya tiene confirmado el correo" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { exito = false, message = "Lo sentimos, ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+        }
 
         public IEnumerable<UsuarioViewModel> GetUserList()
         {

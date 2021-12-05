@@ -1,7 +1,227 @@
 ﻿
 @{
     ViewBag.Title = "Confirmación Manual";
+    @Html.Hidden("Personas");
 }
 
-<h2>ConfirmacionManual</h2>
- 
+<style>
+    .swal2-container {
+        z-index: 2051
+    }
+</style>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">Fecha: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
+                    <h2>Usuarios</h2>
+                    <p>
+                        Lista de todos los usuarios registrados en el sistema.
+                    </p>
+
+                    <div class="row">
+                        <div class="col-sm-6 float-right">
+                            <div class="input-group">
+                                <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarPersonas">
+                                        <i class="fa fa-search"></i> Buscar
+                                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoPersonas"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clients-list small">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Personas()).length )">0 </span>
+                            <span class="pull-right text-muted ml-2"> Usuario(s)</span>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <!--ko if:ko.unwrap(Personas()).length > 0-->
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-striped table-hover">
+                                            <thead class="bg-primary">
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Foto</th>
+                                                    <th>Nombres</th>
+                                                    <th>Telefono</th>
+                                                    <th>Correo</th>
+                                                    <th>Confirmado</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach:Personas">
+                                                <tr>
+                                                    <td data-bind="text:$index()+1"></td>
+                                                    <td class="client-avatar">
+                                                        <!--ko if:Foto()!=null ? Foto().length >0 : false -->
+                                                        <img alt="" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }" />
+                                                        <!--/ko-->
+                                                        <!--ko ifnot:Foto()!=null ? Foto().length >0 : false-->
+                                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                                        <!--/ko-->
+                                                    </td>
+                                                    <td data-bind="text:Nombres"></td>
+                                                    <td>
+                                                        <i class="fa fa-phone"></i>
+                                                        <span data-bind="text:Telefono"></span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-envelope"></i>
+                                                        <span data-bind="text:CorreoElectronico"></span>
+                                                    </td>
+
+                                                    <td class="client-status">
+                                                        <span data-bind="text:EmailConfirmedDescripcion, attr:{ class:EmailConfirmedClass}"></span>
+                                                    </td>
+
+                                                    <td>
+                                                        <button type="button" class="btn btn btn-primary btn-sm" data-bind="click: $root.ShowModal, attr:{ href:'@Url.Action("/ConfirmacionManual")'}">
+                                                            <i class="fa fa-envelope"></i>
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:ko.unwrap(Personas()).length <= 0-->
+                                    <div class="justify-content-center" style="text-align:center;">
+                                        <img src="~/Images/5.png" />
+                                        <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                            Se encontraron 0 usuarios para mostrar.
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="template-confirm-email">
+    <div class="row justify-content-center mb-3">
+        <!--ko if:$root.error-->
+        <small class="text-danger" data-bind="text:$root.error">  </small>
+        <!--/ko-->
+    </div>
+
+    <h4>
+        ¿Esta seguro(a) que desea confirmar del correo de 
+        <strong data-bind="text:$root.PersonaSelected().Nombres"></strong>?
+    </h4>
+
+</template>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/knockout/Componentes/ModalComponent.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
+    <script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
+
+    <script type="text/javascript">
+
+        function IndexResetPassword(data) {
+            const self = this;
+            data = data || {};
+
+            self.Personas = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
+            self.AllPersonas = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
+            self.PersonaSelected = ko.observable();
+            self.TextInputBusqueda = ko.observable('');
+            self.ModalViewModel = ko.observable(new ModalViewModel({}));
+            self.FiltrandoPersonas = ko.observable(false);
+            self.error = ko.observable('');
+            self.ShowModal = function (usuario, event) {
+                self.PersonaSelected(usuario);
+
+                self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Confirmación del correo del usuario.").ModalHeaderClass("bg-danger");
+                self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-confirm-email", Data: "" });
+                self.ModalViewModel().FooterViewModel().ActionName("Confirmar").UrlAction($(event.currentTarget).attr("href"));
+
+                self.ModalViewModel().ShowModal();
+            };
+            self.GuardarCambios = function (data, event) {
+
+                $.ajax({
+                    url: ko.toJS(data).UrlAction,
+                    type: "Post",
+                    data: { PersonaId: self.PersonaSelected().Id() },
+                    success: function (res) {
+                        if (res.exito) {
+                            self.ModalViewModel().HideModal();
+                            $.notify({
+                                element: 'body',
+                                icon: 'fa fa-check-circle',
+                                message: res.message,
+                            });
+                            setTimeout(function () { location.reload(); }, 3000);
+                        }
+                        else {
+                            self.error(res.message);
+                        }
+                    },
+                    error: function (e) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: "Ha sucedido un error procesando tu solicitud"
+                        })
+                    }
+                });
+
+            }
+            self.FiltrarPersonas = function () {
+                self.FiltrandoPersonas(true);//mostrar progress de filtrando
+
+                if (self.TextInputBusqueda()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.AllPersonas(), function (it) {
+                        if (it.CorreoElectronico().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
+                            it.Nombres().toUpperCase().includes(self.TextInputBusqueda().toUpperCase())) {
+                            return it;
+                        }
+                    });
+                    self.Personas(arrayFiltered);
+                } else {
+                    self.Personas(self.AllPersonas());
+                }
+
+                self.FiltrandoPersonas(false);//ocultar progress
+            }
+
+        }
+
+        $(function () {
+            let data = $("#Personas").val();
+            $("#Personas").remove();
+
+            let IndexViewModel = new IndexResetPassword(JSON.parse(data));
+
+            ko.applyBindings(IndexViewModel);
+
+        });
+    </script>
+}
+
+

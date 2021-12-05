@@ -1,114 +1,165 @@
 ﻿@model MandaditosExpress.Models.Persona
 
 @{
-    Layout = null;
+    ViewBag.Title = "Detalle del usuario";
 }
 
-<!DOCTYPE html>
+@Styles.Render("~/Plugin/switches")
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
 <body>
-    <div>
-        <h4>Persona</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.CorreoElectronico)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.CorreoElectronico)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PrimerNombre)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PrimerNombre)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.SegundoNombre)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.SegundoNombre)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PrimerApellido)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PrimerApellido)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.SegundoApellido)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.SegundoApellido)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Telefono)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Foto)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Foto)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Sexo)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Sexo)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Direccion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Cedula)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cedula)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaIngresoDeLaPersona)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaIngresoDeLaPersona)
-            </dd>
-    
-        </dl>
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Detalle del usuario</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Seguridad</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index", "Personas")">Usuarios</a>
+                </li>
+                <li class="active breadcrumb-item">
+                    <strong>Detalle</strong>
+                </li>
+            </ol>
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.PersonaId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+
+    <div class="container">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-content align-items-center">
+
+                            <div>
+                                <h4><i class="fa fa-info-circle"></i> Información detallada del usuario</h4>
+                                <hr />
+
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CorreoElectronico)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CorreoElectronico)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PrimerNombre)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PrimerNombre)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.SegundoNombre)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.SegundoNombre)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PrimerApellido)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PrimerApellido)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.SegundoApellido)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.SegundoApellido)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Telefono)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Telefono)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Foto)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.Foto != null)
+                                        {
+                                            @Html.DisplayImage(Model.Foto)
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Sexo)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Sexo)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Direccion)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Direccion)
+                                    </dd>
+
+                                    @if (Model.Cedula != null)
+                                    {
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Cedula)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Cedula)
+                                        </dd>
+                                    }
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.FechaIngreso)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.FechaIngreso)
+                                    </dd>
+
+                                </dl>
+
+                            </div>
+
+                            <div class="ibox-footer">
+                                <div class="col-md-12">
+                                    @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
-</html>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+}
