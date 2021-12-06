@@ -1,0 +1,151 @@
+﻿@model IEnumerable<MandaditosExpress.Models.ViewModels.EnviosCreditoViewModel>
+
+@{
+    ViewBag.Title = "Créditos de clientes por fecha";
+}
+
+
+<style>
+    .ibox-tools a {
+        color: #ffffff !important;
+    }
+</style>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h3>Busquedas</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Busquedas</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Creditos de Clientes</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5><i class="fa fa-info-circle"></i> Lista de créditos de un cliente por Fecha</h5>
+
+                    <div class="ibox-tools">
+                        @if (ViewBag.FechaDesde != null && ViewBag.FechaHasta != null && Model.Count() > 0)//Que muestre el boton de imprimir solo cuando ya se hayan seleccionado las fechas y al menos haya un cliente que mostrar en el reporte
+                        {
+                            <a target="_blank" href="@Url.Action("ListClientesxFec","Informes", new {Desde= ViewBag.FechaDesde, Hasta=ViewBag.FechaHasta })" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
+                        }
+
+                        <a class="collapse-link" style="color:#c4c4c4 !important">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link" style="color:#c4c4c4 !important">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("CreditosCliente", "Consultas", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-row align-items-center mb-3">
+
+                            <label for="inputdesde" class="font-weight-bold">Fecha Desde</label>
+                            <div class="col-sm-3 my-1">
+                                <div class="input-group">
+                                    @Html.Editor("FechaDesde", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @required = "required" } })
+                                </div>
+                            </div>
+                            <label for="inputhasta" class="font-weight-bold">Fecha Hasta</label>
+                            <div class="col-sm-3 my-1">
+                                <div class="input-group">
+                                    @Html.Editor("FechaHasta", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @required = "required" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center mb-3">
+                            <label for="inputClientes" class="font-weight-bold">Seleccione el Cliente:</label>
+                            <div class="col-sm-4 my-1">
+                                <div class="input-group">
+                                    @Html.DropDownList("ClienteId", null, htmlAttributes: new { @class = "form-control form-control-sm" })
+                                </div>
+                            </div>
+                            <div class="col-auto my-1">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search btnconsul"></i> Consultar</button>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            @if (Model.Count() > 0)
+                            {
+                                <table class="table table-bordered table-sm table-hover">
+                                    <thead id="thead" class="thead-light">
+                                        <tr>
+                                            <th class="text-center">@Html.DisplayName("Nº")</th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FechaDelEnvio)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.DescripcionDeEnvio)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.MontoTotalDelEnvio)
+                                            </th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr class="gradeX">
+                                            <td class="text-center">
+                                                @{ 
+                                                  var row=  Model.ToList().IndexOf(item)+1;//calcular el numero de la fila
+                                                }
+
+                                                @row
+                                            </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaDelEnvio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DescripcionDeEnvio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MontoTotalDelEnvio)
+                                        </td>
+
+                                        <td style="white-space:nowrap;">
+                                            <a class="btn btn-success btn-sm" href="@Url.Action("Details","Envios", new { Id= item.Id})"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </td>
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="col-md-11" style="text-align:center;">
+                                    <img src="~/Images/5.png" />
+                                    <div class="alert alert-warning alert-Empty mx-3" role="alert" style="width:100%">
+                                        <i class="fa fa-warning"></i>
+                                        Se encontraron 0 envios al credito que mostrar en el rango de fecha para el cliente seleccionado. Intenta modificando la consulta.
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

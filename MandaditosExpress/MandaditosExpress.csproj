@@ -312,6 +312,7 @@
     <Compile Include="Models\Utileria\Utileria.cs" />
     <Compile Include="Models\CalidadDeConexion.cs" />
     <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConsultasViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeUserViewModel.cs" />
     <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
@@ -731,6 +732,7 @@
     <Content Include="Views\Personas\DefaultPassword.cshtml" />
     <Content Include="Views\Personas\ConfirmacionManual.cshtml" />
     <Content Include="Views\Account\GetRoles.cshtml" />
+    <Content Include="Views\Consultas\CreditosCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />

@@ -278,4 +278,18 @@ namespace MandaditosExpress.Models.ViewModels
         [NotMapped]
         public string Nombres { get; set; }
     }
+
+    public class ClienteBusquedasViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        [NotMapped]
+        public string NombreCompleto { get; set; }
+
+    }
 }
