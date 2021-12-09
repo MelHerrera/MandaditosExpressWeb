@@ -40,7 +40,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>FltListCltsFecha</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Mel\Source\Repos\MelHerrera\MandaditosExpressWeb\MandaditosExpress\Models\DataSets\FltListCltsFecha.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\Users\Mel\Source\Repos\MandaditosExpressWeb\MandaditosExpress\Models\DataSets\FltListCltsFecha.xsd</rd:SchemaPath>
         <rd:TableName>FltListCltsFech</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -59,7 +59,7 @@
                   <Width>0.9551cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.93301cm</Width>
+                  <Width>4.933cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>4.75662cm</Width>
@@ -116,7 +116,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox2">
+                        <Textbox Name="Textbox17">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -136,7 +136,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -346,13 +346,14 @@
                                 <TextRun>
                                   <Value>=Fields!Nombres.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Nombres</rd:DefaultName>
@@ -361,6 +362,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -628,7 +630,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>8.04167in</Width>
+      <Width>7.87093in</Width>
       <Page>
         <PageHeader>
           <Height>3.47133cm</Height>
@@ -732,7 +734,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>= "Lista de Clientes Desde " &amp; Parameters!Desde.Value &amp; " Hasta "&amp; Parameters!Hasta.Value</Value>
+                      <Value>= "Lista de Clientes del " &amp; Parameters!Desde.Value &amp; " al "&amp; Parameters!Hasta.Value</Value>
                       <Style>
                         <FontWeight>Bold</FontWeight>
                       </Style>

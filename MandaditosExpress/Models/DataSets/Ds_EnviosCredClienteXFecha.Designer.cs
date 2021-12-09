@@ -20,17 +20,17 @@ namespace MandaditosExpress.Models.DataSets {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("FltListCltsFecha")]
+    [global::System.Xml.Serialization.XmlRootAttribute("Ds_EnviosCredClienteXFecha")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class FltListCltsFecha : global::System.Data.DataSet {
+    public partial class Ds_EnviosCredClienteXFecha : global::System.Data.DataSet {
         
-        private FltListCltsFechDataTable tableFltListCltsFech;
+        private FltEnviosCredXfechaYClienteDataTable tableFltEnviosCredXfechaYCliente;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public FltListCltsFecha() {
+        public Ds_EnviosCredClienteXFecha() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace MandaditosExpress.Models.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected FltListCltsFecha(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected Ds_EnviosCredClienteXFecha(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace MandaditosExpress.Models.DataSets {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["FltListCltsFech"] != null)) {
-                    base.Tables.Add(new FltListCltsFechDataTable(ds.Tables["FltListCltsFech"]));
+                if ((ds.Tables["FltEnviosCredXfechaYCliente"] != null)) {
+                    base.Tables.Add(new FltEnviosCredXfechaYClienteDataTable(ds.Tables["FltEnviosCredXfechaYCliente"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public FltListCltsFechDataTable FltListCltsFech {
+        public FltEnviosCredXfechaYClienteDataTable FltEnviosCredXfechaYCliente {
             get {
-                return this.tableFltListCltsFech;
+                return this.tableFltEnviosCredXfechaYCliente;
             }
         }
         
@@ -127,7 +127,7 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            FltListCltsFecha cln = ((FltListCltsFecha)(base.Clone()));
+            Ds_EnviosCredClienteXFecha cln = ((Ds_EnviosCredClienteXFecha)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace MandaditosExpress.Models.DataSets {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["FltListCltsFech"] != null)) {
-                    base.Tables.Add(new FltListCltsFechDataTable(ds.Tables["FltListCltsFech"]));
+                if ((ds.Tables["FltEnviosCredXfechaYCliente"] != null)) {
+                    base.Tables.Add(new FltEnviosCredXfechaYClienteDataTable(ds.Tables["FltEnviosCredXfechaYCliente"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableFltListCltsFech = ((FltListCltsFechDataTable)(base.Tables["FltListCltsFech"]));
+            this.tableFltEnviosCredXfechaYCliente = ((FltEnviosCredXfechaYClienteDataTable)(base.Tables["FltEnviosCredXfechaYCliente"]));
             if ((initTable == true)) {
-                if ((this.tableFltListCltsFech != null)) {
-                    this.tableFltListCltsFech.InitVars();
+                if ((this.tableFltEnviosCredXfechaYCliente != null)) {
+                    this.tableFltEnviosCredXfechaYCliente.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "FltListCltsFecha";
+            this.DataSetName = "Ds_EnviosCredClienteXFecha";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/FltListCltsFecha.xsd";
+            this.Namespace = "http://tempuri.org/Ds_EnviosCredClienteXFecha.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableFltListCltsFech = new FltListCltsFechDataTable();
-            base.Tables.Add(this.tableFltListCltsFech);
+            this.tableFltEnviosCredXfechaYCliente = new FltEnviosCredXfechaYClienteDataTable();
+            base.Tables.Add(this.tableFltEnviosCredXfechaYCliente);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializeFltListCltsFech() {
+        private bool ShouldSerializeFltEnviosCredXfechaYCliente() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace MandaditosExpress.Models.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            FltListCltsFecha ds = new FltListCltsFecha();
+            Ds_EnviosCredClienteXFecha ds = new Ds_EnviosCredClienteXFecha();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,29 +270,25 @@ namespace MandaditosExpress.Models.DataSets {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void FltListCltsFechRowChangeEventHandler(object sender, FltListCltsFechRowChangeEvent e);
+        public delegate void FltEnviosCredXfechaYClienteRowChangeEventHandler(object sender, FltEnviosCredXfechaYClienteRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class FltListCltsFechDataTable : global::System.Data.TypedTableBase<FltListCltsFechRow> {
+        public partial class FltEnviosCredXfechaYClienteDataTable : global::System.Data.TypedTableBase<FltEnviosCredXfechaYClienteRow> {
             
-            private global::System.Data.DataColumn columnNombres;
+            private global::System.Data.DataColumn columnFechaDelEnvio;
             
-            private global::System.Data.DataColumn columnCorreo;
+            private global::System.Data.DataColumn columnDescripcionDeEnvio;
             
-            private global::System.Data.DataColumn columnTelefono;
-            
-            private global::System.Data.DataColumn columnFechaDeIngreso;
-            
-            private global::System.Data.DataColumn columnEmpresa;
+            private global::System.Data.DataColumn columnMontoTotalDelEnvio;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechDataTable() {
-                this.TableName = "FltListCltsFech";
+            public FltEnviosCredXfechaYClienteDataTable() {
+                this.TableName = "FltEnviosCredXfechaYCliente";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -300,7 +296,7 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal FltListCltsFechDataTable(global::System.Data.DataTable table) {
+            internal FltEnviosCredXfechaYClienteDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -317,48 +313,32 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected FltListCltsFechDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected FltEnviosCredXfechaYClienteDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn NombresColumn {
+            public global::System.Data.DataColumn FechaDelEnvioColumn {
                 get {
-                    return this.columnNombres;
+                    return this.columnFechaDelEnvio;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn CorreoColumn {
+            public global::System.Data.DataColumn DescripcionDeEnvioColumn {
                 get {
-                    return this.columnCorreo;
+                    return this.columnDescripcionDeEnvio;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn TelefonoColumn {
+            public global::System.Data.DataColumn MontoTotalDelEnvioColumn {
                 get {
-                    return this.columnTelefono;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn FechaDeIngresoColumn {
-                get {
-                    return this.columnFechaDeIngreso;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn EmpresaColumn {
-                get {
-                    return this.columnEmpresa;
+                    return this.columnMontoTotalDelEnvio;
                 }
             }
             
@@ -373,49 +353,47 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechRow this[int index] {
+            public FltEnviosCredXfechaYClienteRow this[int index] {
                 get {
-                    return ((FltListCltsFechRow)(this.Rows[index]));
+                    return ((FltEnviosCredXfechaYClienteRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event FltListCltsFechRowChangeEventHandler FltListCltsFechRowChanging;
+            public event FltEnviosCredXfechaYClienteRowChangeEventHandler FltEnviosCredXfechaYClienteRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event FltListCltsFechRowChangeEventHandler FltListCltsFechRowChanged;
+            public event FltEnviosCredXfechaYClienteRowChangeEventHandler FltEnviosCredXfechaYClienteRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event FltListCltsFechRowChangeEventHandler FltListCltsFechRowDeleting;
+            public event FltEnviosCredXfechaYClienteRowChangeEventHandler FltEnviosCredXfechaYClienteRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event FltListCltsFechRowChangeEventHandler FltListCltsFechRowDeleted;
+            public event FltEnviosCredXfechaYClienteRowChangeEventHandler FltEnviosCredXfechaYClienteRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddFltListCltsFechRow(FltListCltsFechRow row) {
+            public void AddFltEnviosCredXfechaYClienteRow(FltEnviosCredXfechaYClienteRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechRow AddFltListCltsFechRow(string Nombres, string Correo, string Telefono, System.DateTime FechaDeIngreso, string Empresa) {
-                FltListCltsFechRow rowFltListCltsFechRow = ((FltListCltsFechRow)(this.NewRow()));
+            public FltEnviosCredXfechaYClienteRow AddFltEnviosCredXfechaYClienteRow(System.DateTime FechaDelEnvio, string DescripcionDeEnvio, decimal MontoTotalDelEnvio) {
+                FltEnviosCredXfechaYClienteRow rowFltEnviosCredXfechaYClienteRow = ((FltEnviosCredXfechaYClienteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        Nombres,
-                        Correo,
-                        Telefono,
-                        FechaDeIngreso,
-                        Empresa};
-                rowFltListCltsFechRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowFltListCltsFechRow);
-                return rowFltListCltsFechRow;
+                        FechaDelEnvio,
+                        DescripcionDeEnvio,
+                        MontoTotalDelEnvio};
+                rowFltEnviosCredXfechaYClienteRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowFltEnviosCredXfechaYClienteRow);
+                return rowFltEnviosCredXfechaYClienteRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                FltListCltsFechDataTable cln = ((FltListCltsFechDataTable)(base.Clone()));
+                FltEnviosCredXfechaYClienteDataTable cln = ((FltEnviosCredXfechaYClienteDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -423,66 +401,56 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new FltListCltsFechDataTable();
+                return new FltEnviosCredXfechaYClienteDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
-                this.columnNombres = base.Columns["Nombres"];
-                this.columnCorreo = base.Columns["Correo"];
-                this.columnTelefono = base.Columns["Telefono"];
-                this.columnFechaDeIngreso = base.Columns["FechaDeIngreso"];
-                this.columnEmpresa = base.Columns["Empresa"];
+                this.columnFechaDelEnvio = base.Columns["FechaDelEnvio"];
+                this.columnDescripcionDeEnvio = base.Columns["DescripcionDeEnvio"];
+                this.columnMontoTotalDelEnvio = base.Columns["MontoTotalDelEnvio"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
-                this.columnNombres = new global::System.Data.DataColumn("Nombres", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNombres);
-                this.columnCorreo = new global::System.Data.DataColumn("Correo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCorreo);
-                this.columnTelefono = new global::System.Data.DataColumn("Telefono", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTelefono);
-                this.columnFechaDeIngreso = new global::System.Data.DataColumn("FechaDeIngreso", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFechaDeIngreso);
-                this.columnEmpresa = new global::System.Data.DataColumn("Empresa", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmpresa);
-                this.columnNombres.ReadOnly = true;
-                this.columnNombres.MaxLength = 90;
-                this.columnCorreo.AllowDBNull = false;
-                this.columnCorreo.MaxLength = 2147483647;
-                this.columnTelefono.AllowDBNull = false;
-                this.columnTelefono.MaxLength = 8;
-                this.columnFechaDeIngreso.AllowDBNull = false;
-                this.columnEmpresa.MaxLength = 2147483647;
+                this.columnFechaDelEnvio = new global::System.Data.DataColumn("FechaDelEnvio", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFechaDelEnvio);
+                this.columnDescripcionDeEnvio = new global::System.Data.DataColumn("DescripcionDeEnvio", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescripcionDeEnvio);
+                this.columnMontoTotalDelEnvio = new global::System.Data.DataColumn("MontoTotalDelEnvio", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMontoTotalDelEnvio);
+                this.columnFechaDelEnvio.AllowDBNull = false;
+                this.columnDescripcionDeEnvio.AllowDBNull = false;
+                this.columnDescripcionDeEnvio.MaxLength = 250;
+                this.columnMontoTotalDelEnvio.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechRow NewFltListCltsFechRow() {
-                return ((FltListCltsFechRow)(this.NewRow()));
+            public FltEnviosCredXfechaYClienteRow NewFltEnviosCredXfechaYClienteRow() {
+                return ((FltEnviosCredXfechaYClienteRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new FltListCltsFechRow(builder);
+                return new FltEnviosCredXfechaYClienteRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(FltListCltsFechRow);
+                return typeof(FltEnviosCredXfechaYClienteRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.FltListCltsFechRowChanged != null)) {
-                    this.FltListCltsFechRowChanged(this, new FltListCltsFechRowChangeEvent(((FltListCltsFechRow)(e.Row)), e.Action));
+                if ((this.FltEnviosCredXfechaYClienteRowChanged != null)) {
+                    this.FltEnviosCredXfechaYClienteRowChanged(this, new FltEnviosCredXfechaYClienteRowChangeEvent(((FltEnviosCredXfechaYClienteRow)(e.Row)), e.Action));
                 }
             }
             
@@ -490,8 +458,8 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.FltListCltsFechRowChanging != null)) {
-                    this.FltListCltsFechRowChanging(this, new FltListCltsFechRowChangeEvent(((FltListCltsFechRow)(e.Row)), e.Action));
+                if ((this.FltEnviosCredXfechaYClienteRowChanging != null)) {
+                    this.FltEnviosCredXfechaYClienteRowChanging(this, new FltEnviosCredXfechaYClienteRowChangeEvent(((FltEnviosCredXfechaYClienteRow)(e.Row)), e.Action));
                 }
             }
             
@@ -499,8 +467,8 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.FltListCltsFechRowDeleted != null)) {
-                    this.FltListCltsFechRowDeleted(this, new FltListCltsFechRowChangeEvent(((FltListCltsFechRow)(e.Row)), e.Action));
+                if ((this.FltEnviosCredXfechaYClienteRowDeleted != null)) {
+                    this.FltEnviosCredXfechaYClienteRowDeleted(this, new FltEnviosCredXfechaYClienteRowChangeEvent(((FltEnviosCredXfechaYClienteRow)(e.Row)), e.Action));
                 }
             }
             
@@ -508,14 +476,14 @@ namespace MandaditosExpress.Models.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.FltListCltsFechRowDeleting != null)) {
-                    this.FltListCltsFechRowDeleting(this, new FltListCltsFechRowChangeEvent(((FltListCltsFechRow)(e.Row)), e.Action));
+                if ((this.FltEnviosCredXfechaYClienteRowDeleting != null)) {
+                    this.FltEnviosCredXfechaYClienteRowDeleting(this, new FltEnviosCredXfechaYClienteRowChangeEvent(((FltEnviosCredXfechaYClienteRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoveFltListCltsFechRow(FltListCltsFechRow row) {
+            public void RemoveFltEnviosCredXfechaYClienteRow(FltEnviosCredXfechaYClienteRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -524,7 +492,7 @@ namespace MandaditosExpress.Models.DataSets {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                FltListCltsFecha ds = new FltListCltsFecha();
+                Ds_EnviosCredClienteXFecha ds = new Ds_EnviosCredClienteXFecha();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -542,7 +510,7 @@ namespace MandaditosExpress.Models.DataSets {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "FltListCltsFechDataTable";
+                attribute2.FixedValue = "FltEnviosCredXfechaYClienteDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -586,104 +554,48 @@ namespace MandaditosExpress.Models.DataSets {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class FltListCltsFechRow : global::System.Data.DataRow {
+        public partial class FltEnviosCredXfechaYClienteRow : global::System.Data.DataRow {
             
-            private FltListCltsFechDataTable tableFltListCltsFech;
+            private FltEnviosCredXfechaYClienteDataTable tableFltEnviosCredXfechaYCliente;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal FltListCltsFechRow(global::System.Data.DataRowBuilder rb) : 
+            internal FltEnviosCredXfechaYClienteRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableFltListCltsFech = ((FltListCltsFechDataTable)(this.Table));
+                this.tableFltEnviosCredXfechaYCliente = ((FltEnviosCredXfechaYClienteDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Nombres {
+            public System.DateTime FechaDelEnvio {
                 get {
-                    try {
-                        return ((string)(this[this.tableFltListCltsFech.NombresColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Nombres\' de la tabla \'FltListCltsFech\' es DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableFltEnviosCredXfechaYCliente.FechaDelEnvioColumn]));
                 }
                 set {
-                    this[this.tableFltListCltsFech.NombresColumn] = value;
+                    this[this.tableFltEnviosCredXfechaYCliente.FechaDelEnvioColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Correo {
+            public string DescripcionDeEnvio {
                 get {
-                    return ((string)(this[this.tableFltListCltsFech.CorreoColumn]));
+                    return ((string)(this[this.tableFltEnviosCredXfechaYCliente.DescripcionDeEnvioColumn]));
                 }
                 set {
-                    this[this.tableFltListCltsFech.CorreoColumn] = value;
+                    this[this.tableFltEnviosCredXfechaYCliente.DescripcionDeEnvioColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Telefono {
+            public decimal MontoTotalDelEnvio {
                 get {
-                    return ((string)(this[this.tableFltListCltsFech.TelefonoColumn]));
+                    return ((decimal)(this[this.tableFltEnviosCredXfechaYCliente.MontoTotalDelEnvioColumn]));
                 }
                 set {
-                    this[this.tableFltListCltsFech.TelefonoColumn] = value;
+                    this[this.tableFltEnviosCredXfechaYCliente.MontoTotalDelEnvioColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public System.DateTime FechaDeIngreso {
-                get {
-                    return ((global::System.DateTime)(this[this.tableFltListCltsFech.FechaDeIngresoColumn]));
-                }
-                set {
-                    this[this.tableFltListCltsFech.FechaDeIngresoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Empresa {
-                get {
-                    try {
-                        return ((string)(this[this.tableFltListCltsFech.EmpresaColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Empresa\' de la tabla \'FltListCltsFech\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableFltListCltsFech.EmpresaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsNombresNull() {
-                return this.IsNull(this.tableFltListCltsFech.NombresColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetNombresNull() {
-                this[this.tableFltListCltsFech.NombresColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsEmpresaNull() {
-                return this.IsNull(this.tableFltListCltsFech.EmpresaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetEmpresaNull() {
-                this[this.tableFltListCltsFech.EmpresaColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -691,22 +603,22 @@ namespace MandaditosExpress.Models.DataSets {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class FltListCltsFechRowChangeEvent : global::System.EventArgs {
+        public class FltEnviosCredXfechaYClienteRowChangeEvent : global::System.EventArgs {
             
-            private FltListCltsFechRow eventRow;
+            private FltEnviosCredXfechaYClienteRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechRowChangeEvent(FltListCltsFechRow row, global::System.Data.DataRowAction action) {
+            public FltEnviosCredXfechaYClienteRowChangeEvent(FltEnviosCredXfechaYClienteRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltListCltsFechRow Row {
+            public FltEnviosCredXfechaYClienteRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -722,7 +634,7 @@ namespace MandaditosExpress.Models.DataSets {
         }
     }
 }
-namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
+namespace MandaditosExpress.Models.DataSets.Ds_EnviosCredClienteXFechaTableAdapters {
     
     
     /// <summary>
@@ -734,7 +646,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class FltListCltsFechTableAdapter : global::System.ComponentModel.Component {
+    public partial class FltEnviosCredXfechaYClienteTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -748,7 +660,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public FltListCltsFechTableAdapter() {
+        public FltEnviosCredXfechaYClienteTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -845,12 +757,10 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "FltListCltsFech";
-            tableMapping.ColumnMappings.Add("Nombres", "Nombres");
-            tableMapping.ColumnMappings.Add("Correo", "Correo");
-            tableMapping.ColumnMappings.Add("Telefono", "Telefono");
-            tableMapping.ColumnMappings.Add("FechaDeIngreso", "FechaDeIngreso");
-            tableMapping.ColumnMappings.Add("Empresa", "Empresa");
+            tableMapping.DataSetTable = "FltEnviosCredXfechaYCliente";
+            tableMapping.ColumnMappings.Add("FechaDelEnvio", "FechaDelEnvio");
+            tableMapping.ColumnMappings.Add("DescripcionDeEnvio", "DescripcionDeEnvio");
+            tableMapping.ColumnMappings.Add("MontoTotalDelEnvio", "MontoTotalDelEnvio");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -867,18 +777,19 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "dbo.FltListCltsFech";
+            this._commandCollection[0].CommandText = "dbo.FltEnviosCredXfechaYCliente";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Desde", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 23, 3, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Hasta", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 23, 3, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClienteId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual FltListCltsFecha.FltListCltsFechDataTable GetData(global::System.Nullable<global::System.DateTime> Desde, global::System.Nullable<global::System.DateTime> Hasta) {
+        public virtual Ds_EnviosCredClienteXFecha.FltEnviosCredXfechaYClienteDataTable GetData(global::System.Nullable<global::System.DateTime> Desde, global::System.Nullable<global::System.DateTime> Hasta, global::System.Nullable<int> ClienteId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((Desde.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(Desde.Value));
@@ -892,7 +803,13 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            FltListCltsFecha.FltListCltsFechDataTable dataTable = new FltListCltsFecha.FltListCltsFechDataTable();
+            if ((ClienteId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[3].Value = ((int)(ClienteId.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            Ds_EnviosCredClienteXFecha.FltEnviosCredXfechaYClienteDataTable dataTable = new Ds_EnviosCredClienteXFecha.FltEnviosCredXfechaYClienteDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -966,7 +883,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateUpdatedRows(FltListCltsFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(Ds_EnviosCredClienteXFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -976,7 +893,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateInsertedRows(FltListCltsFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(Ds_EnviosCredClienteXFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -986,7 +903,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateDeletedRows(FltListCltsFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(Ds_EnviosCredClienteXFecha dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
         }
@@ -1020,7 +937,7 @@ namespace MandaditosExpress.Models.DataSets.FltListCltsFechaTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public virtual int UpdateAll(FltListCltsFecha dataSet) {
+        public virtual int UpdateAll(Ds_EnviosCredClienteXFecha dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

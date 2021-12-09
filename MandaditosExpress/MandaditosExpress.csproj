@@ -276,6 +276,11 @@
     <Compile Include="Models\CostoGestionBancaria.cs" />
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\Credito.cs" />
+    <Compile Include="Models\DataSets\Ds_EnviosCredClienteXFecha.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataSets\FltListCltsFecha.cs">
       <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
     </Compile>
@@ -348,6 +353,7 @@
     <Content Include="Images\Empty.png" />
     <Content Include="Images\mel.png" />
     <Content Include="Images\moto.png" />
+    <Content Include="Models\DataSetsProcedures\EnviosCredXClienteYFecha.txt" />
     <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
@@ -553,6 +559,17 @@
     <Content Include="Models\DataSets\FltListCltsFecha.xsc">
       <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
     </Content>
+    <Content Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xsc">
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_EnviosCredClienteXFecha.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xss">
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Content>
     <None Include="Models\DataSets\FltListCltsFecha.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -733,6 +750,7 @@
     <Content Include="Views\Personas\ConfirmacionManual.cshtml" />
     <Content Include="Views\Account\GetRoles.cshtml" />
     <Content Include="Views\Consultas\CreditosCliente.cshtml" />
+    <Content Include="Views\Informes\EnviosCredClienteFecha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
@@ -761,6 +779,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
     <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>
   <PropertyGroup>

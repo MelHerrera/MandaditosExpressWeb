@@ -24,4 +24,11 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Monto")]
         public decimal MontoTotalDelEnvio { get; set; }
     }
+
+    public class EnviosCreditoConsultaViewModel
+    {
+        public DateTime FechaDesde { get; set; }
+        public DateTime FechaHasta { get; set; }
+        public int ClienteId { get; set; }
+    }
 }

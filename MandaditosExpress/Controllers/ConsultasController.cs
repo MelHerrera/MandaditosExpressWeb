@@ -2,6 +2,7 @@
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,19 +44,27 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public ActionResult CreditosCliente()
         {
-            ViewBag.FechaDesde = new DateTime();
-            ViewBag.FechaHasta = new DateTime();
             ViewBag.ClienteId = new SelectList(_mapper.Map<ICollection<ClienteBusquedasViewModel>>(db.Clientes.ToList()), nameof(Cliente.Id), nameof(Cliente.NombreCompleto));
 
+            var viewmodel = new EnviosCreditoConsultaViewModel();
+            viewmodel.FechaDesde = DateTime.Now;
+            viewmodel.FechaHasta = DateTime.Now;
+
+            ViewBag.Data = JsonConvert.SerializeObject(viewmodel);
             return View(new List<EnviosCreditoViewModel>());
         }
 
         [HttpPost]
         public ActionResult CreditosCliente(DateTime FechaDesde, DateTime FechaHasta, int ClienteId)
         {
-            ViewBag.FechaDesde = FechaDesde;
-            ViewBag.FechaHasta = FechaHasta;
             ViewBag.ClienteId = new SelectList(_mapper.Map<ICollection<ClienteBusquedasViewModel>>(db.Clientes.ToList()), nameof(Cliente.Id), nameof(Cliente.NombreCompleto), ClienteId);
+
+            var viewmodel = new EnviosCreditoConsultaViewModel();
+            viewmodel.FechaDesde = FechaDesde;
+            viewmodel.FechaHasta = FechaHasta;
+            viewmodel.ClienteId = ClienteId;
+
+            ViewBag.Data = JsonConvert.SerializeObject(viewmodel);
 
             //envios que se realizaron a un cliente en un periodo de fecha
             //los envios realizados deben tener estado diferente a solicitud o rechazado

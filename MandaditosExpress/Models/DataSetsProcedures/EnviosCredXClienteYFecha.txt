@@ -1,0 +1,35 @@
+﻿use MandaditosDB
+GO
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<melkinantonioh@gmail.com>
+-- Create date: <06-12-2021 22:56 PM>
+-- Description:	<Obtener los envios al credito de un cliente en un periodo de tiempo dado>
+-- =============================================
+
+CREATE PROCEDURE FltEnviosCredXfechaYCliente
+	-- Add the parameters for the stored procedure here
+	@Desde datetime,
+	@Hasta datetime,
+	@ClienteId int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+   
+   select e.FechaDelEnvio, e.DescripcionDeEnvio, e.MontoTotalDelEnvio from envios as e
+   inner join Clientes as c on e.ClienteId = c.Id
+   where e.EsAlCredito=1  and ( e.EstadoDelEnvio=2 or e.EstadoDelEnvio=3) and c.id= @ClienteId
+   and e.FechaDelEnvio >= @Desde and e.FechaDelEnvio<= @Hasta
+   group by e.FechaDelEnvio, e.DescripcionDeEnvio, e.MontoTotalDelEnvio
+   order by e.FechaDelEnvio asc
+
+END
+GO
