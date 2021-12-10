@@ -18,9 +18,12 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -281,6 +284,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataSets\Ds_EnviosMensuales.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataSets\FltListCltsFecha.cs">
       <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
     </Compile>
@@ -354,6 +362,7 @@
     <Content Include="Images\mel.png" />
     <Content Include="Images\moto.png" />
     <Content Include="Models\DataSetsProcedures\EnviosCredXClienteYFecha.txt" />
+    <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
     <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
@@ -569,6 +578,17 @@
     </None>
     <Content Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xss">
       <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Content>
+    <Content Include="Models\DataSets\Ds_EnviosMensuales.xsc">
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\Ds_EnviosMensuales.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_EnviosMensuales.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\Ds_EnviosMensuales.xss">
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
     </Content>
     <None Include="Models\DataSets\FltListCltsFecha.xsd">
       <SubType>Designer</SubType>

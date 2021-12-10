@@ -16,7 +16,7 @@ GO
 -- Description:	<Description: Obtener los Clientes en un periodo de tiempo dado>
 -- =============================================
 
-ALTER PROCEDURE FltListCltsFech
+CREATE PROCEDURE FltListCltsFech
 	-- Add the parameters for the stored procedure here
 	@Desde datetime,
 	@Hasta datetime

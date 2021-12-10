@@ -33,7 +33,7 @@ namespace MandaditosExpress.Models.ViewModels
     }
 
     public class EnviosMensualesViewModel {
-        public DateTime Fecha { get; set; }
+        public int Dia { get; set; }
 
         [Display(Name = "Total/Fecha")]
         public int Total { get; set; }

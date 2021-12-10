@@ -83,7 +83,7 @@ namespace MandaditosExpress.Controllers
 
             var envios = db.Envios.Where(it => it.FechaDelEnvio >= primerDiaMes && it.FechaDelEnvio <= DateTime.Now).GroupBy(it => it.FechaDelEnvio.Day).Select(x => new EnviosMensualesViewModel
             {
-                Fecha = MapDate(x.Key),
+                Dia = x.Key,
                 Total = x.Count(),//total por fecha del mes
                 EnviosSolicitud = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).Count(),
                 EnviosProceso = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).Count(),
@@ -95,7 +95,7 @@ namespace MandaditosExpress.Controllers
             envios.ToList().Select(y => y.Total).ToList().ForEach(it => Total += it);
 
             ViewBag.EnviosTotal = Total;//Total en el mes
-            return View();
+            return View(envios);
         }
 
         public DateTime MapDate(int day)

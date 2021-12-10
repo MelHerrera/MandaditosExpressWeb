@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.Reporting.WebForms;
 using MandaditosExpress.Models.DataSets.Ds_EnviosCredClienteXFechaTableAdapters;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.DataSets.Ds_EnviosMensualesTableAdapters;
 
 namespace MandaditosExpress.Controllers
 {
@@ -54,8 +55,24 @@ namespace MandaditosExpress.Controllers
             rpt.ShowPrintButton = true;
             rpt.ShowZoomControl = true;
             ViewBag.rpt = rpt;
-            return View();
 
+            return View();
+        }
+
+        public ActionResult EnviosMensuales()
+        {
+            FltEnviosMensualesTableAdapter dt = new FltEnviosMensualesTableAdapter();
+            ReportViewer rpt = new ReportViewer();
+            rpt.ProcessingMode = ProcessingMode.Local;
+            rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptEnviosMensuales.rdlc";
+            rpt.LocalReport.DataSources.Add(new ReportDataSource("DataSet_EnviosCredClienteXFecha", dt.GetData().ToList()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));//para poder mostrar el usuario que genereo el reporte
+            rpt.SizeToReportContent = true;
+            rpt.ShowPrintButton = true;
+            rpt.ShowZoomControl = true;
+            ViewBag.rpt = rpt;
+
+            return View();
         }
 
     }

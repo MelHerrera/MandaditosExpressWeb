@@ -39,7 +39,7 @@
                     <div class="ibox-tools">
                         @if (Model.Count() > 0)//Que muestre el boton de imprimir solo cuando ya se hayan seleccionado las fechas y al menos haya un cliente que mostrar en el reporte
                         {
-                            <a target="_blank" href="@Url.Action("ListClientesxFec","Informes", new {Desde= ViewBag.FechaDesde, Hasta=ViewBag.FechaHasta })" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
+                            <a target="_blank" href="@Url.Action("EnviosMensuales","Informes")" class="btn btn-success btn-sm"><i class="fa fa-print"></i> Informe</a>
                         }
 
                         <a class="collapse-link" style="color:#c4c4c4 !important">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @using (Html.BeginForm("BuscarClientes", "Consultas", FormMethod.Post))
+                    @using (Html.BeginForm("", "", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
                                         <tr>
 
                                             <th class="bg-primary text-white">
-                                                @Html.DisplayNameFor(model => model.Fecha)
+                                                @Html.DisplayNameFor(model => model.Dia)
                                             </th>
                                             <th class="bg-primary text-white text-center">
                                                 @Html.DisplayNameFor(model => model.EnviosSolicitud)
@@ -89,7 +89,10 @@
                                         <tr class="gradeX">
 
                                             <td class="bg-primary text-white font-weight-bold">
-                                                @Html.DisplayFor(modelItem => item.Fecha)
+                                                @{
+                                                    var dia = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Dia);
+                                                }
+                                                @dia.ToString("dd/MM/yyyy")
                                             </td>
                                             <td class="text-center align-middle">
                                                 @Html.DisplayFor(modelItem => item.EnviosSolicitud)
