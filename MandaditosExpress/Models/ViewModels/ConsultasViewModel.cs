@@ -31,4 +31,23 @@ namespace MandaditosExpress.Models.ViewModels
         public DateTime FechaHasta { get; set; }
         public int ClienteId { get; set; }
     }
+
+    public class EnviosMensualesViewModel {
+        public DateTime Fecha { get; set; }
+
+        [Display(Name = "Total/Fecha")]
+        public int Total { get; set; }
+
+        [Display(Name ="Solicitud")]
+        public int EnviosSolicitud { get; set; }
+
+        [Display(Name = "En Proceso")]
+        public int EnviosProceso { get; set; }
+
+        [Display(Name = "Realizados")]
+        public int EnviosFinalizado { get; set; }
+
+        [Display(Name = "Rechazados")]
+        public int EnviosRechazado { get; set; }
+    }
 }

@@ -79,6 +79,6 @@ public class MainMappingProfile : Profile
         CreateMap<Envio, EnvioHistorialViewModel>().ReverseMap();
         CreateMap<Envio, EnviosCreditoViewModel>().ReverseMap();
         CreateMap<Persona, UsuarioViewModel>().ForMember(it=> it.Nombres, it=> it.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
-        CreateMap<Cliente, ClienteBusquedasViewModel>().ForMember(it=> it.NombreCompleto, it=> it.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();  
+        CreateMap<Cliente, ClienteBusquedasViewModel>().ForMember(it=> it.NombreCompleto, it=> it.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
     }
 }

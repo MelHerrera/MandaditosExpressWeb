@@ -751,6 +751,7 @@
     <Content Include="Views\Account\GetRoles.cshtml" />
     <Content Include="Views\Consultas\CreditosCliente.cshtml" />
     <Content Include="Views\Informes\EnviosCredClienteFecha.cshtml" />
+    <Content Include="Views\Consultas\EnviosMensuales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />

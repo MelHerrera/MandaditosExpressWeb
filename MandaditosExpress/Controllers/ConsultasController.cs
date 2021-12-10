@@ -68,12 +68,39 @@ namespace MandaditosExpress.Controllers
 
             //envios que se realizaron a un cliente en un periodo de fecha
             //los envios realizados deben tener estado diferente a solicitud o rechazado
-            var envios = db.Envios.Where(it => it.EsAlCredito && it.FechaDelEnvio >= FechaDesde && it.FechaDelEnvio <= FechaHasta && it.ClienteId == ClienteId 
-            && (it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado) ).ToList().OrderBy(it => it.FechaDelEnvio);
+            var envios = db.Envios.Where(it => it.EsAlCredito && it.FechaDelEnvio >= FechaDesde && it.FechaDelEnvio <= FechaHasta && it.ClienteId == ClienteId
+            && (it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)).ToList().OrderBy(it => it.FechaDelEnvio);
 
 
             var EnviosAlCredito = _mapper.Map<ICollection<EnviosCreditoViewModel>>(envios);
             return View(EnviosAlCredito);
+        }
+
+        [HttpGet]
+        public ActionResult EnviosMensuales()
+        {
+            var primerDiaMes = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+
+            var envios = db.Envios.Where(it => it.FechaDelEnvio >= primerDiaMes && it.FechaDelEnvio <= DateTime.Now).GroupBy(it => it.FechaDelEnvio.Day).Select(x => new EnviosMensualesViewModel
+            {
+                Fecha = MapDate(x.Key),
+                Total = x.Count(),//total por fecha del mes
+                EnviosSolicitud = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).Count(),
+                EnviosProceso = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).Count(),
+                EnviosFinalizado = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).Count(),
+                EnviosRechazado = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).Count()
+            });
+
+            int Total = 0;
+            envios.ToList().Select(y => y.Total).ToList().ForEach(it => Total += it);
+
+            ViewBag.EnviosTotal = Total;//Total en el mes
+            return View();
+        }
+
+        public DateTime MapDate(int day)
+        {
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, day);
         }
     }
 }
