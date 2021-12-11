@@ -65,8 +65,9 @@ namespace MandaditosExpress.Controllers
             ReportViewer rpt = new ReportViewer();
             rpt.ProcessingMode = ProcessingMode.Local;
             rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptEnviosMensuales.rdlc";
-            rpt.LocalReport.DataSources.Add(new ReportDataSource("DataSet_EnviosCredClienteXFecha", dt.GetData().ToList()));
+            rpt.LocalReport.DataSources.Add(new ReportDataSource("DsInf_EnviosMensuales", dt.GetData().ToList()));
             rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));//para poder mostrar el usuario que genereo el reporte
+            rpt.LocalReport.SetParameters(new ReportParameter("Mes", DateTime.Now.ToString("MMMM") ));//para poder mostrar el usuario que genereo el reporte
             rpt.SizeToReportContent = true;
             rpt.ShowPrintButton = true;
             rpt.ShowZoomControl = true;

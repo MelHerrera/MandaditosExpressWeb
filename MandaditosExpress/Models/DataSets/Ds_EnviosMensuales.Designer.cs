@@ -283,13 +283,13 @@ namespace MandaditosExpress.Models.DataSets {
             
             private global::System.Data.DataColumn columnSolicitud;
             
-            private global::System.Data.DataColumn columnEn_Proceso;
-            
             private global::System.Data.DataColumn columnRealizados;
             
             private global::System.Data.DataColumn columnRechazados;
             
-            private global::System.Data.DataColumn _columnTotal_Fecha;
+            private global::System.Data.DataColumn columnProceso;
+            
+            private global::System.Data.DataColumn columnTotal;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -342,14 +342,6 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn En_ProcesoColumn {
-                get {
-                    return this.columnEn_Proceso;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn RealizadosColumn {
                 get {
                     return this.columnRealizados;
@@ -366,9 +358,17 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn _Total_FechaColumn {
+            public global::System.Data.DataColumn ProcesoColumn {
                 get {
-                    return this._columnTotal_Fecha;
+                    return this.columnProceso;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalColumn {
+                get {
+                    return this.columnTotal;
                 }
             }
             
@@ -409,15 +409,15 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public FltEnviosMensualesRow AddFltEnviosMensualesRow(System.DateTime Dia, int Solicitud, int En_Proceso, int Realizados, int Rechazados, int _Total_Fecha) {
+            public FltEnviosMensualesRow AddFltEnviosMensualesRow(System.DateTime Dia, int Solicitud, int Realizados, int Rechazados, int Proceso, int Total) {
                 FltEnviosMensualesRow rowFltEnviosMensualesRow = ((FltEnviosMensualesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Dia,
                         Solicitud,
-                        En_Proceso,
                         Realizados,
                         Rechazados,
-                        _Total_Fecha};
+                        Proceso,
+                        Total};
                 rowFltEnviosMensualesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowFltEnviosMensualesRow);
                 return rowFltEnviosMensualesRow;
@@ -442,10 +442,10 @@ namespace MandaditosExpress.Models.DataSets {
             internal void InitVars() {
                 this.columnDia = base.Columns["Dia"];
                 this.columnSolicitud = base.Columns["Solicitud"];
-                this.columnEn_Proceso = base.Columns["En Proceso"];
                 this.columnRealizados = base.Columns["Realizados"];
                 this.columnRechazados = base.Columns["Rechazados"];
-                this._columnTotal_Fecha = base.Columns["Total/Fecha"];
+                this.columnProceso = base.Columns["Proceso"];
+                this.columnTotal = base.Columns["Total"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -455,22 +455,20 @@ namespace MandaditosExpress.Models.DataSets {
                 base.Columns.Add(this.columnDia);
                 this.columnSolicitud = new global::System.Data.DataColumn("Solicitud", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSolicitud);
-                this.columnEn_Proceso = new global::System.Data.DataColumn("En Proceso", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEn_Proceso);
                 this.columnRealizados = new global::System.Data.DataColumn("Realizados", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRealizados);
                 this.columnRechazados = new global::System.Data.DataColumn("Rechazados", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRechazados);
-                this._columnTotal_Fecha = new global::System.Data.DataColumn("Total/Fecha", typeof(int), null, global::System.Data.MappingType.Element);
-                this._columnTotal_Fecha.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "_columnTotal_Fecha");
-                this._columnTotal_Fecha.ExtendedProperties.Add("Generator_UserColumnName", "Total/Fecha");
-                base.Columns.Add(this._columnTotal_Fecha);
+                this.columnProceso = new global::System.Data.DataColumn("Proceso", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProceso);
+                this.columnTotal = new global::System.Data.DataColumn("Total", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal);
                 this.columnDia.ReadOnly = true;
                 this.columnSolicitud.ReadOnly = true;
-                this.columnEn_Proceso.ReadOnly = true;
                 this.columnRealizados.ReadOnly = true;
                 this.columnRechazados.ReadOnly = true;
-                this._columnTotal_Fecha.ReadOnly = true;
+                this.columnProceso.ReadOnly = true;
+                this.columnTotal.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -645,22 +643,6 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public int En_Proceso {
-                get {
-                    try {
-                        return ((int)(this[this.tableFltEnviosMensuales.En_ProcesoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'En Proceso\' de la tabla \'FltEnviosMensuales\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableFltEnviosMensuales.En_ProcesoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public int Realizados {
                 get {
                     try {
@@ -693,17 +675,33 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public int _Total_Fecha {
+            public int Proceso {
                 get {
                     try {
-                        return ((int)(this[this.tableFltEnviosMensuales._Total_FechaColumn]));
+                        return ((int)(this[this.tableFltEnviosMensuales.ProcesoColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Total/Fecha\' de la tabla \'FltEnviosMensuales\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Proceso\' de la tabla \'FltEnviosMensuales\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableFltEnviosMensuales._Total_FechaColumn] = value;
+                    this[this.tableFltEnviosMensuales.ProcesoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Total {
+                get {
+                    try {
+                        return ((int)(this[this.tableFltEnviosMensuales.TotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Total\' de la tabla \'FltEnviosMensuales\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableFltEnviosMensuales.TotalColumn] = value;
                 }
             }
             
@@ -733,18 +731,6 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsEn_ProcesoNull() {
-                return this.IsNull(this.tableFltEnviosMensuales.En_ProcesoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetEn_ProcesoNull() {
-                this[this.tableFltEnviosMensuales.En_ProcesoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsRealizadosNull() {
                 return this.IsNull(this.tableFltEnviosMensuales.RealizadosColumn);
             }
@@ -769,14 +755,26 @@ namespace MandaditosExpress.Models.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool Is_Total_FechaNull() {
-                return this.IsNull(this.tableFltEnviosMensuales._Total_FechaColumn);
+            public bool IsProcesoNull() {
+                return this.IsNull(this.tableFltEnviosMensuales.ProcesoColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void Set_Total_FechaNull() {
-                this[this.tableFltEnviosMensuales._Total_FechaColumn] = global::System.Convert.DBNull;
+            public void SetProcesoNull() {
+                this[this.tableFltEnviosMensuales.ProcesoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalNull() {
+                return this.IsNull(this.tableFltEnviosMensuales.TotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalNull() {
+                this[this.tableFltEnviosMensuales.TotalColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -941,10 +939,10 @@ namespace MandaditosExpress.Models.DataSets.Ds_EnviosMensualesTableAdapters {
             tableMapping.DataSetTable = "FltEnviosMensuales";
             tableMapping.ColumnMappings.Add("Dia", "Dia");
             tableMapping.ColumnMappings.Add("Solicitud", "Solicitud");
-            tableMapping.ColumnMappings.Add("En Proceso", "En Proceso");
             tableMapping.ColumnMappings.Add("Realizados", "Realizados");
             tableMapping.ColumnMappings.Add("Rechazados", "Rechazados");
-            tableMapping.ColumnMappings.Add("Total/Fecha", "Total/Fecha");
+            tableMapping.ColumnMappings.Add("Proceso", "Proceso");
+            tableMapping.ColumnMappings.Add("Total", "Total");
             this._adapter.TableMappings.Add(tableMapping);
         }
         

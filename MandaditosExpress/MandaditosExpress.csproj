@@ -18,12 +18,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -772,6 +769,7 @@
     <Content Include="Views\Consultas\CreditosCliente.cshtml" />
     <Content Include="Views\Informes\EnviosCredClienteFecha.cshtml" />
     <Content Include="Views\Consultas\EnviosMensuales.cshtml" />
+    <Content Include="Views\Informes\EnviosMensuales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
@@ -801,6 +799,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
+    <EmbeddedResource Include="Reportes\RptEnviosMensuales.rdlc" />
     <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>
   <PropertyGroup>

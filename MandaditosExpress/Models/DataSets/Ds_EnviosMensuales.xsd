@@ -23,10 +23,10 @@
             <Mappings>
               <Mapping SourceColumn="Dia" DataSetColumn="Dia" />
               <Mapping SourceColumn="Solicitud" DataSetColumn="Solicitud" />
-              <Mapping SourceColumn="En Proceso" DataSetColumn="En Proceso" />
               <Mapping SourceColumn="Realizados" DataSetColumn="Realizados" />
               <Mapping SourceColumn="Rechazados" DataSetColumn="Rechazados" />
-              <Mapping SourceColumn="Total/Fecha" DataSetColumn="Total/Fecha" />
+              <Mapping SourceColumn="Proceso" DataSetColumn="Proceso" />
+              <Mapping SourceColumn="Total" DataSetColumn="Total" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -43,10 +43,10 @@
             <xs:sequence>
               <xs:element name="Dia" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnDia" msprop:Generator_ColumnPropNameInRow="Dia" msprop:Generator_ColumnPropNameInTable="DiaColumn" msprop:Generator_UserColumnName="Dia" type="xs:dateTime" minOccurs="0" />
               <xs:element name="Solicitud" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSolicitud" msprop:Generator_ColumnPropNameInRow="Solicitud" msprop:Generator_ColumnPropNameInTable="SolicitudColumn" msprop:Generator_UserColumnName="Solicitud" type="xs:int" minOccurs="0" />
-              <xs:element name="En_x0020_Proceso" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnEn_Proceso" msprop:Generator_ColumnPropNameInRow="En_Proceso" msprop:Generator_ColumnPropNameInTable="En_ProcesoColumn" msprop:Generator_UserColumnName="En Proceso" type="xs:int" minOccurs="0" />
               <xs:element name="Realizados" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnRealizados" msprop:Generator_ColumnPropNameInRow="Realizados" msprop:Generator_ColumnPropNameInTable="RealizadosColumn" msprop:Generator_UserColumnName="Realizados" type="xs:int" minOccurs="0" />
               <xs:element name="Rechazados" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnRechazados" msprop:Generator_ColumnPropNameInRow="Rechazados" msprop:Generator_ColumnPropNameInTable="RechazadosColumn" msprop:Generator_UserColumnName="Rechazados" type="xs:int" minOccurs="0" />
-              <xs:element name="Total_x002F_Fecha" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="_columnTotal_Fecha" msprop:Generator_ColumnPropNameInRow="_Total_Fecha" msprop:Generator_ColumnPropNameInTable="_Total_FechaColumn" msprop:Generator_UserColumnName="Total/Fecha" type="xs:int" minOccurs="0" />
+              <xs:element name="Proceso" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnProceso" msprop:Generator_ColumnPropNameInRow="Proceso" msprop:Generator_ColumnPropNameInTable="ProcesoColumn" msprop:Generator_UserColumnName="Proceso" type="xs:int" minOccurs="0" />
+              <xs:element name="Total" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
