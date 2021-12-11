@@ -1,11 +1,13 @@
 ﻿USE [MandaditosDB]
 GO
 
+/****** Objeto: SqlProcedure [dbo].[FltEnviosMensuales] Fecha del script: 10/12/2021 23:14:28 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 -- =============================================
 -- Author:		<email:melkinantonioh@gmail.com>
