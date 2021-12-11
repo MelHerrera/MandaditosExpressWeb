@@ -133,7 +133,7 @@
             {
                 <!--Busquedas y Consultas-->
                 <li class="@Html.IsSelected(controller: "Consultas")">
-                    <a href=""><i class="fa fa-search"></i> <span class="nav-label" data-i18n="nav.dashboard">Búsquedas</span> <span class="fa arrow"></span></a>
+                    <a href=""><i class="fa fa-search"></i> <span class="nav-label" data-i18n="nav.dashboard">Búsquedas/Informes</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse ">
                         <li class="@Html.IsSelected(action: "BuscarClientes")">
                             <a href="@Url.Action("BuscarClientes", "Consultas")">Clientes por Fecha</a>
@@ -141,17 +141,14 @@
                         <li class="@Html.IsSelected(action: "EnviosMensuales")">
                             <a href="@Url.Action("EnviosMensuales", "Consultas")">Envios mensuales</a>
                         </li>
-                        <li class="@Html.IsSelected(action: "BuscarClientes")">
-                            <a href="@Url.Action("BuscarClientes", "Consultas")">Envios por fecha</a>
+                        <li class="@Html.IsSelected(action: "EnviosPorPeriodo")">
+                            <a href="@Url.Action("EnviosPorPeriodo", "Consultas")">Envios por período</a>
                         </li>
                         <li class="@Html.IsSelected(action: "BuscarClientes")">
                             <a href="@Url.Action("BuscarClientes", "Consultas")">Envios por Motorizado</a>
                         </li>
                         <li class="@Html.IsSelected(action: "CreditosCliente")">
                             <a href="@Url.Action("CreditosCliente", "Consultas")">Envios al Crédito por cliente/periodo</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "BuscarClientes")">
-                            <a href="@Url.Action("BuscarClientes", "Consultas")">I/E por fecha</a>
                         </li>
                     </ul>
                 </li>

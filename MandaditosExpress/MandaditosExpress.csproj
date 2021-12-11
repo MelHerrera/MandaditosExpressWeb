@@ -286,6 +286,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataSets\DS_EnviosPorPeriodo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataSets\FltListCltsFecha.cs">
       <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
     </Compile>
@@ -360,6 +365,7 @@
     <Content Include="Images\moto.png" />
     <Content Include="Models\DataSetsProcedures\EnviosCredXClienteYFecha.txt" />
     <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
+    <Content Include="Models\DataSetsProcedures\EnviosPorPeriodo.txt" />
     <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
@@ -587,6 +593,17 @@
     <Content Include="Models\DataSets\Ds_EnviosMensuales.xss">
       <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
     </Content>
+    <Content Include="Models\DataSets\DS_EnviosPorPeriodo.xsc">
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\DS_EnviosPorPeriodo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_EnviosPorPeriodo.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\DS_EnviosPorPeriodo.xss">
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Content>
     <None Include="Models\DataSets\FltListCltsFecha.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -770,6 +787,8 @@
     <Content Include="Views\Informes\EnviosCredClienteFecha.cshtml" />
     <Content Include="Views\Consultas\EnviosMensuales.cshtml" />
     <Content Include="Views\Informes\EnviosMensuales.cshtml" />
+    <Content Include="Views\Consultas\EnviosPorPeriodo.cshtml" />
+    <Content Include="Views\Informes\ListaEnviosPorPeriodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
@@ -800,6 +819,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosMensuales.rdlc" />
+    <EmbeddedResource Include="Reportes\RptEnviosPorPeriodo.rdlc" />
     <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>
   <PropertyGroup>

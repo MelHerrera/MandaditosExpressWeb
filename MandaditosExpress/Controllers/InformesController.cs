@@ -7,6 +7,8 @@ using Microsoft.Reporting.WebForms;
 using MandaditosExpress.Models.DataSets.Ds_EnviosCredClienteXFechaTableAdapters;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.DataSets.Ds_EnviosMensualesTableAdapters;
+using MandaditosExpress.Models.DataSets.DS_EnviosPorPeriodoTableAdapters;
+using System.Reflection;
 
 namespace MandaditosExpress.Controllers
 {
@@ -25,11 +27,28 @@ namespace MandaditosExpress.Controllers
             ReportViewer rpt = new ReportViewer();
             rpt.ProcessingMode = ProcessingMode.Local;
             rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptFiltrarClientesPorFecha.rdlc";
-            var data = dt.GetData(Desde, Hasta).ToList();
             rpt.LocalReport.DataSources.Add(new ReportDataSource("Ds_InformeNueCli", dt.GetData(Desde, Hasta).ToList()));
             rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));//para poder mostrar el usuario que genereo el reporte
             rpt.LocalReport.SetParameters(new ReportParameter("Desde", Desde.ToString()));//para poder mostrar el periodo en el reporte
             rpt.LocalReport.SetParameters(new ReportParameter("Hasta", Hasta.ToString() ));//para poder mostrar el periodo en el reporte
+            rpt.SizeToReportContent = true;
+            rpt.ShowPrintButton = true;
+            rpt.ShowZoomControl = true;
+            ViewBag.rpt = rpt;
+            return View();
+
+        }
+
+        public ActionResult ListaEnviosPorPeriodo(DateTime Desde, DateTime Hasta)
+        {
+            FltEnviosPorPeriodoTableAdapter dt = new FltEnviosPorPeriodoTableAdapter();
+            ReportViewer rpt = new ReportViewer();
+            rpt.ProcessingMode = ProcessingMode.Local;
+            rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptEnviosPorPeriodo.rdlc";
+            rpt.LocalReport.DataSources.Add(new ReportDataSource("DsInfo_EnviosPorPeriodo", dt.GetData(Desde, Hasta).ToList()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Usuario", Request.GetOwinContext().Authentication.User.Identity.Name));//para poder mostrar el usuario que genereo el reporte
+            rpt.LocalReport.SetParameters(new ReportParameter("Desde", Desde.ToString()));//para poder mostrar el periodo en el reporte
+            rpt.LocalReport.SetParameters(new ReportParameter("Hasta", Hasta.ToString()));//para poder mostrar el periodo en el reporte
             rpt.SizeToReportContent = true;
             rpt.ShowPrintButton = true;
             rpt.ShowZoomControl = true;

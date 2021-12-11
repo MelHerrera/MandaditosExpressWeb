@@ -42,6 +42,41 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpGet]
+        public ActionResult EnviosPorPeriodo(DateTime? FechaDesde, DateTime? FechaHasta)
+        {
+            var envios = new List<EnviosMensualesViewModel>();
+
+            if (FechaDesde == null || FechaHasta == null)
+            {
+                ViewBag.FechaDesde = new DateTime();
+                ViewBag.FechaHasta = new DateTime();
+                ViewBag.EnviosTotal = 0;//Total en el periodo
+            }
+            else
+            {
+                envios = db.Envios.Where(it => it.FechaDelEnvio >= FechaDesde && it.FechaDelEnvio <= FechaHasta).GroupBy(it => it.FechaDelEnvio.Day).Select(x => new EnviosMensualesViewModel
+                {
+                    Dia = x.Key,
+                    Total = x.Count(),
+                    EnviosSolicitud = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).Count(),
+                    EnviosProceso = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).Count(),
+                    EnviosFinalizado = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).Count(),
+                    EnviosRechazado = x.Where(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).Count()
+                }).ToList();
+
+                int Total = 0;
+                envios.Select(y => y.Total).ToList().ForEach(it => Total += it);
+
+                ViewBag.FechaDesde = FechaDesde;
+                ViewBag.FechaHasta = FechaHasta;
+                ViewBag.EnviosTotal = Total;//Total en el periodo
+            }
+
+            return View(envios);
+        }
+
+
+        [HttpGet]
         public ActionResult CreditosCliente()
         {
             ViewBag.ClienteId = new SelectList(_mapper.Map<ICollection<ClienteBusquedasViewModel>>(db.Clientes.ToList()), nameof(Cliente.Id), nameof(Cliente.NombreCompleto));
@@ -96,11 +131,6 @@ namespace MandaditosExpress.Controllers
 
             ViewBag.EnviosTotal = Total;//Total en el mes
             return View(envios);
-        }
-
-        public DateTime MapDate(int day)
-        {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, day);
         }
     }
 }

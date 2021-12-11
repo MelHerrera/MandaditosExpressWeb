@@ -1,0 +1,10 @@
+﻿@using ReportViewerForMvc;
+
+@{
+    ViewBag.Title = "Consolidado de Envios por periodo";
+    Layout = null;
+}
+
+@Html.ReportViewer(ViewBag.rpt as Microsoft.Reporting.WebForms.ReportViewer, new { Style = "width:100%;height:100%;" })
+
+

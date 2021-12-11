@@ -1,0 +1,45 @@
+﻿USE [MandaditosDB]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<email:melkinantonioh@gmail.com>
+-- Create date: <date:11-12-2021>
+-- Description:	<Description: Obtiene los envios en un periodo de fecha seleccionado>
+-- =============================================
+
+ALTER PROCEDURE FltEnviosPorPeriodo
+	@Desde datetime,
+	@Hasta datetime
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+   
+   with CTE_EnviosMensuales as (
+   select Day(e.FechaDelEnvio) as Dia, count(e.Id) as "Total/Fecha", e.EstadoDelEnvio from Envios as e 
+   where e.FechaDelEnvio >= @Desde and e.FechaDelEnvio <= @Hasta
+   group by Day(e.FechaDelEnvio), e.EstadoDelEnvio
+),
+ CTE_agrupados as (
+ select cte.Dia, 
+ ISNULL ((select c.[Total/Fecha] from CTE_EnviosMensuales as c where c.EstadoDelEnvio=1 and c.Dia = cte.Dia),0) as Solicitud,--1 => estado de los envios solicitd
+ ISNULL ((select c.[Total/Fecha] from CTE_EnviosMensuales as c where c.EstadoDelEnvio=2 and c.Dia = cte.Dia),0) as [Proceso], --2 => estado de los envios en proceso
+ ISNULL ((select c.[Total/Fecha] from CTE_EnviosMensuales as c where c.EstadoDelEnvio=3 and c.Dia = cte.Dia),0) as Realizados, --3 => estado de los envios en Realizados
+ ISNULL ((select c.[Total/Fecha] from CTE_EnviosMensuales as c where c.EstadoDelEnvio=4 and c.Dia = cte.Dia),0) as Rechazados --4 => estado de los envios en Rechazados
+ from CTE_EnviosMensuales as cte
+ group by cte.Dia, cte.[Total/Fecha]
+ )
+ 
+ select DATEFROMPARTS(YEAR(GETDATE()),MONTH(GETDATE()),a.Dia) as Dia, a.Solicitud, a.[Proceso], a.Realizados, a.Rechazados, (a.Solicitud + a.[Proceso] + a.Realizados + a.Rechazados) as "Total" from cte_agrupados as a
+ group by a.Dia, A.Solicitud, a.[Proceso], a.Realizados, a.Rechazados
+
+END
