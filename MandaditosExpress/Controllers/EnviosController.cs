@@ -184,6 +184,153 @@ namespace MandaditosExpress.Controllers
             return View(EnvioViewModel);
         }
 
+        // POST: Envios/Createss
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,EsAlCredito,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
+        {
+            //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios
+            ModelState.Remove("envio.Servicio.DescripcionDelServicio");
+            ModelState.Remove("envio.Cotizacion.DescripcionDeCotizacion");
+
+            if (ModelState.IsValid)
+            {
+                var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(envio.TipoDeServicioId, envio.DistanciaEntregaRecep, envio.MontoDeDinero, envio.FechaDelEnvio);
+
+                if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
+                    return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
+
+                var CostoAsociado = CostoServices.ValidarVigenciaCostos(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero);
+
+                if (CostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
+                    return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    if (User.IsInRole("Cliente"))//un envio necesita el clienteId por lo que solo este rol puede crear
+                    {
+                        var mEnvio = new Envio();
+
+                        //si es un nuevo servicio guardarlo antes de ocupar servicioId
+                        if (envio.ServicioId == -1)
+                        {
+                            if (envio.Servicio.DescripcionDelServicio != null)
+                            {
+                                envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
+                                envio.Servicio.Estado = true;
+
+                                var service = _mapper.Map<Servicio>(envio.Servicio);
+                                db.Servicios.Add(service);
+                                db.SaveChanges();
+
+                                //Una vez guardado el nuevo servicio actualizar la informacion del envio
+                                mEnvio.ServicioId = service.Id;
+                            }
+                        }
+                        else
+                            mEnvio.ServicioId = envio.ServicioId;
+
+                        //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
+                        var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
+
+                        if (cotizacion != null)//si el envio es mediante cotizacion entonces ocupar los datos de la cotizacion, porque en la vista del envio los pudieron corromper
+                        {
+                            if (cotizacion.MontoTotal > 0)
+                            {
+                                if (envio.DebeRegresarATienda)
+                                {
+                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
+                                    cotizacion.MontoTotal += (decimal)CostoA.PrecioDeRegreso;
+                                }
+
+                                //datos que vienen por cotizacion
+                                mEnvio.CotizacionId = cotizacion.Id;
+                                mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
+                                mEnvio.LugarOrigen = cotizacion.LugarOrigen != null ? cotizacion.LugarOrigen : _mapper.Map<Lugar>(envio.LugarOrigen);//cuando es cotizacion de gestion bancaria la cotizacio no trae un lugar origen-destino
+                                mEnvio.LugarDestino = cotizacion.LugarDestino != null ? cotizacion.LugarDestino : _mapper.Map<Lugar>(envio.LugarDestino);//entonces asignarle el origen-destino seleccionado en la vista de crear envio
+                                mEnvio.MontoDeDinero = cotizacion.MontoDeDinero;
+                                mEnvio.EsUrgente = cotizacion.EsEspecial;
+                                mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino > 0 ? cotizacion.DistanciaOrigenDestino : envio.DistanciaEntregaRecep;
+                                mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
+
+                                //si es un nuevo servicio 
+
+                                //datos que siempre se tomaran del envio
+                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
+                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
+                                mEnvio.TipoDePagoId = envio.TipoDePagoId;
+                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
+                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
+                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
+                                mEnvio.Peso = envio.Peso;
+                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
+                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
+                                mEnvio.MontoARecibir = envio.MontoARecibir;
+                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
+                                mEnvio.MontoCambio = envio.MontoCambio;
+                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
+                                mEnvio.ClienteId = envio.ClienteId;
+                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false; //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
+                            }
+                        }
+                        else
+                        {
+                            var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
+
+                            if (MontoTotalDelEnvio > 0)
+                            {
+                                if (envio.DebeRegresarATienda)
+                                {
+                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
+                                    MontoTotalDelEnvio += (decimal)CostoA.PrecioDeRegreso;
+                                }
+
+                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
+                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
+                                mEnvio.TipoDePagoId = envio.TipoDePagoId;
+                                mEnvio.TipoDeServicioId = envio.TipoDeServicioId;
+                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
+                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
+                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
+                                mEnvio.MontoDeDinero = envio.MontoDeDinero;
+                                mEnvio.EsUrgente = envio.EsUrgente;
+                                mEnvio.Peso = envio.Peso;
+                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
+                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
+                                mEnvio.MontoARecibir = envio.MontoARecibir;
+                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
+                                mEnvio.MontoCambio = envio.MontoCambio;
+                                mEnvio.LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen);
+                                mEnvio.LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino);
+                                mEnvio.DistanciaEntregaRecep = envio.DistanciaEntregaRecep;
+                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
+                                mEnvio.ClienteId = envio.ClienteId;
+                                mEnvio.CotizacionId = envio.CotizacionId;
+                                mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
+                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
+                            }
+                        }
+
+                        //despues de asignada la informacion correspondiente
+                        db.Envios.Add(mEnvio);
+
+                        if (db.SaveChanges() > 0)
+                            return Json(new { exito = true, message = "Estimado cliente se ha realizado con éxito la solicitud de su envío" }, JsonRequestBehavior.AllowGet);
+                        else
+                            return Json(new { exito = false, message = "No se ha podido guardar tu solicitud, para mayor información contactese con atención al cliente" }, JsonRequestBehavior.AllowGet);
+
+                    }
+                    else
+                        return Json(new { message = "Ha ocurrido un error procesando su solicitud. Solo un usuario cliente puede solicitar un envio", exito = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { message = "Ha ocurrido un error procesando su solicitud!", exito = false }, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Envios/Asignacion
         [Authorize(Roles = "Admin")]
         public ActionResult Asignacion(int? id)
@@ -267,154 +414,6 @@ namespace MandaditosExpress.Controllers
             }
 
             return Json(new { message = "Ha ocurrido un error en la asignación del motorizado", exito = false }, JsonRequestBehavior.AllowGet);
-        }
-
-        // POST: Envios/Createss
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,EsAlCredito,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
-        {
-            //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios
-            ModelState.Remove("envio.Servicio.DescripcionDelServicio");
-            ModelState.Remove("envio.Cotizacion.DescripcionDeCotizacion");
-
-            if (ModelState.IsValid)
-            {
-                var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(envio.TipoDeServicioId, envio.DistanciaEntregaRecep, envio.MontoDeDinero, envio.FechaDelEnvio);
-
-                if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
-                    return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
-
-                var CostoAsociado = CostoServices.ValidarVigenciaCostos(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero);
-
-                if (CostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
-                    return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
-                else
-                {
-                    if (User.IsInRole("Cliente"))//un envio necesita el clienteId por lo que solo este rol puede crear
-                    {
-                        var mEnvio = new Envio();
-
-                        //si es un nuevo servicio guardarlo antes de ocupar servicioId
-                        if (envio.ServicioId == -1)
-                        {
-                            if (envio.Servicio.DescripcionDelServicio != null)
-                            {
-                                envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
-                                envio.Servicio.Estado = true;
-
-                                var service = _mapper.Map<Servicio>(envio.Servicio);
-                                db.Servicios.Add(service);
-                                db.SaveChanges();
-
-                                //Una vez guardado el nuevo servicio actualizar la informacion del envio
-                                mEnvio.ServicioId = service.Id;
-                            }
-                        }
-                        else
-                            mEnvio.ServicioId = envio.ServicioId;
-
-                        //si el envio viene mediante una cotizacion trabajar con esa cotizacion primero, por si corrompieron la informacion en la vista, mas largo el proceso pero mas seguro
-                        var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == envio.CotizacionId);
-
-                        if (cotizacion != null)//si el envio es mediante cotizacion entonces ocupar los datos de la cotizacion, porque en la vista del envio los pudieron corromper
-                        {
-                            if (cotizacion.MontoTotal > 0)
-                            {
-                                if (envio.DebeRegresarATienda)
-                                {
-                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
-                                    cotizacion.MontoTotal += (decimal)CostoA.PrecioDeRegreso;
-                                }
-                                 
-                                //datos que vienen por cotizacion
-                                mEnvio.CotizacionId = cotizacion.Id;
-                                mEnvio.TipoDeServicioId = cotizacion.TipoDeServicioId;
-                                mEnvio.LugarOrigen = cotizacion.LugarOrigen != null ? cotizacion.LugarOrigen : _mapper.Map<Lugar>(envio.LugarOrigen);//cuando es cotizacion de gestion bancaria la cotizacio no trae un lugar origen-destino
-                                mEnvio.LugarDestino = cotizacion.LugarDestino != null ? cotizacion.LugarDestino : _mapper.Map<Lugar>(envio.LugarDestino);//entonces asignarle el origen-destino seleccionado en la vista de crear envio
-                                mEnvio.MontoDeDinero = cotizacion.MontoDeDinero;
-                                mEnvio.EsUrgente = cotizacion.EsEspecial;
-                                mEnvio.DistanciaEntregaRecep = cotizacion.DistanciaOrigenDestino > 0 ? cotizacion.DistanciaOrigenDestino : envio.DistanciaEntregaRecep;
-                                mEnvio.MontoTotalDelEnvio = cotizacion.MontoTotal;
-
-                                //si es un nuevo servicio 
-
-                                //datos que siempre se tomaran del envio
-                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
-                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
-                                mEnvio.TipoDePagoId = envio.TipoDePagoId;
-                                //mEnvio.ServicioId = envio.ServicioId;
-                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
-                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
-                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
-                                mEnvio.Peso = envio.Peso;
-                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
-                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
-                                mEnvio.MontoARecibir = envio.MontoARecibir;
-                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
-                                mEnvio.MontoCambio = envio.MontoCambio;
-                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
-                                mEnvio.ClienteId = envio.ClienteId;
-                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false; //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
-                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
-                            }
-                        }
-                        else
-                        {
-                            var MontoTotalDelEnvio = CotizacionServices.Cotizar(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep, envio.EsUrgente);
-
-                            if (MontoTotalDelEnvio > 0)
-                            {
-                                if (envio.DebeRegresarATienda)
-                                {
-                                    var CostoA = GetCostoAsociado(envio.TipoDeServicioId, envio.FechaDelEnvio, envio.MontoDeDinero, envio.DistanciaEntregaRecep);
-                                    MontoTotalDelEnvio += (decimal)CostoA.PrecioDeRegreso;
-                                }
-
-                                mEnvio.DescripcionDeEnvio = envio.DescripcionDeEnvio;
-                                mEnvio.FechaDelEnvio = envio.FechaDelEnvio;
-                                mEnvio.TipoDePagoId = envio.TipoDeServicioId;
-                                mEnvio.TipoDeServicioId = envio.TipoDeServicioId;
-                                mEnvio.NombresDelReceptor = envio.NombresDelReceptor;
-                                mEnvio.CedulaDelReceptor = envio.CedulaDelReceptor;
-                                mEnvio.TelefonoDelReceptor = envio.TelefonoDelReceptor;
-                                mEnvio.MontoDeDinero = envio.MontoDeDinero;
-                                mEnvio.EsUrgente = envio.EsUrgente;
-                                mEnvio.Peso = envio.Peso;
-                                mEnvio.DebeRegresarATienda = envio.DebeRegresarATienda;
-                                mEnvio.DebeRecibirDinero = envio.DebeRecibirDinero;
-                                mEnvio.MontoARecibir = envio.MontoARecibir;
-                                mEnvio.DebeRecibirCambio = envio.DebeRecibirCambio;
-                                mEnvio.MontoCambio = envio.MontoCambio;
-                                mEnvio.LugarOrigen = _mapper.Map<Lugar>(envio.LugarOrigen);
-                                mEnvio.LugarDestino = _mapper.Map<Lugar>(envio.LugarDestino);
-                                mEnvio.DistanciaEntregaRecep = envio.DistanciaEntregaRecep;
-                                mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
-                                mEnvio.ClienteId = envio.ClienteId;
-                                mEnvio.CotizacionId = envio.CotizacionId;
-                                mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
-                                mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
-                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
-                            }
-                        }
-
-                        //despues de asignada la informacion correspondiente
-                        db.Envios.Add(mEnvio);
-
-                        if (db.SaveChanges() > 0)
-                            return Json(new { exito = true, message = "Estimado cliente se ha realizado con éxito la solicitud de su envío" }, JsonRequestBehavior.AllowGet);
-                        else
-                            return Json(new { exito = false, message = "No se ha podido guardar tu solicitud, para mayor información contactese con atención al cliente" }, JsonRequestBehavior.AllowGet);
-
-                    }
-                    else
-                        return Json(new { message = "Ha ocurrido un error procesando su solicitud. Solo un usuario cliente puede solicitar un envio", exito = false }, JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            return Json(new { message = "Ha ocurrido un error procesando su solicitud!", exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Envios/Edit/5

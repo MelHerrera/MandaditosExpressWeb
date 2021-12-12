@@ -53,8 +53,10 @@ function IndexTipoDePago(TipoDePagoCollection) {
             type: "Post",
             data: { __RequestVerificationToken: token, tipoDePago: TipoDePagoSelected },
             success: function (res) {
+                self.ModalViewModel().HideModal();
                 if (res.exito) {
-                    location.reload();
+                    setTimeout(function () { location.reload(); }, 2000);
+
                     $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se edito la informacion Correctamente"
