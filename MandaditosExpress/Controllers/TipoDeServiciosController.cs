@@ -84,6 +84,10 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(TipoDeServicio tipoDeServicio)
         {
           TipoDeServicio xtiposdeservicio = db.TiposDeServicio.Find(tipoDeServicio.Id);
+
+            if(xtiposdeservicio.Costos.Count > 0 || xtiposdeservicio.CostosGestionBancaria.Count > 0 || xtiposdeservicio.Cotizaciones.Count > 0 || xtiposdeservicio.Servicios.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar el tipo de servicio porque tiene registros asociados" }, JsonRequestBehavior.AllowGet);
+
             db.TiposDeServicio.Remove(xtiposdeservicio);
 
             if (db.SaveChanges() > 0)

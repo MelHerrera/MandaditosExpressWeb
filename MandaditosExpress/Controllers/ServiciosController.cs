@@ -85,6 +85,10 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(Servicio servicio)
         {
             Servicio xservicio = db.Servicios.Find(servicio.Id);
+
+            if(xservicio.Envios.Count > 0)
+                return Json(new { exito = false, message = "no se puede eliminar porque existen envios asociados a este servicio" }, JsonRequestBehavior.AllowGet);
+
             db.Servicios.Remove(xservicio);
 
             if (db.SaveChanges() > 0)

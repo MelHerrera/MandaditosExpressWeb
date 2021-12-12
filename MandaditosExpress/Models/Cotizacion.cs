@@ -55,7 +55,7 @@ namespace MandaditosExpress.Models
 
         public decimal MontoDeDinero { get; set; }
 
-        public int GestionBancariaId { get; set; }
+        public int GestionBancariaId { get; set; }//este campo tan solo es usado para almacenar el id del tipo de servicio que es gestion bancaria
 
         public virtual Cliente Cliente { get; set; }
         public virtual Lugar LugarOrigen { get; set; }

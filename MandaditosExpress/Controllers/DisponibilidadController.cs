@@ -82,6 +82,10 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(Disponibilidad disponibilidad)
         {
             Disponibilidad xdisponibilidad = db.Disponibilidad.Find(disponibilidad.Id);
+
+            if(xdisponibilidad.Motorizados.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque tiene registros de afiliación de motorizado asociados" }, JsonRequestBehavior.AllowGet);
+
             db.Disponibilidad.Remove(xdisponibilidad);
 
             if (db.SaveChanges() > 0)

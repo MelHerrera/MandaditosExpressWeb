@@ -10,7 +10,6 @@ namespace MandaditosExpress.Models
         public Servicio()
         {
             Envios = new HashSet<Envio>();
-            Cotizaciones = new HashSet<Cotizacion>();
         }
 
         [Key]
@@ -30,7 +29,6 @@ namespace MandaditosExpress.Models
 
         public virtual ICollection<Envio> Envios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
 
         public virtual TipoDeServicio TipoDeServicio { get; set; }
     }

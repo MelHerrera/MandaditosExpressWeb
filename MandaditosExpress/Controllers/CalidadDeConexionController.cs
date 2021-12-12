@@ -59,21 +59,6 @@ namespace MandaditosExpress.Controllers
             return View(velocidadDeConexion);
         }
 
-        //// GET: VelocidadDeConexion/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
-        //    if (velocidadDeConexion == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(velocidadDeConexion);
-        //}
-
         // POST: VelocidadDeConexion/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -90,27 +75,16 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
-        //// GET: VelocidadDeConexion/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    VelocidadDeConexion velocidadDeConexion = db.VelocidadDeConexion.Find(id);
-        //    if (velocidadDeConexion == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(velocidadDeConexion);
-        //}
-
         // POST: VelocidadDeConexion/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(CalidadDeConexion velocidadDeConexion)
         {
             CalidadDeConexion OvelocidadDeConexion = db.VelocidadDeConexion.Find(velocidadDeConexion.Id);
+
+            if(OvelocidadDeConexion.Motorizados.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque tiene registros de afiliación de motorizado asociados" }, JsonRequestBehavior.AllowGet);
+
             db.VelocidadDeConexion.Remove(OvelocidadDeConexion);
 
             if (db.SaveChanges() > 0)

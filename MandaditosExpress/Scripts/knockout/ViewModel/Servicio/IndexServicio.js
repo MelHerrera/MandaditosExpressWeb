@@ -53,22 +53,26 @@
             type: "Post",
             data: { __RequestVerificationToken: token, servicio: servicio },
             success: function (res) {
+                $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
                 if (res.exito) {
-                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
-
                     $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se actualizó la información Correctamente"
                     });
                     setTimeout(function () { location.reload(); }, 2000);
                 }
+                else {
+                    $.notify({
+                        icon: 'fa fa-check-circle',
+                        message: res.message
+                    });
+                }
             },
             error: function (e) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops... Disculpa',
-                    text: 'Algo salio mal!',
-                    footer: 'Contactese con el Administrador del Sistema'
+                    text: 'Ha ocurrido un error procesando tu solicitud!'
                 })
             }
         });

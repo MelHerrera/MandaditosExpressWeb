@@ -80,66 +80,72 @@ namespace MandaditosExpress.Controllers
             ViewBag.VelocidadDeConexionId = new SelectList(Calidades, "Id", "Descripcion", motorizado.VelocidadDeConexionId);
 
 
-            if (ModelState.IsValid && motorizado.DisponibilidadId > 0 && motorizado.VelocidadDeConexionId > 0)
+            if (ModelState.IsValid )
             {
-                var Motorizado = new Motorizado
+                if (motorizado.DisponibilidadId > 0 && motorizado.VelocidadDeConexionId > 0)
                 {
-                    CorreoElectronico = motorizado.CorreoElectronico,
-                    PrimerNombre = motorizado.PrimerNombre,
-                    SegundoNombre = motorizado.SegundoNombre,
-                    PrimerApellido = motorizado.PrimerApellido,
-                    SegundoApellido = motorizado.SegundoApellido,
-                    Telefono = motorizado.Telefono,
-                    Foto = new Utileria().getImageBytes(Request),
-                    Sexo = motorizado.Sexo,
-                    Direccion = motorizado.Direccion,
-                    Cedula = motorizado.Cedula,
-                    FechaIngreso = DateTime.Now,
-                    EsAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? false : true,
-                    EstadoDeAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? (short) EstadoDeAfiliadoEnum.NoAplica : ((short)EstadoDeAfiliadoEnum.Solicitud),
-                    VelocidadDeConexionId = motorizado.VelocidadDeConexionId,
-                    DisponibilidadId = motorizado.DisponibilidadId,
-                    FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
-                };
 
-                Motorizado = db.Motorizados.Add(Motorizado);
-
-                if (db.SaveChanges() > 0)
-                {
-                    var Motocicleta = new Motocicleta
+                    var Motorizado = new Motorizado
                     {
-                        Placa = motorizado.Placa,
-                        Color = motorizado.Color,
-                        Modelo = motorizado.Modelo,
-                        Anio = motorizado.Anio,
-                        EsPropia = motorizado.EsPropia,
-                        Kilometraje = motorizado.Kilometraje,
-                        FechaDeIngreso = DateTime.Now,
-                        EsTemporal = false,
-                        MotorizadoId = Motorizado.Id,
-                        EstadoDeMotocicleta = true,
-                        FechaDeValidez = DateTime.Parse("01/01/1900 00:00:00")
+                        CorreoElectronico = motorizado.CorreoElectronico,
+                        PrimerNombre = motorizado.PrimerNombre,
+                        SegundoNombre = motorizado.SegundoNombre,
+                        PrimerApellido = motorizado.PrimerApellido,
+                        SegundoApellido = motorizado.SegundoApellido,
+                        Telefono = motorizado.Telefono,
+                        Foto = new Utileria().getImageBytes(Request),
+                        Sexo = motorizado.Sexo,
+                        Direccion = motorizado.Direccion,
+                        Cedula = motorizado.Cedula,
+                        FechaIngreso = DateTime.Now,
+                        EsAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? false : true,
+                        EstadoDeAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? (short)EstadoDeAfiliadoEnum.NoAplica : ((short)EstadoDeAfiliadoEnum.Solicitud),
+                        VelocidadDeConexionId = motorizado.VelocidadDeConexionId,
+                        DisponibilidadId = motorizado.DisponibilidadId,
+                        FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
                     };
 
-                    Motocicleta = db.Motocicletas.Add(Motocicleta);
+                    Motorizado = db.Motorizados.Add(Motorizado);
 
                     if (db.SaveChanges() > 0)
                     {
-                        ViewBag.Exito = true;
-                        return View(new MotorizadoViewModel());
-                    }
-                    else
-                    {
-                        db.Motorizados.Remove(Motorizado);
-                        db.Motocicletas.Remove(Motocicleta);
-                        ViewBag.Exito = false;
+                        var Motocicleta = new Motocicleta
+                        {
+                            Placa = motorizado.Placa,
+                            Color = motorizado.Color,
+                            Modelo = motorizado.Modelo,
+                            Anio = motorizado.Anio,
+                            EsPropia = motorizado.EsPropia,
+                            Kilometraje = motorizado.Kilometraje,
+                            FechaDeIngreso = DateTime.Now,
+                            EsTemporal = false,
+                            MotorizadoId = Motorizado.Id,
+                            EstadoDeMotocicleta = true,
+                            FechaDeValidez = DateTime.Parse("01/01/1900 00:00:00")
+                        };
 
-                        ModelState.AddModelError("", new Exception("Lo sentimos, ocurrio un error procesando su solicitud"));
+                        Motocicleta = db.Motocicletas.Add(Motocicleta);
+
+                        if (db.SaveChanges() > 0)
+                        {
+                            ViewBag.Exito = true;
+                            return View(new MotorizadoViewModel());
+                        }
+                        else
+                        {
+                            db.Motorizados.Remove(Motorizado);
+                            db.Motocicletas.Remove(Motocicleta);
+                            ViewBag.Exito = false;
+
+                            ModelState.AddModelError("", "Lo sentimos, ocurrio un error procesando su solicitud");
+                        }
                     }
                 }
+                else
+                    ModelState.AddModelError("", "La Disponibilidad y Calidad de conexión a internet es obligatoria");
             }
             else
-                ModelState.AddModelError("", new Exception("Lo sentimos, ocurrio un error procesando su solicitud"));
+                ModelState.AddModelError("", "Lo sentimos, ocurrio un error procesando su solicitud");
 
             return View(motorizado);
         }
