@@ -82,6 +82,12 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(TipoDePago tipoDePago)
         {
             TipoDePago OtipoDePago = db.TiposDePago.Find(tipoDePago.Id);
+
+            if(OtipoDePago.Pagos.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen pagos asociados a este registro" }, JsonRequestBehavior.AllowGet);
+            if (OtipoDePago.Envios.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen envios asociados a este registro" }, JsonRequestBehavior.AllowGet);
+
             db.TiposDePago.Remove(OtipoDePago);
 
             if(db.SaveChanges()>0)

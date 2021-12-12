@@ -144,6 +144,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(Costo costo)
         {
             Costo xcosto = db.Costos.Find(costo.Id);
+
             db.Costos.Remove(xcosto);
 
             if (db.SaveChanges() > 0)

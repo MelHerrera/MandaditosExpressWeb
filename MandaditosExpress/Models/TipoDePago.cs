@@ -12,6 +12,7 @@ namespace MandaditosExpress.Models
         public TipoDePago()
         {
             this.Pagos = new HashSet<Pago>();
+            Envios = new HashSet<Envio>();
         }
 
         [Key]
@@ -27,5 +28,7 @@ namespace MandaditosExpress.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pago> Pagos { get; set; }
+
+        public virtual ICollection<Envio> Envios { get; set; }
     }
 }

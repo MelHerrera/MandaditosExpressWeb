@@ -61,21 +61,6 @@ namespace MandaditosExpress.Controllers
             return View(moneda);
         }
 
-        //// GET: Monedas/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Moneda moneda = db.Monedas.Find(id);
-        //    if (moneda == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(moneda);
-        //}
-
         // POST: Monedas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -92,32 +77,20 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false },JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Monedas/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Moneda moneda = db.Monedas.Find(id);
-        //    if (moneda == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(moneda);
-        //}
-
         // POST: Monedas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Moneda moneda)
         {
             Moneda Omoneda = db.Monedas.Find(moneda.Id);
+
+            if(Omoneda.Pagos.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen pagos asociados a este registro" }, JsonRequestBehavior.AllowGet);
+
             db.Monedas.Remove(Omoneda);
+
             if (db.SaveChanges() > 0)
-            {
                 return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
-            }
 
             return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }

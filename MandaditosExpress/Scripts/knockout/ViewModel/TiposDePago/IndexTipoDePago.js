@@ -60,13 +60,18 @@ function IndexTipoDePago(TipoDePagoCollection) {
                         message: "Se edito la informacion Correctamente"
                     });
                 }
+                else {
+                    $.notify({
+                        icon: 'fa fa-exclamation-circle',
+                        message: res.message
+                    });
+                }
             },
             error: function (e) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops... Disculpa',
-                    text: 'Algo salio mal!',
-                    footer: 'Contactese con el Administrador del Sistema'
+                    text: 'Ha ocurrido un error procesando tu solicitud!'
                 })
             }
         });
