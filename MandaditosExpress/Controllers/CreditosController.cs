@@ -6,7 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Utileria;
+using MandaditosExpress.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
@@ -14,12 +18,31 @@ namespace MandaditosExpress.Controllers
     public class CreditosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
 
+        public CreditosController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         // GET: Creditos
         public ActionResult Index()
         {
-            var creditos = db.Creditos.Include(c => c.Cliente);
-            return View(creditos.ToList());
+            var creditos = new List<Credito>();
+
+            if(User.IsInRole("Admin"))
+            creditos = db.Creditos.Include(c => c.Cliente).ToList();
+            else
+            {
+                var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
+                var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
+
+                //creditos filtrados por usuario
+                creditos = db.Creditos.Include(c => c.Cliente).Where(it=> it.ClienteId == PersonaActual.Id).ToList();
+            }
+
+            ViewBag.dt = JsonConvert.SerializeObject(_mapper.Map<ICollection<CreditoViewModel>>(creditos));
+
+            return View(new CreditoViewModel());
         }
 
         // GET: Creditos/Details/5
@@ -57,16 +80,20 @@ namespace MandaditosExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                //validaciones sobre el credito a guardar
-                ////creditos del cliente en el mismo periodo y que sean creditos que no tengan pagos
-                //var ExisteCreditoMismoPeriodo = db.Creditos.FirstOrDefault(it=> it.FechaDeInicio>=credito.FechaDeInicio && it.FechaDeVencimiento<=credito.FechaDeInicio &&
-                //                                                           it.FechaDeInicio<=credito.FechaDeVencimiento && 
-                //                                                           it.ClienteId == credito.ClienteId && it.Pagos.Count<= 0);
-                //if (ExisteCreditoMismoPeriodo != null)
-                //{
-                //    ModelState.AddModelError("","No se puede grabar otro credito a este cliente en el mismo periodo");
-                //    return View(credito);
-                //}
+                // validaciones sobre las fechas del credito a guardar
+                //puede ser 1 minuto menor a la fecha actual.
+                //escenario: elije en el calendario hoy pero en todo lo que llena los otros campos la datetime.now sera mayor y entonces
+                //la validacion se disparara, para evitar eso se le agrego 1 minuto de tiempo a la fecha de incio
+                if (credito.FechaDeInicio.AddMinutes(1) < DateTime.Now)
+                {
+                    ModelState.AddModelError("", "La fecha de inicio debe ser mayor o igual a la fecha actual");
+                    return View(credito);
+                }
+                if (credito.FechaDeInicio >= credito.FechaDeVencimiento)
+                {
+                    ModelState.AddModelError("", "La fecha de inicio no puede ser mayor o igual a la fecha de vencimiento");
+                    return View(credito);
+                }
 
                 db.Creditos.Add(credito);
                 db.SaveChanges();
@@ -102,6 +129,13 @@ namespace MandaditosExpress.Controllers
         public ActionResult DeleteConfirmed(Credito credito)
         {
             Credito Ocredito = db.Creditos.Find(credito.Id);
+
+            if(Ocredito.Envios.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar el crédito porque tiene envios asociados" }, JsonRequestBehavior.AllowGet);
+
+            if (Ocredito.Pagos.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar el crédito porque tiene pagos asociados" }, JsonRequestBehavior.AllowGet);
+
             db.Creditos.Remove(Ocredito);
 
             if (db.SaveChanges() > 0)

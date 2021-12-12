@@ -48,7 +48,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="Password"><i class="fa fa-key"></i></label>
-                                            <input type="password" name="Password" id="your_pass" placeholder="Contrasña" />
+                                            <input type="password" name="Password" id="your_pass" placeholder="Contrasña" data-bind="toggleValue: $root.TogglePassword"/>
                                         </div>
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
@@ -80,5 +80,21 @@
     </div>
 </body>
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/plugins/knockout")
+<script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
+
+<script type="text/javascript">
+
+    function IndexLogin() {
+        const self = this;
+
+        self.TogglePassword = ko.observable(false);
+    }
+
+    $(function () {
+        let vm = new IndexLogin();
+        ko.applyBindings(vm);
+    });
+</script>

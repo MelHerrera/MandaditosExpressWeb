@@ -66,7 +66,7 @@ public class MainMappingProfile : Profile
             .ForMember(x => x.Nombres, x => x.MapFrom(y => y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
         CreateMap<Envio, EnvioPagoViewModel>().ReverseMap();
         CreateMap<Moneda, MonedaViewModel>().ReverseMap();
-        CreateMap<Credito, CreditoViewModel>().ReverseMap();
+        CreateMap<Credito, CreditoViewModel>().ForMember(x=> x.NombreCompletoCliente, x=> x.MapFrom(y=> y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido)).ReverseMap();
         CreateMap<Pago, PagoViewModel>().ReverseMap();
         CreateMap<Envio, IndexEnvioViewModel>().
                             ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? "badge badge-info" : "badge badge-danger"))

@@ -358,6 +358,7 @@ namespace MandaditosExpress.Controllers
                                 mEnvio.EstadoDelEnvio = envio.EstadoDelEnvio;
                                 mEnvio.ClienteId = envio.ClienteId;
                                 mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false; //si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
+                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
                             }
                         }
                         else
@@ -395,7 +396,7 @@ namespace MandaditosExpress.Controllers
                                 mEnvio.CotizacionId = envio.CotizacionId;
                                 mEnvio.MontoTotalDelEnvio = MontoTotalDelEnvio;
                                 mEnvio.EsAlCredito = TieneCreditoCliente(envio.ClienteId) ? envio.EsAlCredito : false;//si el cliente tiene credito entonces lo que el envio desde la vista de lo contrario falso
-
+                                mEnvio.CreditoId = TieneCreditoCliente(envio.ClienteId) ? GetFirstCreditoCliente(envio.ClienteId) : null;//si tiene credito entonces asociar el envio con el primer credito vigente y sin pagar
                             }
                         }
 
@@ -603,7 +604,21 @@ namespace MandaditosExpress.Controllers
             return db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == ClienteId && it.Pagos.Count <= 0 && it.EstadoDelCredito && it.FechaDeCancelacion==defaultCancelacionDate ).Count() > 0;
 
         }
-       
+
+        public int? GetFirstCreditoCliente(int ClienteId)
+        {
+            var defaultCancelacionDate = DateTime.Parse("01/01/1900");
+            //creditos vigentes, activos, sin pagos y sin fecha de cancelacion
+            var creditos = db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now && it.FechaDeVencimiento >= DateTime.Now && it.ClienteId == ClienteId && it.Pagos.Count <= 0 && it.EstadoDelCredito && it.FechaDeCancelacion == defaultCancelacionDate);
+
+            int? creditoId = null;
+
+            if (creditos.FirstOrDefault() != null)
+                creditoId = creditos.FirstOrDefault().Id;
+
+            return creditoId;    
+        }
+
         public Costo GetCostoAsociado(int TipoDeServicioId, DateTime FechaDeLaCotizacion, decimal MontoDeDinero, float DistanciaOrigenDestino)
         {
             var CostoAsociado = new object();

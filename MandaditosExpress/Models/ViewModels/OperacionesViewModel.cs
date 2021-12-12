@@ -152,6 +152,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Cotización")]
         public int? CotizacionId { get; set; }
 
+        public int? CreditoId { get; set; }
+
         [Display(Name ="Descripción breve del Servicio")]
         public int? ServicioId { get; set; }
 

@@ -14,34 +14,12 @@
         background: #f8f8f8;
         padding: 20px 0px 20px 0px;
     }
+
+    .signup-form {
+        margin-left: 30px;
+        margin-right: 40px;
+    }
 </style>
-
-
-@if (Request.IsAuthenticated)
-{
-    <style>
-        .main {
-            background: #f8f8f8;
-            padding: 10px 0px 10px 0px;
-        }
-
-        .register {
-            width: 1100px;
-            background: #fff;
-            margin: 0 auto;
-            box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -moz-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -webkit-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -o-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            -ms-box-shadow: 0 15px 16.83px .17px rgba(0,0,0,.05);
-            border-radius: 20px;
-            -moz-border-radius: 20px;
-            -webkit-border-radius: 20px;
-            -o-border-radius: 20px;
-            -ms-border-radius: 20px
-        }
-    </style>
-}
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
@@ -99,12 +77,12 @@
                             </div><br />
 
                             <div class=" row">
-                                     <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                            <input type="text" name="Cedula" placeholder="Cedula" class="Cedula"/>
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
+                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" />
                                     </div>
+                                </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -170,19 +148,19 @@
                                     @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                                        
                             <div class=" row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Password"><i class="fa fa-key"></i></label>
-                                        <input type="password" name="Password" placeholder="Contraseña" />
+                                        <input type="password" name="Password" placeholder="Contraseña" data-bind="toggleValue: $root.TogglePassword"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="ConfirmPassword"><i class="fa fa-key"></i></label>
-                                        <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña" />
+                                        <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña" data-bind="toggleValue: $root.ToggleConfirmPassword"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                 </div>
@@ -217,8 +195,17 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
+@Scripts.Render("~/plugins/knockout")
+<script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
 
 <script type="text/javascript">
+    function IndexClientes() {
+        const self = this;
+
+        self.TogglePassword = ko.observable(false);
+        self.ToggleConfirmPassword = ko.observable(false);
+    }
+
 
     $(document).ready(function () {
         //Por defecto ocultar estos campos
@@ -259,5 +246,9 @@
             }
         });
 
+
+        //inicializar knockout js and apply binding
+        let vm = new IndexClientes();
+        ko.applyBindings(vm);
     });
 </script>

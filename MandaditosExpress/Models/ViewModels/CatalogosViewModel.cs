@@ -160,5 +160,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
+
+        public string NombreCompletoCliente { get; set; }
     }
 }

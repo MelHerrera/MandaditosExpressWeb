@@ -110,8 +110,11 @@ namespace MandaditosExpress.Models
         [StringLength(150)]
         public string MotivoDeRechazo { get; set; }
 
+        public int? CreditoId { get; set; }
+
         public virtual Cotizacion Cotizacion { get; set; }
         public virtual Cliente Cliente { get; set; }
+        public virtual Credito Credito { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
