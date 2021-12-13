@@ -18,9 +18,12 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -343,6 +346,7 @@
     <Content Include="Content\NiceAdmin.css" />
     <Content Include="Content\ninestar_style.css" />
     <Content Include="Content\plugins\checkbox\magic-input.min.css" />
+    <Content Include="Content\plugins\select2\select2-bootstrap4.min.css" />
     <Content Include="Content\plugins\select2\select2.css" />
     <Content Include="Images\3.png" />
     <Content Include="Images\4.png" />
@@ -367,6 +371,8 @@
     <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
     <Content Include="Models\DataSetsProcedures\EnviosPorPeriodo.txt" />
     <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
+    <Content Include="Models\triggers\GenerateCodEnvio.txt" />
+    <Content Include="Models\triggers\GeneratedCodCotizacion.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />

@@ -19,6 +19,7 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db = new MandaditosDB();
         private IMapper _mapper;
+        private ApplicationDbContext SecurityDb = new ApplicationDbContext();
 
         public CreditosController(IMapper mapper)
         {
@@ -64,7 +65,10 @@ namespace MandaditosExpress.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            ViewBag.ClienteId = new SelectList(db.Clientes, "Id", "NombreCompleto");
+            var users = SecurityDb.Users.Where(it=> it.EmailConfirmed).Select(it=> it.Email).ToList();//todos los usuarios que ya esten confirmados
+            var clientes = db.Clientes.Where(it=> users.Contains(it.CorreoElectronico)).ToList();
+            ViewBag.ClienteId = new SelectList(clientes, "Id", "NombreCompleto");
+
             return View();
         }
 
@@ -76,7 +80,9 @@ namespace MandaditosExpress.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeVencimiento,EstadoDelCredito,FechaDeCancelacion,ClienteId")] Credito credito)
         {
-            ViewBag.ClienteId = new SelectList(db.Personas, "Id", "CorreoElectronico", credito.ClienteId);
+            var users = SecurityDb.Users.Where(it => it.EmailConfirmed).Select(it => it.Email).ToList();//todos los usuarios que ya esten confirmados
+            var clientes = db.Clientes.Where(it => users.Contains(it.CorreoElectronico)).ToList();
+            ViewBag.ClienteId = new SelectList(clientes, "Id", "NombreCompleto");
 
             if (ModelState.IsValid)
             {

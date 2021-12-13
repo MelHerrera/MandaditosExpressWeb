@@ -345,6 +345,7 @@
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
+        ///TODO validar que no se pueda dar solicitar envio multiples veces 
 
         //formatear la fecha.
         let fechaFormatted = formatDate(initialData.FechaDelEnvio())
@@ -573,6 +574,7 @@
                     longitudeInput: $("#input-origen-long"),
                     locationNameInput: $("#input-origen-dir")
                 },
+                addressFormat: 'street_address',
                 onchanged: function (currentLocation, radius, isMarkerDropped) {
 
                     let addressComponents = $(this).locationpicker('map').location.addressComponents;
@@ -605,7 +607,9 @@
                     latitudeInput: $("#input-dest-lat"),
                     longitudeInput: $("#input-dest-long"),
                     locationNameInput: $("#input-destino-dir")
-                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                },
+                addressFormat: 'street_address',
+                onchanged: function (currentLocation, radius, isMarkerDropped) {
                     let addressComponents = $(this).locationpicker('map').location.addressComponents;
 
                     if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {

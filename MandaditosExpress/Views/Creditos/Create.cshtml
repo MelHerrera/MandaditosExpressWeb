@@ -4,8 +4,11 @@
     ViewBag.Title = "Otorgar creditos";
 }
 
-@Styles.Render("~/Plugin/switches")
-
+@section Styles
+{
+    @Styles.Render("~/Plugin/switches")
+    <link href="~/Content/plugins/select2/select2.css" rel="stylesheet" />
+}
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
@@ -45,40 +48,39 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
 
-                                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FechaDeInicio, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.FechaDeInicio, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                            @Html.ValidationMessageFor(model => model.FechaDeInicio, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FechaDeVencimiento, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.FechaDeVencimiento, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                            @Html.ValidationMessageFor(model => model.FechaDeVencimiento, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.FechaDeInicio, htmlAttributes: new { @class = "control-label" })
-
-                                        @Html.EditorFor(model => model.FechaDeInicio, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                                        @Html.ValidationMessageFor(model => model.FechaDeInicio, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.FechaDeVencimiento, htmlAttributes: new { @class = "control-label" })
-
-                                        @Html.EditorFor(model => model.FechaDeVencimiento, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                                        @Html.ValidationMessageFor(model => model.FechaDeVencimiento, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.ClienteId, htmlAttributes: new { @class = "control-label" })
-
-                                            @Html.DropDownList("ClienteId", null, htmlAttributes: new { @class = "form-control", @Required = true })
+                                            @Html.DropDownList("ClienteId", null, optionLabel: "-- Seleccionar --", htmlAttributes: new { @class = "form-control", @Required = true, data_bind = "Select2:{ }" })
                                             @Html.ValidationMessageFor(model => model.ClienteId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -120,4 +122,18 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/plugins/select2/select2.js"></script>
+    <script type="text/javascript">
+
+        //se debe aplicar un viewmodel knockout para que el select custom binding tenga un contexto
+        function IndexCreateCredito() {
+            const self = this;
+        }
+
+        $(function () {
+            let vm = new IndexCreateCredito();
+            ko.applyBindings(vm);
+        });
+    </script>
 }

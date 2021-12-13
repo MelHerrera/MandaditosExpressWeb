@@ -17,7 +17,7 @@
 
     .signup-form {
         margin-left: 30px;
-        margin-right: 40px;
+        margin-right: 10px;
     }
 </style>
 
@@ -119,25 +119,27 @@
                             <br />
 
                             <div class=" row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <input type="checkbox" name="EsEmpresa" value="true" style="display:inline-block;width:auto;" class="chkEmpresa" />
                                         <label for="EsEmpresa" class="label-esEmpresa">Represento un negocio</label>
                                     </div>
                                 </div>
-                                <div class="col-md-4 nombreEmpresa">
-                                    <div class="form-group nombreEmpresa-formgroup">
-                                        <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
-                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre" id="NombreDeLaEmpresa" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3 RUCEmpresa">
+
+                                <div class="col-md-6 RUCEmpresa">
                                     <div class="form-group">
                                         <label for="RUC"><i class="fa fa-ticket"></i></label>
-                                        <input type="text" name="RUC" placeholder="RUC" />
+                                        <input type="text" name="RUC" placeholder="# RUC" />
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-md-12 nombreEmpresa">
+                                    <div class="form-group nombreEmpresa-formgroup">
+                                        <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre del Negocio" id="NombreDeLaEmpresa" />
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>                         
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -178,7 +180,7 @@
                         }
                     </div>
                     <div class="signup-image align-items-center">
-                        <figure><img src="~/Images/Register.png" alt="sing up image"></figure>
+                        <figure><img src="~/Images/Register.png" alt="sing up image" style="max-width:90%;"></figure>
                         <div class="row justify-content-center">
                             @if (Request.IsAuthenticated == false)
                             {

@@ -293,6 +293,9 @@ namespace MandaditosExpress.Models.ViewModels
         [Key]
         public int Id { get; set; }
 
+        [StringLength(30)]
+        public string CodigoDeEnvio { get; set; }
+
         [StringLength(250)]
         [Required]
         [Display(Name = "Descripción")]
@@ -306,6 +309,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Monto total del envio")]
         public decimal MontoTotalDelEnvio { get; set; }
 
+        public double DistanciaEntregaRecep { get; set; }
+
         public int ClienteId { get; set; }
 
     }
@@ -315,6 +320,9 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Key]
         public int Id { get; set; }
+
+        [StringLength(30)]
+        public string CodigoDeEnvio { get; set; }
 
         [StringLength(250)]
         [Required]

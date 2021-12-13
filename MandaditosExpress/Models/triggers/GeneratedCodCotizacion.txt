@@ -1,0 +1,26 @@
+﻿use MandaditosDB
+go
+
+-- =============================================
+-- Author:		<email:melkinantonioh@gmail.com>
+-- Create date: <13/12/2021>
+-- Description:	<genera un codigo para el registro y actualiza el codigo de la cotizacion que acaba de ser insertado en la tabla de cotizaciones>
+-- =============================================
+
+create trigger GenerateCodCotizacion
+on Cotizaciones
+after insert
+as
+begin
+set nocount on;
+
+--instruction sql trigger
+--Code format : COT + current year + cotizacion Id
+declare @cotId int =  (select i.Id from inserted as i)
+
+--update code with generated code
+update Cotizaciones
+set CodigoDeCotizacion = CONCAT('COT', YEAR(getDate()), @cotId) 
+where Id = @cotId
+
+end

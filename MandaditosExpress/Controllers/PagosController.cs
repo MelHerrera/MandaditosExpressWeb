@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.ViewModels;
 using Newtonsoft.Json;
 
@@ -54,8 +55,6 @@ namespace MandaditosExpress.Controllers
 
             PagoViewModel.Monedas = _mapper.Map<ICollection<MonedaViewModel>>(db.Monedas).ToList();
             PagoViewModel.TiposDePago = _mapper.Map<ICollection<TipoDePagoViewModel>>(db.TiposDePago).ToList();
-            //PagoViewModel.Envios = _mapper.Map<ICollection<EnvioPagoViewModel>>(db.Envios.Where(it=> it.Pagos.Count<=0).ToList()).ToList();
-            //PagoViewModel.Creditos = _mapper.Map<ICollection<CreditoViewModel>>(db.Creditos.Where(it => it.FechaDeInicio <= DateTime.Now)).ToList();
             PagoViewModel.Clientes = _mapper.Map<ICollection<ClientePagoViewModel>>(db.Clientes).ToList();
 
             return View(PagoViewModel);
@@ -150,11 +149,19 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public JsonResult FiltrarEnvios(int ClienteId)
         {
-
             if (ClienteId > 0)
             {
-                var Envios = _mapper.Map<ICollection<EnvioPagoViewModel>>(db.Envios.Where(it => it.ClienteId == ClienteId).ToList()).ToList();
-                return Json(new { exito = true, data = Envios }, JsonRequestBehavior.AllowGet);
+                //lista de envios del cliente seleccionado que no son al credito y que aun no se hayan pagado y que esten en estado en proceso o realizados
+                //TODO descomentar esta validacion para produccion
+                //var ListEnvios = db.Envios.Where(it => it.ClienteId == ClienteId && !it.EsAlCredito && it.Pagos.Count <=0 
+                //&& ( it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado )).ToList();
+
+                //comentar esta lista de envios para produccion, ya que, no verifica el estado del envio
+                var ListEnvios = db.Envios.Where(it => it.ClienteId == ClienteId && !it.EsAlCredito && it.Pagos.Count <= 0).ToList();
+                var Envios = _mapper.Map<ICollection<EnvioPagoViewModel>>(ListEnvios).ToList();
+               
+                //JSONConvert dont put datetime format like  /Date(1639415480000)/
+                return Json(new { exito = true, data = JsonConvert.SerializeObject(Envios) }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(false, JsonRequestBehavior.AllowGet);
@@ -172,8 +179,8 @@ namespace MandaditosExpress.Controllers
                 && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha).ToList();
 
                 List<CreditoViewModel> Creditos = _mapper.Map<ICollection<CreditoViewModel>>(creditos).ToList();
-
-                return Json(new { exito = true, data = Creditos }, JsonRequestBehavior.AllowGet);
+                //JSONConvert dont put datetime format like  /Date(1639415480000)/	
+                return Json(new { exito = true, data = JsonConvert.SerializeObject(Creditos) }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(false, JsonRequestBehavior.AllowGet);

@@ -19,10 +19,14 @@ namespace MandaditosExpress.Models
             //TiposDeServicios = db.TiposDeServicio.ToList();
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
             GestionBancariaId = gestion != null ? gestion.Id : -1;
+            CodigoDeCotizacion = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [StringLength(30)]
+        public string CodigoDeCotizacion { get; set; }
 
         [StringLength(250)]
         [Required]

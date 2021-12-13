@@ -12,10 +12,14 @@ namespace MandaditosExpress.Models
         {
             Pagos = new HashSet<Pago>();
             Seguimientos = new HashSet<Seguimiento>();
+            CodigoDeEnvio = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [StringLength(30)]
+        public string CodigoDeEnvio { get; set; }
 
         [StringLength(250)]
         [Required]

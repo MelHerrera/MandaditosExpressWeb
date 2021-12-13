@@ -220,12 +220,19 @@ namespace MandaditosExpress.Controllers
                                 envio.Servicio.TipoDeServicioId = envio.TipoDeServicioId;
                                 envio.Servicio.Estado = true;
 
-                                var service = _mapper.Map<Servicio>(envio.Servicio);
-                                db.Servicios.Add(service);
-                                db.SaveChanges();
+                                var ServiceInDb = db.Servicios.FirstOrDefault(it=> it.DescripcionDelServicio.ToUpper() == envio.Servicio.DescripcionDelServicio.TrimStart().TrimEnd().ToUpper() );
 
-                                //Una vez guardado el nuevo servicio actualizar la informacion del envio
-                                mEnvio.ServicioId = service.Id;
+                                if (ServiceInDb == null)//si es igual a null entonces no existe y se puede guardar como un nuevo servicio
+                                {
+                                    var service = _mapper.Map<Servicio>(envio.Servicio);
+                                    db.Servicios.Add(service);
+                                    db.SaveChanges();
+
+                                    //Una vez guardado el nuevo servicio actualizar la informacion del envio
+                                    mEnvio.ServicioId = service.Id;
+                                }
+                                else
+                                    mEnvio.ServicioId = ServiceInDb.Id;
                             }
                         }
                         else

@@ -11,6 +11,13 @@
     @Styles.Render("~/Plugin/switches")
     <link href="~/Content/plugins/select2/select2.css" rel="stylesheet" />
 }
+<!--lo coloque aqui para que razor lo coloque de ultimo y sobreescriba la clase anterior -->
+<style>
+    .clients-list .tab-pane {
+        position: relative;
+        height: 260px;
+    }
+</style>
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
@@ -87,10 +94,11 @@
                                             <p class="font-weight-bold">
                                                 Lista de todos los envios del cliente seleccionado.
                                             </p>
-                                            <div class=" small">
+                                            <div class="clients-list">
                                                 <ul class="nav nav-tabs">
                                                     <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Envios()).length )">0 </span>
                                                     <span class="pull-right text-muted ml-2"> Envios</span>
+                                                    <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoEnvio"></i>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div id="tab-1" class="tab-pane active">
@@ -101,33 +109,34 @@
                                                                     <thead class="bg-primary">
                                                                         <tr>
                                                                             <th>Nº</th>
+                                                                            <th>Código</th>
                                                                             <th>Descripcion</th>
                                                                             <th>Fecha</th>
                                                                             <th>Monto Total</th>
-                                                                            <th>Estado</th>
+                                                                            <th>Distancia</th>
                                                                             <th>Opciones</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody data-bind="foreach:ko.unwrap(Envios)">
                                                                         <tr>
                                                                             <td data-bind="text:$index()+1"></td>
-
+                                                                            <td data-bind="text:CodigoDeEnvio"></td>
                                                                             <td data-bind="text:DescripcionDeEnvio"></td>
                                                                             <td>
                                                                                 <i class="fa fa-calendar"></i>
                                                                                 <span data-bind="text:FechaDelEnvio"></span>
                                                                             </td>
                                                                             <td>
-                                                                                <i class="fa fa-envelope"></i>
+                                                                                <i class="fa fa-money"></i>
                                                                                 <span data-bind="text:MontoTotalDelEnvio"></span>
                                                                             </td>
 
-                                                                            <td class="client-status">
-                                                                                <span _data-bind="text:'Confirmado', attr:{ class:EmailConfirmedClass}"></span>
+                                                                            <td class="fa fa-map-marker">
+                                                                                <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
                                                                             </td>
 
                                                                             <td>
-                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank">
+                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
                                                                                     <i class="fa fa-info-circle"></i>
                                                                                 </a>
                                                                             </td>
@@ -159,10 +168,11 @@
                                             <p class="font-weight-bold">
                                                 Lista de todos los creditos del cliente seleccionado.
                                             </p>
-                                            <div class=" small">
+                                            <div class="clients-list">
                                                 <ul class="nav nav-tabs">
                                                     <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Creditos()).length )">0 </span>
                                                     <span class="pull-right text-muted ml-2"> Creditos</span>
+                                                    <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div id="tab-1" class="tab-pane active">
@@ -194,7 +204,7 @@
                                                                             </td>
 
                                                                             <td>
-                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank">
+                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
                                                                                     <i class="fa fa-info-circle"></i>
                                                                                 </a>
                                                                             </td>
@@ -296,6 +306,21 @@
     </div>
 </div>
 
+@*<template id="buscar-template">
+    <div class="row">
+        <div class="col-sm-6 float-right">
+            <div class="input-group">
+                <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarPersonas">
+                        <i class="fa fa-search"></i> Buscar
+                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoPersonas"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</template>*@
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
@@ -303,21 +328,16 @@
     <script src="~/Scripts/knockout/knockout.mapping.js"></script>
     @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
     <script src="~/Scripts/plugins/select2/select2.js"></script>
-    @Scripts.Render("~/plugins/moment")
-
 
     <script>
-        function formatDate(dataToFormat) {
-            let formatDate = "YYYY-MM-DD, h:mm:ss a";
-            return moment(dataToFormat).format(formatDate)
-        }
 
         $(function () {
             var JsonData = $("#dt").val();
             $("#dt").remove();
 
-            var indexPago = new IndexPago(JsonData);
+            var indexPago = new IndexPago(JSON.parse(JsonData));
 
             ko.applyBindings(indexPago);
         });
@@ -325,7 +345,7 @@
         function IndexPago(pago) {
             const self = this;
 
-            self.Pago = ko.observable(ko.mapping.fromJSON(pago));
+            self.Pago = ko.observable(ko.mapping.fromJS(pago));
             self.ClienteId = ko.observable();
             self.EnvioValue = ko.observable("Envio");
             self.CreditoValue = ko.observable("Credito");
@@ -373,59 +393,65 @@
             });
 
             function FiltrarEnvios() {
-
-                $.ajax({
-                    url: "/Pagos/FiltrarEnvios",
-                    type: "Get",
-                    data: { ClienteId: self.ClienteId },
-                    beforeSend: function () {
-                        self.FiltrandoEnvio(true);
-                    },
-                    success: function (res) {
-                        if (res.exito) {
-                            //update local list
-                            self.Pago().Envios([]);//primero limpiar la info
-                            self.Pago().Envios(ko.mapping.fromJS(res.data));
+                if (self.ClienteId()) {
+                    $.ajax({
+                        url: "/Pagos/FiltrarEnvios",
+                        type: "Get",
+                        data: { ClienteId: self.ClienteId },
+                        beforeSend: function () {
+                            self.FiltrandoEnvio(true);
+                        },
+                        success: function (res) {
+                            if (res.exito) {
+                                //update local list
+                                self.Pago().Envios([]);//primero limpiar la info
+                                self.Pago().Envios(ko.mapping.fromJSON(res.data));
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
+                            });
+                        },
+                        complete: function () {
+                            self.FiltrandoEnvio(false);
                         }
-                    },
-                    error: function (e) {
-                        $.notify({
-                            icon: 'fa fa-exclamation-circle',
-                            message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
-                        });
-                    },
-                    complete: function () {
-                        self.FiltrandoEnvio(false);
-                    }
-                });
+                    });
+                }
+                else
+                    InvalidClientError();
             }
 
             function FiltrarCreditos() {
-
-                $.ajax({
-                    url: "/Pagos/FiltrarCreditos",
-                    type: "Get",
-                    data: { ClienteId: self.ClienteId },
-                    beforeSend: function () {
-                        self.FiltrandoCred(true);
-                    },
-                    success: function (res) {
-                        if (res.exito) {
-                            //update local list
-                            self.Pago().Creditos([]);//primero limpiar la info
-                            self.Pago().Creditos(ko.mapping.fromJS(res.data));
+                if (self.ClienteId()) {
+                    $.ajax({
+                        url: "/Pagos/FiltrarCreditos",
+                        type: "Get",
+                        data: { ClienteId: self.ClienteId },
+                        beforeSend: function () {
+                            self.FiltrandoCred(true);
+                        },
+                        success: function (res) {
+                            if (res.exito) {
+                                //update local list
+                                self.Pago().Creditos([]);//primero limpiar la info
+                                self.Pago().Creditos(ko.mapping.fromJSON(res.data));
+                            }
+                        },
+                        error: function (e) {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
+                            });
+                        },
+                        complete: function () {
+                            self.FiltrandoCred(false);
                         }
-                    },
-                    error: function (e) {
-                        $.notify({
-                            icon: 'fa fa-exclamation-circle',
-                            message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
-                        });
-                    },
-                    complete: function () {
-                        self.FiltrandoCred(false);
-                    }
-                });
+                    });
+                }
+                else
+                    InvalidClientError();
             }
 
             function CalcularMontoEnvio() {
@@ -477,6 +503,13 @@
                         // self.FiltrandoCred(false);
                     }
                 });
+            }
+
+            function InvalidClientError() {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'No se ha seleccionado un cliente válido'
+                })
             }
         }
 

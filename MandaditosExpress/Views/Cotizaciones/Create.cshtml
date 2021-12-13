@@ -9,6 +9,10 @@
     .pac-container {
         z-index: 99999;
     }
+
+    .swal2-container {
+        z-index: 2051
+    }
 </style>
 
 @if (!Request.IsAuthenticated)
@@ -50,7 +54,7 @@ else
                                         </div>
                                         <div class="col-auto">
                                             @*@Html.DropDownList("TipoDeServicioId", null, htmlAttributes: new { @class = "form-control" })*@
-                                            <select class="form-control" name="TipoDeServicioId" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
+                                            <select class="form-control" name="TipoDeServicioId" data-bind="options:( ko.unwrap(TiposDeServicios()).length > 0 ? TiposDeServicios : [{ DescripcionTipoDeServicio: '-- Sin Registros --'}]), optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
                                             @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -105,7 +109,7 @@ else
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="EsEspecial" value="true" name="EsEspecial" data-bind="checked:EsEspecial">
                                         <label class="form-check-label" for="EsEspecial">
-                                            ¿Es Especial?
+                                            Urgente
                                         </label>
                                         @Html.ValidationMessageFor(model => model.EsEspecial, "", new { @class = "text-danger" })
                                     </div>
@@ -400,8 +404,7 @@ else
                                                 if (result.havemodelerror) {
                                                     Swal.fire({
                                                         icon: 'error',
-                                                        text: result.error,
-                                                        footer: 'Consulta con el administrador del sistema.'
+                                                        text: result.error
                                                     })
                                                 }
 
@@ -513,7 +516,9 @@ else
                                     latitudeInput: $("#MapAddresLatitud"),
                                     longitudeInput: $("#MapAddresLongitud"),
                                     locationNameInput: $("#MapAdressBox")
-                                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                                },
+                                addressFormat: 'street_address',
+                                onchanged: function (currentLocation, radius, isMarkerDropped) {
                                     var addressComponents = $(this).locationpicker('map').location.addressComponents;
                                     if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {//cuando sea invalida
                                         //Limpiar direccion, latitud y longitud en el modal
@@ -523,7 +528,7 @@ else
 
                                         Swal.fire({
                                             icon: 'error',
-                                            title: 'Oops... Disculpanos :(',
+                                            title: 'Oops... Disculpanos!',
                                             text: 'Actualmente, no hacemos envios al lugar seleccionado. Para mayor información Contacte con Atención al Cliente',
                                         })
                                     }
@@ -721,7 +726,7 @@ else
                             },
                                             error: function(e) {
                                                 $.notify({
-                                icon: 'fa fa-exclamation-circle',
+                                                    icon: 'fa fa-exclamation-circle',
                                                     message: "Ha ocurrido un error procesando tu solicitud!"
                                                 });
                             }
@@ -766,7 +771,7 @@ else
                             },
                                             error: function(e) {
                                                 $.notify({
-                                icon: 'fa fa-exclamation-circle',
+                                                    icon: 'fa fa-exclamation-circle',
                                                     message: "Ha ocurrido un error procesando tu solicitud!"
                                                 });
                             }
@@ -900,7 +905,7 @@ else
                             self.Cotizacion().MontoTotal(result.data.MontoTotal);
                             InicializarGrafico();
                                                     $.notify({
-                            icon: 'fa fa-check-circle',
+                                                        icon: 'fa fa-check-circle',
                                                         message: "Cotizacion Realizada Exitosamente"
                                                     });
                         }
@@ -921,12 +926,10 @@ else
                             {
                                 Swal.fire({
                                 icon: 'error',
-                                                            title: 'Oops...',
-                                                            text: result.error,
-                                                            footer: 'Consulta con el administrador del sistema.'
-                                                        })
-                                                    }
-
+                                title: 'Oops...',
+                                    text: result.error
+                                })
+                            }
                         }
                     },
                                             error: function(e) {
@@ -1028,18 +1031,19 @@ function CalcularDistancia(origen, destino)
                             }
 
                             //cargar el mapa
-                            function CargarMapa()
-{
-                                $("#ModalMap").locationpicker({
-        radius: 0,
-                                    location: { latitude: 12.128145869138876, longitude: -86.26501267501537 },
-                                    enableAutocomplete: true,
-                                    inputBinding:
-            {
-            latitudeInput: $("#MapAddresLatitud"),
-                                        longitudeInput: $("#MapAddresLongitud"),
-                                        locationNameInput: $("#MapAdressBox")
-                                    }, onchanged: function(currentLocation, radius, isMarkerDropped) {
+                    function CargarMapa() {
+                        $("#ModalMap").locationpicker({
+                            radius: 0,
+                            location: { latitude: 12.128145869138876, longitude: -86.26501267501537 },
+                            enableAutocomplete: true,
+                            inputBinding:
+                            {
+                                latitudeInput: $("#MapAddresLatitud"),
+                                longitudeInput: $("#MapAddresLongitud"),
+                                locationNameInput: $("#MapAdressBox")
+                            },
+                            addressFormat: 'street_address',
+                            onchanged: function (currentLocation, radius, isMarkerDropped) {
                 var addressComponents = $(this).locationpicker('map').location.addressComponents;
                 if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN')
                 {//cuando sea invalida
@@ -1050,7 +1054,7 @@ function CalcularDistancia(origen, destino)
 
                     Swal.fire({
                     icon: 'error',
-                                                title: 'Oops... Disculpanos :(',
+                                                title: 'Oops... Disculpanos!',
                                                 text: 'Actualmente, no hacemos envios al lugar seleccionado. Para mayor información Contacte con Atención al Cliente',
                                             })
                                         }

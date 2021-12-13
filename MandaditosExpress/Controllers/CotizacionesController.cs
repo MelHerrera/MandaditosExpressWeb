@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
 
@@ -28,7 +30,14 @@ namespace MandaditosExpress.Controllers
         // GET: Cotizaciones
         public ActionResult Index()
         {
-            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now); ;
+            var cotizaciones = new List<Cotizacion>();
+            var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
+            var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
+
+            if (User.IsInRole("Admin"))
+            cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now).ToList();
+            else
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId== PersonaActual.Id).ToList();
 
             //Validacion por si ya viene una cotizacion desde la autenticacion
             var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
@@ -219,18 +228,15 @@ namespace MandaditosExpress.Controllers
                             mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
                         }
 
-                        mCotiza = new Cotizacion
-                        {
-                            DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                            FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                            FechaDeValidez = cotizacion.FechaDeValidez,
-                            DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                            EsEspecial = cotizacion.EsEspecial,
-                            MontoTotal = cotizacion.MontoTotal,
-                            ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                            TipoDeServicioId = cotizacion.TipoDeServicioId,
-                            MontoDeDinero = cotizacion.MontoDeDinero
-                        };
+                        mCotiza.DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion;
+                        mCotiza.FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion;
+                        mCotiza.FechaDeValidez = cotizacion.FechaDeValidez;
+                        mCotiza.DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino;
+                        mCotiza.EsEspecial = cotizacion.EsEspecial;
+                        mCotiza.MontoTotal = cotizacion.MontoTotal;
+                        mCotiza.ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1;
+                        mCotiza.TipoDeServicioId = cotizacion.TipoDeServicioId;
+                        mCotiza.MontoDeDinero = cotizacion.MontoDeDinero; 
 
                         db.Cotizaciones.Add(mCotiza);
                         db.SaveChanges();

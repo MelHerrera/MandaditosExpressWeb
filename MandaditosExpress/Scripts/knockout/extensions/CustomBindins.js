@@ -72,6 +72,8 @@ ko.bindingHandlers.toggleValue = {
         $(i).css("float", "right");
         $(i).css("margin-top", "-25px");
         $(i).css("margin-right", "10px");
+        $(i).css("position", "relative");
+        $(i).css("z-index", "2");
         $(i).addClass("fa fa-eye");
 
         //valor del observable
