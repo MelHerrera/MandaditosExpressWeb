@@ -168,15 +168,17 @@ namespace MandaditosExpress.Controllers
             {
                 var DefaultFecha = DateTime.Parse("01/01/1900");
                 //por defecto la fecha de cancelacion es 1900, significa que si aun tiene esa fecha es porque no se ha pagado
-                List<CreditoViewModel> Creditos = _mapper.Map<ICollection<CreditoViewModel>>(db.Creditos.Where(it => it.ClienteId == ClienteId && it.EstadoDelCredito
-                && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha)).ToList();
+                var creditos = db.Creditos.Where(it => it.ClienteId == ClienteId && it.EstadoDelCredito
+                && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha).ToList();
+
+                List<CreditoViewModel> Creditos = _mapper.Map<ICollection<CreditoViewModel>>(creditos).ToList();
 
                 return Json(new { exito = true, data = Creditos }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(false, JsonRequestBehavior.AllowGet);
         }
-
+         
 
         [HttpGet]
         public JsonResult CalcularMontoEnvio(int EnvioId)
