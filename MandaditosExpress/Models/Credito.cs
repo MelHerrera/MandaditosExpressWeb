@@ -14,10 +14,15 @@ namespace MandaditosExpress.Models
             this.FechaDeCancelacion = DateTime.Parse("01/01/1900");
             Pagos = new HashSet<Pago>();
             Envios = new HashSet<Envio>();
+            CodigoDelCredito = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Código")]
+        [StringLength(30)]
+        public string CodigoDelCredito { get; set; }
 
         [Display(Name = "Descripción")]
         [Required]

@@ -136,10 +136,15 @@ namespace MandaditosExpress.Models.ViewModels
         public CreditoViewModel()
         {
            FechaDeCancelacion = DateTime.Parse("01/01/1900");
+            CodigoDelCredito = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [StringLength(30)]
+        [Display(Name ="Código")]
+        public string CodigoDelCredito { get; set; }
 
         [Display(Name = "Descripción")]
         [Required]

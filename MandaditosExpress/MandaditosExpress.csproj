@@ -18,12 +18,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44320</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -371,6 +368,7 @@
     <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
     <Content Include="Models\DataSetsProcedures\EnviosPorPeriodo.txt" />
     <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
+    <Content Include="Models\triggers\GenerateCodCredito.txt" />
     <Content Include="Models\triggers\GenerateCodEnvio.txt" />
     <Content Include="Models\triggers\GeneratedCodCotizacion.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />

@@ -94,16 +94,28 @@
                                             <p class="font-weight-bold">
                                                 Lista de todos los envios del cliente seleccionado.
                                             </p>
+                                            <div class="row">
+                                                <div class="col-sm-6 float-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaEnvios">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaEnvios">
+                                                                <i class="fa fa-trash"></i> Limpiar
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="clients-list">
                                                 <ul class="nav nav-tabs">
-                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Envios()).length )">0 </span>
+                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.EnviosFiltered()).length )">0 </span>
                                                     <span class="pull-right text-muted ml-2"> Envios</span>
                                                     <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoEnvio"></i>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div id="tab-1" class="tab-pane active">
                                                         <div class="full-height-scroll">
-                                                            <!--ko if:ko.unwrap(Envios()).length > 0-->
+                                                            <!--ko if:ko.unwrap($root.EnviosFiltered()).length > 0-->
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm table-striped table-hover">
                                                                     <thead class="bg-primary">
@@ -117,7 +129,7 @@
                                                                             <th>Opciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody data-bind="foreach:ko.unwrap(Envios)">
+                                                                    <tbody data-bind="foreach:ko.unwrap($root.EnviosFiltered)">
                                                                         <tr>
                                                                             <td data-bind="text:$index()+1"></td>
                                                                             <td data-bind="text:CodigoDeEnvio"></td>
@@ -146,7 +158,7 @@
                                                                 </table>
                                                             </div>
                                                             <!--/ko-->
-                                                            <!--ko if:ko.unwrap(Envios()).length <= 0-->
+                                                            <!--ko if:ko.unwrap($root.EnviosFiltered()).length <= 0-->
                                                             <div class="justify-content-center" style="text-align:center;">
                                                                 <img src="~/Images/5.png" />
                                                                 <div class="alert alert-warning alert-Empty mx-3" role="alert">
@@ -168,31 +180,44 @@
                                             <p class="font-weight-bold">
                                                 Lista de todos los creditos del cliente seleccionado.
                                             </p>
+                                            <div class="row">
+                                                <div class="col-sm-6 float-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaCreditos">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaCreditos">
+                                                                <i class="fa fa-trash"></i> Limpiar
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="clients-list">
                                                 <ul class="nav nav-tabs">
-                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Creditos()).length )">0 </span>
+                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.CreditosFiltered()).length )">0 </span>
                                                     <span class="pull-right text-muted ml-2"> Creditos</span>
                                                     <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div id="tab-1" class="tab-pane active">
                                                         <div class="full-height-scroll">
-                                                            <!--ko if:ko.unwrap(Creditos()).length > 0-->
+                                                            <!--ko if:ko.unwrap($root.CreditosFiltered()).length > 0-->
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm table-striped table-hover">
                                                                     <thead class="bg-primary">
                                                                         <tr>
                                                                             <th>Nº</th>
+                                                                            <th>Código</th>
                                                                             <th>Descripcion</th>
                                                                             <th>Fecha de inicio</th>
                                                                             <th>Fecha de vencimiento</th>
                                                                             <th>Opciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody data-bind="foreach:ko.unwrap(Creditos)">
+                                                                    <tbody data-bind="foreach:ko.unwrap($root.CreditosFiltered)">
                                                                         <tr>
                                                                             <td data-bind="text:$index()+1"></td>
-
+                                                                            <td data-bind="text: CodigoDelCredito"></td>
                                                                             <td data-bind="text:Descripcion"></td>
                                                                             <td>
                                                                                 <i class="fa fa-calendar"></i>
@@ -214,7 +239,7 @@
                                                                 </table>
                                                             </div>
                                                             <!--/ko-->
-                                                            <!--ko if:ko.unwrap(Creditos()).length <= 0-->
+                                                            <!--ko if:ko.unwrap($root.CreditosFiltered()).length <= 0-->
                                                             <div class="justify-content-center" style="text-align:center;">
                                                                 <img src="~/Images/5.png" />
                                                                 <div class="alert alert-warning alert-Empty mx-3" role="alert">
@@ -306,22 +331,6 @@
     </div>
 </div>
 
-@*<template id="buscar-template">
-    <div class="row">
-        <div class="col-sm-6 float-right">
-            <div class="input-group">
-                <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarPersonas">
-                        <i class="fa fa-search"></i> Buscar
-                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoPersonas"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
-    </div>
-</template>*@
-
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/knockout")
@@ -345,7 +354,10 @@
         function IndexPago(pago) {
             const self = this;
 
+            //observables
             self.Pago = ko.observable(ko.mapping.fromJS(pago));
+            self.EnviosFiltered = ko.observableArray([]);
+            self.CreditosFiltered = ko.observableArray([]);
             self.ClienteId = ko.observable();
             self.EnvioValue = ko.observable("Envio");
             self.CreditoValue = ko.observable("Credito");
@@ -353,9 +365,17 @@
             self.EnableEnvio = ko.observable(true);
             self.FiltrandoEnvio = ko.observable(false);
             self.FiltrandoCred = ko.observable(false);
-
+            self.TextBusquedaEnvios = ko.observable();
+            self.TextBusquedaCreditos = ko.observable();
             self.Concepto = ko.observable("Envio");
+            self.LimpiarTextBusquedaEnvios = function () {
+                self.TextBusquedaEnvios('');
+            }
+            self.LimpiarTextBusquedaCreditos = function () {
+                self.TextBusquedaCreditos('');
+            }
 
+            //subscripciones
             self.Concepto.subscribe(function (it) {
                 if (it == self.EnvioValue()) {
                     self.EnableEnvio(true);
@@ -392,6 +412,41 @@
                 }
             });
 
+            self.Pago().Envios.subscribe(function (items) {
+                self.EnviosFiltered(items);
+            });
+
+            self.Pago().Creditos.subscribe(function (items) {
+                self.CreditosFiltered(items);
+            });
+
+            self.TextBusquedaEnvios.subscribe(function (item) {
+                var allEnvios = ko.unwrap(self.Pago().Envios());
+
+                allEnvios = ko.utils.arrayFilter(allEnvios, function (it) {
+                    if (it.CodigoDeEnvio().toUpperCase().indexOf(item.toUpperCase()) != -1 ||
+                        it.DescripcionDeEnvio().toUpperCase().indexOf(item.toUpperCase()) != -1) {
+                        return it;
+                    }
+                });
+
+                self.EnviosFiltered(allEnvios);
+            });
+
+            self.TextBusquedaCreditos.subscribe(function (item) {
+                var allCreditos = ko.unwrap(self.Pago().Creditos());
+
+                allCreditos = ko.utils.arrayFilter(allCreditos, function (it) {
+                    if (it.CodigoDelCredito().toUpperCase().indexOf(item.toUpperCase()) != -1 ||
+                        it.Descripcion().toUpperCase().indexOf(item.toUpperCase()) != -1) {
+                        return it;
+                    }
+                });
+
+                self.CreditosFiltered(allCreditos);
+            });
+
+            //funciones
             function FiltrarEnvios() {
                 if (self.ClienteId()) {
                     $.ajax({
