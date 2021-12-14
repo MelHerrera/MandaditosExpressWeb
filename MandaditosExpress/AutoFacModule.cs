@@ -68,7 +68,8 @@ public class MainMappingProfile : Profile
             .ReverseMap();
 
         CreateMap<Moneda, MonedaViewModel>().ReverseMap();
-        CreateMap<Credito, CreditoViewModel>().ForMember(x=> x.NombreCompletoCliente, x=> x.MapFrom(y=> y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido)).ReverseMap();
+        CreateMap<Credito, CreditoViewModel>().ForMember(x=> x.NombreCompletoCliente, x=> x.MapFrom(y=> y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
+            .ForMember(x=> x.MontoDelCredito, x=> x.MapFrom(y=> y.Envios.Sum(z=> z.MontoTotalDelEnvio))).ReverseMap();
 
         CreateMap<Pago, PagoViewModel>().ReverseMap();
         CreateMap<Envio, IndexEnvioViewModel>().
@@ -83,5 +84,6 @@ public class MainMappingProfile : Profile
         CreateMap<Envio, EnviosCreditoViewModel>().ReverseMap();
         CreateMap<Persona, UsuarioViewModel>().ForMember(it=> it.Nombres, it=> it.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
         CreateMap<Cliente, ClienteBusquedasViewModel>().ForMember(it=> it.NombreCompleto, it=> it.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
+
     }
 }

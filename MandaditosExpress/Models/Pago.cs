@@ -11,13 +11,13 @@ namespace MandaditosExpress.Models
         public Pago()
         {
             FechaDePago = DateTime.Now;
+            NumeroDePago = "-";
         }
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Número De Pago")]
-        [MaxLength(6)]
+        [MaxLength(30)]
         public string NumeroDePago { get; set; }
 
         [Required]

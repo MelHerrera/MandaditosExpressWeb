@@ -19,26 +19,6 @@
     }
 </style>
 
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Pagos</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Catálogos</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index")">Pagos</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Agregar</strong>
-            </li>
-        </ol>
-    </div>
-</div>
-
 <div class="container">
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -50,273 +30,398 @@
                         {
                             @Html.AntiForgeryToken()
 
-                            <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <h4><i class="fa fa-info-circle"></i> Ingrese la información del Pago</h4>
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4><i class="fa fa-info-circle"></i> Ingrese la información del Pago</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="float-right"><i class="fa fa-calendar"></i> @Model.FechaDePago</h4>
+                                </div>
+                            </div>
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-3">
+                                    <h4 class="font-weight-bold">Concepto del pago</h4>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" data-bind="checked:$root.Concepto, value:$root.EnvioValue">
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Envío
+                                        </label>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="float-right"><i class="fa fa-calendar"></i> @Model.FechaDePago</h4>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" data-bind="checked:$root.Concepto, value:$root.CreditoValue">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Crédito
+                                        </label>
                                     </div>
                                 </div>
 
-                                <hr />
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                <div class="row justify-content-center">
-                                    <div class="col-md-3">
-                                        <h4 class="font-weight-bold">Concepto del pago</h4>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" data-bind="checked:$root.Concepto, value:$root.EnvioValue">
-                                            <label class="form-check-label" for="exampleRadios1">
-                                                Envío
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" data-bind="checked:$root.Concepto, value:$root.CreditoValue">
-                                            <label class="form-check-label" for="exampleRadios2">
-                                                Crédito
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label name="Cliente" class="control-label font-weight-bold">Cliente</label>
-                                            <select class="form-control" name="Cliente" data-bind="Select2, options:( ko.unwrap(Clientes()).length > 0 ? Clientes : [{ Nombres:'Sin registros' }] ), optionsText:'Nombres',optionsValue:'Id', value:$root.ClienteId" required></select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!--ko if:$root.EnableEnvio-->
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <p class="font-weight-bold">
-                                                Lista de todos los envios del cliente seleccionado.
-                                            </p>
-                                            <div class="row">
-                                                <div class="col-sm-6 float-right">
-                                                    <div class="input-group">
-                                                        <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaEnvios">
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaEnvios">
-                                                                <i class="fa fa-trash"></i> Limpiar
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clients-list">
-                                                <ul class="nav nav-tabs">
-                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.EnviosFiltered()).length )">0 </span>
-                                                    <span class="pull-right text-muted ml-2"> Envios</span>
-                                                    <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoEnvio"></i>
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div id="tab-1" class="tab-pane active">
-                                                        <div class="full-height-scroll">
-                                                            <!--ko if:ko.unwrap($root.EnviosFiltered()).length > 0-->
-                                                            <div class="table-responsive">
-                                                                <table class="table table-sm table-striped table-hover">
-                                                                    <thead class="bg-primary">
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Código</th>
-                                                                            <th>Descripcion</th>
-                                                                            <th>Fecha</th>
-                                                                            <th>Monto Total</th>
-                                                                            <th>Distancia</th>
-                                                                            <th>Opciones</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody data-bind="foreach:ko.unwrap($root.EnviosFiltered)">
-                                                                        <tr>
-                                                                            <td data-bind="text:$index()+1"></td>
-                                                                            <td data-bind="text:CodigoDeEnvio"></td>
-                                                                            <td data-bind="text:DescripcionDeEnvio"></td>
-                                                                            <td>
-                                                                                <i class="fa fa-calendar"></i>
-                                                                                <span data-bind="text:FechaDelEnvio"></span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <i class="fa fa-money"></i>
-                                                                                <span data-bind="text:MontoTotalDelEnvio"></span>
-                                                                            </td>
-
-                                                                            <td class="fa fa-map-marker">
-                                                                                <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
-                                                                                    <i class="fa fa-info-circle"></i>
-                                                                                </a>
-                                                                            </td>
-
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <!--/ko-->
-                                                            <!--ko if:ko.unwrap($root.EnviosFiltered()).length <= 0-->
-                                                            <div class="justify-content-center" style="text-align:center;">
-                                                                <img src="~/Images/5.png" />
-                                                                <div class="alert alert-warning alert-Empty mx-3" role="alert">
-                                                                    Se encontraron 0 envios para mostrar.
-                                                                </div>
-                                                            </div>
-                                                            <!--/ko-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--/ko-->
-                                    <!--ko if:$root.EnableCredito-->
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <p class="font-weight-bold">
-                                                Lista de todos los creditos del cliente seleccionado.
-                                            </p>
-                                            <div class="row">
-                                                <div class="col-sm-6 float-right">
-                                                    <div class="input-group">
-                                                        <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaCreditos">
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaCreditos">
-                                                                <i class="fa fa-trash"></i> Limpiar
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clients-list">
-                                                <ul class="nav nav-tabs">
-                                                    <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.CreditosFiltered()).length )">0 </span>
-                                                    <span class="pull-right text-muted ml-2"> Creditos</span>
-                                                    <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div id="tab-1" class="tab-pane active">
-                                                        <div class="full-height-scroll">
-                                                            <!--ko if:ko.unwrap($root.CreditosFiltered()).length > 0-->
-                                                            <div class="table-responsive">
-                                                                <table class="table table-sm table-striped table-hover">
-                                                                    <thead class="bg-primary">
-                                                                        <tr>
-                                                                            <th>Nº</th>
-                                                                            <th>Código</th>
-                                                                            <th>Descripcion</th>
-                                                                            <th>Fecha de inicio</th>
-                                                                            <th>Fecha de vencimiento</th>
-                                                                            <th>Opciones</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody data-bind="foreach:ko.unwrap($root.CreditosFiltered)">
-                                                                        <tr>
-                                                                            <td data-bind="text:$index()+1"></td>
-                                                                            <td data-bind="text: CodigoDelCredito"></td>
-                                                                            <td data-bind="text:Descripcion"></td>
-                                                                            <td>
-                                                                                <i class="fa fa-calendar"></i>
-                                                                                <span data-bind="text:FechaDeInicio"></span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <i class="fa fa-calendar"></i>
-                                                                                <span data-bind="text:FechaDeVencimiento"></span>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
-                                                                                    <i class="fa fa-info-circle"></i>
-                                                                                </a>
-                                                                            </td>
-
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <!--/ko-->
-                                                            <!--ko if:ko.unwrap($root.CreditosFiltered()).length <= 0-->
-                                                            <div class="justify-content-center" style="text-align:center;">
-                                                                <img src="~/Images/5.png" />
-                                                                <div class="alert alert-warning alert-Empty mx-3" role="alert">
-                                                                    Se encontraron 0 creditos para mostrar.
-                                                                </div>
-                                                            </div>
-                                                            <!--/ko-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--/ko-->
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-md-2">
-                                        @Html.LabelFor(model => model.NumeroDePago, htmlAttributes: new { @class = "control-label " })
-                                        <div class="form-group">
-                                            @Html.EditorFor(model => model.NumeroDePago, new { htmlAttributes = new { @class = "form-control", data_bind = "value:NumeroDePago" } })
-                                            @Html.ValidationMessageFor(model => model.NumeroDePago, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        @Html.LabelFor(model => model.MontoDelPago, htmlAttributes: new { @class = "control-label " })
-                                        <div class="form-group">
-                                            @Html.EditorFor(model => model.MontoDelPago, new { htmlAttributes = new { @class = "form-control-plaintext", data_bind = "value:MontoDelPago" } })
-                                            @Html.ValidationMessageFor(model => model.MontoDelPago, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label" })
-                                        <div class="form-group">
-                                            <select class="form-control" name="TipoDePagoId" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required></select>
-                                            @*@Html.DropDownList("TipoDePagoId", null, htmlAttributes: new { @class = "form-control" })*@
-                                            @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        @Html.LabelFor(model => model.MonedaId, htmlAttributes: new { @class = "control-label" })
-                                        <div class="form-group">
-                                            <select class="form-control" name="MonedaId" data-bind="options:( ko.unwrap(Monedas()).length > 0 ? Monedas() : [{ Descripcion:'Sin registros' }] ), optionsText:'Descripcion',optionsValue:'Id', value:MonedaId"></select>
-                                            @Html.ValidationMessageFor(model => model.MonedaId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        @Html.LabelFor(model => model.Cambio, htmlAttributes: new { @class = "control-label" })
-                                        <div class="form-group">
-                                            @Html.EditorFor(model => model.Cambio, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Cambio" } })
-                                            @Html.ValidationMessageFor(model => model.Cambio, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        @Html.LabelFor(model => model.EstadoDelPago, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="form-group">
-                                            <div class="checkbox">
-                                                @Html.EditorFor(model => model.EstadoDelPago, new { htmlAttributes = new { data_bind = "checked:EstadoDelPago" } })
-                                                @Html.ValidationMessageFor(model => model.EstadoDelPago, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Create" class="btn btn-default" />
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label name="Cliente" class="control-label font-weight-bold">Cliente</label>
+                                        <select class="form-control" name="Cliente" data-bind="Select2, options:( ko.unwrap(Clientes()).length > 0 ? Clientes : [{ Nombres:'Sin registros' }] ), optionsText:'Nombres',optionsValue:'Id', value:$root.ClienteId" required></select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <!--ko if:$root.EnableEnvio-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <p class="font-weight-bold">
+                                            Lista de todos los envios del cliente seleccionado.
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-sm-6 float-right">
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaEnvios">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaEnvios">
+                                                            <i class="fa fa-trash"></i> Limpiar
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clients-list">
+                                            <ul class="nav nav-tabs">
+                                                <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.EnviosFiltered()).length )">0 </span>
+                                                <span class="pull-right text-muted ml-2"> Envios</span>
+                                                <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoEnvio"></i>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="tab-1" class="tab-pane active">
+                                                    <div class="full-height-scroll">
+                                                        <!--ko if:ko.unwrap($root.EnviosFiltered()).length > 0-->
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm table-striped table-hover">
+                                                                <thead class="bg-primary">
+                                                                    <tr>
+                                                                        <th>Nº</th>
+                                                                        <th>Código</th>
+                                                                        <th>Descripcion</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Distancia</th>
+                                                                        <th>Monto Total</th>
+                                                                        <th>Opciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody data-bind="foreach:$root.EnviosFiltered">
+                                                                    <tr>
+                                                                        <td data-bind="text:$index()+1"></td>
+                                                                        <td data-bind="text:CodigoDeEnvio"></td>
+                                                                        <td data-bind="text:DescripcionDeEnvio"></td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDelEnvio"></span>
+                                                                        </td>
+                                                                        <td class="fa fa-map-marker">
+                                                                            <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
+                                                                        </td>
+                                                                        <td data-bind="text:MontoTotalDelEnvio"></td>
+                                                                        <td>
+                                                                            <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarEnvio">
+                                                                                <i class="fa fa-plus-circle"></i>
+                                                                            </button>
+                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                                <i class="fa fa-info-circle"></i>
+                                                                            </a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--/ko-->
+                                                        <!--ko if:ko.unwrap($root.EnviosFiltered()).length <= 0-->
+                                                        <div class="justify-content-center" style="text-align:center;">
+                                                            <img src="~/Images/5.png" />
+                                                            <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                                                Se encontraron 0 envios para mostrar.
+                                                            </div>
+                                                        </div>
+                                                        <!--/ko-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if:$root.EnableCredito-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <p class="font-weight-bold">
+                                            Lista de todos los creditos del cliente seleccionado.
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-sm-6 float-right">
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Búsqueda por código o descripción " class="input form-control form-control-sm" data-bind="textInput :$root.TextBusquedaCreditos">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn btn-primary" data-bind="click:$root.LimpiarTextBusquedaCreditos">
+                                                            <i class="fa fa-trash"></i> Limpiar
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clients-list">
+                                            <ul class="nav nav-tabs">
+                                                <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.CreditosFiltered()).length )">0 </span>
+                                                <span class="pull-right text-muted ml-2"> Creditos</span>
+                                                <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="tab-2" class="tab-pane active">
+                                                    <div class="full-height-scroll">
+                                                        <!--ko if:ko.unwrap($root.CreditosFiltered()).length > 0-->
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm table-striped table-hover">
+                                                                <thead class="bg-primary">
+                                                                    <tr>
+                                                                        <th>Nº</th>
+                                                                        <th>Código</th>
+                                                                        <th>Descripcion</th>
+                                                                        <th>Fecha de inicio</th>
+                                                                        <th>Fecha de vencimiento</th>
+                                                                        <th>Monto</th>
+                                                                        <th>Opciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody data-bind="foreach:ko.unwrap($root.CreditosFiltered)">
+                                                                    <tr>
+                                                                        <td data-bind="text:$index()+1"></td>
+                                                                        <td data-bind="text: CodigoDelCredito"></td>
+                                                                        <td data-bind="text:Descripcion"></td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDeInicio"></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDeVencimiento"></span>
+                                                                        </td>
+                                                                        <td data-bind="text: MontoDelCredito"></td>
+
+                                                                        <td>
+                                                                            <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarCredito">
+                                                                                <i class="fa fa-plus-circle"></i>
+                                                                            </button>
+                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                                <i class="fa fa-info-circle"></i>
+                                                                            </a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--/ko-->
+                                                        <!--ko if:ko.unwrap($root.CreditosFiltered()).length <= 0-->
+                                                        <div class="justify-content-center" style="text-align:center;">
+                                                            <img src="~/Images/5.png" />
+                                                            <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                                                Se encontraron 0 creditos para mostrar.
+                                                            </div>
+                                                        </div>
+                                                        <!--/ko-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ko-->
+                            </div>
+
+                            <!--ko if: ($root.EnviosAPagar().length > 0 || $root.CreditosAPagar().length > 0 )-->
+                            <!--envios o creditos seleccionados-->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header p-0 bg-success" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link text-white" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <span data-bind="text: ( $root.EnableEnvio() ? 'Lista de envios a pagar' : 'Lista de créditos a pagar' )"></span>
+                                                    <i class="fa fa-arrow-circle-down"></i>
+                                                </button>
+                                            </h5>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne">
+                                            <div class="card-body m-0 p-1">
+                                                <!--ko if:$root.EnableEnvio-->
+                                                <div class="col-md-12">
+                                                    <div class="form-group m-0">
+                                                        <!--ko if:ko.unwrap($root.EnviosAPagar()).length > 0-->
+                                                        <div class="table-responsive small">
+                                                            <table class="table table-sm table-striped table-hover m-0">
+                                                                <thead class="bg-primary">
+                                                                    <tr>
+                                                                        <th>Nº</th>
+                                                                        <th>Código</th>
+                                                                        <th>Descripcion</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Distancia</th>
+                                                                        <th>Monto Total</th>
+                                                                        <th>Opciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!--ko foreach:$root.EnviosAPagar-->
+                                                                    <tr>
+                                                                        <td data-bind="text:$index()+1"></td>
+                                                                        <td data-bind="text:CodigoDeEnvio"></td>
+                                                                        <td data-bind="text:DescripcionDeEnvio"></td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDelEnvio"></span>
+                                                                        </td>
+
+                                                                        <td class="fa fa-map-marker">
+                                                                            <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
+                                                                        </td>
+                                                                        <td data-bind="text:MontoTotalDelEnvio"></td>
+                                                                        <td>
+                                                                            <button class="btn btn-warning btn-sm" title="Quitar" data-bind="click: $root.DeseleccionarEnvio">
+                                                                                <i class="fa fa-times-circle"></i>
+                                                                            </button>
+                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                                <i class="fa fa-info-circle"></i>
+                                                                            </a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                    <!--/ko-->
+                                                                    <tr class="bg-muted">
+                                                                        <th scope="row" colspan="6">Total</th>
+                                                                        <td class="font-weight-bold" data-bind="text: $root.MontoTotalDelPago">0</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--/ko-->
+                                                        <!--ko if:ko.unwrap($root.EnviosAPagar()).length <= 0-->
+                                                        <div class="alert alert-warning alert-Empty mb-1" role="alert">
+                                                            <i class="fa fa-exclamation-triangle"></i>
+                                                            0 envios seleccionados para la realización del pago.
+                                                        </div>
+                                                        <!--/ko-->
+                                                    </div>
+                                                </div>
+                                                <!--/ko-->
+                                                <!--ko if:$root.EnableCredito-->
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <!--ko if:ko.unwrap($root.CreditosAPagar()).length > 0-->
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm table-striped table-hover">
+                                                                <thead class="bg-primary">
+                                                                    <tr>
+                                                                        <th>Nº</th>
+                                                                        <th>Código</th>
+                                                                        <th>Descripcion</th>
+                                                                        <th>Fecha de inicio</th>
+                                                                        <th>Fecha de vencimiento</th>
+                                                                        <th>Monto</th>
+                                                                        <th>Opciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!--ko foreach:ko.unwrap($root.CreditosAPagar)-->
+                                                                    <tr>
+                                                                        <td data-bind="text:$index()+1"></td>
+                                                                        <td data-bind="text: CodigoDelCredito"></td>
+                                                                        <td data-bind="text:Descripcion"></td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDeInicio"></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            <span data-bind="text:FechaDeVencimiento"></span>
+                                                                        </td>
+                                                                        <td data-bind="text: MontoDelCredito"></td>
+                                                                        <td>
+                                                                            <button class="btn btn-warning btn-sm" title="Quitar" data-bind="click: $root.DeseleccionarCredito">
+                                                                                <i class="fa fa-times-circle"></i>
+                                                                            </button>
+                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                                <i class="fa fa-info-circle"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!--/ko-->
+                                                                    <tr class="bg-muted">
+                                                                        <th scope="row" colspan="5">Total</th>
+                                                                        <td class="font-weight-bold" data-bind="text: $root.MontoTotalDelPago">0</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--/ko-->
+                                                        <!--ko if:ko.unwrap($root.CreditosAPagar()).length <= 0-->
+                                                        <div class="alert alert-warning alert-Empty" role="alert">
+                                                            <i class="fa fa-exclamation-triangle"></i>
+                                                            0 créditos seleccionados para la realización del pago.
+                                                        </div>
+                                                        <!--/ko-->
+                                                    </div>
+                                                </div>
+                                                <!--/ko-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                    <div class="form-group">
+                                        <select class="form-control" name="TipoDePagoId" data-bind="options: (ko.unwrap(TiposDePago).length > 0 ? TiposDePago : [{ Descripcion:'-- Sin Registros --' }]), optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required></select>
+                                        @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.MonedaId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                    <div class="form-group">
+                                        <select class="form-control" name="MonedaId" data-bind="options:( ko.unwrap(Monedas()).length > 0 ? Monedas : [{ NombreDeMoneda:'-- Sin registros --' }] ), optionsText:'NombreDeMoneda',optionsValue:'Id', value:MonedaId"></select>
+                                        @Html.ValidationMessageFor(model => model.MonedaId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.Cambio, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Cambio, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Cambio" } })
+                                        @Html.ValidationMessageFor(model => model.Cambio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.EstadoDelPago, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.EstadoDelPago, new { htmlAttributes = new { data_bind = "checked:EstadoDelPago" } })
+                                            @Html.ValidationMessageFor(model => model.EstadoDelPago, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Realizar pago" class="btn btn-primary" />
+                                </div>
+                            </div>
+                            <!--/ko-->
+                        </div>
                         }
 
                     </div>
@@ -374,6 +479,24 @@
             self.LimpiarTextBusquedaCreditos = function () {
                 self.TextBusquedaCreditos('');
             }
+            self.EnviosAPagar = ko.observableArray([]);
+            self.CreditosAPagar = ko.observableArray([]);
+            self.SeleccionarEnvio = function (data) {
+                self.EnviosAPagar.push(data);
+                self.EnviosFiltered.remove(data);
+            }
+            self.DeseleccionarEnvio = function (data) {
+                self.EnviosAPagar.remove(data);
+                self.EnviosFiltered.push(data);
+            }
+            self.SeleccionarCredito = function (data) {
+                self.CreditosAPagar.push(data);
+                self.CreditosFiltered.remove(data);
+            }
+            self.DeseleccionarCredito = function (data) {
+                self.CreditosAPagar.remove(data);
+                self.CreditosFiltered.push(data);
+            }
 
             //subscripciones
             self.Concepto.subscribe(function (it) {
@@ -382,21 +505,25 @@
                     self.EnableCredito(false);
                     self.Pago().CreditoId(-1);//no seleccionar ningun credito, para cuando se haga la peticion del monto al server
                     FiltrarEnvios()
+                    self.CreditosAPagar([]);//si el concepto es envios no se tiene porque pagar ningun credito
                 }
                 else {
                     self.EnableEnvio(false);
                     self.EnableCredito(true);
                     self.Pago().EnvioId(-1);//no seleccionar ningun envio, para cuando se haga la peticion del monto al server
                     FiltrarCreditos();
+                    self.EnviosAPagar([]);//si el concepto es creditos no se tiene porque pagar ningun envio.
                 }
             });
 
             self.ClienteId.subscribe(function (it) {
                 if (self.Concepto() == self.EnvioValue()) {
                     FiltrarEnvios();
+                    self.EnviosAPagar([]);//nuevo clientes nuevos envios seleccionados para pagar
                 }
                 else {
                     FiltrarCreditos();
+                    self.CreditosAPagar([]);//nuevo cliente nuevos creditos a pagar
                 }
             });
 
@@ -413,11 +540,11 @@
             });
 
             self.Pago().Envios.subscribe(function (items) {
-                self.EnviosFiltered(items);
+                self.EnviosFiltered(ko.unwrap(items));
             });
 
             self.Pago().Creditos.subscribe(function (items) {
-                self.CreditosFiltered(items);
+                self.CreditosFiltered(ko.unwrap(items));
             });
 
             self.TextBusquedaEnvios.subscribe(function (item) {
@@ -445,6 +572,20 @@
 
                 self.CreditosFiltered(allCreditos);
             });
+
+            //Computables
+            self.MontoTotalDelPago = ko.computed(function () {
+                let monto = 0;
+                    if (self.EnableEnvio()) {
+                        //calcular el monto total en base a los envios
+                        ko.utils.arrayForEach(self.EnviosAPagar(), function (it) { monto += it.MontoTotalDelEnvio() });
+                    }
+                    else {
+                        //calcular el monto total en base a los creditos
+                        ko.utils.arrayForEach(self.CreditosAPagar(), function (it) { monto += it.MontoDelCredito() });
+                }
+                return monto;
+                });
 
             //funciones
             function FiltrarEnvios() {
@@ -509,43 +650,24 @@
                     InvalidClientError();
             }
 
-            function CalcularMontoEnvio() {
-                $.ajax({
-                    url: "/Pagos/CalcularMontoEnvio",
-                    type: "Get",
-                    data: { EnvioId: self.Pago().EnvioId() },
-                    beforeSend: function () {
-                        //self.FiltrandoCred(true);
-                    },
-                    success: function (res) {
-                        if (res.exito) {
-                            //update local list
-                            self.Pago().MontoDelPago(res.data);
-                        }
-                    },
-                    error: function (e) {
-                        $.notify({
-                            icon: 'fa fa-exclamation-circle',
-                            message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
-                        });
-                    },
-                    complete: function () {
-                        // self.FiltrandoCred(false);
-                    }
-                });
-            }
-            function CalcularMontoCredito() {
+            function CalcularMontoCredito(creditosId) {
                 $.ajax({
                     url: "/Pagos/CalcularMontoCredito",
                     type: "Get",
-                    data: { CreditoId: self.Pago().CreditoId() },
+                    data: $.param({ CreditosId: creditosId }, true),
                     beforeSend: function () {
                         //self.FiltrandoCred(true);
                     },
                     success: function (res) {
                         if (res.exito) {
                             //update local list
-                            self.Pago().MontoDelPago(res.data);
+                            self.MontoTotalDelPago(res.data);
+                        }
+                        else {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: res.message
+                            });
                         }
                     },
                     error: function (e) {

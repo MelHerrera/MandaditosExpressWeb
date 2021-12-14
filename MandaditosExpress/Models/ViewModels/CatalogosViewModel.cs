@@ -68,13 +68,13 @@ namespace MandaditosExpress.Models.ViewModels
             FechaDePago = DateTime.Now;
             Envios = new HashSet<EnvioPagoViewModel>();
             Creditos = new HashSet<CreditoViewModel>();
+            NumeroDePago = "-";
         }
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Número De Pago")]
-        [MaxLength(6)]
+        [MaxLength(30)]
         public string NumeroDePago { get; set; }
 
         [Required]
@@ -165,6 +165,8 @@ namespace MandaditosExpress.Models.ViewModels
         [Required]
         [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
+
+        public double MontoDelCredito { get; set; }
 
         public string NombreCompletoCliente { get; set; }
     }

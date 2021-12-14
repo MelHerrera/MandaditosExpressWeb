@@ -175,9 +175,11 @@ namespace MandaditosExpress.Controllers
             {
                 var DefaultFecha = DateTime.Parse("01/01/1900");
                 //por defecto la fecha de cancelacion es 1900, significa que si aun tiene esa fecha es porque no se ha pagado
+                //TODO verificar que el credito tenga al menos 1 envio al credito asociado.
                 var creditos = db.Creditos.Where(it => it.ClienteId == ClienteId && it.EstadoDelCredito
                 && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha).ToList();
 
+                //TODO validar que solo regrese los creditos que el monto es mayor a 0
                 List<CreditoViewModel> Creditos = _mapper.Map<ICollection<CreditoViewModel>>(creditos).ToList();
                 //JSONConvert dont put datetime format like  /Date(1639415480000)/	
                 return Json(new { exito = true, data = JsonConvert.SerializeObject(Creditos) }, JsonRequestBehavior.AllowGet);
@@ -186,41 +188,31 @@ namespace MandaditosExpress.Controllers
             return Json(false, JsonRequestBehavior.AllowGet);
         }
          
-
         [HttpGet]
-        public JsonResult CalcularMontoEnvio(int EnvioId)
+        public JsonResult CalcularMontoCredito(ICollection<int> CreditosId)
         {
-
-            if (EnvioId > 0)
+            if (CreditosId.Count > 0)
             {
-                var Envio = db.Envios.FirstOrDefault(it => it.Id == EnvioId);
-                return Json(new { exito = true, data = Envio != null ? Envio.MontoTotalDelEnvio : 0 }, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(false, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult CalcularMontoCredito(int CreditoId)
-        {
-            if (CreditoId > 0)
-            {
-                var Credito = db.Creditos.FirstOrDefault(it => it.Id == CreditoId);
                 var MontoTotal = 0.0M;
 
-                //sacar todos los envios que:
-                // 1. Han sido por medio del metodo de pago credito
-                // 2. No hayan sido pagados
-                // 3. La fecha del envio se encuentre entre el rango de la fecha de inicio y vencimiento del credito, asi, se estarian pagando todos los envios en el periodo del credito
-                var envios = db.Envios.Where(it => it.EsAlCredito && it.Pagos.Count <= 0 && it.FechaDelEnvio >= Credito.FechaDeInicio && it.FechaDelEnvio <= Credito.FechaDeVencimiento).ToList();
+                foreach (var item in CreditosId)
+                {
+                    var Credito = db.Creditos.Find(item);
+                    //sacar todos los envios que:
+                    // 1. Han sido por medio del metodo de pago credito
+                    // 2. No hayan sido pagados
+                    // 3. La fecha del envio se encuentre entre el rango de la fecha de inicio y vencimiento del credito, asi, se estarian pagando todos los envios en el periodo del credito
+                    var envios = db.Envios.Where(it => it.EsAlCredito && it.Pagos.Count <= 0 && it.FechaDelEnvio >= Credito.FechaDeInicio 
+                    && it.FechaDelEnvio <= Credito.FechaDeVencimiento && it.CreditoId == Credito.Id ).ToList();
 
-                if (envios.Count() > 0)
-                    envios.ForEach(it => MontoTotal += it.MontoTotalDelEnvio);
-
+                    if (envios.Count() > 0)
+                        envios.ForEach(it => MontoTotal += it.MontoTotalDelEnvio);
+                }
+                
                 return Json(new { exito = true, data = MontoTotal }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(false, JsonRequestBehavior.AllowGet);
+            return Json(new { exito = false, message = "Ha ocurrido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
         }
 
 
