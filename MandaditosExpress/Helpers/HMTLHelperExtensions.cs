@@ -55,7 +55,5 @@ namespace MandaditosExpress
             };
             return new HtmlString(JsonConvert.SerializeObject(model,settings));
         }
-
-
     }
 }

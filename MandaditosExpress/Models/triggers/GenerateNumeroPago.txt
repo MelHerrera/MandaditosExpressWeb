@@ -1,0 +1,27 @@
+﻿
+use MandaditosDB
+go
+
+-- =============================================
+-- Author:		<email:melkinantonioh@gmail.com>
+-- Create date: <15/12/2021>
+-- Description:	<genera un numero para el registro y actualiza el numero de pago que acaba de ser insertado en la tabla de Pagos>
+-- =============================================
+
+create trigger GenerateNumeroPago
+on Pagos
+after insert
+as
+begin
+set nocount on;
+
+--instruction sql trigger
+--Code format : 'PA' + ('C' si es pago de credito o 'E' si es pago de envio) + current year + pago Id
+declare @pagoId int =  (select i.Id from inserted as i)
+declare @concepto varchar(1) = case when ((select i.EnvioId from inserted as i) is null) then 'C' else 'E' end
+--update code with generated code
+update Pagos
+set NumeroDePago = CONCAT('PA', @concepto, YEAR(getDate()), @pagoId) 
+where Id =@pagoId
+
+end

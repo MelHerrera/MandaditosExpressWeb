@@ -13,7 +13,7 @@
 }
 <!--lo coloque aqui para que razor lo coloque de ultimo y sobreescriba la clase anterior -->
 <style>
-    .clients-list .tab-pane {
+    .clients-list {
         position: relative;
         height: 260px;
     }
@@ -26,7 +26,7 @@
                 <div class="ibox ">
                     <div class="ibox-content align-items-center" data-bind="with:Pago">
 
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit: $root.GuardarPago", @class = "frmEnvio" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -36,7 +36,7 @@
                                     <h4><i class="fa fa-info-circle"></i> Ingrese la información del Pago</h4>
                                 </div>
                                 <div class="col-sm-6">
-                                    <h4 class="float-right"><i class="fa fa-calendar"></i> @Model.FechaDePago</h4>
+                                    <h4 class="float-right"><i class="fa fa-calendar"></i> @DateTime.Now</h4>
                                 </div>
                             </div>
 
@@ -87,67 +87,65 @@
                                             </div>
                                         </div>
                                         <div class="clients-list">
-                                            <ul class="nav nav-tabs">
-                                                <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.EnviosFiltered()).length )">0 </span>
-                                                <span class="pull-right text-muted ml-2"> Envios</span>
-                                                <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoEnvio"></i>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div id="tab-1" class="tab-pane active">
-                                                    <div class="full-height-scroll">
-                                                        <!--ko if:ko.unwrap($root.EnviosFiltered()).length > 0-->
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm table-striped table-hover">
-                                                                <thead class="bg-primary">
-                                                                    <tr>
-                                                                        <th>Nº</th>
-                                                                        <th>Código</th>
-                                                                        <th>Descripcion</th>
-                                                                        <th>Fecha</th>
-                                                                        <th>Distancia</th>
-                                                                        <th>Monto Total</th>
-                                                                        <th>Opciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody data-bind="foreach:$root.EnviosFiltered">
-                                                                    <tr>
-                                                                        <td data-bind="text:$index()+1"></td>
-                                                                        <td data-bind="text:CodigoDeEnvio"></td>
-                                                                        <td data-bind="text:DescripcionDeEnvio"></td>
-                                                                        <td>
-                                                                            <i class="fa fa-calendar"></i>
-                                                                            <span data-bind="text:FechaDelEnvio"></span>
-                                                                        </td>
-                                                                        <td class="fa fa-map-marker">
-                                                                            <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
-                                                                        </td>
-                                                                        <td data-bind="text:MontoTotalDelEnvio"></td>
-                                                                        <td>
-                                                                            <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarEnvio">
-                                                                                <i class="fa fa-plus-circle"></i>
-                                                                            </button>
-                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
-                                                                                <i class="fa fa-info-circle"></i>
-                                                                            </a>
-                                                                        </td>
-
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!--/ko-->
-                                                        <!--ko if:ko.unwrap($root.EnviosFiltered()).length <= 0-->
-                                                        <div class="justify-content-center" style="text-align:center;">
-                                                            <img src="~/Images/5.png" />
-                                                            <div class="alert alert-warning alert-Empty mx-3" role="alert">
-                                                                Se encontraron 0 envios para mostrar.
-                                                            </div>
-                                                        </div>
-                                                        <!--/ko-->
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span class="text-muted" data-bind="text:( ko.unwrap($root.EnviosFiltered()).length )">0 </span>
+                                                    <span class="text-muted ml-2"> Envios</span>
+                                                    <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoEnvio"></i>
                                                 </div>
                                             </div>
 
+                                            <div id="full-height-scroll-env" data-bind="slimScroll:{ height: '100%' }">
+                                                <!--ko if:ko.unwrap($root.EnviosFiltered()).length > 0-->
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-striped table-hover">
+                                                        <thead class="bg-primary">
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Código</th>
+                                                                <th>Descripcion</th>
+                                                                <th>Fecha</th>
+                                                                <th>Distancia</th>
+                                                                <th>Monto Total</th>
+                                                                <th>Opciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-bind="foreach:$root.EnviosFiltered">
+                                                            <tr>
+                                                                <td data-bind="text:$index()+1"></td>
+                                                                <td data-bind="text:CodigoDeEnvio"></td>
+                                                                <td data-bind="text:DescripcionDeEnvio"></td>
+                                                                <td>
+                                                                    <i class="fa fa-calendar"></i>
+                                                                    <span data-bind="text:FechaDelEnvio"></span>
+                                                                </td>
+                                                                <td class="fa fa-map-marker">
+                                                                    <span data-bind="text: (DistanciaEntregaRecep() + ' Km')"></span>
+                                                                </td>
+                                                                <td data-bind="text:MontoTotalDelEnvio"></td>
+                                                                <td>
+                                                                    <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarEnvio">
+                                                                        <i class="fa fa-plus-circle"></i>
+                                                                    </button>
+                                                                    <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Envios")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                    </a>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!--/ko-->
+                                                <!--ko if:ko.unwrap($root.EnviosFiltered()).length <= 0-->
+                                                <div class="justify-content-center" style="text-align:center;">
+                                                    <img src="~/Images/5.png" />
+                                                    <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                                        0 envios para mostrar.
+                                                    </div>
+                                                </div>
+                                                <!--/ko-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,69 +169,66 @@
                                             </div>
                                         </div>
                                         <div class="clients-list">
-                                            <ul class="nav nav-tabs">
-                                                <span class="pull-right text-muted" data-bind="text:( ko.unwrap($root.CreditosFiltered()).length )">0 </span>
-                                                <span class="pull-right text-muted ml-2"> Creditos</span>
-                                                <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div id="tab-2" class="tab-pane active">
-                                                    <div class="full-height-scroll">
-                                                        <!--ko if:ko.unwrap($root.CreditosFiltered()).length > 0-->
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm table-striped table-hover">
-                                                                <thead class="bg-primary">
-                                                                    <tr>
-                                                                        <th>Nº</th>
-                                                                        <th>Código</th>
-                                                                        <th>Descripcion</th>
-                                                                        <th>Fecha de inicio</th>
-                                                                        <th>Fecha de vencimiento</th>
-                                                                        <th>Monto</th>
-                                                                        <th>Opciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody data-bind="foreach:ko.unwrap($root.CreditosFiltered)">
-                                                                    <tr>
-                                                                        <td data-bind="text:$index()+1"></td>
-                                                                        <td data-bind="text: CodigoDelCredito"></td>
-                                                                        <td data-bind="text:Descripcion"></td>
-                                                                        <td>
-                                                                            <i class="fa fa-calendar"></i>
-                                                                            <span data-bind="text:FechaDeInicio"></span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <i class="fa fa-calendar"></i>
-                                                                            <span data-bind="text:FechaDeVencimiento"></span>
-                                                                        </td>
-                                                                        <td data-bind="text: MontoDelCredito"></td>
-
-                                                                        <td>
-                                                                            <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarCredito">
-                                                                                <i class="fa fa-plus-circle"></i>
-                                                                            </button>
-                                                                            <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
-                                                                                <i class="fa fa-info-circle"></i>
-                                                                            </a>
-                                                                        </td>
-
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!--/ko-->
-                                                        <!--ko if:ko.unwrap($root.CreditosFiltered()).length <= 0-->
-                                                        <div class="justify-content-center" style="text-align:center;">
-                                                            <img src="~/Images/5.png" />
-                                                            <div class="alert alert-warning alert-Empty mx-3" role="alert">
-                                                                Se encontraron 0 creditos para mostrar.
-                                                            </div>
-                                                        </div>
-                                                        <!--/ko-->
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span class="text-muted" data-bind="text:( ko.unwrap($root.CreditosFiltered()).length )">0 </span>
+                                                    <span class="text-muted ml-2"> Creditos</span>
+                                                    <i class="fa fa-spinner fa-pulse ml-3" data-bind="visible: $root.FiltrandoCred"></i>
                                                 </div>
                                             </div>
+                                            <div id="full-height-scroll-cred" data-bind="slimScroll:{ height: '100%' }">
+                                                <!--ko if:ko.unwrap($root.CreditosFiltered()).length > 0-->
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-striped table-hover">
+                                                        <thead class="bg-primary">
+                                                            <tr>
+                                                                <th>Nº</th>
+                                                                <th>Código</th>
+                                                                <th>Descripcion</th>
+                                                                <th>Fecha de inicio</th>
+                                                                <th>Fecha de vencimiento</th>
+                                                                <th>Monto</th>
+                                                                <th>Opciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-bind="foreach:ko.unwrap($root.CreditosFiltered)">
+                                                            <tr>
+                                                                <td data-bind="text:$index()+1"></td>
+                                                                <td data-bind="text: CodigoDelCredito"></td>
+                                                                <td data-bind="text:Descripcion"></td>
+                                                                <td>
+                                                                    <i class="fa fa-calendar"></i>
+                                                                    <span data-bind="text:FechaDeInicio"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <i class="fa fa-calendar"></i>
+                                                                    <span data-bind="text:FechaDeVencimiento"></span>
+                                                                </td>
+                                                                <td data-bind="text: MontoDelCredito"></td>
 
+                                                                <td>
+                                                                    <button class="btn btn-success btn-sm" title="Seleccionar" data-bind="click: $root.SeleccionarCredito">
+                                                                        <i class="fa fa-plus-circle"></i>
+                                                                    </button>
+                                                                    <a class="btn btn btn-primary btn-sm" data-bind="attr:{ href:'@Url.Action("/Details/","Creditos")' +Id() }" target="_blank" title="Ver Detalles">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                    </a>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!--/ko-->
+                                                <!--ko if:ko.unwrap($root.CreditosFiltered()).length <= 0-->
+                                                <div class="justify-content-center" style="text-align:center;">
+                                                    <img src="~/Images/5.png" />
+                                                    <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                                        0 creditos para mostrar.
+                                                    </div>
+                                                </div>
+                                                <!--/ko-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -359,7 +354,7 @@
                                                                     </tr>
                                                                     <!--/ko-->
                                                                     <tr class="bg-muted">
-                                                                        <th scope="row" colspan="5">Total</th>
+                                                                        <th scope="row" colspan="6">Total</th>
                                                                         <td class="font-weight-bold" data-bind="text: $root.MontoTotalDelPago">0</td>
                                                                     </tr>
                                                                 </tbody>
@@ -386,38 +381,67 @@
                                 <div class="col-md-3">
                                     @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                     <div class="form-group">
-                                        <select class="form-control" name="TipoDePagoId" data-bind="options: (ko.unwrap(TiposDePago).length > 0 ? TiposDePago : [{ Descripcion:'-- Sin Registros --' }]), optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required></select>
+                                        @Html.DropDownListFor(model => model.TipoDePagoId, selectList: new SelectList(new List<int>()) as SelectList,
+                                      htmlAttributes: new
+                                      {
+                                          @class = "form-control",
+                                          data_bind = @" options: (ko.unwrap(TiposDePago).length > 0 ? TiposDePago : [{ Descripcion:'-- Sin Registros --' }]), optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId "
+                                      })
                                         @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     @Html.LabelFor(model => model.MonedaId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                    <a href="https://www.bcn.gob.ni/estadisticas/monedas_internacionales" target="_blank">(Tasas de Cambio)</a>
                                     <div class="form-group">
-                                        <select class="form-control" name="MonedaId" data-bind="options:( ko.unwrap(Monedas()).length > 0 ? Monedas : [{ NombreDeMoneda:'-- Sin registros --' }] ), optionsText:'NombreDeMoneda',optionsValue:'Id', value:MonedaId"></select>
+                                        @Html.DropDownListFor(model => model.MonedaId, selectList: new SelectList(new List<int>()) as SelectList,
+                                       htmlAttributes: new
+                                            {
+                                           @class = "form-control",
+                                           data_bind = @" options:( ko.unwrap(Monedas()).length > 0 ? Monedas : [{ NombreDeMoneda:'-- Sin registros --' }] ),
+                                          optionsText:'NombreDeMoneda',
+                                          optionsValue:'Id',
+                                          value:MonedaId"
+                                       })
                                         @Html.ValidationMessageFor(model => model.MonedaId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     @Html.LabelFor(model => model.Cambio, htmlAttributes: new { @class = "control-label font-weight-bold" })
                                     <div class="form-group">
-                                        @Html.EditorFor(model => model.Cambio, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Cambio" } })
+                                        @Html.EditorFor(model => model.Cambio, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Cambio", @min=1 } })
                                         @Html.ValidationMessageFor(model => model.Cambio, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    @Html.LabelFor(model => model.EstadoDelPago, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
+                                    <label for="Estado" class="control-label font-weight-bold">Activo</label>
                                     <div class="form-group">
                                         <div class="checkbox">
-                                            @Html.EditorFor(model => model.EstadoDelPago, new { htmlAttributes = new { data_bind = "checked:EstadoDelPago" } })
-                                            @Html.ValidationMessageFor(model => model.EstadoDelPago, "", new { @class = "text-danger" })
+                                            <!--solo es para que se visualize que el estado del pago se guardara como activo-->
+                                            <input type="checkbox" id="Estado" data-bind="checked:true, bsSwitchButton:{}" disabled />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--ko if:( $root.MontoTotalDelPago() > 0 && $root.Pago().MonedaId() != null && $root.Pago().Cambio() )-->
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <small class="font-weight-bold">
+                                        Total en
+                                        <span class="font-weight-bold" data-bind="text: ( $root.Pago().MonedaId() != null ? ($root.Pago().Monedas().find(x=> ko.unwrap(x.Id) == $root.Pago().MonedaId()).NombreDeMoneda()  ) : '----')"></span>
+                                        :
+                                        <span data-bind="text: ( ($root.MontoTotalDelPago() > 0  && $root.Pago().Cambio() > 0) ? ($root.MontoTotalDelPago() / $root.Pago().Cambio() ) : 0 )">0</span>
+                                    </small>
+                                </div>
+                            </div>
+                            <!--/ko-->
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Realizar pago" class="btn btn-primary" />
+                                    <button type="submit" class="btn btn-primary">
+                                        Realizar Pago
+                                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.GuardandoPago"></i>
+                                    </button>
                                 </div>
                             </div>
                             <!--/ko-->
@@ -497,20 +521,51 @@
                 self.CreditosAPagar.remove(data);
                 self.CreditosFiltered.push(data);
             }
+            self.GuardandoPago = ko.observable(false);
+            self.GuardarPago = function (form) {
+                if ($(form).valid()) {
+                    if (self.EnviosAPagar().length > 0 || self.CreditosAPagar().length > 0) {
+
+                        let creditosId = ko.utils.arrayMap(self.CreditosAPagar(), function (it) { return it.Id() });
+                        let enviosId = ko.utils.arrayMap(self.EnviosAPagar(), function (it) { return it.Id() });
+
+                        self.Pago().MontoDelPago(self.MontoTotalDelPago());
+                        self.Pago().EnviosId(enviosId);
+                        self.Pago().CreditosId(creditosId);
+
+                        //serializar solo las propiedades requeridas para guardar el pago, algunas se utilizan para filtrado solo en la vista
+                        //pero no son necesarias para guardar el pago
+                        let mapping = { 'ignore': ["Clientes", "Creditos", "Envios", "Monedas", "TiposDePago"] }
+                        let pago = ko.mapping.fromJS(ko.toJS(self.Pago()), mapping);
+
+                        GuardarPago(ko.toJS(pago));
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'No hay créditos ni envios seleccionados'
+                        })
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Verifique la información ingresada antes de realizar el pago'
+                    })
+                }
+            }
 
             //subscripciones
             self.Concepto.subscribe(function (it) {
                 if (it == self.EnvioValue()) {
                     self.EnableEnvio(true);
                     self.EnableCredito(false);
-                    self.Pago().CreditoId(-1);//no seleccionar ningun credito, para cuando se haga la peticion del monto al server
                     FiltrarEnvios()
                     self.CreditosAPagar([]);//si el concepto es envios no se tiene porque pagar ningun credito
                 }
                 else {
                     self.EnableEnvio(false);
                     self.EnableCredito(true);
-                    self.Pago().EnvioId(-1);//no seleccionar ningun envio, para cuando se haga la peticion del monto al server
                     FiltrarCreditos();
                     self.EnviosAPagar([]);//si el concepto es creditos no se tiene porque pagar ningun envio.
                 }
@@ -524,18 +579,6 @@
                 else {
                     FiltrarCreditos();
                     self.CreditosAPagar([]);//nuevo cliente nuevos creditos a pagar
-                }
-            });
-
-            self.Pago().EnvioId.subscribe(function (it) {
-                if (it > 0) {
-                    CalcularMontoEnvio();
-                }
-            });
-
-            self.Pago().CreditoId.subscribe(function (it) {
-                if (it > 0) {
-                    CalcularMontoCredito();
                 }
             });
 
@@ -573,19 +616,23 @@
                 self.CreditosFiltered(allCreditos);
             });
 
+            self.Pago().MonedaId.subscribe(function (it) {
+                self.Pago().Cambio(1);
+            });
+
             //Computables
             self.MontoTotalDelPago = ko.computed(function () {
                 let monto = 0;
-                    if (self.EnableEnvio()) {
-                        //calcular el monto total en base a los envios
-                        ko.utils.arrayForEach(self.EnviosAPagar(), function (it) { monto += it.MontoTotalDelEnvio() });
-                    }
-                    else {
-                        //calcular el monto total en base a los creditos
-                        ko.utils.arrayForEach(self.CreditosAPagar(), function (it) { monto += it.MontoDelCredito() });
+                if (self.EnableEnvio()) {
+                    //calcular el monto total en base a los envios
+                    ko.utils.arrayForEach(self.EnviosAPagar(), function (it) { monto += it.MontoTotalDelEnvio() });
+                }
+                else {
+                    //calcular el monto total en base a los creditos
+                    ko.utils.arrayForEach(self.CreditosAPagar(), function (it) { monto += it.MontoDelCredito() });
                 }
                 return monto;
-                });
+            });
 
             //funciones
             function FiltrarEnvios() {
@@ -650,43 +697,52 @@
                     InvalidClientError();
             }
 
-            function CalcularMontoCredito(creditosId) {
+            function InvalidClientError() {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'No se ha seleccionado un cliente válido'
+                })
+            }
+
+            function GuardarPago(pago) {
+                let token = $('form input[name="__RequestVerificationToken"]').val();
+
                 $.ajax({
-                    url: "/Pagos/CalcularMontoCredito",
-                    type: "Get",
-                    data: $.param({ CreditosId: creditosId }, true),
+                    url: "/Pagos/Create",
+                    type: "Post",
+                    data: { __RequestVerificationToken: token, Pago: pago },
                     beforeSend: function () {
-                        //self.FiltrandoCred(true);
+                        self.GuardandoPago(true);
                     },
                     success: function (res) {
                         if (res.exito) {
-                            //update local list
-                            self.MontoTotalDelPago(res.data);
+                            //limpiar los envios y creditos a pagar
+                            self.EnviosAPagar([]);
+                            self.CreditosAPagar([]);
+
+                            $.notify({
+                                icon: 'fa fa-check-circle',
+                                message: res.message
+                            });;
+                            setTimeout(function () { location.replace("/Pagos/Index") }, 2000);
                         }
                         else {
                             $.notify({
-                                icon: 'fa fa-exclamation-circle',
+                                icon: 'fa fa-exclamation-triangle',
                                 message: res.message
                             });
                         }
                     },
                     error: function (e) {
                         $.notify({
-                            icon: 'fa fa-exclamation-circle',
+                            icon: 'fa fa-exclamation-triangle',
                             message: "Ha ocurrido un error procesando tu solicitd. Internal error server"
                         });
                     },
                     complete: function () {
-                        // self.FiltrandoCred(false);
+                        self.GuardandoPago(false);
                     }
                 });
-            }
-
-            function InvalidClientError() {
-                Swal.fire({
-                    icon: 'error',
-                    text: 'No se ha seleccionado un cliente válido'
-                })
             }
         }
 

@@ -62,33 +62,21 @@ namespace MandaditosExpress.Models.ViewModels
 
     public class PagoViewModel
     {
-
         public PagoViewModel()
         {
-            FechaDePago = DateTime.Now;
             Envios = new HashSet<EnvioPagoViewModel>();
             Creditos = new HashSet<CreditoViewModel>();
-            NumeroDePago = "-";
         }
-        [Key]
-        public int Id { get; set; }
-
-        [Display(Name = "Número De Pago")]
-        [MaxLength(30)]
-        public string NumeroDePago { get; set; }
-
-        [Required]
-        [Display(Name = "Fecha De Pago")]
-        public DateTime FechaDePago { get; set; }
 
         [Required]
         [Display(Name = "Monto a pagar")]
         public double MontoDelPago { get; set; }
 
         [Display(Name = "Cambio de la Moneda")]
+        [Required]
         public double Cambio { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Moneda")]
         public int MonedaId { get; set; }
 
@@ -96,22 +84,13 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Método de Pago")]
         public int TipoDePagoId { get; set; }
 
-        [Display(Name = "Envíos del cliente")]
-        public int? EnvioId { get; set; }
-
-        [Display(Name = "Créditos del cliente")]
-        public int? CreditoId { get; set; }
-
-        [Required]
-        [Display(Name = "Estado")]
-        public bool EstadoDelPago { get; set; }
-
         public virtual  ICollection<MonedaViewModel> Monedas { get; set; }
         public virtual ICollection<TipoDePagoViewModel> TiposDePago { get; set; }
+        public virtual ICollection<ClientePagoViewModel> Clientes { get; set; }
         public virtual ICollection<EnvioPagoViewModel> Envios { get; set; }
         public virtual ICollection<CreditoViewModel> Creditos { get; set; }
-
-        public virtual ICollection<ClientePagoViewModel> Clientes { get; set; }
+        public virtual ICollection<int> CreditosId { get; set; }//los id de los creditos que se pagaran
+        public virtual ICollection<int> EnviosId { get; set; }//los id de los envios que se pagaran
     }
 
     public class MonedaViewModel

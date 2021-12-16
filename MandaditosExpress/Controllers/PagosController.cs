@@ -53,8 +53,8 @@ namespace MandaditosExpress.Controllers
         {
             var PagoViewModel = new PagoViewModel();
 
-            PagoViewModel.Monedas = _mapper.Map<ICollection<MonedaViewModel>>(db.Monedas).ToList();
-            PagoViewModel.TiposDePago = _mapper.Map<ICollection<TipoDePagoViewModel>>(db.TiposDePago).ToList();
+            PagoViewModel.Monedas = _mapper.Map<ICollection<MonedaViewModel>>(db.Monedas.Where(x => x.Estado)).ToList();
+            PagoViewModel.TiposDePago = _mapper.Map<ICollection<TipoDePagoViewModel>>(db.TiposDePago.Where(x => x.EstadoTipoDePago)).ToList();
             PagoViewModel.Clientes = _mapper.Map<ICollection<ClientePagoViewModel>>(db.Clientes).ToList();
 
             return View(PagoViewModel);
@@ -65,20 +65,66 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,NumeroDePago,FechaDePago,MontoADelPago,Cambio,CambioDolar,MonedaId,TipoDePagoId,EnvioId,CreditoId,EstadoDelPago")] Pago pago)
+        public JsonResult Create([Bind(Include = "MonedaId, TipoDePagoId, MontoDelPago, Cambio, CreditosId, EnviosId")] PagoViewModel Pago)
         {
+            bool PagaEnvio = Pago.EnviosId != null ? (Pago.EnviosId.Count > 0 ? true : false) : false; //si viene almenos 1 Id en enviosId a pagar
+            List<Pago> Pagos = new List<Pago>();//lista de los pagos que se guardaran en la base de datos.
+
             if (ModelState.IsValid)
             {
-                db.Pagos.Add(pago);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                foreach (var Id in PagaEnvio ? Pago.EnviosId : Pago.CreditosId)
+                {
+                    var DataInDb = new object();
+
+                    if (PagaEnvio)
+                        DataInDb = db.Envios.Find(Id);
+                    else
+                        DataInDb = db.Creditos.Find(Id);
+
+                    if (DataInDb != null)
+                    {
+                        var PagoToAdd = new Pago
+                        {
+                            FechaDePago = DateTime.Now,
+                            TipoDePagoId = Pago.TipoDePagoId,
+                            MonedaId = Pago.MonedaId,
+                            Cambio = Pago.Cambio,
+                            EstadoDelPago = true,
+                            MontoDelPago = PagaEnvio ? (double)(DataInDb as Envio).MontoTotalDelEnvio : (_mapper.Map<CreditoViewModel>(DataInDb)).MontoDelCredito,
+                            EnvioId = PagaEnvio ? Id : new int?(),
+                            CreditoId = PagaEnvio ? new int?() : Id
+                        };
+                        Pagos.Add(PagoToAdd);
+                    }
+                }
+
+                //verificar si el monto total de todos los pagos a guardar es igual al monto total que se le presentó en la vista al usuario
+                //pueda ser que mientras se guardaba el pago, hicieron un nuevo envio al credito asociado a uno de los creditos que se esta pagando
+                //por ende, el monto a pagar aumento y se debe reflejar hasta que se recargue la pagina.
+
+                if (Pago.MontoDelPago != Pagos.Sum(x => x.MontoDelPago))
+                    return Json(new { exito = false, message = "El monto a pagar cambió mientras se guardaba el pago, debe recargar la página antes de intentar guardar el pago" }, JsonRequestBehavior.AllowGet);
+
+                db.Pagos.AddRange(Pagos);
+
+                if (db.SaveChanges() > 0)
+                {
+                    //actualizar la fecha de cancelacion del credito o modificar la tabla para que en lugar de fecha de cancelacion tenga un estado pagado o sin pagar
+                    //ya que, la fecha de cancelacion del credito es la misma que la fecha del pago
+                    //igual a los envios
+                    return Json(new { exito = true, message = "La operación se ha realizado exitosamente" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { exito = false, message = "Ha sucedido un error al procesar su solicitud" }, JsonRequestBehavior.AllowGet);
+
             }
 
-            ViewBag.CreditoId = new SelectList(db.Creditos, "Id", "Id", pago.CreditoId);
-            ViewBag.EnvioId = new SelectList(db.Envios, "Id", "DescripcionDeEnvio", pago.EnvioId);
-            ViewBag.MonedaId = new SelectList(db.Monedas, "Id", "NombreDeMoneda", pago.MonedaId);
-            ViewBag.TipoDePagoId = new SelectList(db.TiposDePago, "Id", "Descripcion", pago.TipoDePagoId);
-            return View(pago);
+            ViewBag.CreditoId = new SelectList(db.Creditos, "Id", "Id");
+            ViewBag.EnvioId = new SelectList(db.Envios, "Id", "DescripcionDeEnvio");
+            ViewBag.MonedaId = new SelectList(db.Monedas, "Id", "NombreDeMoneda", Pago.MonedaId);
+            ViewBag.TipoDePagoId = new SelectList(db.TiposDePago, "Id", "Descripcion", Pago.TipoDePagoId);
+
+            return Json(new { exito = false, message = "Ha sucedido un error al procesar su solicitud" }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Pagos/Edit/5
@@ -159,7 +205,7 @@ namespace MandaditosExpress.Controllers
                 //comentar esta lista de envios para produccion, ya que, no verifica el estado del envio
                 var ListEnvios = db.Envios.Where(it => it.ClienteId == ClienteId && !it.EsAlCredito && it.Pagos.Count <= 0).ToList();
                 var Envios = _mapper.Map<ICollection<EnvioPagoViewModel>>(ListEnvios).ToList();
-               
+
                 //JSONConvert dont put datetime format like  /Date(1639415480000)/
                 return Json(new { exito = true, data = JsonConvert.SerializeObject(Envios) }, JsonRequestBehavior.AllowGet);
             }
@@ -177,17 +223,17 @@ namespace MandaditosExpress.Controllers
                 //por defecto la fecha de cancelacion es 1900, significa que si aun tiene esa fecha es porque no se ha pagado
                 //TODO verificar que el credito tenga al menos 1 envio al credito asociado.
                 var creditos = db.Creditos.Where(it => it.ClienteId == ClienteId && it.EstadoDelCredito
-                && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha).ToList();
+                && it.FechaDeInicio <= DateTime.Now && it.FechaDeCancelacion == DefaultFecha && it.Envios.Count > 0).ToList();
 
                 //TODO validar que solo regrese los creditos que el monto es mayor a 0
                 List<CreditoViewModel> Creditos = _mapper.Map<ICollection<CreditoViewModel>>(creditos).ToList();
                 //JSONConvert dont put datetime format like  /Date(1639415480000)/	
-                return Json(new { exito = true, data = JsonConvert.SerializeObject(Creditos) }, JsonRequestBehavior.AllowGet);
+                return Json(new { exito = true, data = JsonConvert.SerializeObject(Creditos.Where(it => it.MontoDelCredito > 0)) }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(false, JsonRequestBehavior.AllowGet);
         }
-         
+
         [HttpGet]
         public JsonResult CalcularMontoCredito(ICollection<int> CreditosId)
         {
@@ -202,13 +248,13 @@ namespace MandaditosExpress.Controllers
                     // 1. Han sido por medio del metodo de pago credito
                     // 2. No hayan sido pagados
                     // 3. La fecha del envio se encuentre entre el rango de la fecha de inicio y vencimiento del credito, asi, se estarian pagando todos los envios en el periodo del credito
-                    var envios = db.Envios.Where(it => it.EsAlCredito && it.Pagos.Count <= 0 && it.FechaDelEnvio >= Credito.FechaDeInicio 
-                    && it.FechaDelEnvio <= Credito.FechaDeVencimiento && it.CreditoId == Credito.Id ).ToList();
+                    var envios = db.Envios.Where(it => it.EsAlCredito && it.Pagos.Count <= 0 && it.FechaDelEnvio >= Credito.FechaDeInicio
+                    && it.FechaDelEnvio <= Credito.FechaDeVencimiento && it.CreditoId == Credito.Id).ToList();
 
                     if (envios.Count() > 0)
                         envios.ForEach(it => MontoTotal += it.MontoTotalDelEnvio);
                 }
-                
+
                 return Json(new { exito = true, data = MontoTotal }, JsonRequestBehavior.AllowGet);
             }
 

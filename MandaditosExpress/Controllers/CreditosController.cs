@@ -89,8 +89,8 @@ namespace MandaditosExpress.Controllers
                 // validaciones sobre las fechas del credito a guardar
                 //puede ser 1 minuto menor a la fecha actual.
                 //escenario: elije en el calendario hoy pero en todo lo que llena los otros campos la datetime.now sera mayor y entonces
-                //la validacion se disparara, para evitar eso se le agrego 1 minuto de tiempo a la fecha de incio
-                if (credito.FechaDeInicio.AddMinutes(1) < DateTime.Now)
+                //la validacion se disparara, para evitar eso se le agrego 2 minuto de tiempo a la fecha de incio
+                if (credito.FechaDeInicio.AddMinutes(2) < DateTime.Now)
                 {
                     ModelState.AddModelError("", "La fecha de inicio debe ser mayor o igual a la fecha actual");
                     return View(credito);

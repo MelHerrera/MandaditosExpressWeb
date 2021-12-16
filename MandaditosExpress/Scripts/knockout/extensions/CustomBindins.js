@@ -103,3 +103,17 @@ ko.bindingHandlers.toggleValue = {
         $(element).after(i);
     }
 };
+
+
+//custom binding para inicializar el plugin slimscroll in element
+ko.bindingHandlers.slimScroll = {
+    init: function (element, valueAccessor) {
+        // add destroy callback
+        ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
+            $('#' + element.id).slimscroll('destroy');
+        });
+
+        var configOptions = ko.unwrap(valueAccessor());
+        $('#' + element.id).slimscroll(configOptions)
+    }
+};
