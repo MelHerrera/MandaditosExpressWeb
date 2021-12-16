@@ -67,11 +67,23 @@ public class MainMappingProfile : Profile
         CreateMap<Envio, EnvioPagoViewModel>().ForMember(x=> x.DistanciaEntregaRecep, x=> x.MapFrom(y=> y.DistanciaEntregaRecep.ToString("0.##")))
             .ReverseMap();
 
-        CreateMap<Moneda, MonedaViewModel>().ReverseMap();
+        CreateMap<Moneda, MonedaViewModel>().ForMember(x => x.NombreDeMoneda, x => x.MapFrom(y => y.NombreDeMoneda + " " + y.Abreviatura)).ReverseMap();
+        
+        //el envio se suma al credito pero si es un envio en proceso o finalizado.
         CreateMap<Credito, CreditoViewModel>().ForMember(x=> x.NombreCompletoCliente, x=> x.MapFrom(y=> y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
-            .ForMember(x=> x.MontoDelCredito, x=> x.MapFrom(y=> y.Envios.Sum(z=> z.MontoTotalDelEnvio))).ReverseMap();
+            .ForMember(x=> x.MontoDelCredito, x=> x.MapFrom(y=> y.Envios.Where(w=> w.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || w.EstadoDelEnvio == (short) EstadoDelEnvioEnum.Realizado)
+            .Sum(z=> z.MontoTotalDelEnvio))).ReverseMap();
 
         CreateMap<Pago, PagoViewModel>().ReverseMap();
+        CreateMap<Pago, IndexPagoViewModel>().ForMember(x=> x.MonedaDescripcion, x=> x.MapFrom(y=> y.Moneda.NombreDeMoneda + " " + y.Moneda.Abreviatura))
+            .ForMember(x=> x.TipoDePagoDescripcion, x=> x.MapFrom(y=> y.TipoDePago.Descripcion))
+            .ForMember(x => x.EnvioCodigo, x => x.MapFrom(y => y.Envio!= null ? y.Envio.CodigoDeEnvio : "-"))
+            .ForMember(x => x.CreditoCodigo, x => x.MapFrom(y => y.Credito!=null ? y.Credito.CodigoDelCredito : "-"))
+            .ForMember(x => x.ConceptoDelPago, x => x.MapFrom(y => y.Envio!= null ? "Envio" : "Crédito"))
+            .ForMember(x => x.ConceptoDelPagoClass, x => x.MapFrom(y => y.Envio != null ? "badge badge-primary" : "badge badge-warning"))
+            .ForMember(x=> x.ClienteNombres, x=> x.MapFrom(y=> y.Envio!=null ? y.Envio.Cliente.PrimerNombre + " " + y.Envio.Cliente.PrimerApellido + " " + y.Envio.Cliente.SegundoApellido :
+            y.Credito.Cliente.PrimerNombre + " " + y.Credito.Cliente.PrimerApellido + " " + y.Credito.Cliente.SegundoApellido)).ReverseMap();
+
         CreateMap<Envio, IndexEnvioViewModel>().
                             ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? "badge badge-info" : "badge badge-danger"))
                             .ForMember(x => x.EstadoDelEnvioText, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() 

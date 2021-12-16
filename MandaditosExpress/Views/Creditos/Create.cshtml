@@ -89,9 +89,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.EstadoDelCredito, htmlAttributes: new { @class = "control-label" })
                                             <div class="checkbox">
-                                                <input type="checkbox" value="true" name="EstadoDelCredito" checked hidden>
                                                 <input type="checkbox" data-toggle="switchbutton" value="true" data-onstyle="info" name="EstadoDelCredito" disabled checked>
-                                                @Html.ValidationMessageFor(model => model.EstadoDelCredito, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>

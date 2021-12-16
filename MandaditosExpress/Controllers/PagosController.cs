@@ -9,12 +9,13 @@ using System.Web.Mvc;
 using AutoMapper;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Cliente")]
     public class PagosController : Controller
     {
         private MandaditosDB db;
@@ -29,8 +30,19 @@ namespace MandaditosExpress.Controllers
         // GET: Pagos
         public ActionResult Index()
         {
-            var pagos = db.Pagos.Include(p => p.Credito).Include(p => p.Envio).Include(p => p.Moneda).Include(p => p.TipoDePago);
-            return View(pagos.ToList());
+            var pagos = new List<Pago>();
+            if (User.IsInRole("Admin"))
+                pagos = db.Pagos.ToList();
+            else
+            {
+                var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
+                var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
+                pagos = db.Pagos.Where(x=> x.Envio != null ? x.Envio.ClienteId == PersonaActual.Id : x.Credito.ClienteId == PersonaActual.Id).ToList();
+            }
+
+            var pagosMapped = _mapper.Map<ICollection<IndexPagoViewModel>> (pagos);
+
+            return View(pagosMapped.ToList());
         }
 
         // GET: Pagos/Details/5
@@ -49,6 +61,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Pagos/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var PagoViewModel = new PagoViewModel();
@@ -65,7 +78,8 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create([Bind(Include = "MonedaId, TipoDePagoId, MontoDelPago, Cambio, CreditosId, EnviosId")] PagoViewModel Pago)
+        [Authorize(Roles = "Admin")]
+        public JsonResult Create([Bind(Include = "MonedaId, TipoDePagoId, MontoDelPago, Cambio, CreditosId, EnviosId, ClienteId")] PagoViewModel Pago)
         {
             bool PagaEnvio = Pago.EnviosId != null ? (Pago.EnviosId.Count > 0 ? true : false) : false; //si viene almenos 1 Id en enviosId a pagar
             List<Pago> Pagos = new List<Pago>();//lista de los pagos que se guardaran en la base de datos.
@@ -128,6 +142,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Pagos/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -151,6 +166,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,NumeroDePago,FechaDePago,MontoADelPago,Cambio,CambioDolar,MonedaId,TipoDePagoId,EnvioId,CreditoId,EstadoDelPago")] Pago pago)
         {
             if (ModelState.IsValid)
@@ -167,6 +183,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Pagos/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -184,6 +201,7 @@ namespace MandaditosExpress.Controllers
         // POST: Pagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Pago pago = db.Pagos.Find(id);

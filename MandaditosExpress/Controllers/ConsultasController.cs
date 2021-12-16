@@ -102,7 +102,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.Data = JsonConvert.SerializeObject(viewmodel);
 
             //envios que se realizaron a un cliente en un periodo de fecha
-            //los envios realizados deben tener estado diferente a solicitud o rechazado
+            //los envios realizados deben tener estado diferente a solicitud o rechazado y aun no estar pagado es decir credito.pagos.count <=0
             var envios = db.Envios.Where(it => it.EsAlCredito && it.FechaDelEnvio >= FechaDesde && it.FechaDelEnvio <= FechaHasta && it.ClienteId == ClienteId
             && (it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)).ToList().OrderBy(it => it.FechaDelEnvio);
 

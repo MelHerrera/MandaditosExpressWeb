@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MandaditosExpress.Models.Pago>
+﻿@model IEnumerable<MandaditosExpress.Models.ViewModels.IndexPagoViewModel>
 
 @{
     ViewBag.Title = "Pagos";
@@ -44,83 +44,95 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="row col-lg-12">
-                        <p>
-                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
-                        </p>
-                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row col-lg-12">
+                            <p>
+                                <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                            </p>
+                        </div>
+                    }
 
                     @if (Model.Count() > 0)
                     {
-                        <table class="table">
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Credito.Id)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Envio.DescripcionDeEnvio)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Moneda.NombreDeMoneda)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TipoDePago.Descripcion)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NumeroDePago)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaDePago)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.MontoDelPago)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Cambio)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EstadoDelPago)
-                                </th>
-                                <th></th>
-                            </tr>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NumeroDePago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDePago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MontoDelPago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MonedaDescripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Cambio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TipoDePagoDescripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ConceptoDelPago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreditoCodigo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EnvioCodigo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ClienteNombres)
+                                    </th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
 
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Credito.Id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Envio.DescripcionDeEnvio)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Moneda.NombreDeMoneda)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TipoDePago.Descripcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NumeroDePago)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaDePago)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MontoDelPago)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cambio)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EstadoDelPago)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                    </td>
-                                </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroDePago)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaDePago)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MontoDelPago)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MonedaDescripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cambio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDePagoDescripcion)
+                                </td>
+                                <td>
+                                    <span class="@item.ConceptoDelPagoClass">
+                                        @Html.DisplayFor(modelItem => item.ConceptoDelPago)
+                                    </span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreditoCodigo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EnvioCodigo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClienteNombres)
+                                </td>
+                                <td>
+                                    <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id= item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
                             }
 
                         </table>
@@ -139,19 +151,9 @@
     </div>
 </div>
 
-
-
-<!--ko with: ModalViewModel-->
-<!--<modal params="{ ModalViewModel : $data }"></modal>-->
-<!--/ko-->
-
-@Html.Partial("~/Views/Creditos/Templates/_CreditoTemplate.cshtml")
-@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
-
 @section Scripts{
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
-    @Scripts.Render("~/bundles/IndexCreditos")
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")
 }

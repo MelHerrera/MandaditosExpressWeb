@@ -92,7 +92,50 @@ namespace MandaditosExpress.Models.ViewModels
         public virtual ICollection<int> CreditosId { get; set; }//los id de los creditos que se pagaran
         public virtual ICollection<int> EnviosId { get; set; }//los id de los envios que se pagaran
     }
+    public class IndexPagoViewModel
+    {
+        [Key]
+        public int Id { get; set; }
 
+        [Display(Name = "Número De Pago")]
+        [MaxLength(30)]
+        public string NumeroDePago { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha De Pago")]
+        public DateTime FechaDePago { get; set; }
+
+        [Required]
+        [Display(Name = "Monto")]
+        public double MontoDelPago { get; set; }
+
+        [Display(Name = "Cambio M.")]
+        public double Cambio { get; set; }
+
+        [Required]
+        [Display(Name = "Moneda")]
+        public string MonedaDescripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Método de Pago")]
+        public string TipoDePagoDescripcion { get; set; }
+
+        [Display(Name = "Código de Envio")]
+        public string EnvioCodigo { get; set; }
+
+        [Display(Name = "Código de Crédito")]
+        public string CreditoCodigo { get; set; }
+
+        [Required]
+        [Display(Name = "Concepto")]
+        public string ConceptoDelPago { get; set; }
+        public string ConceptoDelPagoClass { get; set; }
+
+        [Required]
+        [Display(Name = "Cliente")]
+        public string ClienteNombres { get; set; }
+
+    }
     public class MonedaViewModel
     {
 

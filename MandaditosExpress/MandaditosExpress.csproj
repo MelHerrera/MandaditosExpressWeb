@@ -305,6 +305,7 @@
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
     <Compile Include="Models\Disponibilidad.cs" />
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
+    <Compile Include="Models\Enum\EstadoDelCreditoEnum.cs" />
     <Compile Include="Models\Enum\EstadoDeMotorizadoEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
