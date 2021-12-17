@@ -405,6 +405,7 @@
     <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
     <Content Include="Scripts\knockout\ViewModel\Pagos\IndexPago.js" />
     <Content Include="Scripts\knockout\ViewModel\Pagos\PagoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Shared\PaginacionViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
     <Content Include="Scripts\plugins\chartJs\chart.min.js" />

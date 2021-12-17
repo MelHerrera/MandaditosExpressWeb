@@ -1,6 +1,12 @@
 ﻿function IndexServicio(ServicioCollection) {
     const self = this;
-    self.Servicio = ko.observableArray(ServicioCollection ? ko.utils.arrayMap(ServicioCollection, function(it){ return new ServicioViewModel(it) }) : []);
+    self.Servicio = ko.observableArray(ServicioCollection ? ko.utils.arrayMap(ServicioCollection, function (it) { return new ServicioViewModel(it) }) : []);
+    self.PaginationSize = ko.observable();
+    self.ServiciosPaginated = ko.observableArray([]);
+    self.Pagination = ko.observable(new PaginationViewModel({
+        pageSize: self.PageSize(),
+        totalCount: self.Servicio().length
+    }));
     self.Disable = ko.observable(false);
     self.DisableEver = ko.observable(true);
 
