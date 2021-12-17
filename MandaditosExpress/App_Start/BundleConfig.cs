@@ -171,11 +171,6 @@ namespace MandaditosExpress
                         "~/Scripts/knockout/ViewModel/Creditos/IndexCredito.js"));
 
             //Styles
-            //datapicker
-            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
-                "~/Scripts/plugins/datetimepicker/bootstrap-datetimepicker.min.js"
-           ));
-
 
             //Styles
 
@@ -222,10 +217,6 @@ namespace MandaditosExpress
             // custom switches 
             bundles.Add(new StyleBundle("~/Plugin/switches").Include(
                       "~/Content/plugins/switch/bootstrap-switch-button.min.css"));
-            //timepicker
-            bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
-                  "~/Content/plugins/datetimepicker/bootstrap-datetimepicker.min.css"
-                  ));
         }
     }
 }

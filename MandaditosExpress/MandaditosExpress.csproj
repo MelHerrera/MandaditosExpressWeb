@@ -349,8 +349,6 @@
     <Content Include="Content\plugins\checkbox\magic-input.min.css" />
     <Content Include="Content\plugins\select2\select2-bootstrap4.min.css" />
     <Content Include="Content\plugins\select2\select2.css" />
-    <Content Include="Images\3.png" />
-    <Content Include="Images\4.png" />
     <Content Include="Images\5.png" />
     <Content Include="Images\atwork.png" />
     <Content Include="Images\clients\acuarela.jpg" />
@@ -363,10 +361,7 @@
     <Content Include="Images\clients\uniformania.jpg" />
     <Content Include="Images\clients\vetplus.jpg" />
     <Content Include="Images\clients\vvjoyas.jpg" />
-    <Content Include="Images\Empt.png" />
     <Content Include="Images\Empty-pana.svg" />
-    <Content Include="Images\Empty.png" />
-    <Content Include="Images\mel.png" />
     <Content Include="Images\moto.png" />
     <Content Include="Models\DataSetsProcedures\EnviosCredXClienteYFecha.txt" />
     <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
@@ -433,9 +428,6 @@
     <Content Include="Content\forgot_pass.css" />
     <Content Include="Content\landing_style.css" />
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
-    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker-standalone.css" />
-    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker.css" />
-    <Content Include="Content\plugins\datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\plugins\switch\bootstrap-switch-button.min.css" />
     <Content Include="Content\register_style.css" />
     <Content Include="Content\site_cotizacion.css" />
@@ -480,8 +472,6 @@
     <Content Include="Images\mail_sent.png" />
     <Content Include="Images\marker.png" />
     <Content Include="Images\profile.jpg" />
-    <Content Include="Images\signin-image.jpg" />
-    <Content Include="Images\signup-image.jpg" />
     <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Images\Register.png" />
     <Content Include="Scripts\app\inspinia.js" />
@@ -526,7 +516,6 @@
     <Content Include="Scripts\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Scripts\plugins\jscolor\jscolor.js" />
     <Content Include="Scripts\plugins\locationpicker\locationpicker.jquery.js" />
-    <Content Include="Scripts\plugins\datetimepicker\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\plugins\moment\moment.js" />
     <Content Include="Scripts\plugins\notify\bootstrap-notify.min.js" />
@@ -650,6 +639,7 @@
     <Content Include="Content\plugins\boxicons\fonts\boxicons.ttf" />
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff" />
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff2" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -710,7 +700,6 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_TopNavbar.cshtml" />
     <Content Include="Views\Personas\Create.cshtml" />
-    <Content Include="Views\Personas\Delete.cshtml" />
     <Content Include="Views\Personas\Details.cshtml" />
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
