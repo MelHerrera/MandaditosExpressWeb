@@ -1,10 +1,9 @@
 ﻿function IndexServicio(ServicioCollection) {
     const self = this;
     self.Servicio = ko.observableArray(ServicioCollection ? ko.utils.arrayMap(ServicioCollection, function (it) { return new ServicioViewModel(it) }) : []);
-    self.PaginationSize = ko.observable();
-    self.ServiciosPaginated = ko.observableArray([]);
+    self.ServiciosPaginated = ko.observableArray(self.Servicio());
     self.Pagination = ko.observable(new PaginationViewModel({
-        pageSize: self.PageSize(),
+        pageSize: 5,
         totalCount: self.Servicio().length
     }));
     self.Disable = ko.observable(false);
@@ -87,6 +86,27 @@
     self.mostrarAlertVacio = ko.computed(function () {
         return self.Servicio().length <= 0;
     });
+
+    self.currentPageSubscription = self.Pagination().CurrentPage.subscribe(function (newCurrentPage) {
+        self.RenderAgain();
+    })
+
+    self.RenderAgain = function () {
+        var result = [];
+        var startIndex = (self.Pagination().CurrentPage() - 1) * self.Pagination().PageSize();
+        var endIndex = self.Pagination().CurrentPage() * self.Pagination().PageSize();
+
+        for (var i = startIndex; i < endIndex; i++) {
+            if (i < self.Servicio().length)
+                result.push(self.Servicio()[i])
+        }
+        self.ServiciosPaginated(result);
+    }
+
+    self.dispose = function () {
+        self.currentPageSubscription.dispose();
+        self.pageSizeSubscription.dispose();
+    }
 }
 
 $(function () {
