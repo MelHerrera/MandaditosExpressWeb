@@ -1,9 +1,10 @@
 ﻿function PaginationViewModel(options) {
     const self = this;
 
-    self.PageSize = ko.observable(options.pageSize || 7);
+    self.PageSize = ko.isObservable(options.pageSize) ? options.pageSize : ko.observable(options.pageSize);
     self.CurrentPage = ko.observable(1);
     self.TotalCount = ko.observable(options.totalCount || 0);
+    self.maxPageCount = ko.isObservable(options.maxPageCount) ? options.maxPageCount : ko.observable(options.maxPageCount); // this should be odd number always
 
     self.PageCount = ko.computed(function () {
         return Math.ceil(self.TotalCount() / self.PageSize());
@@ -58,9 +59,6 @@
         return (self.FirstPage != self.CurrentPage());
     });
 
-    // this should be odd number always
-    var maxPageCount = 7;
-
     self.generateAllPages = function () {
         var pages = [];
         for (var i = self.FirstPage; i <= self.LastPage(); i++)
@@ -74,8 +72,8 @@
         var pageCount = self.PageCount();
         var first = self.FirstPage;
 
-        var upperLimit = current + parseInt((maxPageCount - 1) / 2);
-        var downLimit = current - parseInt((maxPageCount - 1) / 2);
+        var upperLimit = current + parseInt((self.maxPageCount() - 1) / 2);
+        var downLimit = current - parseInt((self.maxPageCount() - 1) / 2);
 
         while (upperLimit > pageCount) {
             upperLimit--;
@@ -100,7 +98,7 @@
         self.CurrentPage();
         self.TotalCount();
 
-        if (self.PageCount() <= maxPageCount) {
+        if (self.PageCount() <= self.maxPageCount()) {
             return ko.observableArray(self.generateAllPages());
         } else {
             return ko.observableArray(self.generateMaxPage());

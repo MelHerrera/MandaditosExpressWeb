@@ -1,10 +1,10 @@
 ﻿function IndexServicio(ServicioCollection) {
     const self = this;
     self.Servicio = ko.observableArray(ServicioCollection ? ko.utils.arrayMap(ServicioCollection, function (it) { return new ServicioViewModel(it) }) : []);
-    self.ServiciosPaginated = ko.observableArray(self.Servicio());
-    self.Pagination = ko.observable(new PaginationViewModel({
-        pageSize: 5,
-        totalCount: self.Servicio().length
+    self.TablePagination = ko.observable(new TablePagintationViewModel({
+        PaginationSize: 5,
+        Items: self.Servicio,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
+        maxPageCount: 7
     }));
     self.Disable = ko.observable(false);
     self.DisableEver = ko.observable(true);
@@ -86,27 +86,6 @@
     self.mostrarAlertVacio = ko.computed(function () {
         return self.Servicio().length <= 0;
     });
-
-    self.currentPageSubscription = self.Pagination().CurrentPage.subscribe(function (newCurrentPage) {
-        self.RenderAgain();
-    })
-
-    self.RenderAgain = function () {
-        var result = [];
-        var startIndex = (self.Pagination().CurrentPage() - 1) * self.Pagination().PageSize();
-        var endIndex = self.Pagination().CurrentPage() * self.Pagination().PageSize();
-
-        for (var i = startIndex; i < endIndex; i++) {
-            if (i < self.Servicio().length)
-                result.push(self.Servicio()[i])
-        }
-        self.ServiciosPaginated(result);
-    }
-
-    self.dispose = function () {
-        self.currentPageSubscription.dispose();
-        self.pageSizeSubscription.dispose();
-    }
 }
 
 $(function () {
