@@ -142,7 +142,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Create
-        public ActionResult Create(int? CotizacionId)
+        public ActionResult Create(int? Id)
         {
             var EnvioViewModel = new SolicitudEnvioViewModel();
 
@@ -153,11 +153,12 @@ namespace MandaditosExpress.Controllers
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("BANC"));
             EnvioViewModel.GestionBancariaId = gestion != null ? gestion.Id : -1;
 
-            var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == CotizacionId && it.FechaDeValidez >= DateTime.Now);//Buscar una cotizacion Asociada
+            var cotizacion = db.Cotizaciones.FirstOrDefault(it => it.Id == Id && it.FechaDeValidez >= DateTime.Now);//Buscar una cotizacion Asociada
 
             if (cotizacion != null)//si el envio se va a realizar mediante una cotizacion
             {
                 EnvioViewModel.CotizacionId = cotizacion.Id;
+                EnvioViewModel.CodigoDeLaCotizacion = cotizacion.CodigoDeCotizacion;
                 EnvioViewModel.TipoDeServicioId = cotizacion.TipoDeServicioId;
                 EnvioViewModel.LugarOrigen = cotizacion.LugarOrigen != null ? _mapper.Map<LugarViewModel>(cotizacion.LugarOrigen) : new LugarViewModel();
                 EnvioViewModel.LugarDestino = cotizacion.LugarDestino != null ? _mapper.Map<LugarViewModel>(cotizacion.LugarDestino) : new LugarViewModel();

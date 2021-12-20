@@ -34,11 +34,6 @@ namespace MandaditosExpress.Controllers
             var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
             var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
 
-            if (User.IsInRole("Admin"))
-            cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now).ToList();
-            else
-                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId== PersonaActual.Id).ToList();
-
             //Validacion por si ya viene una cotizacion desde la autenticacion
             var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
 
@@ -69,8 +64,12 @@ namespace MandaditosExpress.Controllers
                 }
             }
 
+            if (User.IsInRole("Admin"))
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now).ToList();
+            else
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId == PersonaActual.Id).ToList();
 
-            return View(cotizaciones.ToList());
+            return View(_mapper.Map<ICollection<IndexCotizacionViewModel>>(cotizaciones.ToList()));
         }
 
         // GET: Cotizaciones/Details/5

@@ -60,6 +60,44 @@ namespace MandaditosExpress.Models.ViewModels
         public List<TipoDeServicio> TiposDeServicios { get; set; }
     }
 
+    public class IndexCotizacionViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [StringLength(250)]
+        [Required]
+        [Display(Name = "Descripción")]
+        public string DescripcionDeCotizacion { get; set; }
+
+        public string CodigoDeCotizacion { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required]
+        public DateTime FechaDeLaCotizacion { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required]
+        public DateTime FechaDeValidez { get; set; }
+
+        public string LugarDestino { get; set; }
+
+        public float DistanciaOrigenDestino { get; set; }
+        public decimal MontoDeDinero { get; set; }
+
+        [Required]
+        public bool EsEspecial { get; set; }
+
+        [Required]
+        public decimal MontoTotal { get; set; }
+
+        public int ClienteId { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de Servicio")]
+        public int TipoDeServicioId { get; set; }
+
+    }
     public class SolicitudEnvioViewModel
     {
 
@@ -151,6 +189,8 @@ namespace MandaditosExpress.Models.ViewModels
 
         [Display(Name = "Cotización")]
         public int? CotizacionId { get; set; }
+
+        public string CodigoDeLaCotizacion { get; set; }
 
         public int? CreditoId { get; set; }
 
