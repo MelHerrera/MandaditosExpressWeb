@@ -20,7 +20,8 @@
     <div class="align-items-center pb-lg-5">
         <div class="row">
             <div class="col-md-12">
-                <div class="row justify-content-center" data-bind="foreach:Envios">
+                <!--ko with:TablePagination-->
+                <div class="row justify-content-center" data-bind="foreach:ItemsInPage">
 
                     <div class="card w-25 my-2 mx-2 p-0">
                         <div class="card-body">
@@ -118,6 +119,36 @@
                         </div>
                     </div>
                 </div>
+                <!--ko with:Pagination-->
+                <nav aria-label="Páginas">
+                    <ul class="pagination text-success justify-content-center" data-bind="visible: NeedPaging">
+
+                        <li class="page-item" data-bind="css: { disabled: !FirstPageActive() }">
+                            <a class="page-link" data-bind="click: GoToFirst">Primera</a>
+                        </li>
+
+                        <li class="page-item" data-bind="css: { disabled: !PreviousPageActive() }">
+                            <a class="page-link" data-bind="click: GoToPrevious">Anterior</a>
+                        </li>
+
+                        <!-- ko foreach: GetPages() -->
+                        <li class="page-item" data-bind="css: { active: ko.unwrap($parent.CurrentPage()) === ko.unwrap($data) }">
+                            <a class="page-link" data-bind="click: $parent.GoToPage, text: $data">1</a>
+                        </li>
+                        <!-- /ko -->
+
+                        <li class="page-item" data-bind="css: { disabled: !NextPageActive() }">
+                            <a class="page-link" data-bind="click: GoToNext">Siguiente</a>
+                        </li>
+
+                        <li class="page-item" data-bind="css: { disabled: !LastPageActive() }">
+                            <a class="page-link" data-bind="click: GoToLast">última</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--/ko-->
+
+                <!--/ko-->
             </div>
         </div>
     </div>
@@ -138,6 +169,8 @@ else
     <script src="~/Scripts/knockout/knockout.mapping.js"></script>
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")
+    <script src="~/Scripts/knockout/ViewModel/Shared/PaginacionViewModel.js"></script>
+    <script src="~/Scripts/knockout/ViewModel/Shared/TablePagination.js"></script>
 
     <script>
         function IndexEnvio(envios) {
@@ -145,6 +178,11 @@ else
             envios = envios || {};
 
             self.Envios = ko.observable(envios ? ko.utils.arrayMap(envios, function (it) { return ko.mapping.fromJS(it) }) : {});
+            self.TablePagination = ko.observable(new TablePagintationViewModel({
+                PaginationSize: 9,
+                Items: self.Envios,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
+                maxPageCount: 7
+            }));
             self.EnvioSelected = ko.observable({});
 
             self.Finalizar = function (data, event) {
