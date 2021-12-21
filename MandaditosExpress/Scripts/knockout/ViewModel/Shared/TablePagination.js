@@ -2,7 +2,7 @@
     const self = this;
 
     self.PaginationSize = ko.observable(data.PaginationSize || 5);
-    self.Items = ko.isObservable(data.Items) ? data.Items : ko.observable(data.Items);
+    self.Items = ko.isObservable(data.Items) ? data.Items : ko.observable(data.Items || []);
     self.maxPageCount = ko.observable(data.maxPageCount || 5);//max number link shown in pagination
 
     //Paginacion

@@ -37,8 +37,7 @@ public class MainMappingProfile : Profile
     public MainMappingProfile()
     {
         CreateMap<TipoDeServicio, TipoDeServicioViewModel>();
-        CreateMap<Servicio, ServicioViewModel>();
-        CreateMap<Servicio, ServicioViewModel>().ReverseMap();
+        CreateMap<Servicio, ServicioViewModel>().ForMember(x=>x.DescripcionTipoDeServicio, x=> x.MapFrom(y=> y.TipoDeServicio.DescripcionTipoDeServicio)).ReverseMap();
         CreateMap<TipoDePago, TipoDePagoViewModel>();
 
         CreateMap<Envio, EnvioViewModel>().ForMember(x => x.TipoDeServicioDescripcion, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio))

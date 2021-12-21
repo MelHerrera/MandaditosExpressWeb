@@ -2,7 +2,7 @@
     const self = this;
     self.Servicio = ko.observableArray(ServicioCollection ? ko.utils.arrayMap(ServicioCollection, function (it) { return new ServicioViewModel(it) }) : []);
     self.TablePagination = ko.observable(new TablePagintationViewModel({
-        PaginationSize: 5,
+        PaginationSize: 10,
         Items: self.Servicio,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
         maxPageCount: 7
     }));

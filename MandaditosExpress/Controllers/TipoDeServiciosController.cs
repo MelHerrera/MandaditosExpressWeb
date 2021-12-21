@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
@@ -14,11 +16,17 @@ namespace MandaditosExpress.Controllers
     public class TipoDeServiciosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
+
+        public TipoDeServiciosController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         // GET: TipoDeServicios
         public ActionResult Index()
         {
-            return View(db.TiposDeServicio.ToList());
+            return View(_mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio.ToList()));
         }
 
         // GET: TipoDeServicios/Details/5

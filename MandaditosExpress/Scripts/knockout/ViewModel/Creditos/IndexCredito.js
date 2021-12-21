@@ -6,7 +6,11 @@ function IndexCredito(creditoCollection) {
 
     self.Creditos = ko.observableArray(creditoCollection ?
         ko.utils.arrayMap(creditoCollection, function (credito) { return new CreditoViewModel(credito) }) : []);
-
+    self.TablePagination = ko.observable(new TablePagintationViewModel({
+        PaginationSize: 10,
+        Items: self.Creditos,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
+        maxPageCount: 7
+    }));
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "credito-modal",
         ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),

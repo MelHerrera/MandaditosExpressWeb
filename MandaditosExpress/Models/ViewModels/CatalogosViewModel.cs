@@ -33,7 +33,10 @@ namespace MandaditosExpress.Models.ViewModels
         public bool Estado { get; set; }
 
         [Required]
+        [Display(Name = "Tipo de Servicio")]
         public int TipoDeServicioId { get; set; }
+
+        public string DescripcionTipoDeServicio { get; set; }
 
     }
 
