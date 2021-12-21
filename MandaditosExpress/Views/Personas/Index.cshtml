@@ -124,15 +124,14 @@
             self.AllPersonas = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
             self.PersonaSelected = ko.observable();
             self.TextInputBusqueda = ko.observable('');
-
             self.FiltrandoPersonas = ko.observable(false);
             self.FiltrarPersonas = function () {
                 self.FiltrandoPersonas(true);//mostrar progress de filtrando
 
                 if (self.TextInputBusqueda()) {
                     let arrayFiltered = ko.utils.arrayFilter(self.AllPersonas(), function (it) {
-                        if (it.CorreoElectronico().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) ||
-                            it.Nombres().toUpperCase().includes(self.TextInputBusqueda().toUpperCase())) {
+                        if (it.CorreoElectronico().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1 ||
+                            it.Nombres().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1) {
                             return it;
                         }
                     });
