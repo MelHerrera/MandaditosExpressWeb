@@ -5,27 +5,13 @@
 }
 
 
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Cotizaciones</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Cotizaciones</strong>
-            </li>
-        </ol>
-    </div>
-</div>
-
-
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="table-responsive">
             <div class="ibox ">
                 <div class="ibox-title">
                     <h5>Lista de Cotizaciones Vigentes</h5>
+                    <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoCotizacion"></i>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -37,117 +23,125 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row mb-2">
-                        <div class="col-md-12">
+                        <div class="col-auto">
                             <a class="btn btn-success float-left" href="@Url.Action("Create","Cotizaciones")"><i class="fa fa-plus"></i> Realizar Cotización</a>
                         </div>
-                    </div>
-                    @if (Model.Count() > 0)
-                    {
-                        <div class="align-items-center">
-                            <div class="row justify-content-center">
-                                <!--ko with: TablePagination-->
-                                <!--ko foreach:ItemsInPage-->
-                                <div class="card w-25 my-1 mx-2">
-                                    <h5 class="badge badge-danger text-white align-self-end p-1 m-2 font-weight-bold" style="position:absolute">Validez: <span data-bind="text:FechaDeValidez"></span></h5>
-                                    <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
-                                    <div class="card-body p-1">
-                                        <h4 class="card-title font-weight-bold p-1 m-0" data-bind="text:DescripcionDeCotizacion"></h4>
-                                        <!--ko if: LugarDestino()!=null-->
-                                        <small class="text-muted p-1" data-bind="text:LugarDestino"></small>
-                                        <!--/ko-->
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" placeholder="Busqueda por Código" class="input form-control" data-bind="textInput:$root.TextInputBusqueda">
 
-                                        <div class="row mb-3">
-                                            <div class="col-md-12">
-                                                <small class="font-weight-bold p-1">Coódigo:</small>
-                                                <small class="p-1" data-bind="text:CodigoDeCotizacion"></small>
-                                            </div>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-success" data-bind="click:$root.LimpiarFiltro">
+                                        <i class="fa fa-trash"></i> Limpiar
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ko with: TablePagination-->
+
+                    <!--ko if: ItemsInPage().length>0-->
+                    <div class="align-items-center">
+                        <div class="row justify-content-center">
+                            <!--ko foreach:ItemsInPage-->
+                            <div class="card w-25 my-1 mx-2">
+                                <h5 class="badge badge-danger text-white align-self-end p-1 m-2 font-weight-bold" style="position:absolute">Validez: <span data-bind="text:FechaDeValidez"></span></h5>
+                                <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
+                                <div class="card-body p-1">
+                                    <h4 class="card-title font-weight-bold p-1 m-0" data-bind="text:DescripcionDeCotizacion"></h4>
+                                    <!--ko if: LugarDestino()!=null-->
+                                    <small class="text-muted p-1" data-bind="text:LugarDestino"></small>
+                                    <!--/ko-->
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <small class="font-weight-bold p-1">Coódigo:</small>
+                                            <small class="p-1" data-bind="text:CodigoDeCotizacion"></small>
                                         </div>
-                                        <div class="row no-margins">
-                                            <div class="col-6 align-items-center">
-                                                <span class="mr-1 sparkline">
-                                                </span>
-                                            </div>
-                                            <div class="col-6 align-items-center">
-                                                <div class="mb-1 align-items-center">
-                                                    <div class="input-group h2">
-                                                        <h2 class="font-weight-bold ">
-                                                            C$
-                                                            <span class="text-danger mr-2" data-bind="text:MontoTotal"></span>
-                                                        </h2>
-                                                    </div>
+                                    </div>
+                                    <div class="row no-margins">
+                                        <div class="col-6 align-items-center">
+                                            <span class="mr-1 sparkline" data-bind="defaultSparkline:{}">
+                                            </span>
+                                        </div>
+                                        <div class="col-6 align-items-center">
+                                            <div class="mb-1 align-items-center">
+                                                <div class="input-group h2">
+                                                    <h2 class="font-weight-bold ">
+                                                        C$
+                                                        <span class="text-danger mr-2" data-bind="text:MontoTotal"></span>
+                                                    </h2>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!--ko if:DistanciaOrigenDestino()!=null-->
-                                        <small class="text-black-50 mt-2">
-                                            <span data-bind="text:DistanciaOrigenDestino"></span>
-                                            Kilometros
-                                        </small>
-                                        <!--/ko-->
-
-                                        <!--ko if:(DistanciaOrigenDestino()==null && MontoDeDinero()!=null) -->
-                                        <small class="text-black-50 mt-2">
-                                            Monto de Dinero: C$
-                                            <span data-bind="text:MontoDeDinero"></span>
-                                        </small>
-                                        <!--/ko-->
-
-                                        <div class="mt-2">
-                                            @if (User.IsInRole("Cliente"))
-                                            {
-                                                <a class="btn-success btn" data-bind="attr:{ href:'@Url.Action("Create", "Envios")/' + Id() }" >Solicitar Envio</a>
-                                            }
-                                        </div>
-                                        <small>
-                                            <i class="fa fa-calendar"></i> 
-                                            <span data-bind="text:FechaDeLaCotizacion"></span>
-                                        </small>
-
                                     </div>
+
+                                    <!--ko if:DistanciaOrigenDestino()!=null-->
+                                    <small class="text-black-50 mt-2">
+                                        <span data-bind="text:DistanciaOrigenDestino"></span>
+                                        Kilometros
+                                    </small>
+                                    <!--/ko-->
+                                    <!--ko if:(DistanciaOrigenDestino()==null && MontoDeDinero()!=null) -->
+                                    <small class="text-black-50 mt-2">
+                                        Monto de Dinero: C$
+                                        <span data-bind="text:MontoDeDinero"></span>
+                                    </small>
+                                    <!--/ko-->
+
+                                    <div class="mt-2">
+                                        @if (User.IsInRole("Cliente"))
+                                        {
+                                            <a class="btn-success btn" data-bind="attr:{ href:'@Url.Action("Create", "Envios")/' + Id() }">Solicitar Envio</a>
+                                        }
+                                    </div>
+                                    <small>
+                                        <i class="fa fa-calendar"></i>
+                                        <span data-bind="text:FechaDeLaCotizacion"></span>
+                                    </small>
+
                                 </div>
-                                <!--/ko-->
-                                
-
-                                <!--ko with:Pagination-->
-                                <nav aria-label="Páginas" class="mt-3">
-                                    <ul class="pagination text-success justify-content-center" data-bind="visible: NeedPaging">
-
-                                        <li class="page-item" data-bind="css: { disabled: !FirstPageActive() }">
-                                            <a class="page-link" data-bind="click: GoToFirst">Primera</a>
-                                        </li>
-
-                                        <li class="page-item" data-bind="css: { disabled: !PreviousPageActive() }">
-                                            <a class="page-link" data-bind="click: GoToPrevious">Anterior</a>
-                                        </li>
-
-                                        <!-- ko foreach: GetPages() -->
-                                        <li class="page-item" data-bind="css: { active: ko.unwrap($parent.CurrentPage()) === ko.unwrap($data) }">
-                                            <a class="page-link" data-bind="click: $parent.GoToPage, text: $data">1</a>
-                                        </li>
-                                        <!-- /ko -->
-
-                                        <li class="page-item" data-bind="css: { disabled: !NextPageActive() }">
-                                            <a class="page-link" data-bind="click: GoToNext">Siguiente</a>
-                                        </li>
-
-                                        <li class="page-item" data-bind="css: { disabled: !LastPageActive() }">
-                                            <a class="page-link" data-bind="click: GoToLast">última</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <!--/ko-->
-                                <!--/ko-->
                             </div>
+                            <!--/ko-->
                         </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
-                        </div>
-                    }
+                        <!--ko with:Pagination-->
+                        <nav aria-label="Páginas" class="mt-3">
+                            <ul class="pagination text-success justify-content-center" data-bind="visible: NeedPaging">
 
+                                <li class="page-item" data-bind="css: { disabled: !FirstPageActive() }">
+                                    <a class="page-link" data-bind="click: GoToFirst">Primera</a>
+                                </li>
+
+                                <li class="page-item" data-bind="css: { disabled: !PreviousPageActive() }">
+                                    <a class="page-link" data-bind="click: GoToPrevious">Anterior</a>
+                                </li>
+
+                                <!-- ko foreach: GetPages() -->
+                                <li class="page-item" data-bind="css: { active: ko.unwrap($parent.CurrentPage()) === ko.unwrap($data) }">
+                                    <a class="page-link" data-bind="click: $parent.GoToPage, text: $data">1</a>
+                                </li>
+                                <!-- /ko -->
+
+                                <li class="page-item" data-bind="css: { disabled: !NextPageActive() }">
+                                    <a class="page-link" data-bind="click: GoToNext">Siguiente</a>
+                                </li>
+
+                                <li class="page-item" data-bind="css: { disabled: !LastPageActive() }">
+                                    <a class="page-link" data-bind="click: GoToLast">última</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!--/ko-->
+
+                    </div>
+                    <!--/ko-->
+                    <!--ko ifnot: ItemsInPage().length >0-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                    </div>
+                    <!--/ko-->
+
+                    <!--/ko-->
                 </div>
             </div>
         </div>
@@ -168,38 +162,43 @@
             data = data || {};
 
             self.Cotizaciones = ko.observableArray(data ? ko.utils.arrayMap(data, function (it) { return ko.mapping.fromJS(it) }) : []);
+            self.CotizacionesFiltered = ko.observableArray(self.Cotizaciones());
             self.TablePagination = ko.observable(new TablePagintationViewModel({
                 PaginationSize: 9,
-                Items: self.Cotizaciones,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
+                Items: self.CotizacionesFiltered,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
                 maxPageCount: 7
             }));
+            self.TextInputBusqueda = ko.observable();
+            self.FiltrandoCotizacion = ko.observable(false);
+            self.LimpiarFiltro = function () {
+                self.TextInputBusqueda(null);
+                self.CotizacionesFiltered(self.Cotizaciones());
+            }
+            //subscripciones
+            self.TextInputBusqueda.subscribe(function (codigo) {
+                if (ko.unwrap(codigo)) {
+                    self.FiltrandoCotizacion(true);
+
+                    let arrayFiltered = ko.utils.arrayFilter(self.Cotizaciones(), function (it) {
+                        if (it.CodigoDeCotizacion().toUpperCase().indexOf(ko.unwrap(codigo).toUpperCase()) != -1) {
+                            return it;
+                        }
+                    });
+
+                    self.CotizacionesFiltered(arrayFiltered);
+                }
+                else
+                    self.CotizacionesFiltered(self.Cotizaciones());//cuando en el cuadro de texto no haya nada entonces mostrar todo
+
+                self.FiltrandoCotizacion(false);//ocultar progress
+            });
         }
 
         $(document).ready(function () {
              let cot = @Html.HtmlConvertToJson(Model);
             ko.applyBindings(new IndexCotizaciones(cot));
 
-            InicializarGrafico();
         });//fin del ready
-
-        function InicializarGrafico() {
-
-            var values = [5, 6, 7, 5, 13, 7, 6, 7, 6, 4, 7];
-
-            var range_map = $.range_map({
-                '7:': 'green',
-            });
-
-            // Draw a sparkline for the #sparkline element
-            $('.sparkline').sparkline(values, {
-                type: "bar",
-                barWidth: 10,
-                height: 60,
-                barColor: '#0083CD',
-                colorMap: range_map,
-                chartRangeMax: 12
-            });
-        }
 
     </script>
 }

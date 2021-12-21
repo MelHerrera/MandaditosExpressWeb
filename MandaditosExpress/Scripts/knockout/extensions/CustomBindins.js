@@ -117,3 +117,25 @@ ko.bindingHandlers.slimScroll = {
         $('#' + element.id).slimscroll(configOptions)
     }
 };
+
+//custom binding para inicializar el plugin de graficos sparkline
+ko.bindingHandlers.defaultSparkline = {
+    init: function (element, valueAccessor) {
+
+        var values = [5, 6, 7, 5, 13, 7, 6, 7, 6, 4, 7];
+
+        var range_map = $.range_map({
+            '7:': 'green',
+        });
+
+        // Draw a sparkline for the #sparkline element
+        $('.sparkline').sparkline(values, {
+            type: "bar",
+            barWidth: 10,
+            height: 60,
+            barColor: '#0083CD',
+            colorMap: range_map,
+            chartRangeMax: 12
+        });
+    }
+};
