@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Envios";
+    var refrescar = ViewBag.Refrescar!=null ? ViewBag.Refrescar.ToString().ToLower() : false.ToString().ToLower();
 }
 
 @section Styles{
@@ -32,7 +33,7 @@
         <div class="col-md-12">
             <div class="row justify-content-center" data-bind="foreach:ItemsInPage">
 
-                <div class="card w-25 my-2 mx-2 p-0">
+                <div class="card w-25 my-2 mx-2 p-0" data-bind="style: { 'border-color': EstaRetrasado() ? 'red' : 'rgba(0, 0, 0, 0.125)', color:(EstaRetrasado() ? '#ed5565' : 'inherit') }">
                     <div class="card-body">
                         <div class="ibox m-0">
                             <!--row monto total y logo-->
@@ -121,6 +122,15 @@
                                         <small data-bind="text:MotivoDeRechazo"></small>
                                     </span>
 
+                                </div>
+                            </div>
+                            <!--/ko-->
+                            <!--ko if:EstaRetrasado()-->
+                            <div class="row float-right">
+                                <div class="col-sm-12">
+                                    <small>Retrasado </small>
+                                    <small class="font-weight-bold" data-bind="text:TiempoRetraso"></small>
+                                    <small> Min</small>
                                 </div>
                             </div>
                             <!--/ko-->
@@ -341,11 +351,19 @@
                 );
             }
         }
-
+        function RefrescarAutomaticamente() {
+            location.reload();
+        }
         $(function () {
             let envios = @Html.HtmlConvertToJson(Model);
 
             ko.applyBindings(new IndexEnvio(envios));
+
+            //refrecar automaticamente cada 2 minutos
+            let ref = @refrescar;
+            if (ref) {
+                setTimeout(function () { RefrescarAutomaticamente() },120000);//refrescar cada 120 mil milisegundos, es decir, cada 120 segundos = 2 minutos
+            }
         });
     </script>
 }

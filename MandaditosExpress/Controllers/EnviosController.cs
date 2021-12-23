@@ -80,6 +80,9 @@ namespace MandaditosExpress.Controllers
             else
                 envios = _mapper.Map<ICollection<IndexEnvioViewModel>>(db.Envios.Include(e => e.Asistente).Include(e => e.Cliente).Include(e => e.Motocicleta).Include(e => e.Motorizado).Include(e => e.Servicio).Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).ToList()).ToList();
 
+            //cuando el usuario este en la vista de envios en procesos decirle a la vista que se deben refrescar automaticamente la pagina
+            ViewBag.Refrescar = true;
+
             return View("Index", envios.ToList());
         }
 
