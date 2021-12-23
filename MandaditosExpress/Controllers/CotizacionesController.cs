@@ -99,6 +99,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
 
             mCotizacionViewModel.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
+            mCotizacionViewModel.TiposDeServicios = _mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio.ToList()).ToList();
 
             return View(mCotizacionViewModel);
         }

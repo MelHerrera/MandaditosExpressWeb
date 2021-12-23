@@ -95,5 +95,29 @@ namespace MandaditosExpress.Controllers
             return View();
         }
 
+        public ActionResult ImprimirCotizacion(DateTime Fecha, DateTime FechaDeValidez, float Monto,int TipoDeServicioId, string Descripcion, double MontoDeDinero, string Origen, string Destino, float Distancia=0, bool Urgente=false)
+        {
+            ReportViewer rpt = new ReportViewer();
+            rpt.ProcessingMode = ProcessingMode.Local;
+            rpt.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reportes/RptCotizacion.rdlc";
+
+            var TipoDeServicio = db.TiposDeServicio.Find(TipoDeServicioId);
+            rpt.LocalReport.SetParameters(new ReportParameter("TipoDeServicio", TipoDeServicio!=null ? TipoDeServicio.DescripcionTipoDeServicio : "-- Sin Especificar --"));//para poder mostrar el usuario que genereo el reporte
+            rpt.LocalReport.SetParameters(new ReportParameter("Fecha", Fecha.ToString()));
+            rpt.LocalReport.SetParameters(new ReportParameter("FechaDeValidez", FechaDeValidez.ToString()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Descripcion", Descripcion.Trim()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Origen", Origen.Length > 0 ? Origen : "-- Sin Especificar --"));
+            rpt.LocalReport.SetParameters(new ReportParameter("Destino", Destino.Length>0 ? Destino: "-- Sin Especificar --"));
+            rpt.LocalReport.SetParameters(new ReportParameter("MontoDeDinero", MontoDeDinero.ToString()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Distancia", Distancia.ToString()));
+            rpt.LocalReport.SetParameters(new ReportParameter("Urgente", Urgente ? "Si" : "No"));
+            rpt.LocalReport.SetParameters(new ReportParameter("Monto", Monto.ToString()));
+            rpt.SizeToReportContent = true;
+            rpt.ShowPrintButton = true;
+            rpt.ShowZoomControl = true;
+            ViewBag.rpt = rpt;
+            return View();
+
+        }
     }
 }

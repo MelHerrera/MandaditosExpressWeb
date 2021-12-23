@@ -39,7 +39,6 @@
                         </div>
                     </div>
                     <!--ko with: TablePagination-->
-
                     <!--ko if: ItemsInPage().length>0-->
                     <div class="align-items-center">
                         <div class="row justify-content-center">
@@ -136,11 +135,13 @@
                     </div>
                     <!--/ko-->
                     <!--ko ifnot: ItemsInPage().length >0-->
-                    <div class="alert alert-warning alert-Empty" role="alert">
-                        Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                    <div class="justify-content-center" style="text-align:center;">
+                        <img src="~/Images/5.png" />
+                        <div class="alert alert-warning alert-Empty mt-3 mx-5" role="alert">
+                            Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                        </div>
                     </div>
                     <!--/ko-->
-
                     <!--/ko-->
                 </div>
             </div>

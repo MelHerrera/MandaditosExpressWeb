@@ -14,7 +14,6 @@ namespace MandaditosExpress.Models.ViewModels
             db = new MandaditosDB();
             FechaDeLaCotizacion = DateTime.Now;
             FechaDeValidez = DateTime.Now.AddDays(15);
-            TiposDeServicios = db.TiposDeServicio.ToList();
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
             GestionBancariaId = gestion!=null ? gestion.Id : -1;
             
@@ -57,7 +56,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int GestionBancariaId { get; set; }
 
-        public List<TipoDeServicio> TiposDeServicios { get; set; }
+        public List<TipoDeServicioViewModel> TiposDeServicios { get; set; }
     }
 
     public class IndexCotizacionViewModel

@@ -77,7 +77,7 @@
                                     <td data-bind="text:$index()+1"></td>
                                     <td data-bind="text:DescripcionTipoDeServicio"></td>
                                     <td>
-                                        <input type="checkbox" data-bind="checked:EstadoTipoDeServicio" disabled />
+                                        <span data-bind="text:(EstadoTipoDeServicio ? 'Activo':'Inactivo'), class:(EstadoTipoDeServicio ? 'badge badge-primary':'badge badge-warning')"></span>
                                     </td>
                                     <td>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>

@@ -130,8 +130,18 @@ else
                                     <h5 class="badge badge-danger text-white align-self-end p-1 m-2" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
                                     <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
                                     <div class="card-body">
-                                        <h5 class="card-title font-weight-bold p-2">Monto Total</h5>
-
+                                        <div class="row">
+                                            <div class="col-sm-6 m-0 p-0">
+                                                <h5 class="card-title font-weight-bold p-2">Monto Total</h5>
+                                            </div>
+                                            <!--ko if:$root.MostrarOpciones-->
+                                            <div class="col-sm-6 m-0 p-0">
+                                                <a target="_blank" data-bind="attr:{ href: '@Url.Action("ImprimirCotizacion","Informes")' }, click:$root.Imprimir" class="btn btn-success btn-sm mb-2 float-right">
+                                                <i class="fa fa-print"></i> Imprimir
+                                                </a>
+                                            </div>
+                                            <!--/ko-->
+                                        </div>
                                         <div class="row no-margins no-padding">
                                             <div class="col-6 align-items-center"><span id="sparkline" class="m-0"></span></div>
                                             <div class="col-6 align-items-center">
@@ -273,6 +283,19 @@ else
                                 CalcularDistancia(origen, destino);
                             }
                         });
+
+                        self.Imprimir = function (data, event) {
+                            if (self.Cotizacion()) {
+                                let url = $(event.currentTarget).attr("href");
+                                url += "?TipoDeServicioId=" + self.Cotizacion().TipoDeServicioId() + "&Descripcion=" + self.Cotizacion().DescripcionDeCotizacion() +
+                                    "&MontoDeDinero=" + self.Cotizacion().MontoDeDinero() + "&Origen=" + self.Cotizacion().LugarOrigen().Direccion() +
+                                    "&Destino=" + self.Cotizacion().LugarDestino().Direccion() + "&Distancia=" + self.Cotizacion().DistanciaOrigenDestino() +
+                                    "&Urgente=" + self.Cotizacion().EsEspecial() + "&Fecha=" + self.Cotizacion().FechaDeLaCotizacion() + "&FechaDeValidez=" +
+                                    self.Cotizacion().FechaDeValidez() + "&Monto=" + self.Cotizacion().MontoTotal();
+
+                                window.open(url, "_blank");
+                            }
+                        }
 
                         self.RealizarEnvio = function () {
                          let frm = $('form');
@@ -688,6 +711,18 @@ else
                             CalcularDistancia(origen, destino);
                         }
                     });
+                    self.Imprimir = function (data, event) {
+                        if (self.Cotizacion()) {
+                            let url = $(event.currentTarget).attr("href");
+                            url += "?TipoDeServicioId=" + self.Cotizacion().TipoDeServicioId() + "&Descripcion=" + self.Cotizacion().DescripcionDeCotizacion() +
+                                "&MontoDeDinero=" + self.Cotizacion().MontoDeDinero() + "&Origen=" + self.Cotizacion().LugarOrigen().Direccion() +
+                                "&Destino=" + self.Cotizacion().LugarDestino().Direccion() + "&Distancia=" + self.Cotizacion().DistanciaOrigenDestino() +
+                                "&Urgente=" + self.Cotizacion().EsEspecial() + "&Fecha=" + self.Cotizacion().FechaDeLaCotizacion() + "&FechaDeValidez=" +
+                                self.Cotizacion().FechaDeValidez() + "&Monto=" + self.Cotizacion().MontoTotal();
+
+                            window.open(url, "_blank");
+                        }
+                    }
 
                 self.RealizarEnvio = function() {
                     let frm = $('form');

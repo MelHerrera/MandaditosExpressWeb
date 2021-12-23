@@ -786,6 +786,7 @@
     <Content Include="Views\Informes\EnviosMensuales.cshtml" />
     <Content Include="Views\Consultas\EnviosPorPeriodo.cshtml" />
     <Content Include="Views\Informes\ListaEnviosPorPeriodo.cshtml" />
+    <Content Include="Views\Informes\ImprimirCotizacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
@@ -814,6 +815,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\RptCotizacion.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosMensuales.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosPorPeriodo.rdlc" />
