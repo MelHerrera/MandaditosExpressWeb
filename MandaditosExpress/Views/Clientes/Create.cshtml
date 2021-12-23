@@ -47,14 +47,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="PrimerNombre"> <i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" />
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" value="@Model.PrimerNombre"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="SegundoNombre"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" />
+                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" value="@Model.SegundoNombre"/>
                                     </div>
                                 </div>
                             </div>
@@ -63,14 +63,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="PrimerApellido"><i class="fa fa-users"></i></label>
-                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" />
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" value="@Model.PrimerApellido"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="SegundoApellido"><i class="fa fa-users"></i></label>
-                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" />
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" value="@Model.SegundoApellido"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
                                 </div>
@@ -80,14 +80,14 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" />
+                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" value="@Model.Cedula"/>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Celular"><i class="fa fa-phone"></i></label>
-                                        <input type="text" name="Telefono" placeholder="Celular*" />
+                                        <input type="text" name="Telefono" placeholder="Celular*" value="@Model.Telefono"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                                 </div>
@@ -110,7 +110,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                        <input type="text" name="Direccion" placeholder="Dirección*" />
+                                        <input type="text" name="Direccion" placeholder="Dirección*" value="@Model.Direccion"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                                 </div>
@@ -129,13 +129,13 @@
                                 <div class="col-md-6 RUCEmpresa">
                                     <div class="form-group">
                                         <label for="RUC"><i class="fa fa-ticket"></i></label>
-                                        <input type="text" name="RUC" placeholder="# RUC" />
+                                        <input type="text" name="RUC" placeholder="# RUC" value="@Model.RUC"/>
                                     </div>
                                 </div>
                                 <div class="col-md-12 nombreEmpresa">
                                     <div class="form-group nombreEmpresa-formgroup">
                                         <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
-                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre del Negocio" id="NombreDeLaEmpresa" />
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre del Negocio" id="NombreDeLaEmpresa" value="@Model.NombreDeLaEmpresa"/>
                                     </div>
                                     <br />
                                 </div>
@@ -145,7 +145,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
-                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" />
+                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" value="@Model.CorreoElectronico"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
                                 </div>
@@ -169,7 +169,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
+                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;"/>
                                 <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
                                 @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
                             </div>

@@ -46,7 +46,7 @@ namespace MandaditosExpress.Controllers
 
         // GET: TipoDeServicios/ ate
         public ActionResult Create()
-        {
+        { 
             return View(new TipoDeServicio());
         }
 
