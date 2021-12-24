@@ -31,9 +31,9 @@ namespace MandaditosExpress.Controllers
         // GET: Clientes
         public ActionResult Index()
         {
-            var data = _mapper.Map<ICollection<IndexClienteViewModel>>(db.Clientes.ToList());
+            var data = GetUserList().ToList();
             ViewBag.Clientes = JsonConvert.SerializeObject(data);
-            return View(data);
+            return View();
         }
 
         // GET: Clientes/Details/5
@@ -242,6 +242,33 @@ namespace MandaditosExpress.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error);
+            }
+        }
+
+        public IEnumerable<IndexClienteViewModel> GetUserList()
+        {
+            using (var SecurityDb = new ApplicationDbContext())
+            {
+                var Usuarios = SecurityDb.Users.ToList();
+
+                var ListaClientes = from usuarios in Usuarios
+                               join clientes in db.Clientes on usuarios.Email equals clientes.CorreoElectronico
+                               select new IndexClienteViewModel
+                               {
+                                   Id = clientes.Id,
+                                   CorreoElectronico = clientes.CorreoElectronico,
+                                   Telefono = clientes.Telefono,
+                                   Foto = clientes.Foto,
+                                   Nombres = clientes.PrimerNombre + " " + clientes.PrimerApellido + " " + clientes.SegundoApellido,
+                                   Direccion= clientes.Direccion,
+                                   TipoDePersona = clientes.EsEmpresa ? "Negocio" : "Persona",
+                                   TipoDePersonaClass = clientes.EsEmpresa ? "badge badge-warning" : "badge badge-success",
+                                   EmailConfirmed = usuarios.EmailConfirmed,
+                                   EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
+                                   EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
+                               };
+
+                return ListaClientes;
             }
         }
     }

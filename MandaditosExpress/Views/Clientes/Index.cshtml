@@ -6,7 +6,7 @@
 <div class="row mt-3 mb-3 justify-content-center">
     <div class="col-sm-6">
         <div class="input-group">
-            <input type="text" placeholder="Ingrese el correo, nombres o tipo de persona." class="input form-control" data-bind="textInput:$root.TextInputBusqueda">
+            <input type="text" placeholder="Ingrese el correo, nombres, tipo o estado de confirmación." class="input form-control" data-bind="textInput:$root.TextInputBusqueda">
             <span class="input-group-btn">
                 <button type="button" class="btn btn btn-success" data-bind="click:$root.LimpiarFiltro">
                     <i class="fa fa-trash"></i> Limpiar
@@ -27,7 +27,7 @@
         <div class="card w-25 my-1 mx-2">
 
             <div class="contact-box center-version">
-                <a>
+                <a class="pb-1">
 
                     <!--ko if:Foto() && Foto().length >0 -->
                     <img alt="image" class="rounded-circle" width="60" height="60" style="width:60px;height:60px" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }">
@@ -49,6 +49,11 @@
 
                     </address>
                     <small data-bind="class:TipoDePersonaClass, text:TipoDePersona"></small>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <small class="float-right" data-bind="text:EmailConfirmedDescripcion, style: { color:(EmailConfirmed() ? 'inherit' : '#ed5565') }"></small>
+                        </div>
+                    </div>
                 </a>
                 <div class="contact-box-footer">
                     <div class="m-t-xs btn-group">
@@ -92,9 +97,12 @@
 <!--/ko-->
 
 <!--ko ifnot: ItemsInPage().length > 0-->
-<div class="alert alert-warning alert-Empty m-2" role="alert">
-    <i class="fa fa-exclamation-triangle"></i>
-    Se encontraron 0 Clientes para mostrar
+<div class="justify-content-center" style="text-align:center;">
+    <img src="~/Images/5.png" />
+    <div class="alert alert-warning alert-Empty m-2" role="alert">
+        <i class="fa fa-exclamation-triangle"></i>
+        Se encontraron 0 Clientes para mostrar
+    </div>
 </div>
 <!--/ko-->
 <!--/ko-->
@@ -133,7 +141,8 @@
                     let arrayFiltered = ko.utils.arrayFilter(self.Clientes(), function (it) {
                         if (it.CorreoElectronico().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1 ||
                             it.Nombres().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1 ||
-                            it.TipoDePersona().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1) {
+                            it.TipoDePersona().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1 ||
+                            it.EmailConfirmedDescripcion().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1) {
                             return it;
                         }
                     });

@@ -323,5 +323,9 @@ namespace MandaditosExpress.Models.ViewModels
 
         public string TipoDePersona { get; set; }
         public string TipoDePersonaClass { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+        public string EmailConfirmedClass { get; set; }
+        public string EmailConfirmedDescripcion { get; set; }
     }
 }
