@@ -13,6 +13,7 @@ using MandaditosExpress.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
@@ -31,6 +32,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult Index()
         {
             var data = _mapper.Map<ICollection<IndexClienteViewModel>>(db.Clientes.ToList());
+            ViewBag.Clientes = JsonConvert.SerializeObject(data);
             return View(data);
         }
 
