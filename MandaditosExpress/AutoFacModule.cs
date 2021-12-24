@@ -88,6 +88,10 @@ public class MainMappingProfile : Profile
         CreateMap<Envio, EnvioPagoViewModel>().ForMember(x => x.DistanciaEntregaRecep, x => x.MapFrom(y => y.DistanciaEntregaRecep.ToString("0.##")))
             .ReverseMap();
 
+        CreateMap<Cliente, IndexClienteViewModel>().ForMember(x=> x.Nombres, x=> x.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido))
+            .ForMember(x=> x.TipoDePersona, x=> x.MapFrom(y=> y.EsEmpresa ? "Negocio":"Persona"))
+            .ForMember(x => x.TipoDePersonaClass, x => x.MapFrom(y => y.EsEmpresa ? "badge badge-warning" : "badge badge-success"));
+
         CreateMap<Moneda, MonedaViewModel>().ForMember(x => x.NombreDeMoneda, x => x.MapFrom(y => y.NombreDeMoneda + " " + y.Abreviatura)).ReverseMap();
 
         //el envio se suma al credito pero si es un envio en proceso o finalizado.

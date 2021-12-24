@@ -12,6 +12,7 @@ using MandaditosExpress.Models;
 using MandaditosExpress.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using AutoMapper;
 
 namespace MandaditosExpress.Controllers
 {
@@ -19,11 +20,18 @@ namespace MandaditosExpress.Controllers
     public class ClientesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
+
+        public ClientesController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         // GET: Clientes
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
+            var data = _mapper.Map<ICollection<IndexClienteViewModel>>(db.Clientes.ToList());
+            return View(data);
         }
 
         // GET: Clientes/Details/5
@@ -64,6 +72,21 @@ namespace MandaditosExpress.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    //si esta chekeado como empresa entonces validar manualmente el RUC y Nombre de empresa
+                    if (cliente.EsEmpresa)
+                    {
+                        if(cliente.RUC==null || cliente.NombreDeLaEmpresa==null || cliente.NombreDeLaEmpresa.Length <= 0)
+                        {
+                            ModelState.AddModelError("", "El número RUC y nombre del negocio es obligatorio");
+                            return View(cliente);
+                        }
+                        if (cliente.RUC.Length != 14)
+                        {
+                            ModelState.AddModelError("", "El número RUC debe tener 14 caracteres de longitud");
+                            return View(cliente);
+                        }
+                    }
+
                     if (cliente.CorreoElectronico != null && cliente.Password != null)
                     {
                         user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
@@ -126,11 +149,6 @@ namespace MandaditosExpress.Controllers
                             ModelState.AddModelError("", error);
                         }
                     }
-                }
-                else
-                {
-                    if (cliente.RUC != null && cliente.RUC.Length > 14)
-                        ModelState.AddModelError("", "El número RUC no debe exeder los 14 caracteres de longitud");
                 }
 
                 return View(cliente);

@@ -32,8 +32,9 @@ namespace MandaditosExpress.Models.ViewModels
         public string SegundoApellido { get; set; }
 
         [Required]
-        [StringLength(8)]
-        [DataType(DataType.PhoneNumber)]
+        [MaxLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [MinLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [DataType(DataType.PhoneNumber)]    
         public string Telefono { get; set; }
 
         public byte[] Foto { get; set; }
@@ -48,6 +49,8 @@ namespace MandaditosExpress.Models.ViewModels
         public string Direccion { get; set; }
 
         [StringLength(16)]//132-090994-2000F
+        [MaxLength(16, ErrorMessage = "La longitud debe ser igual a 16 caracteres")]
+        [MinLength(16, ErrorMessage = "La longitud debe ser igual a 16 caracteres")]
         public string Cedula { get; set; }
 
         [Display(Name = "Fecha de Ingreso")]
@@ -59,7 +62,6 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Nombre de Empresa")]
         public string NombreDeLaEmpresa { get; set; }
 
-        [StringLength(14, ErrorMessage = "Excedio la Longitud Permitida")]//J0130000006891
         [Display(Name = "Número RUC")]
         public string RUC { get; set; }
 
@@ -291,5 +293,35 @@ namespace MandaditosExpress.Models.ViewModels
         [NotMapped]
         public string NombreCompleto { get; set; }
 
+    }
+
+    public class IndexClienteViewModel
+    {
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        public byte[] Foto { get; set; }
+
+        [Required]
+        [MaxLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [MinLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        public string Nombres { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [DataType(DataType.MultilineText)]
+        public string Direccion { get; set; }
+
+        public string TipoDePersona { get; set; }
+        public string TipoDePersonaClass { get; set; }
     }
 }

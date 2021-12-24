@@ -37,7 +37,7 @@ namespace MandaditosExpress
 
         public static MvcHtmlString DisplayImage(this HtmlHelper html, byte[] image)
         {
-            if (image == null)  
+            if (image == null || image.Length <=0)  
                 return new MvcHtmlString("<img src='/Images/default_profile.png" + "' class='img-circle' height='40' width='40'" + "/>");//devolver una imagen por defecto
             else
             {

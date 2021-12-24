@@ -41,20 +41,21 @@
                                 <img src="~/Images/default_profile.png" class="avatar img-circle img-thumbnail rounded-circle" alt="avatar" height="100" width="100" style="height:100px;">
                                 <h6 class="mt-1" style="font-size:75%">Sube tu Foto de Perfil Aquí...</h6>
                                 <input type="file" accept="image/*" class="text-center center-block file-upload" name="file_foto" style="border-bottom:none;">
-                            </div><br>
+                            </div>
+                            <br>
 
-                            <div class=" row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="PrimerNombre"> <i class="fa fa-user"></i></label>
-                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" value="@Model.PrimerNombre"/>
+                                        <input type="text" name="PrimerNombre" placeholder="Primer Nombre*" value="@Model.PrimerNombre" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerNombre, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="SegundoNombre"><i class="fa fa-user"></i></label>
-                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" value="@Model.SegundoNombre"/>
+                                        <input type="text" name="SegundoNombre" placeholder="Segundo Nombre" value="@Model.SegundoNombre" />
                                     </div>
                                 </div>
                             </div>
@@ -63,14 +64,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="PrimerApellido"><i class="fa fa-users"></i></label>
-                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" value="@Model.PrimerApellido"/>
+                                        <input type="text" name="PrimerApellido" placeholder="Primer Apellido*" value="@Model.PrimerApellido" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.PrimerApellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="SegundoApellido"><i class="fa fa-users"></i></label>
-                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" value="@Model.SegundoApellido"/>
+                                        <input type="text" name="SegundoApellido" placeholder="Segundo Apellido*" value="@Model.SegundoApellido" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SegundoApellido, "", new { @class = "text-danger" })
                                 </div>
@@ -80,14 +81,15 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Cedula"><i class="fa fa-id-card" aria-hidden="true"></i></label>
-                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" value="@Model.Cedula"/>
+                                        <input type="text" name="Cedula" placeholder="Cedula" class="Cedula" value="@Model.Cedula" />
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="Celular"><i class="fa fa-phone"></i></label>
-                                        <input type="text" name="Telefono" placeholder="Celular*" value="@Model.Telefono"/>
+                                        <label for="Telefono"><i class="fa fa-phone"></i></label>
+                                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @placeholder = "Celular*" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                                 </div>
@@ -110,7 +112,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Direccion"><i class="fa fa-address-book" aria-hidden="true"></i></label>
-                                        <input type="text" name="Direccion" placeholder="Dirección*" value="@Model.Direccion"/>
+                                        <input type="text" name="Direccion" placeholder="Dirección*" value="@Model.Direccion" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
                                 </div>
@@ -129,49 +131,57 @@
                                 <div class="col-md-6 RUCEmpresa">
                                     <div class="form-group">
                                         <label for="RUC"><i class="fa fa-ticket"></i></label>
-                                        <input type="text" name="RUC" placeholder="# RUC" value="@Model.RUC"/>
+                                        <input type="text" name="RUC" placeholder="# RUC*" value="@Model.RUC" />
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.RUC, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-12 nombreEmpresa">
                                     <div class="form-group nombreEmpresa-formgroup">
                                         <label for="NombreDeLaEmpresa"><i class="fa fa-building"></i></label>
-                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre del Negocio" id="NombreDeLaEmpresa" value="@Model.NombreDeLaEmpresa"/>
+                                        <input type="text" name="NombreDeLaEmpresa" placeholder="Nombre del Negocio*" id="NombreDeLaEmpresa" value="@Model.NombreDeLaEmpresa"/>
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.NombreDeLaEmpresa, "", new { @class = "text-danger" })
                                     <br />
                                 </div>
-                            </div>                         
+                            </div>
 
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="CorreoElectronico"><i class="fa fa-envelope"></i></label>
-                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico" value="@Model.CorreoElectronico"/>
+                                        <input type="email" name="CorreoElectronico" placeholder="Correo Electronico*" value="@Model.CorreoElectronico" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                                        
+
                             <div class=" row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Password"><i class="fa fa-key"></i></label>
-                                        <input type="password" name="Password" placeholder="Contraseña" data-bind="toggleValue: $root.TogglePassword"/>
+                                        <input type="password" name="Password" placeholder="Contraseña*" data-bind="toggleValue: $root.TogglePassword" value="@Model.Password"/>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="ConfirmPassword"><i class="fa fa-key"></i></label>
-                                        <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña" data-bind="toggleValue: $root.ToggleConfirmPassword"/>
+                                        <input type="password" name="ConfirmPassword" placeholder="Repite tu Contraseña*" data-bind="toggleValue: $root.ToggleConfirmPassword" />
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;"/>
+                                <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
                                 <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
                                 @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-sm-12">
+                                    <small class="text-danger align-self-center">Los campos marcados con * son obligatorios</small>
+                                </div>
                             </div>
 
                             <div class="form-group form-button">
@@ -198,7 +208,6 @@
 @Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
 @Scripts.Render("~/plugins/knockout")
-<script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
 
 <script type="text/javascript">
     function IndexClientes() {
