@@ -143,7 +143,8 @@ namespace MandaditosExpress.Models.ViewModels
         public string SegundoApellido { get; set; }
 
         [Required]
-        [StringLength(8)]
+        [MinLength(8,ErrorMessage ="La longitud minima es de 8 caracteres")]
+        [MaxLength(8, ErrorMessage = "La longitud maxima es de 8 caracteres")]
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
 
@@ -173,7 +174,7 @@ namespace MandaditosExpress.Models.ViewModels
         public short EstadoDeAfiliado { get; set; }
 
         [Required]
-        [Display(Name ="Calidad de su Internet")]
+        [Display(Name ="Calidad de Internet")]
         public int VelocidadDeConexionId { get; set; }
 
         [Required]
@@ -215,6 +216,16 @@ namespace MandaditosExpress.Models.ViewModels
         public short EstadoDelMotorizado { get; set; }
 
         public string EstadoMotorizadoClass { get; set; }
+
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        public string ConfirmPassword { get; set; }
 
         [Required]
         [Range(typeof(bool), "true", "True", ErrorMessage = "Debe Aceptar los Terminos y Condiciones")]

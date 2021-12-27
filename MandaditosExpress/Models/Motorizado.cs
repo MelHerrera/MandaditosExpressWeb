@@ -35,10 +35,10 @@ namespace MandaditosExpress.Models
         public short EstadoDelMotorizado { get; set; }
 
         [Display(Name = "Velocidad de Internet")]
-        public int VelocidadDeConexionId { get; set; }
+        public int? VelocidadDeConexionId { get; set; }
 
         [Display(Name = "Disponibilidad")]
-        public int DisponibilidadId { get; set; }
+        public int? DisponibilidadId { get; set; }
 
         public virtual CalidadDeConexion VelocidadDeConexion { get; set; }
 

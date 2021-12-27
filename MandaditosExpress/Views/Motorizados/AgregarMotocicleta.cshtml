@@ -1,0 +1,152 @@
+﻿@model MandaditosExpress.Models.Motocicleta
+
+@{
+    ViewBag.Title = "Agregar Motocicleta";
+}
+
+<body>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <div class="container">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-content align-items-center">
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model=>model.MotorizadoId);
+
+                                <div class="form-horizontal">
+                                    <h4><i class="fa fa-info-circle"></i> Ingrese la informacion de la motocicleta</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <i class="fa fa-user"></i>
+                                                <span class="font-weight-bold">Nombres del Motorizado: </span>
+                                                <span>@ViewBag.NombreCompleto</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Placa, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.Placa, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Kilometraje, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.Kilometraje, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Kilometraje, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Anio, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.Anio, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-auto align-self-center">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EsPropia, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-auto align-self-center">
+                                            <div class="form-group">
+                                                <label for="EsPropia" class="control-label">Si</label>
+                                                <input type="radio" name="EsPropia" value="True" style="display:inline-block;width:auto;" checked />
+
+                                                <label for="EsPropia" class="control-label">No</label>
+                                                <input type="radio" name="EsPropia" value="false" style="display:inline-block;width:auto;" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <label class="control-label text-center"><strong>Color:</strong></label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control" data-jscolor="{palette:'#fff #808080 #000 #ff0000 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4'}" value="@Model.Color" name="Color" style="border:1px solid #999" />
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EsTemporal, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                <div class="checkbox">
+                                                    @Html.EditorFor(model => model.EsTemporal, new { htmlAttributes = new { @class = "ChkTemporal" } })
+                                                    @Html.ValidationMessageFor(model => model.EsTemporal, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 FechaValidez">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FechaDeValidez, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @Html.EditorFor(model => model.FechaDeValidez, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                                @Html.ValidationMessageFor(model => model.FechaDeValidez, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Guardar" class="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="ibox-footer">
+                            <div class="col-md-12">
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-success fa fa-arrow-left" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @Scripts.Render("~/plugins/jscolorpicker")
+
+   <script type="text/javascript">
+       $(function () {
+           $(".FechaValidez").hide();
+
+           $(".ChkTemporal").on("change", function () {
+               if ($(".ChkTemporal").is(":checked")) {
+                   $(".FechaValidez").show();
+                } else {
+                   $(".FechaValidez").hide();
+                }
+            });
+       });
+    </script>
+}

@@ -787,6 +787,7 @@
     <Content Include="Views\Consultas\EnviosPorPeriodo.cshtml" />
     <Content Include="Views\Informes\ListaEnviosPorPeriodo.cshtml" />
     <Content Include="Views\Informes\ImprimirCotizacion.cshtml" />
+    <Content Include="Views\Motorizados\AgregarMotocicleta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
