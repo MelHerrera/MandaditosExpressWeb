@@ -74,7 +74,7 @@
                     @*<li><a class="nav-link scrollto" href="#clients">Clientes</a></li>*@
                     @*<li><a class="nav-link scrollto" href="#contact">Contáctanos</a></li>*@
                     @*<li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
-                    <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>*@
+        <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>*@
 
                     <li>@Html.ActionLink("Inicio", "Index", "Home", null, null, "hero", null, new { @class = "nav-link scrollto" })</li>
                     <li>@Html.ActionLink("Acerca de", "Index", "Home", null, null, "about", null, new { @class = "nav-link scrollto" })</li>
@@ -82,7 +82,14 @@
                     <li>@Html.ActionLink("Clientes", "Index", "Home", null, null, "clients", null, new { @class = "nav-link scrollto" })</li>
                     <li>@Html.ActionLink("Contáctanos", "Index", "Home", null, null, "contact", null, new { @class = "nav-link scrollto" })</li>
                     <li><a class="nav-link scrollto" href="@Url.Action("Create","Clientes")" target="_blank">Registrarse</a></li>
-                    <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Index","HomeUser")" target="_blank">Entrar</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="getstarted scrollto btn btn-success" href="@Url.Action("Login","Account")" target="_blank">Entrar</a></li>
+                    }
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

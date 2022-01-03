@@ -751,13 +751,8 @@
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
     <Content Include="Views\Cotizaciones\Create.cshtml" />
-    <Content Include="Views\pruebas\Create.cshtml" />
-    <Content Include="Views\pruebas\Delete.cshtml" />
-    <Content Include="Views\pruebas\Details.cshtml" />
-    <Content Include="Views\pruebas\Edit.cshtml" />
     <Content Include="Views\Cotizaciones\Index.cshtml" />
     <Content Include="Views\Envios\Create.cshtml" />
-    <Content Include="Views\Envios\Delete.cshtml" />
     <Content Include="Views\Envios\Details.cshtml" />
     <Content Include="Views\Envios\Edit.cshtml" />
     <Content Include="Views\Envios\Index.cshtml" />

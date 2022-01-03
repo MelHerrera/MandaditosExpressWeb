@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class CalidadDeConexionController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -37,6 +37,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: VelocidadDeConexion/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +48,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,Estado")] CalidadDeConexion velocidadDeConexion)
         {
             if (ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,Estado")] CalidadDeConexion velocidadDeConexion)
         {
             if (ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace MandaditosExpress.Controllers
         // POST: VelocidadDeConexion/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(CalidadDeConexion velocidadDeConexion)
         {
             CalidadDeConexion OvelocidadDeConexion = db.VelocidadDeConexion.Find(velocidadDeConexion.Id);

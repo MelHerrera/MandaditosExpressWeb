@@ -16,6 +16,7 @@ namespace MandaditosExpress.Models
             Salarios = new HashSet<Salario>();
             Envios = new HashSet<Envio>();
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
+            FechaRechazoAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
             EstadoDelMotorizado = (short) EstadoDeMotorizadoEnum.Inactivo;//el estado se refiere a inactivo, activo o ocupado porque esta realizado una entrega
         }
 
@@ -29,6 +30,10 @@ namespace MandaditosExpress.Models
         [Display(Name = "Fecha de Afiliación")]
         [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
+
+        [Display(Name = "Fecha de Rechazo")]
+        [DataType(DataType.DateTime)]
+        public DateTime FechaRechazoAfiliacion { get; set; }
 
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Estado")]

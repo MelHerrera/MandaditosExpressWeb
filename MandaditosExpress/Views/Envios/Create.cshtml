@@ -211,7 +211,7 @@
                                         <div class="col-sm-5 p-2">
                                             <label class="font-weight-bold"> Selecciona la Ubicación del receptor</label>
                                             <div class="card card-destino align-items-center" style="width:95%;height:95%;" data-bind="with:LugarDestino">
-                                                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                                                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección Destino" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
                                                 <div class="Map-D" style="width:337px;height:300px"></div>
                                                 <div class="card-body" style="width:inherit">
                                                     <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
@@ -315,7 +315,7 @@
 
                         <div class="ibox-footer">
                             <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
                         </div>
 

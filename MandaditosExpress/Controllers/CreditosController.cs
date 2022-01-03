@@ -101,6 +101,7 @@ namespace MandaditosExpress.Controllers
                     return View(credito);
                 }
 
+                credito.EstadoDelCredito = true;
                 db.Creditos.Add(credito);
                 db.SaveChanges();
                 return RedirectToAction("Index");

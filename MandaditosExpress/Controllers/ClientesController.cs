@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class ClientesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -191,13 +191,18 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,EsEmpresa,NombreDeLaEmpresa,RUC,FechaIngresoDelCliente,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(cliente).State = EntityState.Modified;
-                db.SaveChanges();
-                return View("Index", db.Clientes.ToList());
+                if (db.SaveChanges() > 0)
+                {
+                    var data = GetUserList().ToList();
+                    ViewBag.Clientes = JsonConvert.SerializeObject(data);
+                    return View("Index");
+                }
             }
             return View(cliente);
         }
@@ -220,6 +225,7 @@ namespace MandaditosExpress.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Cliente cliente = db.Clientes.Find(id);

@@ -1,4 +1,5 @@
 ﻿@model MandaditosExpress.Models.Cliente
+@using MandaditosExpress.Models.Enum
 
 @{
     ViewBag.Title = "Detalle de Cliente";
@@ -161,6 +162,49 @@
                                         @Html.DisplayFor(model => model.FechaIngreso)
                                     </dd>
 
+                                    <dt>
+                                        @Html.DisplayName("Envios Realizados")
+                                    </dt>
+
+                                    <dd>
+                                        @{ 
+                                            var realizados = Model.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado).Count();
+                                        }
+                                        @realizados
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayName("Envios Rechazados")
+                                    </dt>
+
+                                    <dd>
+                                        @{ 
+                                          var rechazados =  Model.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado).Count();
+                                        }
+                                        @realizados
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayName("Envios en proceso")
+                                    </dt>
+
+                                    <dd>
+                                        @{ 
+                                            var proceso = Model.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso).Count();
+                                        }
+                                        @proceso
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayName("Envios en solicitud")
+                                    </dt>
+
+                                    <dd>
+                                        @{ 
+                                            var solicitud = Model.Envios.Where(it => it.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud).Count();
+                                        }
+                                        @solicitud
+                                    </dd>
                                 </dl>
                             </div>
 

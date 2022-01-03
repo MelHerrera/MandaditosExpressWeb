@@ -7,19 +7,29 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
+using MandaditosExpress.Services;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class MotorizadosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
+
+        public MotorizadosController(IMapper mapper)
+        {
+            _mapper = mapper; 
+        }
 
         // GET: Motorizados
         public ActionResult Index()
@@ -47,8 +57,8 @@ namespace MandaditosExpress.Controllers
         public ActionResult Create()
         {
             var MotorizadoVM = new MotorizadoViewModel();
-            var Disponibilidades = db.Disponibilidad.ToList();
-            var Calidades = db.VelocidadDeConexion.ToList();
+            var Disponibilidades = db.Disponibilidad.Where(x=>x.EstadoDeLaDisponibilidad).ToList();
+            var Calidades = db.VelocidadDeConexion.Where(x=>x.Estado).ToList();
 
             if (Disponibilidades.Count <= 0)
                 Disponibilidades.Insert(0, new Disponibilidad() { Id = -1, Descripcion = "--Sin Registros--" });
@@ -70,8 +80,8 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(MotorizadoViewModel motorizado)
         {
-            var Disponibilidades = db.Disponibilidad.ToList();
-            var Calidades = db.VelocidadDeConexion.ToList();
+            var Disponibilidades = db.Disponibilidad.Where(x=>x.EstadoDeLaDisponibilidad).ToList();
+            var Calidades = db.VelocidadDeConexion.Where(x=>x.Estado).ToList();
 
             if (Disponibilidades.Count <= 0)
                 Disponibilidades.Insert(0, new Disponibilidad() { Id = -1, Descripcion = "--Sin Registros--" });
@@ -89,7 +99,7 @@ namespace MandaditosExpress.Controllers
                 var UserInDb = UserManager.FindByEmail(motorizado.CorreoElectronico);
 
                 //si es admin la contraseña debe ser obligatoria
-                if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Asistente")))
                 {
                     if (motorizado.Password == null || motorizado.ConfirmPassword == null)
                     {
@@ -105,7 +115,7 @@ namespace MandaditosExpress.Controllers
                 }
 
                 //si no es un admin entonces la disponibilidad y velocidad de conexion son obligatorias
-                if (!User.IsInRole("Admin"))
+                if (!User.IsInRole("Admin") && !User.IsInRole("Asistente"))
                 {
                     if (motorizado.DisponibilidadId <= 0 && motorizado.VelocidadDeConexionId <= 0)
                     {
@@ -135,8 +145,8 @@ namespace MandaditosExpress.Controllers
                     Direccion = motorizado.Direccion,
                     Cedula = motorizado.Cedula,
                     FechaIngreso = DateTime.Now,
-                    EsAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? false : true,
-                    EstadoDeAfiliado = (Request.IsAuthenticated && User.IsInRole("Admin")) ? (short)EstadoDeAfiliadoEnum.NoAplica : ((short)EstadoDeAfiliadoEnum.Solicitud),
+                    EsAfiliado = (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Asistente"))) ? false : true,
+                    EstadoDeAfiliado = (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Asistente"))) ? (short)EstadoDeAfiliadoEnum.NoAplica : ((short)EstadoDeAfiliadoEnum.Solicitud),
                     VelocidadDeConexionId = motorizado.VelocidadDeConexionId > 0 ? motorizado.VelocidadDeConexionId : new int?(),
                     DisponibilidadId = motorizado.DisponibilidadId > 0 ? motorizado.DisponibilidadId : new int?(),
                     FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00")
@@ -166,7 +176,7 @@ namespace MandaditosExpress.Controllers
                     if (db.SaveChanges() > 0)
                     {
                         //si todo se guardo correctamente y el usuario es el admin entonces crearle el usuario correspondiente
-                        if (Request.IsAuthenticated && User.IsInRole("Admin") && UserInDb == null)//si el usuario no existe en la bd de seguridad
+                        if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Asistente")) && UserInDb == null)//si el usuario no existe en la bd de seguridad
                         {
                             var user = new ApplicationUser { UserName = motorizado.CorreoElectronico, Email = motorizado.CorreoElectronico, PhoneNumber = motorizado.Telefono, EmailConfirmed = true };
 
@@ -182,7 +192,7 @@ namespace MandaditosExpress.Controllers
                                 AddErrors(result);
                                 return View(motorizado);
                             }
-                          
+
                         }
 
                         ViewBag.Exito = true;
@@ -226,7 +236,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
-        public ActionResult AgregarMotocicleta( Motocicleta motocicleta)
+        public ActionResult AgregarMotocicleta(Motocicleta motocicleta)
         {
             var Motorizado = db.Motorizados.Find(motocicleta.MotorizadoId);
             ViewBag.NombreCompleto = Motorizado.NombreCompleto;
@@ -269,49 +279,138 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public ActionResult Edit([Bind(Include = "Id,EsAfiliado,EstadoDeAfiliado,FechaDeAfiliacion,EstadoDeMotorizado,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso,CorreoElectronico,Cedula,VelocidadDeConexionId, DisponibilidadId")] Motorizado motorizado)
         {
             if (ModelState.IsValid)
             {
-                if (motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
-                {
-                    motorizado.FechaDeAfiliacion = DateTime.Now;
-                    motorizado.EsAfiliado = true;
-                }
-
                 db.Entry(motorizado).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", db.Motorizados.ToList());
             }
             return View(motorizado);
         }
 
-        // GET: Motorizados/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public async Task<ActionResult> AfiliarMotorizado(int MotorizadoId)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var motorizado = db.Motorizados.Find(MotorizadoId);
+                var estadoAfiliadoDefault = motorizado.EstadoDeAfiliado;
+
+                if (motorizado == null)
+                    return Json(new { exito = false, message = "Error: Estimado usuario debe seleccionar un motorizado válido" }, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    if (motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
+                        return Json(new { exito = false, message = "Error: El motorizado seleccionado ya se encuentra afiliado" }, JsonRequestBehavior.AllowGet);
+
+                    if (motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
+                        return Json(new { exito = false, message = "Error: No se puede afiliar porque el motorizado seleccionado es empresarial" }, JsonRequestBehavior.AllowGet);
+
+                    var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                    var UserInDb = UserManager.FindByEmail(motorizado.CorreoElectronico);
+
+                    if (UserInDb != null)
+                        return Json(new { exito = false, message = "Ha ocurrido un error afiliando al motorizado porque ya existe un usuario con el correo del motorizado seleccionado" }, JsonRequestBehavior.AllowGet);
+                    else
+                    {
+                        //afiliar al motorizado
+                        motorizado.EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.Afiliado;
+                        motorizado.FechaDeAfiliacion = DateTime.Now;
+                        db.Entry(motorizado).State = EntityState.Modified;
+
+                        if (db.SaveChanges() > 0)
+                        {
+                            var user = new ApplicationUser { UserName = motorizado.CorreoElectronico, Email = motorizado.CorreoElectronico, PhoneNumber = motorizado.Telefono, EmailConfirmed = true };
+                            var defaultPassword = Utilidades.GenerateDefaultPasswordByEmail(motorizado.CorreoElectronico);
+
+                            var result = await UserManager.CreateAsync(user, defaultPassword);
+
+                            if (result.Succeeded)//asignarlo al rol de motorizados
+                            {
+                                var resultRole = await UserManager.AddToRoleAsync(user.Id, "Motorizado");
+
+                                if (resultRole.Succeeded)
+                                    return Json(new { exito = true, message = string.Format("Estimado usuario se ha afiliado con exito al motorizado, se le generaron las siguientes credenciales por defecto. Usuario: {0}  Contraseña: {1}", motorizado.CorreoElectronico, defaultPassword) }, JsonRequestBehavior.AllowGet);
+                                else
+                                {
+                                    //revertir el estado del motorizado al estado que tenia anteriormente.
+                                    motorizado.EstadoDeAfiliado = estadoAfiliadoDefault;
+                                    motorizado.FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
+                                    db.Entry(motorizado).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                    UserManager.Delete(user);
+
+                                    return Json(new { exito = false, message = "Ha ocurrido un error. " + string.Join(" | ", resultRole.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                            else
+                            {
+                                //revertir el estado del motorizado al estado que tenia anteriormente.
+                                motorizado.EstadoDeAfiliado = estadoAfiliadoDefault;
+                                motorizado.FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
+                                db.Entry(motorizado).State = EntityState.Modified;
+                                db.SaveChanges();
+
+                                return Json(new { exito = false, message = "Ha ocurrido un error./n" + string.Join(" | ", result.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                        else
+                            return Json(new { exito = false, message = "Estimado usuario ha ocurrido un error afiliando al motorizado seleccionado" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return Json(new { exito = false, message = "Estimado usuario ha ocurrido un error afiliando al motorizado seleccionado" }, JsonRequestBehavior.AllowGet);
             }
-            Motorizado motorizado = db.Motorizados.Find(id);
+            catch (Exception e)
+            {
+                return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud!" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RechazarAfiliacion(int MotorizadoId)
+        {
+            var motorizado = db.Motorizados.Find(MotorizadoId);
+            var estadoAfiliadoDefault = motorizado.EstadoDeAfiliado;
+
             if (motorizado == null)
+                return Json(new { exito = false, message = "Error: Estimado usuario debe seleccionar un motorizado válido" }, JsonRequestBehavior.AllowGet);
+            else
             {
-                return HttpNotFound();
+                if (motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
+                    return Json(new { exito = false, message = "Error: No se puede rechazar la solicitud de afiliación porque el motorizado seleccionado ya se encuentra afiliado" }, JsonRequestBehavior.AllowGet);
+
+                if (motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
+                    return Json(new { exito = false, message = "Error: No se puede rechazar porque el motorizado seleccionado es empresarial" }, JsonRequestBehavior.AllowGet);
+                
+                if(motorizado.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
+                    return Json(new { exito = false, message = "Error: No se puede rechazar la solicitud de afiliación porque el motorizado seleccionado ya se encuentra rechazado" }, JsonRequestBehavior.AllowGet);
+
+                //rechazar al motorizado
+                motorizado.EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.Denegado;
+                motorizado.FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
+                motorizado.FechaRechazoAfiliacion = DateTime.Now;
+                db.Entry(motorizado).State = EntityState.Modified;
+
+                if(db.SaveChanges() > 0)
+                    return Json(new { exito = true, message = "Estimado usuario se ha rechazado la solicitud de afiliación con exito" }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { exito = false, message = "Estimado usuario ha ocurrido un error rechazando la solitud de afiliación del motorizado seleccionado" }, JsonRequestBehavior.AllowGet);
             }
-            return View(motorizado);
         }
 
-        // POST: Motorizados/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult MotocicletasDelMotorizado(int MotorizadoId)
         {
-            Motorizado motorizado = db.Motorizados.Find(id);
-            db.Motorizados.Remove(motorizado);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            var motorizado = db.Motorizados.Find(MotorizadoId);
 
+            if (motorizado == null)//si no existe el motorizado entonces devolver una lista vacia
+                return Json(new List<Motocicleta>(),JsonRequestBehavior.AllowGet);
+            else
+                return Json(JsonConvert.SerializeObject(_mapper.Map<ICollection<MotocicletaIndexViewModel>>(motorizado.Motocicletas.ToList())), JsonRequestBehavior.AllowGet);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

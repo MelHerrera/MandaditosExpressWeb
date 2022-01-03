@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class DisponibilidadController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -37,6 +37,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Disponibilidad/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +48,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,EstadoDeLaDisponibilidad")] Disponibilidad disponibilidad)
         {
             if (ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,EstadoDeLaDisponibilidad")] Disponibilidad disponibilidad)
         {
             if (ModelState.IsValid)
@@ -79,6 +82,7 @@ namespace MandaditosExpress.Controllers
         // POST: Disponibilidad/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(Disponibilidad disponibilidad)
         {
             Disponibilidad xdisponibilidad = db.Disponibilidad.Find(disponibilidad.Id);

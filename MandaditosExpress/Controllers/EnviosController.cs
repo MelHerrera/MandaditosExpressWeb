@@ -390,6 +390,8 @@ namespace MandaditosExpress.Controllers
                 return Json(new { message = "El envio seleccionado es invalido", exito = false }, JsonRequestBehavior.AllowGet);
             if (Envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
                 return Json(new { message = "Este envio ya se encuentra finalizado, no se puede realizar la asignación", exito = false }, JsonRequestBehavior.AllowGet);
+            if (Envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado)
+                return Json(new { message = "Este envio se encuentra rechazado, no se puede realizar la asignación", exito = false }, JsonRequestBehavior.AllowGet);
 
             //verificar si ya se encuentra asignado, en este caso seria reasignacion 
             if (Envio.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && Envio.MotorizadoId > 0)

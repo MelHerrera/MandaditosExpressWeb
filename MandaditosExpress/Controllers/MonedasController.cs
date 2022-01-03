@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class MonedasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -38,6 +38,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Monedas/Create
+         [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +49,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,NombreDeMoneda,Abreviatura,EstadoMoneda")] Moneda moneda)
         {
             if (ModelState.IsValid)
@@ -66,6 +68,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Moneda moneda)
         {
             if (ModelState.IsValid)
@@ -80,6 +83,7 @@ namespace MandaditosExpress.Controllers
         // POST: Monedas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(Moneda moneda)
         {
             Moneda Omoneda = db.Monedas.Find(moneda.Id);

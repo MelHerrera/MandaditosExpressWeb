@@ -13,7 +13,7 @@ namespace MandaditosExpress.Services
 
         public static string GenerateDefaultPasswordByEmail(string Email)
         {
-            //default password will be : micorreo@gmail.com#2021   ---- 'correo' + '#' + 'M' + 'año actual'
+            //default password will be : micorreo@gmail.com#M2021   ---- 'correo' + '#' + 'M' + 'año actual'
             return Email + "#" + "M" + DateTime.Now.Year.ToString();
         }
     }

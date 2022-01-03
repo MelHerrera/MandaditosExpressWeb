@@ -48,6 +48,16 @@
                                     </dd>
 
                                     <dt>
+                                        @Html.DisplayName("Cant. Motorizados con esta calidad")
+                                    </dt>
+                                    <dd>
+                                        @{
+                                            var motorizados = Model.Motorizados.Count();
+                                        }
+                                        <span class="badge badge-primary"> @motorizados</span>                                     
+                                    </dd>
+
+                                    <dt>
                                         @Html.DisplayNameFor(model => model.Estado)
                                     </dt>
 

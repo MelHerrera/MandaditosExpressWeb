@@ -65,7 +65,7 @@ namespace MandaditosExpress.Controllers
             }
 
             if (User.IsInRole("Admin"))
-                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now).ToList();
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).ToList();
             else
                 cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId == PersonaActual.Id).ToList();
 

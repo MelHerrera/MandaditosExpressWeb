@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin, Cliente")]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class HomeUserController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -31,16 +31,16 @@ namespace MandaditosExpress.Controllers
             ViewBag.Rol = new Utileria().GetRolesDeUsuario(UserName);
 
             var IndexData = new HomeUserViewModel();
-            IndexData.EnviosDelDia = User.IsInRole("Admin") ? getEnviosDia() : User.IsInRole("Cliente") ? getEnviosDia(PersonaActual.Id) : 0;
-            IndexData.EnviosMensuales = User.IsInRole("Admin") ? getEnviosMensuales() : User.IsInRole("Cliente") ? getEnviosMensuales(PersonaActual.Id) : 0;
-            IndexData.EnviosAnuales = User.IsInRole("Admin") ? getEnviosAnuales() : User.IsInRole("Cliente") ? getEnviosAnuales(PersonaActual.Id) : 0;
-            IndexData.TodosEnvios = User.IsInRole("Admin") ? getTodosEnvio() : User.IsInRole("Cliente") ? getTodosEnvio(PersonaActual.Id) : 0;
-            IndexData.CreditosPendientes = User.IsInRole("Admin") ? CreditosPendientes() : User.IsInRole("Cliente") ? CreditosPendientes(PersonaActual.Id) : 0;
-            IndexData.EnviosHistorial = User.IsInRole("Admin") ? _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios()) : _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios(PersonaActual.Id));
-            IndexData.EnviosRechazados = User.IsInRole("Admin") ? GetEnvioRechazados() : User.IsInRole("Cliente") ? GetEnvioRechazados(PersonaActual.Id) : 0;
-            IndexData.EnviosRealizados = User.IsInRole("Admin") ? GetEnvioRealizados() : User.IsInRole("Cliente") ? GetEnvioRealizados(PersonaActual.Id) : 0;
+            IndexData.EnviosDelDia = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? getEnviosDia() : User.IsInRole("Cliente") ? getEnviosDia(PersonaActual.Id) : 0;
+            IndexData.EnviosMensuales = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? getEnviosMensuales() : User.IsInRole("Cliente") ? getEnviosMensuales(PersonaActual.Id) : 0;
+            IndexData.EnviosAnuales = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? getEnviosAnuales() : User.IsInRole("Cliente") ? getEnviosAnuales(PersonaActual.Id) : 0;
+            IndexData.TodosEnvios = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? getTodosEnvio() : User.IsInRole("Cliente") ? getTodosEnvio(PersonaActual.Id) : 0;
+            IndexData.CreditosPendientes = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? CreditosPendientes() : User.IsInRole("Cliente") ? CreditosPendientes(PersonaActual.Id) : 0;
+            IndexData.EnviosHistorial = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios()) : _mapper.Map<ICollection<EnvioHistorialViewModel>>(GetLastFiveEnvios(PersonaActual.Id));
+            IndexData.EnviosRechazados = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? GetEnvioRechazados() : User.IsInRole("Cliente") ? GetEnvioRechazados(PersonaActual.Id) : 0;
+            IndexData.EnviosRealizados = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? GetEnvioRealizados() : User.IsInRole("Cliente") ? GetEnvioRealizados(PersonaActual.Id) : 0;
 
-            ViewBag.EnviosSemana = User.IsInRole("Admin") ? GetEnviosSemana() : User.IsInRole("Cliente") ? GetEnviosSemana(PersonaActual.Id) : new List<int>();
+            ViewBag.EnviosSemana = (User.IsInRole("Admin") || User.IsInRole("Asistente")) ? GetEnviosSemana() : User.IsInRole("Cliente") ? GetEnviosSemana(PersonaActual.Id) : new List<int>();
             ViewBag.IndexHomeUserData = JsonConvert.SerializeObject(IndexData);
             return View();
         }

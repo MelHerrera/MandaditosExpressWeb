@@ -51,9 +51,9 @@ public class MainMappingProfile : Profile
             var calc = DateTime.Now - e.FechaDelEnvio;
 
             if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).TotalMinutes > 45)//si es urgente y han pasado mas de 45 minutos entonces esta retrasado
-                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes;
+                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes -45;
             if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && !e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).Minutes > 90)//si no es urgente y han pasado mas de 90 minutos entonces esta retrasado 
-                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes;
+                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes -90;
 
             return 0.0;
         };
@@ -66,8 +66,8 @@ public class MainMappingProfile : Profile
                                           .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
                                           .ForMember(x => x.ClienteFoto, x => x.MapFrom(y => y.Cliente.Foto))
                                           .ForMember(x => x.CotizacionDescripcion, x => x.MapFrom(y => y.Cotizacion.DescripcionDeCotizacion))
-                                          .ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-success" : "badge badge-warning"))
-                                          .ForMember(x => x.EstadoDelEnvioDescripcion, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() : EstadoDelEnvioEnum.Realizado.ToString()))
+                                          .ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? "badge badge-warning" : "badge badge-danger"))
+                                          .ForMember(x => x.EstadoDelEnvioDescripcion, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? EstadoDelEnvioEnum.Realizado.ToString() : EstadoDelEnvioEnum.Rechazado.ToString()))
                                           .ForMember(x => x.MotorizadoNombres, x => x.MapFrom(y => y.Motorizado.NombreCompleto));
 
         CreateMap<Motorizado, MotorizadoViewModel>().
@@ -110,7 +110,7 @@ public class MainMappingProfile : Profile
               y.Credito.Cliente.PrimerNombre + " " + y.Credito.Cliente.PrimerApellido + " " + y.Credito.Cliente.SegundoApellido)).ReverseMap();
 
         CreateMap<Envio, IndexEnvioViewModel>().
-                            ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? "badge badge-info" : "badge badge-danger"))
+                            ForMember(x => x.EstadoDelEnvioClass, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? "badge badge-success" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? "badge badge-primary" : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? "badge badge-danger" : "badge badge-warning"))
                             .ForMember(x => x.EstadoDelEnvioText, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString()
                             : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? EstadoDelEnvioEnum.Realizado.ToString() : EstadoDelEnvioEnum.Rechazado.ToString()))
                             .ForMember(x => x.Cliente, x => x.MapFrom(y => y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
@@ -124,5 +124,6 @@ public class MainMappingProfile : Profile
         CreateMap<Persona, UsuarioViewModel>().ForMember(it => it.Nombres, it => it.MapFrom(y => y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
         CreateMap<Cliente, ClienteBusquedasViewModel>().ForMember(it => it.NombreCompleto, it => it.MapFrom(y => y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido)).ReverseMap();
         CreateMap<Cotizacion, IndexCotizacionViewModel>().ForMember(x => x.LugarDestino, x => x.MapFrom(y => y.LugarDestino != null ? y.LugarDestino.Direccion : "")).ReverseMap();
+        CreateMap<Motocicleta, MotocicletaIndexViewModel>().ReverseMap();
     }
 }

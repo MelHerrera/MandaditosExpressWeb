@@ -74,7 +74,7 @@ namespace MandaditosExpress.Controllers
             {
                 return View(model);
             }
-
+ 
             var UserInDb = UserManager.FindByEmail(model.Email);
 
             if (UserInDb != null)
@@ -267,11 +267,13 @@ namespace MandaditosExpress.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
+
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
             {
-                // No revelar que el usuario no existe
+                // No revelar que el usuario no existe o que no está confirmado
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {

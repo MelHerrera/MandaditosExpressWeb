@@ -10,7 +10,13 @@
         <div class="table-responsive">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>Lista de Cotizaciones Vigentes</h5>
+                    <h5>
+                        Lista de Cotizaciones
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <span>Vigentes</span>
+                        }
+                    </h5>
                     <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoCotizacion"></i>
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -138,7 +144,12 @@
                     <div class="justify-content-center" style="text-align:center;">
                         <img src="~/Images/5.png" />
                         <div class="alert alert-warning alert-Empty mt-3 mx-5" role="alert">
-                            Se encontraron 0 Cotizaciones vigentes <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                            Se encontraron 0 Cotizaciones
+                            @if (!User.IsInRole("Admin"))
+                            {
+                                <span>vigentes</span>
+                            }
+                            <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
                         </div>
                     </div>
                     <!--/ko-->

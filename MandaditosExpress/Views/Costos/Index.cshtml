@@ -14,23 +14,6 @@
     }
 </style>
 
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Costos</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Catálogos</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Costos</strong>
-            </li>
-        </ol>
-    </div>
-</div>
-
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="table-responsive">
@@ -90,14 +73,13 @@
                                     <td data-bind="text:FechaDeFin"></td>
                                     <td data-bind="text:TipoDeServicio.DescripcionTipoDeServicio"></td>
                                     <td>
-                                        <input type="checkbox" data-bind="checked:EstadoDelCosto" disabled />
+                                        <span data-bind="text:(ko.unwrap(EstadoDelCosto) ? 'Activo':'Inactivo'), class:(ko.unwrap(EstadoDelCosto) ? 'badge badge-success':'badge badge-warning')"></span>
                                     </td>
 
-                                    <td style="white-space:nowrap;">
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
-                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
-
+                                    <td class="btn btn-group">
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
+                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
                                     </td>
                                 </tr>
                         </table>

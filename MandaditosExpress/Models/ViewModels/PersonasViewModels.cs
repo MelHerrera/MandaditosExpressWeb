@@ -113,6 +113,7 @@ namespace MandaditosExpress.Models.ViewModels
         {
             Color = "#3399FF";
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");//default value
+            FechaRechazoAfiliacion = DateTime.Parse("01/01/1900 00:00:00");//default value
         }
 
         [Key]
@@ -185,7 +186,11 @@ namespace MandaditosExpress.Models.ViewModels
         [DataType(DataType.DateTime)]
         public DateTime FechaDeAfiliacion { get; set; }
 
-        [Display(Name ="¿Es Propia?")]
+        [Display(Name = "Fecha de Rechazo")]
+        [DataType(DataType.DateTime)]
+        public DateTime FechaRechazoAfiliacion { get; set; }
+
+        [Display(Name ="¿La moto es propia?")]
         public bool EsPropia { get; set; }
 
         [Required]

@@ -12,7 +12,7 @@ using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class ServiciosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -46,6 +46,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Servicios/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(x => x.EstadoTipoDeServicio), "Id", "DescripcionTipoDeServicio");
@@ -57,6 +58,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "DescripcionDelServicio,TipoDeServicioId,Estado")] Servicio servicio)
         {
             if (ModelState.IsValid)
@@ -75,6 +77,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,DescripcionDelServicio,Estado,TipoDeServicioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
@@ -91,6 +94,7 @@ namespace MandaditosExpress.Controllers
         // POST: Servicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(Servicio servicio)
         {
             Servicio xservicio = db.Servicios.Find(servicio.Id);

@@ -15,13 +15,13 @@ function IndexTipoDePago(TipoDePagoCollection) {
 
         if (event.currentTarget.id == "btn-edit") {
             self.Disable(false);
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del tipo de pago").ModalHeaderClass("bg-success");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del método de pago").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "tipodepago-modal-template", Data: new TipoDePagoViewModel(ko.toJS(TipoDePago)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
             self.Disable(true);
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar el tipo de pago").ModalHeaderClass("bg-danger");
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar el método de pago").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "tipodepago-modal-template", Data: new TipoDePagoViewModel(ko.toJS(TipoDePago)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }

@@ -76,7 +76,7 @@
                 </li>
             }
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
             {
                 <!--Personas Option-->
                 <li class="@Html.IsSelected(controller: "Clientes")">
@@ -92,7 +92,7 @@
                 </li>
             }
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
             {
                 <!--Catalogos Option-->
                 <li class="@Html.IsSelected(controller: "Catalogos")">
@@ -114,13 +114,13 @@
                             <a href="@Url.Action("Index", "Monedas")">Monedas</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "TipoDePagos")">Métodos de Pago</a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "Costos")">Costos</a>
                         </li>
                         <li class="@Html.IsSelected(action: "Index")">
                             <a href="@Url.Action("Index", "CostosGestionBancaria")">Costos Gestion Bancaria</a>
-                        </li>
-                        <li class="@Html.IsSelected(action: "Index")">
-                            <a href="@Url.Action("Index", "TipoDePagos")">Métodos de Pago</a>
                         </li>
                     </ul>
                 </li>

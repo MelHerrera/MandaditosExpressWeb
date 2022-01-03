@@ -4,22 +4,6 @@
     ViewBag.Title = "Motorizados";
 }
 
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Lista de Motorizados</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Personas</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Motorizados</strong>
-            </li>
-        </ol>
-    </div>
-</div>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="table-responsive">
@@ -43,7 +27,7 @@
                     </div>
                     @if (Model.Count() > 0)
                     {
-                        <table class="table table-bordered table-hover text-center justify-content-center">
+                        <table class="table table-bordered table-hover text-center justify-content-center small">
                             <thead id="thead">
                                 <tr class="bg-primary">
                                     <th>
@@ -77,69 +61,72 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr class="gradeX">
-                                    <td>
-                                        @if (item.EsAfiliado)
-                                        {
-                                            <span class="badge badge-warning">Afiliado</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-success">Empresarial</span>
-                                        }
-                                    </td>
-                                    <td @using MandaditosExpress.Models.Enum>
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
-                                        {
-                                            <span class="badge badge-success">Afiliado</span>
-                                        }
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Solicitud)
-                                        {
-                                            <span class="badge badge-warning">Solicitud</span>
-                                        }
+                                    <tr class="gradeX">
+                                        <td>
+                                            @if (item.EsAfiliado)
+                                            {
+                                                <span class="badge badge-success">Sí (Independiente)</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-info">No (Empresarial)</span>
+                                            }
+                                        </td>
+                                        <td @using MandaditosExpress.Models.Enum>
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Afiliado)
+                                            {
+                                                <span class="badge badge-success">Afiliado</span>
+                                            }
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Solicitud)
+                                            {
+                                                <span class="badge badge-warning">Solicitud</span>
+                                            }
 
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
-                                        {
-                                            <span class="badge badge-danger">Denegado</span>
-                                        }
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.Denegado)
+                                            {
+                                                <span class="badge badge-danger">Denegado</span>
+                                            }
 
-                                        @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
-                                        {
-                                            <span class="badge badge-secondary">No Aplica</span>
-                                        }
+                                            @if (item.EstadoDeAfiliado == (short)EstadoDeAfiliadoEnum.NoAplica)
+                                            {
+                                                <span class="badge badge-secondary">No Aplica</span>
+                                            }
 
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CorreoElectronico)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Telefono)
-                                    </td>
-                                    <td>
-                                        @if (item.Cedula != null)
-                                        {
-                                            @Html.DisplayFor(modelItem => item.Cedula)
-                                        }
-                                        else
-                                        {
-                                            <span>---</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Direccion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Motocicletas.Count)
-                                    </td>
-                                    <td class="btn-group">
-                                        <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
-                                        <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="@Url.Action("AgregarMotocicleta", new { id = item.Id })"><i class="fa fa-motorcycle" title="Agregar motocicleta"></i></a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Telefono)
+                                        </td>
+                                        <td>
+                                            @if (item.Cedula != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Cedula)
+                                            }
+                                            else
+                                            {
+                                                <span>---</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Direccion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Motocicletas.Count)
+                                            <i class="fa fa-eye ml-2" data-bind="click: function(data,event){ $root.VerMotocicletas(data,event, @item.Id, '@item.NombreCompleto')}"></i>
+                                        </td>
+                                        <td class="btn-group">
+                                            <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
+                                            <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                            <a class="btn btn-primary btn-sm" href="@Url.Action("AgregarMotocicleta", new { id = item.Id })"><i class="fa fa-motorcycle" title="Agregar motocicleta"></i></a>
+                                            <a class="btn btn-info btn-sm" id="btn-aceptar" data-bind="click: function(data,event){ $root.ShowModal(data,event, @item.Id , '@item.NombreCompleto') }, attr:{ href:'@Url.Action("AfiliarMotorizado")'}"><i class="fa fa-check-circle" title="Afiliar motorizado"></i></a>
+                                            <a class="btn btn-danger btn-sm" id="btn-rechazar" data-bind="click: function(data,event){ $root.ShowModal(data,event, @item.Id , '@item.NombreCompleto') }, attr:{ href:'@Url.Action("RechazarAfiliacion")'}"><i class="fa fa-times-circle" title="Rechazar solicitud de afiliación"></i></a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
 
@@ -148,14 +135,112 @@
                     else
                     {
                         <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 Motorizados <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar una.
+                            Se encontraron 0 Motorizados <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
                         </div>
                     }
+
+                    <!--ko if:$root.ShowListadoMotocicletas-->
+                    <div class="card">
+                        <div class="card-header bg-success m-0 p-1">
+                            <i class="fa fa-list"></i>
+                            <span>Listado de motocicletas</span>
+                        </div>
+                        <div class="card-body">
+                            <!--ko if:ShowListadoMotocicletas-->
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <i class="fa fa-user"></i>
+                                    <span class="font-weight-bold"> Nombres: </span>
+                                    <span data-bind="text:$root.MotorizadoSelectedNombres"></span>
+                                </div>
+                            </div>
+                            <!--/ko-->
+                            <div class="row m-0 p-0">
+                                <div class="col-md-12 m-0 p-0">
+                                    <div class="form-group m-0 p-0">
+                                        <div class="clients-list m-0">
+                                            <!--ko if:ko.unwrap($root.Motocicletas()).length > 0-->
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-striped table-hover">
+                                                    <thead class="bg-primary">
+                                                        <tr>
+                                                            <th>Nº</th>
+                                                            <th>Placa</th>
+                                                            <th>Modelo</th>
+                                                            <th>Kilometraje</th>
+                                                            <th>Año</th>
+                                                            <th>Propia</th>
+                                                            <th>Temporal</th>
+                                                            <th>Fecha Validez</th>
+                                                            <th>Fecha Ingreso</th>
+                                                            <th>Color</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody data-bind="foreach:ko.unwrap($root.Motocicletas)">
+                                                        <tr>
+                                                            <td data-bind="text:$index()+1"></td>
+                                                            <td data-bind="text:Placa"></td>
+                                                            <td data-bind="text:Modelo"></td>
+                                                            <td data-bind="text:Kilometraje"></td>
+                                                            <td data-bind="text:Anio"></td>
+                                                            <td>
+                                                                <span data-bind="text:EsPropia() ? 'Si':'No', class:(EsPropia() ? 'badge badge-success':'badge badge-warning')"></span>
+                                                            </td>
+                                                            <td>
+                                                                <span data-bind="text:EsTemporal() ? 'Si':'No', class:(EsTemporal() ? 'badge badge-warning':'badge badge-secondary')"></span>
+                                                            </td>
+                                                            <td class="text-center" data-bind="text:(EsTemporal() ? FechaDeValidez() : '--')"></td>
+                                                            <td data-bind="text:FechaDeIngreso"></td>
+                                                            <td>
+                                                                <div data-bind="style:{ height:'20px', width:'20px', 'background-color':Color }" style="height:20px;width:20px;">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!--/ko-->
+                                            <!--ko if:ko.unwrap($root.Motocicletas()).length <= 0-->
+                                            <div class="justify-content-center" style="text-align:center;">
+                                                <img src="~/Images/5.png" />
+                                                <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                                    0 motocicletas del motorizado seleccionado.
+                                                </div>
+                                            </div>
+                                            <!--/ko-->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ko-->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<template id="template-afiliar-motorizado">
+    <div class="row justify-content-center mb-3">
+        <small class="text-danger" data-bind="text:$root.error">  </small>
+    </div>
+
+    <h4>
+        <span data-bind="text:$root.modalMessage"></span>
+        <strong data-bind="text:$root.MotorizadoSelectedNombres"></strong>?
+    </h4>
+
+</template>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
 
 @section Styles {
     @Styles.Render("~/Content/dataTablesStyles")
@@ -163,9 +248,103 @@
 
 @section Scripts {
     @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/knockout/Componentes/ModalComponent.js"></script>
+    @Scripts.Render("~/plugins/sweetalert")
 
     <script type="text/javascript">
+
+        function IndexMotorizados() {
+            const self = this;
+
+            self.ModalViewModel = ko.observable(new ModalViewModel({}));
+            self.MotorizadoSelectedId = ko.observable();
+            self.MotorizadoSelectedNombres = ko.observable();
+            self.error = ko.observable();
+            self.modalMessage = ko.observable();
+            self.Motocicletas = ko.observableArray([]);
+            self.ShowListadoMotocicletas = ko.observable(false);
+
+            self.ShowModal = function (motorizado, event, motorizadoId, motorizadoNombres) {
+                self.MotorizadoSelectedId(motorizadoId);
+                self.MotorizadoSelectedNombres(motorizadoNombres);
+                self.error('');
+                self.modalMessage('');
+
+                if (event.currentTarget.id == "btn-aceptar") {
+                    self.modalMessage("¿Esta seguro(a) que desea afiliar a");
+                    self.ModalViewModel().ModalId("modal-afiliar");
+                    self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Afiliación del motorizdo.").ModalHeaderClass("bg-primary");
+                    self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-afiliar-motorizado", Data: "" });
+                    self.ModalViewModel().FooterViewModel().ActionName("Afiliar").UrlAction($(event.currentTarget).attr("href"));
+                }
+                if (event.currentTarget.id == "btn-rechazar") {
+                    self.modalMessage("¿Esta seguro(a) que desea rechazar la solicitud de afiliación de");
+                    self.ModalViewModel().ModalId("modal-rechazar");
+                    self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Rechazo de afiliación del motorizdo.").ModalHeaderClass("bg-danger");
+                    self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-afiliar-motorizado", Data: "" });
+                    self.ModalViewModel().FooterViewModel().ActionName("Rechazar").UrlAction($(event.currentTarget).attr("href"));
+                }
+                self.ModalViewModel().ShowModal();
+            };
+            self.GuardarCambios = function (data, event) {
+
+                $.ajax({
+                    url: ko.toJS(data).UrlAction,
+                    type: "Post",
+                    data: { MotorizadoId: self.MotorizadoSelectedId() },
+                    success: function (res) {
+                        if (res.exito) {
+
+                            self.ModalViewModel().HideModal();
+                            Swal.fire({
+                                icon: 'success',
+                                text: res.message
+                            }).then(() => {
+                                window.location.href = "@Url.Action("Index", "Motorizados")";
+                            });
+                        }
+                        else {
+                            self.error(res.message);
+                        }
+                    },
+                    error: function (e) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: "Ha sucedido un error procesando tu solicitud"
+                        })
+                    }
+                });
+            }
+            self.VerMotocicletas = function (data, event, motorizadoId, motorizadoNombres) {
+                self.ShowListadoMotocicletas(true);
+                self.MotorizadoSelectedNombres(motorizadoNombres);
+
+                   $.ajax({
+                    url: "/Motorizados/MotocicletasDelMotorizado",
+                       type: "Get",
+                       data: { MotorizadoId: motorizadoId },
+                       success: function (res) {
+                           var data = ko.mapping.fromJSON(res);
+                           self.Motocicletas(data || []);
+                    },
+                    error: function (e) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: "Ha sucedido un error al obtener la lista de motocicletas del motorizado seleccionado"
+                        })
+                        self.ShowListadoMotocicletas(false);
+                    }
+                });
+            }
+        }
+
         $(document).ready(function () {
+
+            //inicializar knockout js despues de cargar la pagina
+            let vm = new IndexMotorizados();
+            ko.applyBindings(vm);
 
             $('.table').DataTable({
                 pageLength: 10,
