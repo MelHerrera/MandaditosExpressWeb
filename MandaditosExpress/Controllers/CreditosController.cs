@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin, Cliente")]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class CreditosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -30,15 +30,17 @@ namespace MandaditosExpress.Controllers
         {
             var creditos = new List<Credito>();
 
-            if(User.IsInRole("Admin"))
+            if(User.IsInRole("Admin") || User.IsInRole("Asistente"))
             creditos = db.Creditos.Include(c => c.Cliente).ToList();
-            else
+
+            if (User.IsInRole("Cliente"))
             {
                 var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
                 var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
 
                 //creditos filtrados por usuario
-                creditos = db.Creditos.Include(c => c.Cliente).Where(it=> it.ClienteId == PersonaActual.Id).ToList();
+                var personaId = PersonaActual != null ? PersonaActual.Id : -1;
+                creditos = db.Creditos.Where(it=> it.ClienteId == personaId).ToList();
             }
 
             ViewBag.dt = JsonConvert.SerializeObject(_mapper.Map<ICollection<CreditoViewModel>>(creditos));

@@ -109,6 +109,19 @@ namespace MandaditosExpress
                 if (resultado.Succeeded)
                 {
                     AdmUsuarios.AddToRole(usuario.Id, "Asistente");
+
+                    var Persona = new Persona();
+                    Persona.CorreoElectronico = usuario.UserName;
+                    Persona.PrimerNombre = "Asistente";
+                    Persona.PrimerApellido = "Herrera";
+                    Persona.SegundoApellido = "Mendoza";
+                    Persona.Telefono = "82415644";
+                    Persona.Sexo = "Masculino";
+                    Persona.Direccion = "Colonia Miguel Bonilla UNAN";
+                    Persona.FechaIngreso = DateTime.Now;
+
+                    db.Personas.Add(Persona);
+                    db.SaveChanges();
                 }
             }
         }

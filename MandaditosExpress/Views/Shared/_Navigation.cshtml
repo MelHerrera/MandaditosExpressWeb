@@ -63,7 +63,7 @@
 
             }
 
-            @if (User.IsInRole("Cliente") || User.IsInRole("Admin"))
+            @if (User.IsInRole("Cliente") || User.IsInRole("Admin") || User.IsInRole("Asistente"))
             {
                 <!--Creditos Option-->
                 <li class="@Html.IsSelected(controller: "Creditos")">

@@ -11,7 +11,7 @@ using MandaditosExpress.Services;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class CostosGestionBancariaController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -44,9 +44,15 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: CostosGestionBancaria/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")), "Id", "DescripcionTipoDeServicio");
+            var tiposServicio = db.TiposDeServicio.Where(tp => tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")).ToList();
+
+            if (tiposServicio.Count <= 0)
+                tiposServicio.Insert(0, new TipoDeServicio { Id=0, DescripcionTipoDeServicio="-- Sin Registros --" });
+
+            ViewBag.TipoDeServicioId = new SelectList(tiposServicio, "Id", "DescripcionTipoDeServicio");
             return View();
         }
 
@@ -55,6 +61,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,FechaDeInicio,FechaDeFin,Descripcion,MontoDesde,MontoHasta,Estado,Porcentaje,valor,PrecioDeRecargo,PrecioDeRegreso,TipoDeServicioId")] CostoGestionBancaria costoGestionBancaria)
         {
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")), "Id", "DescripcionTipoDeServicio");
@@ -101,6 +108,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(CostoGestionBancaria costoGestionBancaria)
         {
             ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")), "Id", "DescripcionTipoDeServicio");
@@ -139,6 +147,7 @@ namespace MandaditosExpress.Controllers
         // POST: Creditos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(CostoGestionBancaria costoGestionBancaria)
         {
             CostoGestionBancaria xcosto = db.CostoGestionBancaria.Find(costoGestionBancaria.Id);

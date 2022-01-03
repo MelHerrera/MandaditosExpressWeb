@@ -50,13 +50,15 @@
                                     @Html.DisplayFor(model => model.Descripcion)
                                 </dd>
 
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.ClienteId)
-                                </dt>
-
-                                <dd>
-                                    @Html.DisplayFor(model => model.Cliente.NombreCompleto)
-                                </dd>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ClienteId)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Cliente.NombreCompleto)
+                                    </dd>
+                                }
 
                                 <dt>
                                     @Html.DisplayNameFor(model => model.FechaDeInicio)

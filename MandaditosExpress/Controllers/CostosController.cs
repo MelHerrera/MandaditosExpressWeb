@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class CostosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -47,9 +47,15 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Costos/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(tp => !(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC"))), "Id", "DescripcionTipoDeServicio");
+            var tiposservicio = db.TiposDeServicio.Where(tp => !(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC"))).ToList();
+
+            if (tiposservicio.Count <= 0)
+                tiposservicio.Insert(0, new TipoDeServicio { Id=0,DescripcionTipoDeServicio = "-- Sin Registros --" });
+
+            ViewBag.TipoDeServicioId = new SelectList(tiposservicio, "Id", "DescripcionTipoDeServicio");
             return View(new Costo());
         }
 
@@ -58,6 +64,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioDeRecargo,PrecioDeRegreso")] Costo costo)
         {
             if (ModelState.IsValid)
@@ -94,6 +101,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,FechaDeInicio,FechaDeFin,CostoDeGasolina,CostoDeAsistencia,CostoDeMotorizado,DistanciaBase,PrecioPorKm,TipoDeServicioId,EstadoDelCosto,PrecioDeRecargo,PrecioDeRegreso")] Costo costo)
         {
             try
@@ -140,6 +148,7 @@ namespace MandaditosExpress.Controllers
 
         // POST: Costos/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Costo costo)
         {

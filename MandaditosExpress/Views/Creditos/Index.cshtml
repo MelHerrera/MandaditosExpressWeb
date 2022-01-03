@@ -87,9 +87,9 @@
                                         <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
                                         <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
                                     }
-                                    else
+                                    @if (User.IsInRole("Cliente") || User.IsInRole("Asistente"))
                                     {
-                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
                                     }
                                 </td>
                             </tr>

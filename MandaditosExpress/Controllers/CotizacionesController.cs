@@ -13,7 +13,7 @@ using MandaditosExpress.Services;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin, Cliente")]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class CotizacionesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -64,9 +64,9 @@ namespace MandaditosExpress.Controllers
                 }
             }
 
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
                 cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).ToList();
-            else
+            if (User.IsInRole("Cliente"))
                 cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId == PersonaActual.Id).ToList();
 
             return View(_mapper.Map<ICollection<IndexCotizacionViewModel>>(cotizaciones.ToList()));
@@ -244,7 +244,7 @@ namespace MandaditosExpress.Controllers
                     }
                 }
                 else
-                    ModelState.AddModelError("", "No se puede guardar una cotización como Administrador");
+                    ModelState.AddModelError("", "No se puede guardar una cotización con su cuenta de usuario actual");
             }
             else
             {
@@ -348,6 +348,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Cotizaciones/Edit/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -369,6 +370,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeEntrega,DireccionDeRecepcion,DistanciaEntregaRecep,MontoDeDinero,EsEspecial,PrecioDeRecargo,GestionId,MontoTotal,ClienteId,ServicioId,TipoDeServicioId")] Cotizacion cotizacion)
         {
             if (ModelState.IsValid)
@@ -383,6 +385,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Cotizaciones/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -400,6 +403,7 @@ namespace MandaditosExpress.Controllers
         // POST: Cotizaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Cotizacion cotizacion = db.Cotizaciones.Find(id);
