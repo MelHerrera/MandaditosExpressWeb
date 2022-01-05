@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin, Cliente")]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class EnviosController : Controller
     {
         private readonly IMapper _mapper;
@@ -192,7 +192,7 @@ namespace MandaditosExpress.Controllers
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]     
         public JsonResult Create([Bind(Include = "Id,DescripcionDeEnvio,FechaDelEnvio,LugarOrigen,LugarDestino,DistanciaEntregaRecep,NombresDelReceptor,CedulaDelReceptor,Peso,MontoDeDinero,TelefonoDelReceptor,EsUrgente,DebeRegresarATienda,DebeRecibirDinero,MontoARecibir,DebeRecibirCambio,MontoCambio,EstadoDelEnvio,ClienteId,TipoDePagoId,EsAlCredito,TipoDeServicioId,ServicioId,CotizacionId, Servicio")] SolicitudEnvioViewModel envio)
         {
             //capturar el valor del query string en el envioviewmodel pero que no lo valide, ya que, no son obligatorios

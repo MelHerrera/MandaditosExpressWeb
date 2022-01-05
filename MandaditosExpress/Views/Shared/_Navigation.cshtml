@@ -32,7 +32,7 @@
             </li>
 
 
-            @if (User.IsInRole("Cliente") || User.IsInRole("Admin"))
+            @if (User.IsInRole("Cliente") || User.IsInRole("Admin") || User.IsInRole("Asistente"))
             {
                 <!--Envios Option-->
                 <li class="@Html.IsSelected(controller: "Envios")">
