@@ -165,7 +165,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "¿Es ida y regreso?")]
         public bool DebeRegresarATienda { get; set; }
 
-        [Display(Name = "¿El motorizado recibirá algun dinero?")]
+        [Display(Name = "¿El motorizado recibirá algun dinero en efectivo?")]
         public bool DebeRecibirDinero { get; set; }
 
         [Display(Name = "¿Cuanto recibirá?")]

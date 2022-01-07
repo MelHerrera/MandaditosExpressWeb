@@ -133,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group">
+                                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Indica si el motorizado debe ir a recoger el paquete a un punto A, entregarlo en un punto B y regresar al punto A nuevamente ">
                                                 <label for="DebeRegresarATienda" class="control-label font-weight-bold" style="display:block">¿Es ida y regreso?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRegresarATienda, bsSwitchButton: {}" data-size="xs" name="DebeRegresarATienda" id="switch-deberegresar-tienda">
                                                 @Html.ValidationMessageFor(model => model.DebeRegresarATienda, "", new { @class = "text-danger" })
@@ -145,7 +145,7 @@
                                         <!--ko if: $root.MostrarSwitchDebeRecibirDinero-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="DebeRecibirDinero" class="control-label font-weight-bold" style="display:block">¿El motorizado recibirá algun dinero?</label>
+                                                <label for="DebeRecibirDinero" class="control-label font-weight-bold" style="display:block">¿El motorizado recibirá efectivo?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRecibirDinero, bsSwitchButton: {}" data-size="xs" name="DebeRecibirDinero" id="debe-recibir-dinero">
                                                 @Html.ValidationMessageFor(model => model.DebeRecibirDinero, "", new { @class = "text-danger" })
                                             </div>
