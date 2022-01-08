@@ -117,7 +117,9 @@ public class MainMappingProfile : Profile
                             .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false))
                             .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false))
                             .ForMember(x => x.EstaRetrasado, x => x.MapFrom(y => EstaRetrasado(y)))
-                            .ForMember(x=> x.TiempoRetraso, x=> x.MapFrom(y=> TiempoDeRetraso(y).ToString("0"))).ReverseMap();
+                            .ForMember(x=> x.TiempoRetraso, x=> x.MapFrom(y=> TiempoDeRetraso(y).ToString("0")))
+                            .ForMember(x => x.Asignado, x => x.MapFrom(y => (y.MotorizadoId!=null && y.MotorizadoId > 0) ? true : false))
+                            .ForMember(x => x.NombresDelMotorizado, x=> x.MapFrom(y=> y.Motorizado.NombreCompleto)).ReverseMap();
 
         CreateMap<Envio, EnvioHistorialViewModel>().ReverseMap();
         CreateMap<Envio, EnviosCreditoViewModel>().ReverseMap();

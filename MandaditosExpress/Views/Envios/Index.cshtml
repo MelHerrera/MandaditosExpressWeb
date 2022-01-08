@@ -108,7 +108,7 @@
                                             <!--ko if:( !Rechazado() )-->
                                             <a class="btn btn-danger" href="#" data-bind="click:$root.Rechazar"><i class="fa fa-times-circle" title="Rechazar Envío"></i></a>
                                             <!--/ko-->
-                                            <a class="btn btn-primary" data-bind="attr: { href: '@Url.Action("Asignacion")/' + Id() }"><i class="fa fa-link" title="Asignar Motorizado"></i></a>
+                                            <a class="btn btn-primary" data-bind="attr: { href: '@Url.Action("Asignacion")/' + Id() }"><i class="fa fa-link" title="Asignar/Reasignar Motorizado"></i></a>
                                         }
                                         <a class="btn btn-warning" data-bind="attr: { href: '@Url.Action("Details")/' + Id() }"><i class="fa fa-info-circle" title="Detalles"></i></a>
                                     </div>
@@ -131,6 +131,16 @@
                                     <small>Retrasado </small>
                                     <small class="font-weight-bold" data-bind="text:TiempoRetraso"></small>
                                     <small> Min</small>
+                                </div>
+                            </div>
+                            <!--/ko-->
+                            <!--ko if:Asignado()-->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span class="fa fa-info-circle">
+                                        <small class="font-weight-bold">Motorizado: </small>
+                                        <small data-bind="text:NombresDelMotorizado"></small>
+                                    </span>
                                 </div>
                             </div>
                             <!--/ko-->

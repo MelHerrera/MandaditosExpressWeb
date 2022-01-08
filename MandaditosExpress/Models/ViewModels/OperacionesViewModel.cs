@@ -438,6 +438,9 @@ namespace MandaditosExpress.Models.ViewModels
 
         public virtual Lugar LugarOrigen { get; set; }
         public virtual Lugar LugarDestino { get; set; }
+
+        public bool Asignado { get; set; }
+        public string NombresDelMotorizado { get; set; }
     }
 
     public class EnvioHistorialViewModel

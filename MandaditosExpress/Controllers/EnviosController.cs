@@ -413,8 +413,13 @@ namespace MandaditosExpress.Controllers
             {
                 if (Reasignacion)
                 {
-                    MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Ocupado, Motorizado);//poner como ocupado el nuevo asignado
+                    //MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Ocupado, Motorizado);//poner como ocupado el nuevo asignado
                     MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Activo, MotorizadoDelEnvio);//poner como activo el viejo
+
+                    //si todo esta correcto, como se esta haciendo manual la asignacion entonces manualmente debemos cambiar el estado del motorizado
+                    if (!MotorizadoServices.CambiarEstadoMotorizado(EstadoDeMotorizadoEnum.Ocupado, Motorizado))
+                        return Json(new { message = "Se ha realizado con exito la asignación del motorizado pero no se pudo cambiar su estado a Ocupado", exito = false }, JsonRequestBehavior.AllowGet);
+
                     return Json(new { message = "Se ha realizado con exito la reasignación del motorizado", exito = true }, JsonRequestBehavior.AllowGet);
                 }
 
