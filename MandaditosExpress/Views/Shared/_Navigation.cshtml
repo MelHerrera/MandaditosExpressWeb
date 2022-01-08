@@ -126,7 +126,7 @@
                 </li>
             }
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
             {
                 <!--Busquedas y Consultas-->
                 <li class="@Html.IsSelected(controller: "Consultas")">

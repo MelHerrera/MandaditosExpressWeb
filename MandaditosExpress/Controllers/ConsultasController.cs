@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin, Asistente")]
     public class ConsultasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
