@@ -344,4 +344,70 @@ namespace MandaditosExpress.Models.ViewModels
         public string EmailConfirmedClass { get; set; }
         public string EmailConfirmedDescripcion { get; set; }
     }
+
+    public class CreateUsuarioViewModel
+    {
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electronico")]
+        public string CorreoElectronico { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Primer Nombre")]
+        public string PrimerNombre { get; set; }
+
+        [StringLength(30)]
+        [Display(Name = "Segundo Nombre")]
+        public string SegundoNombre { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Primer Apellido")]
+        public string PrimerApellido { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Segundo Apellido")]
+        public string SegundoApellido { get; set; }
+
+        [Required]
+        [MaxLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [MinLength(8, ErrorMessage = "La longitud debe ser igual a 8 caracteres")]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        public byte[] Foto { get; set; }
+
+        [Required]
+        [StringLength(9, ErrorMessage = "Excedio la Longitud Permitida")]//Masculino-Femenino
+        public string Sexo { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [DataType(DataType.MultilineText)]
+        public string Direccion { get; set; }
+
+        [StringLength(16)]//132-090994-2000F
+        [MaxLength(16, ErrorMessage = "La longitud debe ser igual a 16 caracteres")]
+        [MinLength(16, ErrorMessage = "La longitud debe ser igual a 16 caracteres")]
+        public string Cedula { get; set; }
+
+        [Display(Name = "Fecha de Ingreso")]
+        public DateTime FechaIngreso { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        public string ConfirmPassword { get; set; }
+
+        public string Rol { get; set; }
+    }
 }

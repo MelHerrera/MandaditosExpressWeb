@@ -16,7 +16,7 @@
                     </p>
 
                     <div class="row">
-                        <div class="col-sm-6 float-right">
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
                                 <span class="input-group-btn">
@@ -27,6 +27,14 @@
                                 </span>
                             </div>
                         </div>
+                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <div class="col-auto">
+                                <a type="button" class="btn btn btn-primary" href="@Url.Action("/Create")">
+                                    <i class="fa fa-plus"></i> Crear Usario
+                                </a>
+                            </div>
+                        }
                     </div>
                     <div class="clients-list small">
                         <ul class="nav nav-tabs">

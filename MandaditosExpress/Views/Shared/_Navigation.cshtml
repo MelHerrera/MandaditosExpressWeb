@@ -142,8 +142,8 @@
                             <a href="@Url.Action("EnviosPorPeriodo", "Consultas")">Envios por período</a>
                         </li>
                         @*<li class="@Html.IsSelected(action: "BuscarClientes")">
-                            <a href="@Url.Action("BuscarClientes", "Consultas")">Envios por Motorizado</a>
-                        </li>*@
+                        <a href="@Url.Action("BuscarClientes", "Consultas")">Envios por Motorizado</a>
+                    </li>*@
                         <li class="@Html.IsSelected(action: "CreditosCliente")">
                             <a href="@Url.Action("CreditosCliente", "Consultas")">Envios al Crédito por cliente/periodo</a>
                         </li>
@@ -172,6 +172,19 @@
                         </li>
                         <li class="@Html.IsSelected(action: "ConfirmacionManual")">
                             <a href="@Url.Action("ConfirmacionManual", "Personas")">Confirmación manual</a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            @if (User.IsInRole("Asistente"))
+            {
+                <!--Busquedas y Consultas-->
+                <li class="@Html.IsSelected(controller: "Personas")">
+                    <a href=""><i class="fa fa-shield"></i> <span class="nav-label" data-i18n="nav.dashboard">Seguridad</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse ">
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Personas")">Usuarios</a>
                         </li>
                     </ul>
                 </li>

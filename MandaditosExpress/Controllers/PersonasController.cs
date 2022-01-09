@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
 using Microsoft.AspNet.Identity;
@@ -16,10 +17,11 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Asistente")]
     public class PersonasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private ApplicationDbContext dbSecurity = new ApplicationDbContext();
         private ApplicationDbContext SecurityDB;
         private ApplicationUserManager UserManager;
 
@@ -53,9 +55,15 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Personas/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
-            return View();
+            //se excluye el rol admin por seguridad.
+            //se excluye el rol motorizado porque habria que validar la vista para pedir ciertos datos que los tiene un motorizado pero no una persona.
+            var roles = dbSecurity.Roles.Where(it=> it.Name.ToLower()!="Admin".ToLower() && it.Name.ToLower()!="Motorizado".ToLower()).ToList();
+
+            ViewBag.Rol = new SelectList(roles, nameof(IRole.Name), nameof(IRole.Name));
+            return View(new CreateUsuarioViewModel());
         }
 
         // POST: Personas/Create
@@ -63,19 +71,85 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PersonaId,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngresoDeLaPersona")] Persona persona)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Create(CreateUsuarioViewModel Persona)
         {
-            if (ModelState.IsValid)
-            {
-                db.Personas.Add(persona);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var user = new ApplicationUser();
+            var PersonaToCreate = new Persona();
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-            return View(persona);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    user = new ApplicationUser { UserName = Persona.CorreoElectronico, Email = Persona.CorreoElectronico, PhoneNumber = Persona.Telefono, EmailConfirmed = true };
+
+                    var UserInDb = UserManager.FindByEmail(user.Email);
+
+                    if (UserInDb == null)//aun no esta registrado
+                    {
+                        var result = await UserManager.CreateAsync(user, Persona.Password);
+
+                        if (result.Succeeded)
+                        {
+                            await UserManager.AddToRoleAsync(user.Id, Persona.Rol);//el rol cliente debio ser creado en el startup.cs
+
+                            //Agregamos la persona
+                            PersonaToCreate = new Persona
+                            {
+                                CorreoElectronico = Persona.CorreoElectronico,
+                                PrimerNombre = Persona.PrimerNombre,
+                                SegundoNombre = Persona.SegundoNombre,
+                                PrimerApellido = Persona.PrimerApellido,
+                                SegundoApellido = Persona.SegundoApellido,
+                                Telefono = Persona.Telefono,
+                                Foto = new Utileria().getImageBytes(Request),
+                                Sexo = Persona.Sexo,
+                                Direccion = Persona.Direccion,
+                                Cedula = Persona.Cedula,
+                                FechaIngreso = DateTime.Now
+                            };
+
+                            db.Personas.Add(PersonaToCreate);
+
+                            if (db.SaveChanges() > 0)
+                                return RedirectToAction("Index");
+                            else
+                            {
+                                UserManager.RemoveFromRole(user.Id, Persona.Rol);
+                                UserManager.Delete(user);
+                                ModelState.AddModelError("", "Sucedio un error procesando tu solicitud");
+                            }
+                        }
+                        else
+                            AddErrors(result);
+                    }
+                    else
+                        ModelState.AddModelError("", "El correo electronico ingresado ya se encuentra registrado");
+                }
+
+                var roles = dbSecurity.Roles.Where(it => it.Name.ToLower() != "Admin".ToLower() && it.Name.ToLower() != "Motorizado".ToLower()).ToList();
+                ViewBag.Rol = new SelectList(roles, nameof(IRole.Name), nameof(IRole.Name));
+                return View(Persona);
+            }
+            catch (Exception ex)
+            {
+                //si sucede algun error interno entonces quitar la persona y el usuario.
+                UserManager.RemoveFromRole(user.Id, Persona.Rol);
+                UserManager.Delete(user);
+
+                if (PersonaToCreate.Id > 0)
+                {
+                    db.Personas.Remove(PersonaToCreate);
+                    db.SaveChanges();
+                }
+
+                throw new Exception("Ocurrio un error procesando tu solicitud!");
+            }
         }
 
         // GET: Personas/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -95,6 +169,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "PersonaId,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngresoDeLaPersona")] Persona persona)
         {
             if (ModelState.IsValid)
@@ -107,6 +182,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Personas/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -124,6 +200,7 @@ namespace MandaditosExpress.Controllers
         // POST: Personas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Persona persona = db.Personas.Find(id);
@@ -133,6 +210,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult CambiarContrasenia()
         {
             var Personas = GetUserList();
@@ -142,6 +220,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<JsonResult> CambiarContrasenia(int PersonaId, string NPassword)
         {
             var Persona = db.Personas.Find(PersonaId);
@@ -170,6 +249,7 @@ namespace MandaditosExpress.Controllers
          }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DefaultPassword()
         {
             var Personas = GetUserList();
@@ -179,6 +259,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<JsonResult> DefaultPassword(int PersonaId)
         {
             var Persona = db.Personas.Find(PersonaId);
@@ -197,7 +278,7 @@ namespace MandaditosExpress.Controllers
 
                     if (result.Succeeded)
                     {
-                        return Json(new { exito = true, message = "Se establecio correctamente la contraseña por defecto al usuario : " + defaultPassword }, JsonRequestBehavior.AllowGet);
+                        return Json(new { exito = true, message = "Se establecio correctamente la contraseña por defecto al usuario. Contraseña: " + defaultPassword }, JsonRequestBehavior.AllowGet);
                     }
                     else
                         return Json(new { exito = false, message = string.Join(" | ", result.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
@@ -208,6 +289,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult ConfirmacionManual()
         {
             var Personas = GetUserList().Where(it=> it.EmailConfirmed==false);
@@ -217,6 +299,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<JsonResult> ConfirmacionManual(int PersonaId)
         {
             var Persona = db.Personas.Find(PersonaId);

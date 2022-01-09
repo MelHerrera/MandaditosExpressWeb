@@ -18,6 +18,7 @@ namespace MandaditosExpress.Models
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
             FechaRechazoAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
             EstadoDelMotorizado = (short) EstadoDeMotorizadoEnum.Inactivo;//el estado se refiere a inactivo, activo o ocupado porque esta realizado una entrega
+            EstadoDeAfiliado = (short)EstadoDeAfiliadoEnum.NoAplica;
         }
 
         [Required]

@@ -427,6 +427,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public ActionResult GetRoles()
         {
             var SecurityDB = new ApplicationDbContext();
@@ -438,6 +439,7 @@ namespace MandaditosExpress.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateRol(string Name)
         {
             ApplicationDbContext context = new ApplicationDbContext();
@@ -462,6 +464,7 @@ namespace MandaditosExpress.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteRol(string Id)
         {
             ApplicationDbContext context = new ApplicationDbContext();

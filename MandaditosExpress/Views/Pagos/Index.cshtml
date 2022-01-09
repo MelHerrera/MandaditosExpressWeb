@@ -76,56 +76,60 @@
 
                             @foreach (var item in Model)
                             {
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NumeroDePago)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FechaDePago)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MontoDelPago)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MonedaDescripcion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Cambio)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.TipoDePagoDescripcion)
-                                </td>
-                                <td>
-                                    <span class="@item.ConceptoDelPagoClass">
-                                        @Html.DisplayFor(modelItem => item.ConceptoDelPago)
-                                    </span>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CreditoCodigo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EnvioCodigo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClienteNombres)
-                                </td>
-                                <td>
-                                    <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id= item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumeroDePago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaDePago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MontoDelPago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MonedaDescripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cambio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TipoDePagoDescripcion)
+                                        </td>
+                                        <td>
+                                            <span class="@item.ConceptoDelPagoClass">
+                                                @Html.DisplayFor(modelItem => item.ConceptoDelPago)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreditoCodigo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EnvioCodigo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClienteNombres)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id= item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             }
 
                         </table>
                     }
                     else
                     {
-
                         <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 pagos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                            <i class="fa fa-exclamation-triangle"></i>
+                            Se encontraron 0 pagos  para mostrar.
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>
+                                <span>para agregar uno.</span>
+                            }
                         </div>
-
                     }
                 </div>
             </div>

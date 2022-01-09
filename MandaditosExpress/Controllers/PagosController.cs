@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize(Roles = "Admin, Cliente")]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class PagosController : Controller
     {
         private MandaditosDB db;
@@ -31,7 +31,7 @@ namespace MandaditosExpress.Controllers
         public ActionResult Index()
         {
             var pagos = new List<Pago>();
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
                 pagos = db.Pagos.ToList();
             else
             {
