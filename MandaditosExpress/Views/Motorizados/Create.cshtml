@@ -241,12 +241,13 @@ else
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group m-0">
                                 <input type="checkbox" name="AceptaTerminos" value="true" style="display:inline-block;width:auto;" />
                                 <label for="AceptaTerminos" class="label-agree-term"> Acepto todos los<a href="#" class="term-service" style="text-decoration:underline;">Terminos de Servicio</a></label>
                                 @Html.ValidationMessageFor(model => model.AceptaTerminos, "", new { @class = "text-danger" })
                             </div><div class="row justify-content-center">
                                 <div class="col-sm-12">
+                                    <i class="fa fa-exclamation-triangle"></i>
                                     <small class="text-danger align-self-center">Los campos marcados con * son obligatorios</small>
                                 </div>
                             </div><div class="row mt-4">
