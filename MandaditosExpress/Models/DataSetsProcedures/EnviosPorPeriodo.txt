@@ -13,7 +13,7 @@ GO
 -- Description:	<Description: Obtiene los envios en un periodo de fecha seleccionado>
 -- =============================================
 
-ALTER PROCEDURE FltEnviosPorPeriodo
+CREATE PROCEDURE FltEnviosPorPeriodo
 	@Desde datetime,
 	@Hasta datetime
 AS

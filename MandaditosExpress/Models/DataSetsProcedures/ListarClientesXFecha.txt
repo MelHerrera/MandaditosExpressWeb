@@ -11,7 +11,7 @@ GO
 
 
 -- =============================================
--- Author:		<email:paty@gmail.com,name:Patty Ortiz>
+-- Author:		<email:melkinantonioh@gmail.com >
 -- Create date: <date:15-09-2021 10:25 Am>
 -- Description:	<Description: Obtener los Clientes en un periodo de tiempo dado>
 -- =============================================
