@@ -13,8 +13,8 @@ namespace MandaditosExpress.API
     [AllowAnonymous]
     public class LoginWSController : Controller
     {
-        [HttpGet]
-        public JsonResult Login(string user, string pass)
+        [HttpPost]
+        public JsonResult Login(string user="", string pass="")
         {
             RespuestaLogin resp = new RespuestaLogin();
 
@@ -24,6 +24,7 @@ namespace MandaditosExpress.API
             {
                 ApplicationDbContext context = new ApplicationDbContext();
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var MandaditosDb = new MandaditosDB();
 
                 //extraer los datos del usuario
                 var UserInDb = UserManager.FindByEmail(user);
@@ -37,14 +38,15 @@ namespace MandaditosExpress.API
                     if (UserInDb.EmailConfirmed)
                     {
                         resp.IsConfirmed = true;
-                        var Name = System.Web.HttpContext.Current.User.Identity.Name.ToString();
-                        resp.Mensaje = "Hola, Bienvenido " + Name + "!";
+                        var Person = MandaditosDb.Personas.FirstOrDefault(it=> it.CorreoElectronico == UserInDb.UserName);
+                        var PersonName = Person != null ? Person?.CorreoElectronico.ToString() : UserInDb.UserName.ToString();
+
+                        resp.Mensaje = "Hola, Bienvenido " + PersonName + "!";
                     }
                     else
                     {
                         resp.IsConfirmed = false;
-                        var Name = System.Web.HttpContext.Current.User.Identity.Name.ToString();
-                        resp.Mensaje = "Estimado " + Name + " debes confirmar tu corre electronico primero!";
+                        resp.Mensaje = "Estimado usuario debes confirmar tu correo electronico primero!";
                     }
                 }
             }

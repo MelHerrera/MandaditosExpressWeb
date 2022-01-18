@@ -2,6 +2,7 @@
 using AutoMapper;
 using MandaditosExpress.Models;
 using MandaditosExpress.Models.Enum;
+using MandaditosExpress.Models.Extensions;
 using MandaditosExpress.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web;
 
 namespace MandaditosExpress
 {
-    public class AutoFacModule:Module
+    public class AutoFacModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -19,6 +20,7 @@ namespace MandaditosExpress
             builder.Register(context => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MainMappingProfile>();
+                cfg.AddProfile<APIMappingProfile>();
 
             })).AsSelf().SingleInstance();
 
@@ -45,8 +47,19 @@ public class MainMappingProfile : Profile
                                           .ForMember(x => x.ClienteFoto, x => x.MapFrom(y => y.Cliente.Foto))
                                           .ForMember(x => x.CotizacionDescripcion, x => x.MapFrom(y => y.Cotizacion.DescripcionDeCotizacion)); ;
         CreateMap<Motorizado, MotorizadoViewModel>().
-        ForMember(x=> x.EstadoMotorizadoClass, x=> x.MapFrom(y=> y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Activo 
-        ? "badge badge-success" : y.EstadoDelMotorizado== (short) EstadoDeMotorizadoEnum.Inactivo ? "badge badge-warning" : "badge badge-primary" ));
+        ForMember(x => x.EstadoMotorizadoClass, x => x.MapFrom(y => y.EstadoDelMotorizado == (short)EstadoDeMotorizadoEnum.Activo
+          ? "badge badge-success" : y.EstadoDelMotorizado == (short)EstadoDeMotorizadoEnum.Inactivo ? "badge badge-warning" : "badge badge-primary"));
         CreateMap<Lugar, LugarViewModel>().ReverseMap();
+    }
+}
+
+public class APIMappingProfile : Profile
+{
+    public APIMappingProfile()
+    {
+        CreateMap<Credito, ResponseWsCredito>().ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
+            .ForMember(x => x.FechaDeInicio, x => x.MapFrom(y => y.FechaDeInicio.ToString("dd/MM/yyyy")))
+         .ForMember(x => x.FechaDeVencimiento, x => x.MapFrom(y => y.FechaDeVencimiento.ToString("dd/MM/yyyy")))
+         .ForMember(x => x.FechaDeCancelacion, x => x.MapFrom(y => y.FechaDeCancelacion.ToString("dd/MM/yyyy")));
     }
 }
