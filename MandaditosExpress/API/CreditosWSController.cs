@@ -27,7 +27,7 @@ namespace MandaditosExpress.API
             try
             {
                 var Response = new ResponseWsListaDeCreditos();
-                var Cliente = db.Creditos.Find(ClienteId);
+                var Cliente = db.Clientes.Find(ClienteId);
 
                 if (Cliente is null)
                 {

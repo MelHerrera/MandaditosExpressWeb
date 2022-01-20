@@ -41,6 +41,7 @@ namespace MandaditosExpress.API
                         var Person = MandaditosDb.Personas.FirstOrDefault(it=> it.CorreoElectronico == UserInDb.UserName);
                         var PersonName = Person != null ? Person?.CorreoElectronico.ToString() : UserInDb.UserName.ToString();
 
+                        resp.PersonaId = Person!= null ? Person.Id : -1;
                         resp.Mensaje = "Hola, Bienvenido " + PersonName + "!";
                     }
                     else

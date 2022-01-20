@@ -10,6 +10,7 @@ namespace MandaditosExpress.Models.Extensions
 
         public bool IsConfirmed { get; set; }
         public List<string> Roles { get; set; }
+        public int PersonaId { get; set; }
     }
 
     public partial class ResponseWsCredito
@@ -24,7 +25,7 @@ namespace MandaditosExpress.Models.Extensions
 
         public string FechaDeVencimiento { get; set; }
 
-        public bool EstadoDelCredito { get; set; }
+        public double MontoDelCredito { get; set; }
 
         public string FechaDeCancelacion { get; set; }
 

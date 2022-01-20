@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(MandaditosExpress.Startup))]
 namespace MandaditosExpress
@@ -18,6 +19,8 @@ namespace MandaditosExpress
         private void CrearRoles()
         {
             ApplicationDbContext context = new ApplicationDbContext();
+            MandaditosDB db = new MandaditosDB();
+
             var AdmRoles = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var AdmUsuarios = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
@@ -34,10 +37,24 @@ namespace MandaditosExpress
                 usuario.Email = "melkinantonioh@gmail.com";
                 usuario.EmailConfirmed = true;
 
+
                 var resultado = AdmUsuarios.Create(usuario, "Mel#123");
                 if (resultado.Succeeded)
                 {
                     AdmUsuarios.AddToRole(usuario.Id, "Admin");
+                    //Crearle los datos correspondientes como persona del sistema
+                    var Persona = new Persona();
+                    Persona.CorreoElectronico = usuario.UserName;
+                    Persona.PrimerNombre = "Melkin";
+                    Persona.PrimerApellido = "Herrera";
+                    Persona.SegundoApellido = "Mendoza";
+                    Persona.Telefono = "82415644";
+                    Persona.Sexo = "Masculino";
+                    Persona.Direccion = "Colonia Miguel Bonilla UNAN";
+                    Persona.FechaIngreso = DateTime.Now;
+
+                    db.Personas.Add(Persona);
+                    db.SaveChanges();
                 }
             }
 
@@ -74,6 +91,37 @@ namespace MandaditosExpress
                 if (resultado.Succeeded)
                 {
                     AdmUsuarios.AddToRole(usuario.Id, "Motorizado");
+                }
+            }
+
+            if (!AdmRoles.RoleExists("Asistente"))
+            {
+                Rol = new IdentityRole();
+                Rol.Name = "Asistente";
+                AdmRoles.Create(Rol);
+
+                var usuario = new ApplicationUser();
+                usuario.UserName = "asistente@gmail.com";
+                usuario.Email = "asistente@gmail.com";
+                usuario.EmailConfirmed = true;
+
+                var resultado = AdmUsuarios.Create(usuario, "Mel#123");
+                if (resultado.Succeeded)
+                {
+                    AdmUsuarios.AddToRole(usuario.Id, "Asistente");
+
+                    var Persona = new Persona();
+                    Persona.CorreoElectronico = usuario.UserName;
+                    Persona.PrimerNombre = "Asistente";
+                    Persona.PrimerApellido = "Herrera";
+                    Persona.SegundoApellido = "Mendoza";
+                    Persona.Telefono = "82415644";
+                    Persona.Sexo = "Masculino";
+                    Persona.Direccion = "Colonia Miguel Bonilla UNAN";
+                    Persona.FechaIngreso = DateTime.Now;
+
+                    db.Personas.Add(Persona);
+                    db.SaveChanges();
                 }
             }
         }

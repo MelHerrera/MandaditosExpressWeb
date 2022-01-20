@@ -60,6 +60,8 @@ public class APIMappingProfile : Profile
         CreateMap<Credito, ResponseWsCredito>().ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
             .ForMember(x => x.FechaDeInicio, x => x.MapFrom(y => y.FechaDeInicio.ToString("dd/MM/yyyy")))
          .ForMember(x => x.FechaDeVencimiento, x => x.MapFrom(y => y.FechaDeVencimiento.ToString("dd/MM/yyyy")))
-         .ForMember(x => x.FechaDeCancelacion, x => x.MapFrom(y => y.FechaDeCancelacion.ToString("dd/MM/yyyy")));
+         .ForMember(x => x.FechaDeCancelacion, x => x.MapFrom(y => y.FechaDeCancelacion.ToString("dd/MM/yyyy")))
+         .ForMember(x => x.Descripcion, x => x.MapFrom(y=> "Credito principal para christopher 2022-2"))
+          .ForMember(x => x.CodigoDelCredito, x => x.MapFrom(y => "CRED20211"));
     }
 }
