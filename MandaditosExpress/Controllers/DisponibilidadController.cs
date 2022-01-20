@@ -10,6 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize(Roles = "Admin, Asistente")]
     public class DisponibilidadController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -36,6 +37,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Disponibilidad/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +48,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,EstadoDeLaDisponibilidad")] Disponibilidad disponibilidad)
         {
             if (ModelState.IsValid)
@@ -58,62 +61,43 @@ namespace MandaditosExpress.Controllers
             return View(disponibilidad);
         }
 
-        // GET: Disponibilidad/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            if (disponibilidad == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disponibilidad);
-        }
-
         // POST: Disponibilidad/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,EstadoDeLaDisponibilidad")] Disponibilidad disponibilidad)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(disponibilidad).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(disponibilidad);
-        }
 
-        // GET: Disponibilidad/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (db.SaveChanges() > 0)
+                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            if (disponibilidad == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disponibilidad);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Disponibilidad/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteConfirmed(Disponibilidad disponibilidad)
         {
-            Disponibilidad disponibilidad = db.Disponibilidad.Find(id);
-            db.Disponibilidad.Remove(disponibilidad);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Disponibilidad xdisponibilidad = db.Disponibilidad.Find(disponibilidad.Id);
+
+            if(xdisponibilidad.Motorizados.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque tiene registros de afiliación de motorizado asociados" }, JsonRequestBehavior.AllowGet);
+
+            db.Disponibilidad.Remove(xdisponibilidad);
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -1,0 +1,104 @@
+﻿@model MandaditosExpress.Models.Pago
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Credito.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Credito.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Envio.DescripcionDeEnvio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Envio.DescripcionDeEnvio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Moneda.NombreDeMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Moneda.NombreDeMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDePago.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDePago.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroDePago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroDePago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDePago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDePago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MontoADelPago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MontoADelPago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cambio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cambio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CambioDolar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CambioDolar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDelPago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDelPago)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

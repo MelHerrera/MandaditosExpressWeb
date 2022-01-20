@@ -6,7 +6,11 @@ function IndexCredito(creditoCollection) {
 
     self.Creditos = ko.observableArray(creditoCollection ?
         ko.utils.arrayMap(creditoCollection, function (credito) { return new CreditoViewModel(credito) }) : []);
-
+    self.TablePagination = ko.observable(new TablePagintationViewModel({
+        PaginationSize: 10,
+        Items: self.Creditos,//pasar todo el observable para que la paginacion reaccione a cualquier accion aplicada a este arreglo
+        maxPageCount: 7
+    }));
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "credito-modal",
         ModalHeaderViewModel: new ModalHeaderViewModel({ ModalTitle: "Initial", ModalHeaderClass: "bg-secondary" }),
@@ -58,25 +62,28 @@ function IndexCredito(creditoCollection) {
             type: "Post",
             data: { __RequestVerificationToken: token, credito: CreditoSelected },
             success: function (res) {
-                if (res.exito) {
-                    console.log(self.ModalViewModel());
-                    $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');
+                $("#" + ko.unwrap(self.ModalViewModel().ModalId())).modal('hide');//cerrarla independientemente de si es false o succes
 
+                if (res.exito) {
                     $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se actualizó la informacion Correctamente"
                     });
 
-                    setTimeout(function () { location.reload(); },2000);
-                    
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+                else {
+                    $.notify({
+                        icon: 'fa fa-check-circle',
+                        message: res.message
+                    });
                 }
             },
             error: function (e) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops... Disculpa',
-                    text: 'Algo salio mal!',
-                    footer: 'Contactese con el Administrador del Sistema'
+                    text: 'Ha sucedido un error procesando tu solicitud!'
                 })
             }
         });

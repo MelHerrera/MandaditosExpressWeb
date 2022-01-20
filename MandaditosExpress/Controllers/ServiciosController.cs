@@ -6,18 +6,28 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
 
 namespace MandaditosExpress.Controllers
 {
+    [Authorize(Roles = "Admin, Asistente")]
     public class ServiciosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
+
+        public ServiciosController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         // GET: Servicios
         public ActionResult Index()
         {
-            return View(db.Servicios.ToList());
+            var data = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios.ToList());
+            return View(data.ToList());
         }
 
         // GET: Servicios/Details/5
@@ -36,8 +46,10 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Servicios/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(x => x.EstadoTipoDeServicio), "Id", "DescripcionTipoDeServicio");
             return View();
         }
 
@@ -46,7 +58,8 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DescripcionDelServicio,Estado")] Servicio servicio)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create([Bind(Include = "DescripcionDelServicio,TipoDeServicioId,Estado")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
@@ -54,22 +67,8 @@ namespace MandaditosExpress.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(servicio);
-        }
 
-        // GET: Servicios/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Servicio servicio = db.Servicios.Find(id);
-            if (servicio == null)
-            {
-                return HttpNotFound();
-            }
-
+            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio.Where(x => x.EstadoTipoDeServicio), "Id", "DescripcionTipoDeServicio");
             return View(servicio);
         }
 
@@ -78,49 +77,38 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DescripcionDelServicio,TipoDeServicioId,MontoTotalDelServicio,CostoId")] Servicio servicio)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind(Include = "Id,DescripcionDelServicio,Estado,TipoDeServicioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(servicio).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (db.SaveChanges() > 0)
+                    return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(servicio);
-        }
-
-        // GET: Servicios/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Servicio servicio = db.Servicios.Find(id);
-            if (servicio == null)
-            {
-                return HttpNotFound();
-            }
-            return View(servicio);
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Servicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteConfirmed(Servicio servicio)
         {
-            Servicio servicio = db.Servicios.Find(id);
-            db.Servicios.Remove(servicio);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            Servicio xservicio = db.Servicios.Find(servicio.Id);
 
-        //public JsonResult MontoTotal(int TipoDeServicioId,int CostoId )
-        //{
-        //    var TpDeServicio = db.TiposDeServicio.DefaultIfEmpty(null).FirstOrDefault(tp=>tp.Id==TipoDeServicioId);
-        //    var Costo= db.Costos.DefaultIfEmpty(null).FirstOrDefault(tp => tp.Id == CostoId);
-        //}
+            if(xservicio.Envios.Count > 0)
+                return Json(new { exito = false, message = "no se puede eliminar porque existen envios asociados a este servicio" }, JsonRequestBehavior.AllowGet);
+
+            db.Servicios.Remove(xservicio);
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

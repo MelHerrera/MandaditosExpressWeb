@@ -3,8 +3,14 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label for="ClienteId" class="control-label">ClienteId</label>
-                <input type="text" data-bind="value:NombreCompleto, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" disabled/>
+                <label for="Descripcion" class="control-label">Descripción</label>
+                <input type="text" data-bind="value:Descripcion, disable: $root.Disable" name="Descripcion" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="ClienteId" class="control-label">Cliente</label>
+                <input type="text" data-bind="value:NombreCompleto, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
@@ -20,7 +26,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="FechaDeInicio" class="control-label">Fecha De Inicio</label>
-                <input type="datetime-local" data-bind="value:FechaDeInicio, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeInicio" class="form-control" disabled/>
+                <input type="datetime-local" data-bind="value:FechaDeInicio, disable: $root.Disable, disable: $root.DisableEver " name="FechaDeInicio" class="form-control"/>
             </div>
         </div>
 

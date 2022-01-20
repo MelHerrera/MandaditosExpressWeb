@@ -41,7 +41,7 @@
 
                                     <!--ko if:$root.EnvioMedianteCotizacion-->
                                     <div class="text-danger">
-                                        <p>No puedes cambiar ninguno de los datos importantes de la cotización,  esto afectaría el monto total de tu cotización </p>
+                                        <p>No puedes cambiar ninguno de los datos importantes de la cotización <span data-bind="text:CodigoDeLaCotizacion"></span>,  esto afectaría el monto total de tu cotización </p>
                                     </div>
                                     <!--/ko-->
 
@@ -57,7 +57,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TipoDeServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:TiposDeServicio, optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, disable: $root.EnvioMedianteCotizacion" required></select>
+                                                <select class="form-control" name="TipoDeServicioId" data-bind="options:(ko.unwrap(TiposDeServicio()).length > 0 ? TiposDeServicio : [{ DescripcionTipoDeServicio: 'Sin registros'}] ), optionsText:'DescripcionTipoDeServicio',optionsValue:'Id', value:TipoDeServicioId, disable: $root.EnvioMedianteCotizacion" required title="El campo es obligatorio"></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
                                         <div class="col-md-6" data-bind="with:Servicio">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" required title="La descripción del servicio es obligatoria" />
+                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio"/>
                                                 <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
                                                     <span id="DescripcionDelServicio-error" class=""></span>
                                                 </span>
@@ -106,7 +106,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TelefonoDelReceptor, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", @type = "number", data_bind = "value:TelefonoDelReceptor" } })
+                                                @Html.EditorFor(model => model.TelefonoDelReceptor, new { htmlAttributes = new { @class = "form-control-sm TelefonoReceptor", data_bind = "value:TelefonoDelReceptor" } })
                                                 @Html.ValidationMessageFor(model => model.TelefonoDelReceptor, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -133,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group">
+                                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Indica si el motorizado debe ir a recoger el paquete a un punto A, entregarlo en un punto B y regresar al punto A nuevamente ">
                                                 <label for="DebeRegresarATienda" class="control-label font-weight-bold" style="display:block">¿Es ida y regreso?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRegresarATienda, bsSwitchButton: {}" data-size="xs" name="DebeRegresarATienda" id="switch-deberegresar-tienda">
                                                 @Html.ValidationMessageFor(model => model.DebeRegresarATienda, "", new { @class = "text-danger" })
@@ -145,7 +145,7 @@
                                         <!--ko if: $root.MostrarSwitchDebeRecibirDinero-->
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="DebeRecibirDinero" class="control-label font-weight-bold" style="display:block">¿El motorizado recibirá algun dinero?</label>
+                                                <label for="DebeRecibirDinero" class="control-label font-weight-bold" style="display:block">¿El motorizado recibirá efectivo?</label>
                                                 <input type="checkbox" data-bind="checked: DebeRecibirDinero, bsSwitchButton: {}" data-size="xs" name="DebeRecibirDinero" id="debe-recibir-dinero">
                                                 @Html.ValidationMessageFor(model => model.DebeRecibirDinero, "", new { @class = "text-danger" })
                                             </div>
@@ -211,7 +211,7 @@
                                         <div class="col-sm-5 p-2">
                                             <label class="font-weight-bold"> Selecciona la Ubicación del receptor</label>
                                             <div class="card card-destino align-items-center" style="width:95%;height:95%;" data-bind="with:LugarDestino">
-                                                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección de Origen" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
+                                                <input id="input-destino-dir" type="text" class="form-control m-2" data-bind="value:Direccion" placeholder="Dirección Destino" style="width:70%;z-index:3;position:absolute;border-radius:3px" />
                                                 <div class="Map-D" style="width:337px;height:300px"></div>
                                                 <div class="card-body" style="width:inherit">
                                                     <h5 class="card-title"><i class="fa fa-map-marker"></i> Direccion Destino</h5>
@@ -253,13 +253,22 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.TipoDePagoId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <select class="form-control" data-bind="options:TiposDePago, optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId"></select>
+                                                <select class="form-control" name="TipoDePagoId" data-bind="options:( ko.unwrap(TiposDePago()).length > 0 ? TiposDePago : [{Descripcion:'Sin registros'}] ), optionsText:'Descripcion',optionsValue:'Id', value:TipoDePagoId" required title="El campo es obligatorio"></select>
                                                 @Html.ValidationMessageFor(model => model.TipoDePagoId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        <!--ko if:$root.MostrarBtnAlCredito-->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label name="EsAlCredito" class="control-label font-weight-bold" style="display:block">Al Crédito</label>
+                                                <input type="checkbox" data-bind="checked: EsAlCredito, bsSwitchButton: {}" data-size="xs" id="chk_escredito" name="EsAlCredito">
+                                                @Html.ValidationMessageFor(model => model.EsAlCredito, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
                                     </div>
 
                                     <div class="mt-4">
@@ -269,7 +278,7 @@
                                             </div>
 
                                             <div class="col">
-                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" />
+                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" data-bind="disable:$root.CargandoSolicitud"/>
                                                 <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CargandoSolicitud"></i>
                                             </div>
@@ -306,7 +315,7 @@
 
                         <div class="ibox-footer">
                             <div class="col-md-12">
-                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-default fa fa-arrow-left" })
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
                             </div>
                         </div>
 
@@ -336,6 +345,7 @@
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
+        ///TODO validar que no se pueda dar solicitar envio multiples veces 
 
         //formatear la fecha.
         let fechaFormatted = formatDate(initialData.FechaDelEnvio())
@@ -345,10 +355,16 @@
         self.Envio().Servicios.push({ Id: -1, DescripcionDelServicio: "Otro" });//insert default option
 
         self.MostrarMonto = ko.observable(false);
+        self.MostrarBtnAlCredito = ko.observable(self.Envio().TieneCredito());
         self.IsInvalidLocation = ko.observable(false);
         self.CargandoSolicitud = ko.observable(false);
         self.FiltrandoServicios = ko.observable(false);
         self.NeedAddNewService = ko.observable(false);
+
+        self.DefaultOrigenLatitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarOrigen.Latitud() : '12.128145869138876');
+        self.DefaultOrigenLongitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarOrigen.Longitud() : '-86.26501267501537');
+        self.DefaultDestinoLatitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarDestino.Latitud() : '12.128145869138876');
+        self.DefaultDestinoLongitud = ko.observable(self.Envio().DistanciaEntregaRecep() > 0 ? self.Envio().LugarDestino.Longitud() : '-86.26501267501537');
 
         self.MostrarSwitchDebeRecibirDinero = ko.computed(function () {
             return self.Envio().DebeRegresarATienda();
@@ -408,15 +424,15 @@
         });
 
         self.CalcularDistancia = ko.computed(function () {
-            if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() && self.Envio().LugarOrigen.Direccion() &&
-                self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud() && self.Envio().LugarDestino.Direccion()) {
 
-                let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
-                let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
+                if (self.Envio().LugarOrigen.Latitud() && self.Envio().LugarOrigen.Longitud() && self.Envio().LugarOrigen.Direccion() &&
+                    self.Envio().LugarDestino.Latitud() && self.Envio().LugarDestino.Longitud() && self.Envio().LugarDestino.Direccion()) {
 
-                CalcularDistancia(origen, destino);
-            }
+                    let origen = new google.maps.LatLng(self.Envio().LugarOrigen.Latitud(), self.Envio().LugarOrigen.Longitud());
+                    let destino = new google.maps.LatLng(self.Envio().LugarDestino.Latitud(), self.Envio().LugarDestino.Longitud());
 
+                    CalcularDistancia(origen, destino);
+                }
         });
 
         self.InicializarMapas = function () {
@@ -433,7 +449,7 @@
                         {
                             url: "@Url.Action("CostoDelEnvio", "Envios")",
                             type: "Get",
-                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero() },
+                            data: { TipoDeServicioId: data.TipoDeServicioId(), Fecha: data.FechaDelEnvio, Distancia: data.DistanciaEntregaRecep(), Urgente: data.EsUrgente(), MontoGestion: data.MontoDeDinero(), debeRegresar:data.DebeRegresarATienda() },
                             beforeSend: function () {
                                 //mostrar informacion de que se esta haciendo la peticion
                                 self.CargandoSolicitud(true);
@@ -504,7 +520,7 @@
                                 });
 
                                 //recargar la pagina despues de 3 segundos
-                                setTimeout(function () { location.reload(); }, 3000);
+                                setTimeout(function () { window.location.assign("/Envios/Index"); }, 3000);
                             }
                             else {
                                 $.notify({
@@ -548,8 +564,8 @@
         function InicializarMapaOrigen() {
             $(".Map-O").locationpicker({
                 location: {
-                    latitude: self.Envio().LugarOrigen.Latitud() || 12.128145869138876,
-                    longitude: self.Envio().LugarOrigen.Longitud() || -86.26501267501537
+                    latitude: self.DefaultOrigenLatitud(),
+                    longitude: self.DefaultOrigenLongitud()
                 },
                 radius: 0,
                 enableAutocomplete: true,
@@ -558,6 +574,7 @@
                     longitudeInput: $("#input-origen-long"),
                     locationNameInput: $("#input-origen-dir")
                 },
+                addressFormat: 'street_address',
                 onchanged: function (currentLocation, radius, isMarkerDropped) {
 
                     let addressComponents = $(this).locationpicker('map').location.addressComponents;
@@ -581,8 +598,8 @@
         function InicializarMapaDestino() {
             $(".Map-D").locationpicker({
                 location: {
-                    latitude: self.Envio().LugarDestino.Latitud() || 12.128145869138876,
-                    longitude: self.Envio().LugarDestino.Longitud() || -86.26501267501537
+                    latitude: self.DefaultDestinoLatitud(),
+                    longitude: self.DefaultDestinoLongitud()
                 },
                 radius: 0,
                 enableAutocomplete: true,
@@ -590,7 +607,9 @@
                     latitudeInput: $("#input-dest-lat"),
                     longitudeInput: $("#input-dest-long"),
                     locationNameInput: $("#input-destino-dir")
-                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                },
+                addressFormat: 'street_address',
+                onchanged: function (currentLocation, radius, isMarkerDropped) {
                     let addressComponents = $(this).locationpicker('map').location.addressComponents;
 
                     if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {
@@ -730,7 +749,7 @@
 
 
             //mascara de la cédula
-            $('.CedulaReceptor').mask('000-000000-0000S', { placeholder: "001-03121995-0005D" });
+            $('.CedulaReceptor').mask('000-000000-0000S', { placeholder: "001-031295-0005D" });
 
            InicializarGrafico();//inicializar la grafica despues que carga la pagina
 

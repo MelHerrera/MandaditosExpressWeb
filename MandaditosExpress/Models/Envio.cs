@@ -12,14 +12,18 @@ namespace MandaditosExpress.Models
         {
             Pagos = new HashSet<Pago>();
             Seguimientos = new HashSet<Seguimiento>();
+            CodigoDeEnvio = "-";
         }
 
         [Key]
         public int Id { get; set; }
 
+        [StringLength(30)]
+        public string CodigoDeEnvio { get; set; }
+
         [StringLength(250)]
         [Required]
-        [Display(Name = "Descripción")]
+        [Display(Name = "Descripción del envío")]
         public string DescripcionDeEnvio { get; set; }
 
         [Required]
@@ -34,7 +38,6 @@ namespace MandaditosExpress.Models
         [Display(Name = "Nombres del receptor")]
         public string NombresDelReceptor { get; set; }
 
-        [Required]
         [Display(Name = "Cédula receptor")]
         public string CedulaDelReceptor { get; set; }
 
@@ -73,7 +76,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "¿El motorizado necesita cambio?")]
         public bool DebeRecibirCambio { get; set; }
 
-        [Display(Name = "¿Estado?")]
+        [Display(Name = "Estado")]
         public short EstadoDelEnvio { get; set; }
 
         public int? MotocicletaId { get; set; }
@@ -82,16 +85,19 @@ namespace MandaditosExpress.Models
 
         public int ClienteId { get; set; }
 
+        [Display(Name = "Motorizado")]
         public int? MotorizadoId { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de pago")]
         public int TipoDePagoId { get; set; }
 
         [Required]
         [Display(Name = "Tipo de servicio")]
         public int TipoDeServicioId { get; set; }
 
-        [Required]
         [Display(Name = "Servicio")]
-        public int ServicioId { get; set; }
+        public int? ServicioId { get; set; }
 
         [Display(Name = "Lugar Origen")]
         public int LugarOrigenId { get; set; }
@@ -102,8 +108,17 @@ namespace MandaditosExpress.Models
         [Display(Name = "Cotización")]
         public int? CotizacionId { get; set; }
 
+        [Display(Name ="Al crédito")]
+        public bool EsAlCredito { get; set; }
+
+        [StringLength(150)]
+        public string MotivoDeRechazo { get; set; }
+
+        public int? CreditoId { get; set; }
+
         public virtual Cotizacion Cotizacion { get; set; }
         public virtual Cliente Cliente { get; set; }
+        public virtual Credito Credito { get; set; }
         public virtual Motocicleta Motocicleta { get; set; }
         public virtual Asistente Asistente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -113,6 +128,8 @@ namespace MandaditosExpress.Models
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual Servicio Servicio { get; set; }
         public virtual TipoDeServicio TipoDeServicio { get; set; }
+
+        public virtual TipoDePago TipoDePago { get; set; }
         public virtual Lugar LugarOrigen { get; set; }
         public virtual Lugar LugarDestino { get; set; }
     }

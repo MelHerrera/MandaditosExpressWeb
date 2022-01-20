@@ -1,0 +1,90 @@
+﻿@model MandaditosExpress.Models.CalidadDeConexion
+
+
+@{
+    ViewBag.Title = "Detalle de la Velocidad de Conexion";
+}
+
+@Styles.Render("~/Plugind/switches")
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Calidad de conexión</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "VelocidadDeConexion")">Calidad de conexión</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Detalles</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<body>
+    <div class="container">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-content align-items-center">
+
+                            <div>
+                                <h4><i class="fa fa-info-circle"></i> Información detallada de la Calidad de Conexión</h4>
+                                <hr />
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Descripcion)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayName("Cant. Motorizados con esta calidad")
+                                    </dt>
+                                    <dd>
+                                        @{
+                                            var motorizados = Model.Motorizados.Count();
+                                        }
+                                        <span class="badge badge-primary"> @motorizados</span>                                     
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Estado)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Estado)
+                                    </dd>
+
+                                </dl>
+                            </div>
+
+                        </div>
+
+                        <div class="ibox-footer">
+                            <div class="col-md-12">
+                                @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+}

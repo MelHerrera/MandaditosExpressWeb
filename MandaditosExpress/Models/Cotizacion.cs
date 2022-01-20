@@ -19,10 +19,14 @@ namespace MandaditosExpress.Models
             //TiposDeServicios = db.TiposDeServicio.ToList();
             var gestion = db.TiposDeServicio.FirstOrDefault(x => x.DescripcionTipoDeServicio.ToUpper().Contains("Banc"));
             GestionBancariaId = gestion != null ? gestion.Id : -1;
+            CodigoDeCotizacion = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [StringLength(30)]
+        public string CodigoDeCotizacion { get; set; }
 
         [StringLength(250)]
         [Required]
@@ -44,8 +48,8 @@ namespace MandaditosExpress.Models
         [Required]
         public decimal MontoTotal { get; set; }
 
-        public int LugarOrigenId { get; set; }
-        public int LugarDestinoId { get; set; }
+        public int? LugarOrigenId { get; set; }
+        public int? LugarDestinoId { get; set; }
 
         public int ClienteId { get; set; }
 
@@ -55,7 +59,7 @@ namespace MandaditosExpress.Models
 
         public decimal MontoDeDinero { get; set; }
 
-        public int GestionBancariaId { get; set; }
+        public int GestionBancariaId { get; set; }//este campo tan solo es usado para almacenar el id del tipo de servicio que es gestion bancaria
 
         public virtual Cliente Cliente { get; set; }
         public virtual Lugar LugarOrigen { get; set; }

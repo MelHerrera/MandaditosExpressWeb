@@ -48,7 +48,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="Password"><i class="fa fa-key"></i></label>
-                                            <input type="password" name="Password" id="your_pass" placeholder="Contrasña" />
+                                            <input type="password" name="Password" id="your_pass" placeholder="Contrasña" data-bind="toggleValue: $root.TogglePassword"/>
                                         </div>
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
@@ -60,15 +60,18 @@
                                 </div>
 
                                 <div class="form-group form-button">
-                                    <button type="submit" class="btn btn-success"> Iniciar Sesión </button>
+                                    <button type="submit" class="btn btn-success col-sm-6"> Iniciar Sesión </button>
                                     <a href="@Url.Action("ForgotPassword","Account")" class="signup-image-link" style="text-decoration:underline;">¿Ha olvidado su contraseña?</a>
                                 </div>
                             }
                         </div>
-                        <div class="signin-image">
+                        <div class="signin-image align-items-center">
                             @*<figure><img src="~/Images/signin-image.jpg" alt="sing up image"></figure>*@
                             <figure><img src="~/Images/Login.png" alt="sing up image"></figure>
-                            <a href="@Url.Action("Create","Clientes")" class="signup-image-link" target="_blank" style="text-decoration:underline;">Crear una Cuenta</a>
+
+                            <div class="row justify-content-center">
+                                <a href="@Url.Action("Create","Clientes")" class="signup-image-link btn btn-success text-white col-sm-4" target="_blank" style="text-decoration:none;">Crear Cuenta</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,5 +80,21 @@
     </div>
 </body>
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/plugins/knockout")
+<script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
+
+<script type="text/javascript">
+
+    function IndexLogin() {
+        const self = this;
+
+        self.TogglePassword = ko.observable(false);
+    }
+
+    $(function () {
+        let vm = new IndexLogin();
+        ko.applyBindings(vm);
+    });
+</script>

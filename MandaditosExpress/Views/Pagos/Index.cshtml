@@ -1,0 +1,145 @@
+﻿@model IEnumerable<MandaditosExpress.Models.ViewModels.IndexPagoViewModel>
+
+@{
+    ViewBag.Title = "Pagos";
+    var Creditos = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", Creditos);
+}
+
+
+@Styles.Render("~/Plugin/switches")
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Pagos</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row col-lg-12">
+                            <p>
+                                <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                            </p>
+                        </div>
+                    }
+
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NumeroDePago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDePago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MontoDelPago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MonedaDescripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Cambio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TipoDePagoDescripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ConceptoDelPago)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreditoCodigo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EnvioCodigo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ClienteNombres)
+                                    </th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+
+                            @foreach (var item in Model)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumeroDePago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaDePago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MontoDelPago)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MonedaDescripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cambio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TipoDePagoDescripcion)
+                                        </td>
+                                        <td>
+                                            <span class="@item.ConceptoDelPagoClass">
+                                                @Html.DisplayFor(modelItem => item.ConceptoDelPago)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreditoCodigo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EnvioCodigo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClienteNombres)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm" href="@Url.Action("Details", new { id= item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            Se encontraron 0 pagos  para mostrar.
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>
+                                <span>para agregar uno.</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
+}

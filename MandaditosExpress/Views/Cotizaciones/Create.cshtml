@@ -9,6 +9,10 @@
     .pac-container {
         z-index: 99999;
     }
+
+    .swal2-container {
+        z-index: 2051
+    }
 </style>
 
 @if (!Request.IsAuthenticated)
@@ -50,7 +54,7 @@ else
                                         </div>
                                         <div class="col-auto">
                                             @*@Html.DropDownList("TipoDeServicioId", null, htmlAttributes: new { @class = "form-control" })*@
-                                            <select class="form-control" name="TipoDeServicioId" data-bind="options: TiposDeServicios, optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
+                                            <select class="form-control" name="TipoDeServicioId" data-bind="options:( ko.unwrap(TiposDeServicios()).length > 0 ? TiposDeServicios : [{ DescripcionTipoDeServicio: '-- Sin Registros --'}]), optionsText: 'DescripcionTipoDeServicio', optionsValue: 'Id',value:TipoDeServicioId"></select>
                                             @Html.ValidationMessageFor(model => model.TipoDeServicioId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -102,10 +106,10 @@ else
                                         <input type="text" class="LugarDestinoLongitud" name="LugarDestino.Longitud" hidden />
                                     </div>
 
-                                    <div class="form-check">
+                                    <div class="form-check" data-toggle="tooltip" data-placement="bottom" title="Indica si el envío que se esta cotizando es urgente">
                                         <input class="form-check-input" type="checkbox" id="EsEspecial" value="true" name="EsEspecial" data-bind="checked:EsEspecial">
                                         <label class="form-check-label" for="EsEspecial">
-                                            ¿Es Especial?
+                                            Urgente
                                         </label>
                                         @Html.ValidationMessageFor(model => model.EsEspecial, "", new { @class = "text-danger" })
                                     </div>
@@ -126,8 +130,18 @@ else
                                     <h5 class="badge badge-danger text-white align-self-end p-1 m-2" style="position:absolute">Validez: @Model.FechaDeValidez</h5>
                                     <img class="card-img-top border-bottom" src="~/Images/card-header.jpg" alt="Card image cap">
                                     <div class="card-body">
-                                        <h5 class="card-title font-weight-bold p-2">Monto Total</h5>
-
+                                        <div class="row">
+                                            <div class="col-sm-6 m-0 p-0">
+                                                <h5 class="card-title font-weight-bold p-2">Monto Total</h5>
+                                            </div>
+                                            <!--ko if:$root.MostrarOpciones-->
+                                            <div class="col-sm-6 m-0 p-0">
+                                                <a target="_blank" data-bind="attr:{ href: '@Url.Action("ImprimirCotizacion","Informes")' }, click:$root.Imprimir" class="btn btn-success btn-sm mb-2 float-right">
+                                                <i class="fa fa-print"></i> Imprimir
+                                                </a>
+                                            </div>
+                                            <!--/ko-->
+                                        </div>
                                         <div class="row no-margins no-padding">
                                             <div class="col-6 align-items-center"><span id="sparkline" class="m-0"></span></div>
                                             <div class="col-6 align-items-center">
@@ -203,7 +217,6 @@ else
         @Scripts.Render("~/plugins/sweetalert")
         @Scripts.Render("~/plugins/notify")
 
-
         <script type="text/javascript">
 
     $("#myModal").on('shown.bs.modal', function () {
@@ -260,8 +273,8 @@ else
                         self.EnableBtnCotizar = ko.observable(true);
 
                         self.CalcularDistancia = ko.computed(function () {
-                            if (self.Cotizacion().LugarOrigen().Latitud() != "" && self.Cotizacion().LugarOrigen().Longitud() != "" &&
-                                self.Cotizacion().LugarDestino().Latitud() != "" && self.Cotizacion().LugarDestino().Longitud() != "") {
+                            if (self.Cotizacion().LugarOrigen().Latitud() && self.Cotizacion().LugarOrigen().Longitud() &&
+                                self.Cotizacion().LugarDestino().Latitud() && self.Cotizacion().LugarDestino().Longitud() ) {
 
                                 let origen = new google.maps.LatLng(self.Cotizacion().LugarOrigen().Latitud(), self.Cotizacion().LugarOrigen().Longitud());
                                 let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());
@@ -269,6 +282,19 @@ else
                                 CalcularDistancia(origen, destino);
                             }
                         });
+
+                        self.Imprimir = function (data, event) {
+                            if (self.Cotizacion()) {
+                                let url = $(event.currentTarget).attr("href");
+                                url += "?TipoDeServicioId=" + self.Cotizacion().TipoDeServicioId() + "&Descripcion=" + self.Cotizacion().DescripcionDeCotizacion() +
+                                    "&MontoDeDinero=" + self.Cotizacion().MontoDeDinero() + "&Origen=" + self.Cotizacion().LugarOrigen().Direccion() +
+                                    "&Destino=" + self.Cotizacion().LugarDestino().Direccion() + "&Distancia=" + self.Cotizacion().DistanciaOrigenDestino() +
+                                    "&Urgente=" + self.Cotizacion().EsEspecial() + "&Fecha=" + self.Cotizacion().FechaDeLaCotizacion() + "&FechaDeValidez=" +
+                                    self.Cotizacion().FechaDeValidez() + "&Monto=" + self.Cotizacion().MontoTotal();
+
+                                window.open(url, "_blank");
+                            }
+                        }
 
                         self.RealizarEnvio = function () {
                          let frm = $('form');
@@ -400,8 +426,7 @@ else
                                                 if (result.havemodelerror) {
                                                     Swal.fire({
                                                         icon: 'error',
-                                                        text: result.error,
-                                                        footer: 'Consulta con el administrador del sistema.'
+                                                        text: result.error
                                                     })
                                                 }
 
@@ -513,7 +538,9 @@ else
                                     latitudeInput: $("#MapAddresLatitud"),
                                     longitudeInput: $("#MapAddresLongitud"),
                                     locationNameInput: $("#MapAdressBox")
-                                }, onchanged: function (currentLocation, radius, isMarkerDropped) {
+                                },
+                                addressFormat: 'street_address',
+                                onchanged: function (currentLocation, radius, isMarkerDropped) {
                                     var addressComponents = $(this).locationpicker('map').location.addressComponents;
                                     if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN') {//cuando sea invalida
                                         //Limpiar direccion, latitud y longitud en el modal
@@ -523,7 +550,7 @@ else
 
                                         Swal.fire({
                                             icon: 'error',
-                                            title: 'Oops... Disculpanos :(',
+                                            title: 'Oops... Disculpanos!',
                                             text: 'Actualmente, no hacemos envios al lugar seleccionado. Para mayor información Contacte con Atención al Cliente',
                                         })
                                     }
@@ -673,10 +700,9 @@ else
                     self.DireccionId = ko.observable("");
                     self.EnableBtnCotizar = ko.observable(true);
 
-                    self.CalcularDistancia = ko.computed(function() {
-                        if (self.Cotizacion().LugarOrigen().Latitud() != "" && self.Cotizacion().LugarOrigen().Longitud() != "" &&
-                            self.Cotizacion().LugarDestino().Latitud() != "" && self.Cotizacion().LugarDestino().Longitud() != "")
-                        {
+                    self.CalcularDistancia = ko.computed(function () {
+                        if (self.Cotizacion().LugarOrigen().Latitud() && self.Cotizacion().LugarOrigen().Longitud() &&
+                            self.Cotizacion().LugarDestino().Latitud() && self.Cotizacion().LugarDestino().Longitud()) {
 
                             let origen = new google.maps.LatLng(self.Cotizacion().LugarOrigen().Latitud(), self.Cotizacion().LugarOrigen().Longitud());
                             let destino = new google.maps.LatLng(self.Cotizacion().LugarDestino().Latitud(), self.Cotizacion().LugarDestino().Longitud());
@@ -684,6 +710,18 @@ else
                             CalcularDistancia(origen, destino);
                         }
                     });
+                    self.Imprimir = function (data, event) {
+                        if (self.Cotizacion()) {
+                            let url = $(event.currentTarget).attr("href");
+                            url += "?TipoDeServicioId=" + self.Cotizacion().TipoDeServicioId() + "&Descripcion=" + self.Cotizacion().DescripcionDeCotizacion() +
+                                "&MontoDeDinero=" + self.Cotizacion().MontoDeDinero() + "&Origen=" + self.Cotizacion().LugarOrigen().Direccion() +
+                                "&Destino=" + self.Cotizacion().LugarDestino().Direccion() + "&Distancia=" + self.Cotizacion().DistanciaOrigenDestino() +
+                                "&Urgente=" + self.Cotizacion().EsEspecial() + "&Fecha=" + self.Cotizacion().FechaDeLaCotizacion() + "&FechaDeValidez=" +
+                                self.Cotizacion().FechaDeValidez() + "&Monto=" + self.Cotizacion().MontoTotal();
+
+                            window.open(url, "_blank");
+                        }
+                    }
 
                 self.RealizarEnvio = function() {
                     let frm = $('form');
@@ -722,7 +760,7 @@ else
                             },
                                             error: function(e) {
                                                 $.notify({
-                                icon: 'fa fa-exclamation-circle',
+                                                    icon: 'fa fa-exclamation-circle',
                                                     message: "Ha ocurrido un error procesando tu solicitud!"
                                                 });
                             }
@@ -767,7 +805,7 @@ else
                             },
                                             error: function(e) {
                                                 $.notify({
-                                icon: 'fa fa-exclamation-circle',
+                                                    icon: 'fa fa-exclamation-circle',
                                                     message: "Ha ocurrido un error procesando tu solicitud!"
                                                 });
                             }
@@ -901,7 +939,7 @@ else
                             self.Cotizacion().MontoTotal(result.data.MontoTotal);
                             InicializarGrafico();
                                                     $.notify({
-                            icon: 'fa fa-check-circle',
+                                                        icon: 'fa fa-check-circle',
                                                         message: "Cotizacion Realizada Exitosamente"
                                                     });
                         }
@@ -922,12 +960,10 @@ else
                             {
                                 Swal.fire({
                                 icon: 'error',
-                                                            title: 'Oops...',
-                                                            text: result.error,
-                                                            footer: 'Consulta con el administrador del sistema.'
-                                                        })
-                                                    }
-
+                                title: 'Oops...',
+                                    text: result.error
+                                })
+                            }
                         }
                     },
                                             error: function(e) {
@@ -1029,18 +1065,19 @@ function CalcularDistancia(origen, destino)
                             }
 
                             //cargar el mapa
-                            function CargarMapa()
-{
-                                $("#ModalMap").locationpicker({
-        radius: 0,
-                                    location: { latitude: 12.128145869138876, longitude: -86.26501267501537 },
-                                    enableAutocomplete: true,
-                                    inputBinding:
-            {
-            latitudeInput: $("#MapAddresLatitud"),
-                                        longitudeInput: $("#MapAddresLongitud"),
-                                        locationNameInput: $("#MapAdressBox")
-                                    }, onchanged: function(currentLocation, radius, isMarkerDropped) {
+                    function CargarMapa() {
+                        $("#ModalMap").locationpicker({
+                            radius: 0,
+                            location: { latitude: 12.128145869138876, longitude: -86.26501267501537 },
+                            enableAutocomplete: true,
+                            inputBinding:
+                            {
+                                latitudeInput: $("#MapAddresLatitud"),
+                                longitudeInput: $("#MapAddresLongitud"),
+                                locationNameInput: $("#MapAdressBox")
+                            },
+                            addressFormat: 'street_address',
+                            onchanged: function (currentLocation, radius, isMarkerDropped) {
                 var addressComponents = $(this).locationpicker('map').location.addressComponents;
                 if (addressComponents.country != 'NI' || addressComponents.stateOrProvince != 'MN')
                 {//cuando sea invalida
@@ -1051,7 +1088,7 @@ function CalcularDistancia(origen, destino)
 
                     Swal.fire({
                     icon: 'error',
-                                                title: 'Oops... Disculpanos :(',
+                                                title: 'Oops... Disculpanos!',
                                                 text: 'Actualmente, no hacemos envios al lugar seleccionado. Para mayor información Contacte con Atención al Cliente',
                                             })
                                         }

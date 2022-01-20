@@ -2,7 +2,7 @@
 {
     public enum EstadoDeMotorizadoEnum
     {
-        Inactivo = 0,
+        Inactivo = -1,
         Activo = 1,
         Ocupado = 2,
     }

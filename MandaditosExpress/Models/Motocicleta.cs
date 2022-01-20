@@ -11,10 +11,13 @@ namespace MandaditosExpress.Models
         public Motocicleta()
         {
             this.Envios = new HashSet<Envio>();
+            Color = "#3399FF";
+            FechaDeValidez = DateTime.Parse("01/01/1900 00:00:00");
         }
 
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Placa { get; set; }
 
@@ -26,9 +29,11 @@ namespace MandaditosExpress.Models
         public string Modelo { get; set; }
 
         [Required(ErrorMessage = "El campo Año es obligatorio.")]
+        [Display(Name ="Año")]
         public int Anio { get; set; }
 
         [Required]
+        [Display(Name ="Propia")]
         public bool EsPropia { get; set; }
 
         [Required]
@@ -36,7 +41,10 @@ namespace MandaditosExpress.Models
         public DateTime FechaDeIngreso { get; set; }
 
         [Required]
+        [Display(Name = "Temporal")]
         public bool EsTemporal { get; set; }
+
+        [Display(Name = "Fecha De Validez")]
         public DateTime FechaDeValidez { get; set; }
         public int MotorizadoId { get; set; }
         public bool EstadoDeMotocicleta { get; set; }

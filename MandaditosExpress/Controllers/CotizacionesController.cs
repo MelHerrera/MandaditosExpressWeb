@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -6,12 +7,13 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Cliente, Asistente")]
     public class CotizacionesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -28,35 +30,46 @@ namespace MandaditosExpress.Controllers
         // GET: Cotizaciones
         public ActionResult Index()
         {
-            var cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now); ;
+            var cotizaciones = new List<Cotizacion>();
+            var UserName = Request.GetOwinContext().Authentication.User.Identity.Name;
+            var PersonaActual = new Utileria().BuscarPersonaPorUsuario(UserName);
 
             //Validacion por si ya viene una cotizacion desde la autenticacion
             var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
 
-            if (cotizacion != null)
+            //guardar una cotizacion requiere el clienteId de esa cotizacion, por lo que es el unico rol que puede guardar cotizaciones
+            if (User.IsInRole("Cliente"))
             {
-                var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-
-                var mCotiza = new Cotizacion
+                if (cotizacion != null)
                 {
-                    DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                    FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                    FechaDeValidez = cotizacion.FechaDeValidez,
-                    LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                    LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
-                    DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                    EsEspecial = cotizacion.EsEspecial,
-                    MontoTotal = cotizacion.MontoTotal,
-                    ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                    TipoDeServicioId = cotizacion.TipoDeServicioId,
-                    MontoDeDinero = cotizacion.MontoDeDinero
-                };
+                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
-                db.Cotizaciones.Add(mCotiza);
-                db.SaveChanges();
+                    var mCotiza = new Cotizacion
+                    {
+                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                        FechaDeValidez = cotizacion.FechaDeValidez,
+                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
+                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                        EsEspecial = cotizacion.EsEspecial,
+                        MontoTotal = cotizacion.MontoTotal,
+                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                        TipoDeServicioId = cotizacion.TipoDeServicioId,
+                        MontoDeDinero = cotizacion.MontoDeDinero
+                    };
+
+                    db.Cotizaciones.Add(mCotiza);
+                    db.SaveChanges();
+                }
             }
 
-            return View(cotizaciones.ToList());
+            if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).ToList();
+            if (User.IsInRole("Cliente"))
+                cotizaciones = db.Cotizaciones.Include(c => c.Cliente).Include(c => c.TipoDeServicio).Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId == PersonaActual.Id).ToList();
+
+            return View(_mapper.Map<ICollection<IndexCotizacionViewModel>>(cotizaciones.ToList()));
         }
 
         // GET: Cotizaciones/Details/5
@@ -86,6 +99,7 @@ namespace MandaditosExpress.Controllers
             ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
 
             mCotizacionViewModel.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
+            mCotizacionViewModel.TiposDeServicios = _mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio.ToList()).ToList();
 
             return View(mCotizacionViewModel);
         }
@@ -98,79 +112,95 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Create(CotizacionViewModel cotizacion)
         {
-            var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-            var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
-
-            ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
-            ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
-            ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
-
-            var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(cotizacion.TipoDeServicioId, cotizacion.DistanciaOrigenDestino, cotizacion.MontoDeDinero, cotizacion.FechaDeLaCotizacion);
-
-            if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
-                return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
-
-            var ValidarVigenciaCostoAsociado = CostoServices.ValidarVigenciaCostos(cotizacion.TipoDeServicioId, cotizacion.FechaDeLaCotizacion, cotizacion.MontoDeDinero);
-
-            if (ValidarVigenciaCostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
-                return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
-
-            if (ModelState.IsValid)
+            try
             {
-                var CostoTotal = 0.0M;
-                //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
-                var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
+                var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                var CurrentCliente = db.Clientes.FirstOrDefault(c => c.CorreoElectronico == CurrentUser);
 
-                if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0)
+                ViewBag.Cliente = CurrentCliente != null ? CurrentCliente.PrimerNombre : "";
+                ViewBag.ClienteId = CurrentCliente != null ? CurrentCliente.Id : -1;
+                ViewBag.TipoDeServicioId = new SelectList(db.TiposDeServicio, "Id", "DescripcionTipoDeServicio");
+
+                var InvalidMessage = CotizacionServices.ValidarDatosCotizacion(cotizacion.TipoDeServicioId, cotizacion.DistanciaOrigenDestino, cotizacion.MontoDeDinero, cotizacion.FechaDeLaCotizacion);
+
+                if (!string.IsNullOrEmpty(InvalidMessage))//si hay algun mensaje de error devolverlo
+                    return Json(new { message = InvalidMessage, exito = false }, JsonRequestBehavior.AllowGet);
+
+                var ValidarVigenciaCostoAsociado = CostoServices.ValidarVigenciaCostos(cotizacion.TipoDeServicioId, cotizacion.FechaDeLaCotizacion, cotizacion.MontoDeDinero);
+
+                if (ValidarVigenciaCostoAsociado == null)//si hasta este punto sigue sin encontrarse un costo vigente asociado significa que no hay un costo para el tipo de servicio pasado como parametros
+                    return Json(new { message = "No se encontró ningun costo vigente asociado al tipo de servicio seleccionado, para mayor información contactese con atención al cliente", exito = false }, JsonRequestBehavior.AllowGet);
+
+                if (ModelState.IsValid)
                 {
-                    if (cotizacion.DistanciaOrigenDestino > 0)
-                    {
-                        CostoTotal = (decimal)(CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
-                                           ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
+                    var CostoTotal = 0.0M;
+                    //obtener el costo asociado al tipo de servicio pero que este activo y en vigencia.
+                    var CostoAsociado = db.Costos.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.EstadoDelCosto && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
 
-                        if (cotizacion.EsEspecial)
-                            CostoTotal += (decimal)CostoAsociado.PrecioDeRecargo;
+                    if (CostoAsociado != null && cotizacion.MontoDeDinero <= 0)
+                    {
+                        if (cotizacion.DistanciaOrigenDestino > 0)
+                        {
+                            CostoTotal = (decimal)(CostoAsociado.CostoDeAsistencia + CostoAsociado.CostoDeGasolina + CostoAsociado.CostoDeMotorizado +
+                                               ((CostoAsociado.DistanciaBase + cotizacion.DistanciaOrigenDestino) * CostoAsociado.PrecioPorKm));
+
+                            if (cotizacion.EsEspecial)
+                                CostoTotal += (decimal)CostoAsociado.PrecioDeRecargo;
+                        }
+                        else
+                            return Json(new { message = "La distancia a cotizar debe ser mayor a 0", exito = false }, JsonRequestBehavior.AllowGet);
                     }
                     else
-                        return Json(new { message = "La distancia a cotizar debe ser mayor a 0", exito = false }, JsonRequestBehavior.AllowGet);
+                    {
+                        if (cotizacion.MontoDeDinero >= Utilidades.MinGestionBancaria && cotizacion.MontoDeDinero <= Utilidades.MaxGestionBancaria)//el negocio actualmente solo realiza gestiones bancarias en este rango
+                        {
+                            var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
+
+                            if (CostoGestion != null)
+                            {
+                                var CostoPorcentaje = (from cb in db.CostoGestionBancaria
+                                                       where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
+                                                       cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
+                                                       cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
+                                                       cotizacion.MontoDeDinero >= cb.MontoDesde &&
+                                                       cotizacion.MontoDeDinero <= cb.MontoHasta
+                                                       select cb);
+
+                                //se cobra un porcentaje o un valor directamente si asi se definio en el costo
+                                var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
+
+                                if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
+                                    CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
+                                else
+                                {
+                                   var valor = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Valor : 0;
+
+                                    if (valor > 0 && cotizacion.MontoDeDinero > 0)
+                                        CostoTotal = valor;
+                                }
+
+                                if (cotizacion.EsEspecial)
+                                    CostoTotal += (decimal)(CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().PrecioDeRecargo : 0.0f);
+                            }
+                        }
+                        else
+                            return Json(new { message = string.Format("Actualmente el negocio solo realiza gestiones bancarias con montos de {0} a {1}, para una cantidad diferente contactese con atención al cliente", Utilidades.MinGestionBancaria, Utilidades.MaxGestionBancaria), exito = false }, JsonRequestBehavior.AllowGet);
+
+                    };
+
+                    cotizacion.MontoTotal = CostoTotal;
+
+                    return Json(new { exito = true, data = cotizacion });
                 }
                 else
                 {
-                    if (cotizacion.MontoDeDinero >= Utilidades.MinGestionBancaria && cotizacion.MontoDeDinero <= Utilidades.MaxGestionBancaria)//el negocio actualmente solo realiza gestiones bancarias en este rango
-                    {
-                        var CostoGestion = db.CostoGestionBancaria.DefaultIfEmpty(null).FirstOrDefault(x => (x.TipoDeServicioId == cotizacion.TipoDeServicioId && x.Estado && x.FechaDeFin > cotizacion.FechaDeLaCotizacion));
-
-                        if (CostoGestion != null)
-                        {
-                            var CostoPorcentaje = (from cb in db.CostoGestionBancaria
-                                                   where cb.TipoDeServicioId == cotizacion.TipoDeServicioId &&
-                                                   cb.Estado && cb.FechaDeInicio < cotizacion.FechaDeLaCotizacion &&
-                                                   cb.FechaDeFin > cotizacion.FechaDeLaCotizacion &&
-                                                   cotizacion.MontoDeDinero >= cb.MontoDesde &&
-                                                   cotizacion.MontoDeDinero <= cb.MontoHasta
-                                                   select cb);
-                            var Porcentaje = CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().Porcentaje : 0;
-
-                            if (Porcentaje > 0 && cotizacion.MontoDeDinero > 0)
-                                CostoTotal = cotizacion.MontoDeDinero * ((decimal)(Porcentaje / 100));
-
-                            if (cotizacion.EsEspecial)
-                                CostoTotal += (decimal)(CostoPorcentaje.Count() > 0 ? CostoPorcentaje.First().PrecioDeRecargo : 0.0f);
-                        }
-                    }
-                    else
-                        return Json(new { message = string.Format("Actualmente el negocio solo realiza gestiones bancarias con montos de {0} a {1}, para una cantidad diferente contactese con atención al cliente", Utilidades.MinGestionBancaria, Utilidades.MaxGestionBancaria), exito = false }, JsonRequestBehavior.AllowGet);
-
-                };
-
-                cotizacion.MontoTotal = CostoTotal;
-
-                return Json(new { exito = true, data = cotizacion });
+                    var ModelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList().Select(y => y.ErrorMessage);
+                    return Json(new { exito = false, data = cotizacion, havemodelerror = true, error = ModelErrors });
+                }
             }
-            else
+            catch (Exception)
             {
-                var ModelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList().Select(y => y.ErrorMessage);
-                return Json(new { exito = false, data = cotizacion, havemodelerror = true, error = ModelErrors });
+                return Json(new { message = "Ha ocurrido un error procesando su solicitud", exito = false }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -182,33 +212,39 @@ namespace MandaditosExpress.Controllers
         [AllowAnonymous]
         public ActionResult Guardar(CotizacionViewModel cotizacion)
         {
-            if (Request.IsAuthenticated)
+            if (Request.IsAuthenticated )//una cotizacion necesita de un clienteId por lo que solo el rol cliente puede guardar
             {
-                if (ModelState.IsValid)
+                if (User.IsInRole("Cliente"))
                 {
-
-                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-
-
-                    var mCotiza = new Cotizacion
+                    if (ModelState.IsValid)
                     {
-                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                        FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
-                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                        EsEspecial = cotizacion.EsEspecial,
-                        MontoTotal = cotizacion.MontoTotal,
-                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                        TipoDeServicioId = cotizacion.TipoDeServicioId,
-                        MontoDeDinero = cotizacion.MontoDeDinero
-                    };
 
-                    db.Cotizaciones.Add(mCotiza);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                        var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
+                        var mCotiza = new Cotizacion();
+
+                        if (cotizacion.DistanciaOrigenDestino > 0)
+                        {
+                            mCotiza.LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen);
+                            mCotiza.LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino);
+                        }
+
+                        mCotiza.DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion;
+                        mCotiza.FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion;
+                        mCotiza.FechaDeValidez = cotizacion.FechaDeValidez;
+                        mCotiza.DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino;
+                        mCotiza.EsEspecial = cotizacion.EsEspecial;
+                        mCotiza.MontoTotal = cotizacion.MontoTotal;
+                        mCotiza.ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1;
+                        mCotiza.TipoDeServicioId = cotizacion.TipoDeServicioId;
+                        mCotiza.MontoDeDinero = cotizacion.MontoDeDinero; 
+
+                        db.Cotizaciones.Add(mCotiza);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 }
+                else
+                    ModelState.AddModelError("", "No se puede guardar una cotización con su cuenta de usuario actual");
             }
             else
             {
@@ -216,7 +252,7 @@ namespace MandaditosExpress.Controllers
                 TempData["Cotizacion"] = cotizacion;
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Cotizaciones/Index" });
             }
-            return View(cotizacion);
+            return View("Create",cotizacion);
         }
 
         // GET: Cotizaciones/RealizarEnvio
@@ -225,7 +261,7 @@ namespace MandaditosExpress.Controllers
         [HttpGet]
         public ActionResult RealizarEnvioConfirmed()
         {
-            if (Request.IsAuthenticated)
+            if (Request.IsAuthenticated && User.IsInRole("Cliente"))
             {
                 //Validacion por si ya viene una cotizacion desde la autenticacion
                 var cotizacion = TempData.ContainsKey("Cotizacion") ? (CotizacionViewModel)TempData["Cotizacion"] : null;
@@ -251,10 +287,13 @@ namespace MandaditosExpress.Controllers
 
                     db.Cotizaciones.Add(mCotiza);
                     db.SaveChanges();
-                    return RedirectToAction("Create", "Envios", new { CotizacionId  = mCotiza.Id});
+                    return RedirectToAction("Create", "Envios", new { CotizacionId = mCotiza.Id });
                     //return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
                 }
             }
+            else
+                return Json(new { exito = false, message = "Ha ocurrido un error. Solo clientes pueden realizar la solicitud de envios!" }, JsonRequestBehavior.AllowGet);
+
             return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -268,29 +307,35 @@ namespace MandaditosExpress.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                if (ModelState.IsValid)
+                if (User.IsInRole("Cliente"))
                 {
-                    var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
-
-                    var mCotiza = new Cotizacion
+                    if (ModelState.IsValid)
                     {
-                        DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
-                        FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
-                        FechaDeValidez = cotizacion.FechaDeValidez,
-                        LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
-                        LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
-                        DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
-                        EsEspecial = cotizacion.EsEspecial,
-                        MontoTotal = cotizacion.MontoTotal,
-                        ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
-                        TipoDeServicioId = cotizacion.TipoDeServicioId,
-                        MontoDeDinero = cotizacion.MontoDeDinero
-                    };
+                        var CurrentUser = Request.GetOwinContext().Authentication.User.Identity.Name;
 
-                    db.Cotizaciones.Add(mCotiza);
-                    db.SaveChanges();
-                    return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                        var mCotiza = new Cotizacion
+                        {
+                            DescripcionDeCotizacion = cotizacion.DescripcionDeCotizacion,
+                            FechaDeLaCotizacion = cotizacion.FechaDeLaCotizacion,
+                            FechaDeValidez = cotizacion.FechaDeValidez,
+                            LugarOrigen = _mapper.Map<Lugar>(cotizacion.LugarOrigen),
+                            LugarDestino = _mapper.Map<Lugar>(cotizacion.LugarDestino),
+                            DistanciaOrigenDestino = cotizacion.DistanciaOrigenDestino,
+                            EsEspecial = cotizacion.EsEspecial,
+                            MontoTotal = cotizacion.MontoTotal,
+                            ClienteId = cotizacion.ClienteId > 0 ? cotizacion.ClienteId : GetCurrentCliente(CurrentUser) != null ? GetCurrentCliente(CurrentUser).Id : -1,
+                            TipoDeServicioId = cotizacion.TipoDeServicioId,
+                            MontoDeDinero = cotizacion.MontoDeDinero
+                        };
+
+                        db.Cotizaciones.Add(mCotiza);
+                        db.SaveChanges();
+                        return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
+                    }
                 }
+                else
+                    return Json(new { exito = false, message = "Ha ocurrido un error. Solo clientes pueden realizar la solicitud de envios!" }, JsonRequestBehavior.AllowGet);
+
             }
             else
             {
@@ -302,15 +347,8 @@ namespace MandaditosExpress.Controllers
             return Json(new { exito = false, message = "Ha ocurrido un error procesando la solicitud del envio!" }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Save(CotizacionViewModel cotizacion)
-        {
-            return Json("Succesfull");
-        }
-
-
         // GET: Cotizaciones/Edit/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -332,6 +370,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,DescripcionDeCotizacion,FechaDeLaCotizacion,FechaDeValidez,DireccionDeEntrega,DireccionDeRecepcion,DistanciaEntregaRecep,MontoDeDinero,EsEspecial,PrecioDeRecargo,GestionId,MontoTotal,ClienteId,ServicioId,TipoDeServicioId")] Cotizacion cotizacion)
         {
             if (ModelState.IsValid)
@@ -346,6 +385,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Cotizaciones/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -363,6 +403,7 @@ namespace MandaditosExpress.Controllers
         // POST: Cotizaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Cotizacion cotizacion = db.Cotizaciones.Find(id);

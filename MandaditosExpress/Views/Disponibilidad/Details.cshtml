@@ -1,42 +1,94 @@
 ﻿@model MandaditosExpress.Models.Disponibilidad
 
+
 @{
-    Layout = null;
+    ViewBag.Title = "Detalles Disponibilidad";
 }
 
-<!DOCTYPE html>
+@section Styles{
+    @Styles.Render("~/Plugin/switches")
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Disponibilidad</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.EstadoDeLaDisponibilidad)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.EstadoDeLaDisponibilidad)
-            </dd>
-    
-        </dl>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Disponibilidad</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index")">Disponibilidad</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Detalles</strong>
+            </li>
+        </ol>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+</div>
+
+
+<div class="container">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox ">
+                    <div class="ibox-content align-items-center">
+                        <div class="form-horizontal">
+                            <h4><i class="fa fa-info-circle"></i>  Informacion detallada de disponibilidad.</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @disabled = "disable" } })
+                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <dt>
+                                        @Html.DisplayName("Cant. Motorizados en esta disponibilidad")
+                                    </dt>
+                                    <dd>
+                                        @{
+                                            var motorizados = Model.Motorizados.Count();
+                                        }
+                                        <span class="badge badge-primary"> @motorizados</span>                                     
+                                    </dd>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EstadoDeLaDisponibilidad, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="switchbutton" data-size="sm" value="true" data-onstyle="info" name="EstadoDeLaDisponibilidad" disabled checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ibox-footer">
+                            <div>
+                                @Html.ActionLink("  Regresar ", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+}

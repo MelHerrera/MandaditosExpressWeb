@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MandaditosExpress.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MandaditosExpress.Controllers
 {
@@ -72,10 +74,10 @@ namespace MandaditosExpress.Controllers
             {
                 return View(model);
             }
-
+ 
             var UserInDb = UserManager.FindByEmail(model.Email);
 
-            if (UserInDb != null )
+            if (UserInDb != null)
             {
                 if (UserInDb.EmailConfirmed)
                 {
@@ -97,7 +99,7 @@ namespace MandaditosExpress.Controllers
                     }
                 }
                 else
-                    ModelState.AddModelError("", "Debes confirmar tu correo electronico primero, revisa la bandeja de entrada de tu correo");               
+                    ModelState.AddModelError("", "Debes confirmar tu correo electronico primero, revisa la bandeja de entrada de tu correo");
             }
             else
                 ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
@@ -265,11 +267,13 @@ namespace MandaditosExpress.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
+
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
             {
-                // No revelar que el usuario no existe
+                // No revelar que el usuario no existe o que no está confirmado
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
@@ -420,6 +424,69 @@ namespace MandaditosExpress.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public ActionResult GetRoles()
+        {
+            var SecurityDB = new ApplicationDbContext();
+            var roles = SecurityDB.Roles.ToList();
+
+            ViewBag.Roles = JsonConvert.SerializeObject(roles);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreateRol(string Name)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var AdmRoles = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            if (!AdmRoles.RoleExists(Name.TrimStart().TrimEnd()))
+            {
+                IdentityRole Rol = new IdentityRole();
+                Rol.Name = Name.TrimStart().TrimEnd();
+
+                var result = AdmRoles.Create(Rol);
+
+                if (result.Succeeded)
+                    return Json(new { exito = true, message = "Se creo el rol exitosamente" }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { exito = false, message = "No se ha podido guardar el rol" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { exito = false, message = "El rol que intenta crear ya existe en el sistema" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteRol(string Id)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var AdmRoles = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var Role = AdmRoles.FindById(Id);
+
+            if (Role != null)
+            {
+                if(Role.Users.Count > 0 )
+                    return Json(new { exito = false, message = "No se puede eliminar el rol, porque tiene usuarios asociados" }, JsonRequestBehavior.AllowGet);
+                
+                var result = AdmRoles.Delete(Role);
+
+                if (result.Succeeded)
+                    return Json(new { exito = true, message = "Se eliminó el rol exitosamente" }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { exito = false, message = string.Join(" | ", result.Errors.ToList()) }, JsonRequestBehavior.AllowGet);
+            }
+
+
+            return Json(new { exito = false, message = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

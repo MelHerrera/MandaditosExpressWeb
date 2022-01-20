@@ -1,0 +1,19 @@
+<template id="disponibilidad-modal-template">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Descripcion" class="control-label">Descripcion</label>
+                <input type="text" data-bind="value:Descripcion" name="Descripcion" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                <label for="EstadoDeLaDisponibilidad" class="control-label">Estado</label>
+                <input type="checkbox" data-bind="checked: EstadoDeLaDisponibilidad, bsSwitchButton: {}" data-toggle="switchbutton" data-onstyle="info" name="EstadoMoneda" id="switch-estado">
+            </div>
+        </div>
+    </div>
+</template>

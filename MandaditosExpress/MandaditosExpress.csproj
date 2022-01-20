@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44320</IISExpressSSLPort>
+    <IISExpressSSLPort>44371</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -65,6 +65,27 @@
     <Reference Include="Json.Net, Version=1.0.33.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Json.Net.1.0.33\lib\netstandard2.0\Json.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.1.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.1.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.1.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.1.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.1.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -72,6 +93,27 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1484.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
@@ -83,6 +125,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReportViewerForMvc14.140.1000.523\lib\net45\ReportViewerForMvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -232,6 +277,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\ConsultasController.cs" />
     <Compile Include="Controllers\CostosController.cs" />
     <Compile Include="Controllers\CostosGestionBancariaController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
@@ -240,14 +286,16 @@
     <Compile Include="Controllers\EnviosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />
+    <Compile Include="Controllers\InformesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\MotorizadosController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\TipoDePagosController.cs" />
     <Compile Include="Controllers\TipoDeServiciosController.cs" />
-    <Compile Include="Controllers\VelocidadDeConexionController.cs" />
+    <Compile Include="Controllers\CalidadDeConexionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,9 +308,33 @@
     <Compile Include="Models\CostoGestionBancaria.cs" />
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\Credito.cs" />
+    <Compile Include="Models\DataSets\Ds_EnviosCredClienteXFecha.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSets\Ds_EnviosMensuales.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSets\DS_EnviosPorPeriodo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSets\FltListCltsFecha.cs">
+      <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSets\FltListCltsFecha.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\DetalleDeSeguimiento.cs" />
     <Compile Include="Models\Disponibilidad.cs" />
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
+    <Compile Include="Models\Enum\EstadoDelCreditoEnum.cs" />
     <Compile Include="Models\Enum\EstadoDeMotorizadoEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
@@ -286,19 +358,27 @@
     <Compile Include="Models\TipoDePago.cs" />
     <Compile Include="Models\TipoDeServicio.cs" />
     <Compile Include="Models\Utileria\Utileria.cs" />
-    <Compile Include="Models\VelocidadDeConexion.cs" />
+    <Compile Include="Models\CalidadDeConexion.cs" />
     <Compile Include="Models\ViewModels\CatalogosViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConsultasViewModel.cs" />
+    <Compile Include="Models\ViewModels\HomeUserViewModel.cs" />
     <Compile Include="Models\ViewModels\OperacionesViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonasViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CostoBancarioServices.cs" />
     <Compile Include="Services\CostoServices.cs" />
     <Compile Include="Services\CotizacionServices.cs" />
+    <Compile Include="Services\MotorizadoServices.cs" />
     <Compile Include="Services\Utilidades.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\NiceAdmin.css" />
     <Content Include="Content\ninestar_style.css" />
+    <Content Include="Content\plugins\checkbox\magic-input.min.css" />
+    <Content Include="Content\plugins\select2\select2-bootstrap4.min.css" />
     <Content Include="Content\plugins\select2\select2.css" />
+    <Content Include="Images\5.png" />
     <Content Include="Images\atwork.png" />
     <Content Include="Images\clients\acuarela.jpg" />
     <Content Include="Images\clients\christina-closets.jpg" />
@@ -310,7 +390,16 @@
     <Content Include="Images\clients\uniformania.jpg" />
     <Content Include="Images\clients\vetplus.jpg" />
     <Content Include="Images\clients\vvjoyas.jpg" />
+    <Content Include="Images\Empty-pana.svg" />
     <Content Include="Images\moto.png" />
+    <Content Include="Models\DataSetsProcedures\EnviosCredXClienteYFecha.txt" />
+    <Content Include="Models\DataSetsProcedures\EnviosMensuales.txt" />
+    <Content Include="Models\DataSetsProcedures\EnviosPorPeriodo.txt" />
+    <Content Include="Models\DataSetsProcedures\ListarClientesXFecha.txt" />
+    <Content Include="Models\triggers\GenerateCodCredito.txt" />
+    <Content Include="Models\triggers\GenerateCodEnvio.txt" />
+    <Content Include="Models\triggers\GeneratedCodCotizacion.txt" />
+    <Content Include="Models\triggers\GenerateNumeroPago.txt" />
     <Content Include="Scripts\app\ninestar_main.js" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />
@@ -343,8 +432,13 @@
     <Content Include="Content\plugins\swiper\swiper-bundle.min.css" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\CreditoViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Creditos\IndexCredito.js" />
+    <Content Include="Scripts\knockout\ViewModel\Pagos\IndexPago.js" />
+    <Content Include="Scripts\knockout\ViewModel\Pagos\PagoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Shared\PaginacionViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Shared\TablePagination.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\IndexTipoDePago.js" />
     <Content Include="Scripts\knockout\ViewModel\TiposDePago\TipoDePagoViewModel.js" />
+    <Content Include="Scripts\plugins\chartJs\chart.min.js" />
     <Content Include="Scripts\plugins\jquerymask\jquery.mask.js" />
     <Content Include="Scripts\plugins\select2\select2.js" />
     <Content Include="Scripts\plugins\swiper\swiper-bundle.min.js" />
@@ -409,19 +503,36 @@
     <Content Include="Images\mail_sent.png" />
     <Content Include="Images\marker.png" />
     <Content Include="Images\profile.jpg" />
+    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Images\Register.png" />
     <Content Include="Scripts\app\inspinia.js" />
     <Content Include="Scripts\app\inspinia_landing.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\knockout\Componentes\ModalComponent.js" />
+    <Content Include="Scripts\knockout\ViewModel\CostosGestionBancaria\CostoGestionBancariaViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\CostosGestionBancaria\IndexCostoGestionBancaria.js" />
     <Content Include="Scripts\knockout\extensions\CustomBindins.js" />
     <Content Include="Scripts\knockout\knockout-3.5.1.js" />
+    <Content Include="Scripts\knockout\ViewModel\Servicio\IndexServicio.js" />
+    <Content Include="Scripts\knockout\ViewModel\Servicio\ServicioViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\IndexTipoDeServicio.js" />
+    <Content Include="Scripts\knockout\ViewModel\TipoDeServicio\TipoDeServicioViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Costo\CostoViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Costo\IndexCosto.js" />
+    <Content Include="Scripts\knockout\ViewModel\Disponibilidad\DisponibilidadViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\Disponibilidad\IndexDisponibilidad.js" />
     <Content Include="Scripts\knockout\knockout.mapping.js" />
-    <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaTemplateViewModel.js" />
     <Content Include="Scripts\knockout\ViewModel\Moneda\MonedaViewModel.js" />
+    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\IndexVelocidadDeConexion.js" />
+    <Content Include="Scripts\knockout\ViewModel\VelocidadDeConexion\VelocidadDeConexionViewModel.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\plugins\classie\classie.js" />
     <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
@@ -486,6 +597,54 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Models\DataSets\FltListCltsFecha.xsc">
+      <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
+    </Content>
+    <Content Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xsc">
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Content>
+    <Content Include="App_Data\README" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_EnviosCredClienteXFecha.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\Ds_EnviosCredClienteXFecha.xss">
+      <DependentUpon>Ds_EnviosCredClienteXFecha.xsd</DependentUpon>
+    </Content>
+    <Content Include="Models\DataSets\Ds_EnviosMensuales.xsc">
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\Ds_EnviosMensuales.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_EnviosMensuales.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\Ds_EnviosMensuales.xss">
+      <DependentUpon>Ds_EnviosMensuales.xsd</DependentUpon>
+    </Content>
+    <Content Include="Models\DataSets\DS_EnviosPorPeriodo.xsc">
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\DS_EnviosPorPeriodo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_EnviosPorPeriodo.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\DS_EnviosPorPeriodo.xss">
+      <DependentUpon>DS_EnviosPorPeriodo.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSets\FltListCltsFecha.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FltListCltsFecha.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSets\FltListCltsFecha.xss">
+      <DependentUpon>FltListCltsFecha.xsd</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap5\css\bootstrap-grid.css.map" />
     <Content Include="Content\bootstrap5\css\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap5\css\bootstrap-grid.rtl.css.map" />
@@ -515,6 +674,7 @@
     <Content Include="Content\plugins\boxicons\fonts\boxicons.ttf" />
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff" />
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff2" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -526,7 +686,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\plugins\chartJs\Chart.min.js" />
     <Content Include="Scripts\plugins\flot\curvedLines.js" />
     <Content Include="Scripts\plugins\flot\excanvas.min.js" />
     <Content Include="Scripts\plugins\flot\jquery.flot.js" />
@@ -576,7 +735,6 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_TopNavbar.cshtml" />
     <Content Include="Views\Personas\Create.cshtml" />
-    <Content Include="Views\Personas\Delete.cshtml" />
     <Content Include="Views\Personas\Details.cshtml" />
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
@@ -604,25 +762,19 @@
     <Content Include="Views\Disponibilidad\Details.cshtml" />
     <Content Include="Views\Disponibilidad\Edit.cshtml" />
     <Content Include="Views\Disponibilidad\Index.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Create.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Delete.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Details.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Edit.cshtml" />
-    <Content Include="Views\VelocidadDeConexion\Index.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Create.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Details.cshtml" />
+    <Content Include="Views\CalidadDeConexion\Index.cshtml" />
     <Content Include="Views\Costos\Create.cshtml" />
     <Content Include="Views\Costos\Delete.cshtml" />
     <Content Include="Views\Costos\Details.cshtml" />
     <Content Include="Views\Costos\Edit.cshtml" />
     <Content Include="Views\Costos\Index.cshtml" />
     <Content Include="Views\TipoDeServicios\Create.cshtml" />
-    <Content Include="Views\TipoDeServicios\Delete.cshtml" />
     <Content Include="Views\TipoDeServicios\Details.cshtml" />
-    <Content Include="Views\TipoDeServicios\Edit.cshtml" />
     <Content Include="Views\TipoDeServicios\Index.cshtml" />
     <Content Include="Views\Servicios\Create.cshtml" />
-    <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Servicios\Details.cshtml" />
-    <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
     <Content Include="Views\Monedas\Create.cshtml" />
     <Content Include="Views\Monedas\Details.cshtml" />
@@ -635,13 +787,8 @@
     <Content Include="Views\CostosGestionBancaria\Edit.cshtml" />
     <Content Include="Views\CostosGestionBancaria\Index.cshtml" />
     <Content Include="Views\Cotizaciones\Create.cshtml" />
-    <Content Include="Views\pruebas\Create.cshtml" />
-    <Content Include="Views\pruebas\Delete.cshtml" />
-    <Content Include="Views\pruebas\Details.cshtml" />
-    <Content Include="Views\pruebas\Edit.cshtml" />
     <Content Include="Views\Cotizaciones\Index.cshtml" />
     <Content Include="Views\Envios\Create.cshtml" />
-    <Content Include="Views\Envios\Delete.cshtml" />
     <Content Include="Views\Envios\Details.cshtml" />
     <Content Include="Views\Envios\Edit.cshtml" />
     <Content Include="Views\Envios\Index.cshtml" />
@@ -655,9 +802,34 @@
     <Content Include="Views\Creditos\Index.cshtml" />
     <Content Include="Views\Creditos\Templates\_CreditoTemplate.cshtml" />
     <Content Include="Views\Envios\Asignacion.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Delete.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Personas\CambiarContrasenia.cshtml" />
+    <Content Include="Views\Personas\DefaultPassword.cshtml" />
+    <Content Include="Views\Personas\ConfirmacionManual.cshtml" />
+    <Content Include="Views\Account\GetRoles.cshtml" />
+    <Content Include="Views\Consultas\CreditosCliente.cshtml" />
+    <Content Include="Views\Informes\EnviosCredClienteFecha.cshtml" />
+    <Content Include="Views\Consultas\EnviosMensuales.cshtml" />
+    <Content Include="Views\Informes\EnviosMensuales.cshtml" />
+    <Content Include="Views\Consultas\EnviosPorPeriodo.cshtml" />
+    <Content Include="Views\Informes\ListaEnviosPorPeriodo.cshtml" />
+    <Content Include="Views\Informes\ImprimirCotizacion.cshtml" />
+    <Content Include="Views\Motorizados\AgregarMotocicleta.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Content Include="Views\CalidadDeConexion\Templates\_CalidadDeConexionTemplate.cshtml" />
+    <Content Include="Views\Informes\ListClientesxFec.cshtml" />
+    <Content Include="Views\Clientes\FiltrarClientes.cshtml" />
+    <Content Include="Views\Consultas\BuscarClientes.cshtml" />
+    <Content Include="Views\Disponibilidad\Templates\_DisponibilidadTemplate.cshtml" />
+    <Content Include="Views\TipoDeServicios\Templates\_TiposDeServiciosTemplate.cshtml" />
+    <Content Include="Views\CostosGestionBancaria\Templates\_CostoGestionBancariaTemplate.cshtml" />
+    <Content Include="Views\Costos\Templates\_CostoTemplate.cshtml" />
+    <Content Include="Views\Servicios\Templates\_ServicioTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -670,6 +842,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Reportes\RptCotizacion.rdlc" />
+    <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
+    <EmbeddedResource Include="Reportes\RptEnviosMensuales.rdlc" />
+    <EmbeddedResource Include="Reportes\RptEnviosPorPeriodo.rdlc" />
+    <EmbeddedResource Include="Reportes\RptFiltrarClientesPorFecha.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

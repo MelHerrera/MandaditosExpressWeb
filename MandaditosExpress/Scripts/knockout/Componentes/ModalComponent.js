@@ -1,7 +1,7 @@
 ﻿function ModalHeaderViewModel(params) {
     const self = this;
-    self.ModalTitle = ko.observable(params.ModalTitle);
-    self.ModalHeaderClass = ko.observable(params.ModalHeaderClass);
+    self.ModalTitle = ko.observable(params.ModalTitle || "");
+    self.ModalHeaderClass = ko.observable(params.ModalHeaderClass || "bg-secondary");
 };
 
 
@@ -13,27 +13,31 @@ function ModalBodyViewModel(params) {
 function TemplateViewModel(params) {
     const self = this;
     self.Name = ko.observable(ko.isObservable(params.Name) ? params.Name : ko.observable(params.Name) || "");
-    self.Data = ko.observable(params.Data);
+    self.Data = ko.observable(params.Data || "");
 };
 
 //viewmodel for footer modal components
 function FooterModalViewModel(params) {
     var self = this;
-    self.ActionName = ko.isObservable(params.ActionName) ? params.ActionName : ko.observable(params.ActionName);
-    self.UrlAction = ko.isObservable(params.UrlAction) ? params.UrlAction : ko.observable(params.UrlAction);
+    self.ActionName = ko.isObservable(params.ActionName || "") ? params.ActionName : ko.observable(params.ActionName || "");
+    self.UrlAction = ko.isObservable(params.UrlAction || "") ? params.UrlAction : ko.observable(params.UrlAction || "");
 };
 
 //main viewmodel for modal components
 function ModalViewModel(params) {
     var self = this;
     self.ModalId = ko.observable(params.ModalId || "#my-modal");
-    self.ModalHeaderViewModel = ko.observable(params.ModalHeaderViewModel);
-    self.ModalBodyViewModel = ko.observable(params.ModalBodyViewModel);
-    self.FooterViewModel = ko.observable(params.FooterViewModel);
+    self.ModalHeaderViewModel = ko.observable(params.ModalHeaderViewModel || new ModalHeaderViewModel({}));
+    self.ModalBodyViewModel = ko.observable(params.ModalBodyViewModel || new ModalBodyViewModel({}));
+    self.FooterViewModel = ko.observable(params.FooterViewModel || new FooterModalViewModel({}) );
 
     self.ShowModal = function () {
         let modal = document.getElementById(ko.unwrap(self.ModalId));
         $(modal).modal('show');
+    };
+    self.HideModal = function () {
+        let modal = document.getElementById(ko.unwrap(self.ModalId));
+        $(modal).modal('hide');
     };
 };
 

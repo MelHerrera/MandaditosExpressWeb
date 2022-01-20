@@ -29,7 +29,7 @@ namespace MandaditosExpress.Models
         public virtual DbSet<Credito> Creditos { get; set; }
         public virtual DbSet<HistorialSeguimiento> HistorialSeguimientos { get; set; }
         public virtual DbSet<Disponibilidad> Disponibilidad { get; set; }
-        public virtual DbSet<VelocidadDeConexion> VelocidadDeConexion { get; set; }
+        public virtual DbSet<CalidadDeConexion> VelocidadDeConexion { get; set; }
         public virtual DbSet<CostoGestionBancaria> CostoGestionBancaria { get; set; }
         public virtual DbSet<Persona> Personas { get; set; }
 

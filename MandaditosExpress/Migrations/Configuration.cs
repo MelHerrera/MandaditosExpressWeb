@@ -16,50 +16,50 @@ namespace MandaditosExpress.Migrations
         protected override void Seed(MandaditosExpress.Models.MandaditosDB context)
         {
             context.Personas.AddOrUpdate(
-            p => p.Id,
-           new Models.Persona
-           {
-               PrimerNombre = "Andrew",
-               SegundoNombre = "Peters",
-               PrimerApellido = "Loaswer",
-               SegundoApellido = "kolyter",
-               CorreoElectronico = "Andrew@gmail.com",
-               Telefono = "82345432",
-               Sexo = "Masculino",
-               Cedula = "001-110294-5000F",
-               Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-               Foto = null,
-               FechaIngreso = DateTime.Now
-           },
-            new Models.Persona
-            {
-                PrimerNombre = "Walthy",
-                SegundoNombre = "Freybnui",
-                PrimerApellido = "Liustgh",
-                SegundoApellido = "litfer",
-                CorreoElectronico = "Walthy@gmail.com",
-                Telefono = "87689209",
-                Sexo = "Masculino",
-                Cedula = "001-110294-5000F",
-                Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                Foto = null,
-                FechaIngreso = DateTime.Now
-            },
-                 new Models.Persona
-                 {
-                     PrimerNombre = "Huilerty",
-                     SegundoNombre = "kinety",
-                     PrimerApellido = "Rodriyth",
-                     SegundoApellido = "meindret",
-                     CorreoElectronico = "Huilerty@gmail.com",
-                     Telefono = "87689209",
-                     Sexo = "Masculino",
-                     Cedula = "001-110294-5000F",
-                     Direccion = "Laureles Sur calle del ministerio 2 C arriba",
-                     Foto = null,
-                     FechaIngreso = DateTime.Now
-                 }
-          );
+p => p.Id,
+new Models.Persona
+{
+    PrimerNombre = "Andrew",
+    SegundoNombre = "Peters",
+    PrimerApellido = "Loaswer",
+    SegundoApellido = "kolyter",
+    CorreoElectronico = "Andrew@gmail.com",
+    Telefono = "82345432",
+    Sexo = "Masculino",
+    Cedula = "001-110294-5000F",
+    Direccion = "Laureles Sur calle del ministerio 2 C arriba",
+    Foto = null,
+    FechaIngreso = DateTime.Now
+},
+new Models.Persona
+{
+    PrimerNombre = "Walthy",
+    SegundoNombre = "Freybnui",
+    PrimerApellido = "Liustgh",
+    SegundoApellido = "litfer",
+    CorreoElectronico = "Walthy@gmail.com",
+    Telefono = "87689209",
+    Sexo = "Masculino",
+    Cedula = "001-110294-5000F",
+    Direccion = "Laureles Sur calle del ministerio 2 C arriba",
+    Foto = null,
+    FechaIngreso = DateTime.Now
+},
+     new Models.Persona
+     {
+         PrimerNombre = "Huilerty",
+         SegundoNombre = "kinety",
+         PrimerApellido = "Rodriyth",
+         SegundoApellido = "meindret",
+         CorreoElectronico = "Huilerty@gmail.com",
+         Telefono = "87689209",
+         Sexo = "Masculino",
+         Cedula = "001-110294-5000F",
+         Direccion = "Laureles Sur calle del ministerio 2 C arriba",
+         Foto = null,
+         FechaIngreso = DateTime.Now
+     }
+);
 
             context.Clientes.AddOrUpdate(
                 p => p.Id,
@@ -115,23 +115,23 @@ namespace MandaditosExpress.Migrations
                      });
 
             context.VelocidadDeConexion.AddOrUpdate(p => p.Id,
-                new Models.VelocidadDeConexion
+                new Models.CalidadDeConexion
                 {
                     Descripcion = "Lento",
                     Estado = true
                 },
-                new Models.VelocidadDeConexion
+                new Models.CalidadDeConexion
                 {
                     Descripcion = "Medio",
                     Estado = true
                 },
-                         new Models.VelocidadDeConexion
+                         new Models.CalidadDeConexion
                          {
                              Descripcion = "Rapido",
                              Estado = true
                          },
 
-                 new Models.VelocidadDeConexion
+                 new Models.CalidadDeConexion
                  {
                      Descripcion = "Super Rapido",
                      Estado = true
@@ -161,32 +161,32 @@ namespace MandaditosExpress.Migrations
             context.Servicios.AddOrUpdate(p => p.Id,
 new Models.Servicio
 {
-Id = 1,
-DescripcionDelServicio = "Ir a traerme las llaves",
-TipoDeServicioId = 1,
-Estado = true
+    Id = 1,
+    DescripcionDelServicio = "Ir a traerme las llaves",
+    TipoDeServicioId = 1,
+    Estado = true
 },
 new Models.Servicio
 {
-Id = 2,
-DescripcionDelServicio = "Ir a traerme el cargador de mi laptop",
-TipoDeServicioId = 1,
-Estado = true
+    Id = 2,
+    DescripcionDelServicio = "Ir a traerme el cargador de mi laptop",
+    TipoDeServicioId = 1,
+    Estado = true
 },
 new Models.Servicio
 {
-Id = 3,
-DescripcionDelServicio = "Entrega de perfumes",
-TipoDeServicioId = 2,
-Estado = true
+    Id = 3,
+    DescripcionDelServicio = "Entrega de perfumes",
+    TipoDeServicioId = 2,
+    Estado = true
 });
 
             context.TiposDePago.AddOrUpdate(p => p.Id,
 new Models.TipoDePago
 {
-Id = 1,
-Descripcion = "Efectivo",
-EstadoTipoDePago = true
+    Id = 1,
+    Descripcion = "Efectivo",
+    EstadoTipoDePago = true
 },
 new Models.TipoDePago
 {

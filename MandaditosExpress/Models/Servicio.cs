@@ -9,8 +9,7 @@ namespace MandaditosExpress.Models
     {
         public Servicio()
         {
-            this.Envios = new HashSet<Envio>();
-            this.Cotizaciones = new HashSet<Cotizacion>();
+            Envios = new HashSet<Envio>();
         }
 
         [Key]
@@ -25,12 +24,11 @@ namespace MandaditosExpress.Models
         public bool Estado { get; set; }
 
         [Required]
+        [Display(Name = "Tipo De Servicio")]
         public int TipoDeServicioId { get; set; }
-
 
         public virtual ICollection<Envio> Envios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cotizacion> Cotizaciones { get; set; }
 
         public virtual TipoDeServicio TipoDeServicio { get; set; }
     }

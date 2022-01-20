@@ -2,343 +2,124 @@
 
 @{
     ViewBag.Title = "Costos";
+    var Costos = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", Costos);
 }
-@Styles.Render("~/Plugind/switches")
 
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+@Styles.Render("~/Plugin/switches")
+<style>
+    .swal2-container {
+        z-index: 2051
+    }
+</style>
 
-    <table class="table table-costo">
-        <tr>
-            <th hidden>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostoDeGasolina)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostoDeAsistencia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostoDeMotorizado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DistanciaBase)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioPorKm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDeServicioId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoDelCosto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
-            </th>
-            <th>Opciones</th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-    <tr>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.Id, new { @class = item.Id })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaDeInicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaDeFin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CostoDeGasolina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CostoDeAsistencia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CostoDeMotorizado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DistanciaBase)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioPorKm)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoDeServicio.DescripcionTipoDeServicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoDelCosto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
-        </td>
-
-        <td style="white-space:nowrap;">
-            <div class="btn-group btn-group-sm">
-                <a class="btn btn-warning btn-edit" href=""><i class="fa fa-pencil" title="Editar"></i></a>
-                <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
-            </div>
-        </td>
-    </tr>
-        }
-    </table>
-
-    <!-- Modal For Details -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar la Información del Costo!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de costos</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <!--Modal Body-->
-                    <div class="row">
-                        <input type="text" class="form-control sequence" hidden />
-                        <input type="text" name="TipoDeServicio" class="form-control TipoDeServicio" hidden/>
-
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label class="control-label" name="Descripcion">Descripción</label>
-                                <input type="text" name="Descripcion" class="form-control Descripcion" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" name="FechaDeInicio">Fecha de Inicio</label>
-                                <input type="date" name="FechaDeInicio" class="form-control FechaDeInicio" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" name="FechaDeFin">Fecha de Fin</label>
-                                <input type="date" name="FechaDeFin" class="form-control FechaDeFin" />
-                            </div>
-                        </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="CostoDeGasolina">Costo De Gasolina</label>
-                                <input type="number" name="CostoDeGasolina" class="form-control CostoDeGasolina" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="CostoDeAsistencia">Costo De Asistencia</label>
-                                <input type="number" name="CostoDeAsistencia" class="form-control CostoDeAsistencia" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="CostoDeMotorizado">Costo Motorizado</label>
-                                <input type="number" name="CostoDeMotorizado" class="form-control CostoDeMotorizado" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="DistanciaBase">Distancia Base</label>
-                                <input type="number" name="DistanciaBase" class="form-control DistanciaBase" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="PrecioPorKm">Precio Km</label>
-                                <input type="number" name="PrecioPorKm" class="form-control PrecioPorKm" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="EstadoDelCosto">Activo</label>
-                                @*<input type="checkbox" name="EstadoDelCosto" class="form-control EstadoDelCosto" />*@
-                                <input type="checkbox" data-toggle="switchbutton" data-onstyle="info" value="EstadoDelCosto" name="EstadoDelCosto" class="form-control EstadoDelCosto" id="EstadoDelCosto">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" name="PrecioDeRecargo">Precio de Recargo del envio</label>
-                                <input type="number" name="PrecioDeRecargo" class="form-control PrecioDeRecargo" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--End Modal Body-->
-                </div>
-                <div class="modal-footer">
-                    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "edit-form" }))
+                    @if (Model.Count() > 0)
                     {
-                        @Html.AntiForgeryToken()
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary send-edit">Modificar</button>
+
+                        <table class="table table-bordered costo ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Nº")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeFin)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EstadoDelCosto)
+                                    </th>
+                                    <th>Opciones</th>
+                                </tr>
+
+                            </thead>
+                            <tbody data-bind="foreach:Costo">
+                                <tr>
+                                    <td data-bind="text:$index()+1"></td>
+                                    <td data-bind="text:Descripcion"></td>
+                                    <td data-bind="text:FechaDeInicio"></td>
+                                    <td data-bind="text:FechaDeFin"></td>
+                                    <td data-bind="text:TipoDeServicio.DescripcionTipoDeServicio"></td>
+                                    <td>
+                                        <span data-bind="text:(ko.unwrap(EstadoDelCosto) ? 'Activo':'Inactivo'), class:(ko.unwrap(EstadoDelCosto) ? 'badge badge-success':'badge badge-warning')"></span>
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
+                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                            }
+                                            @if (User.IsInRole("Asistente"))
+                                            {
+                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                            }
+                                        </div>                                       
+                                    </td>
+                                </tr>
+                        </table>
+                    }
+                    else
+                    {
+
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            Se encontraron 0 Costos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                        </div>
+
                     }
                 </div>
             </div>
         </div>
     </div>
-</body>
+</div>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+@Html.Partial("~/Views/Costos/Templates/_CostoTemplate.cshtml")
 
 @section Scripts{
-    @Scripts.Render("~/plugins/moment");
-    @Scripts.Render("~/plugins/sweetalert")
+
+
+    @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
-
-    <script type="text/javascript">
-
-            $(function () {
-                $(".table-costo tbody").on("click", ".btn-edit", function (e) {
-
-                    e.preventDefault();
-                    let data = $(this)[0].parentElement.parentElement.parentElement;
-                    let cells = data.cells;
-
-                    //table row columns
-
-                    let sequence = cells[0].innerText;
-                    let descripcion = cells[1].innerText;
-                    let dateInicio = cells[2].innerText;
-                    let dateFin = cells[3].innerText;
-                    let costoGasolina = cells[4].innerText;
-                    let costoAsistencia = cells[5].innerText;
-                    let costoMotorizado = cells[6].innerText;
-                    let distancia = cells[7].innerText;
-                    let precioKm = cells[8].innerText;
-                    let tipoDeServicio = cells[9].innerText;
-                    let estado = cells[10].children[0].checked;
-                    let precioDeRecargo = cells[11].innerText;
-
-                    $(".Descripcion").val(descripcion);
-                       //convert string to date
-                    let fechaDeInicio = moment(dateInicio, 'DD-MM-YYYY');
-                    let fechaDeFin = moment(dateFin, 'DD-MM-YYYY');
-
-
-                    //input type date only accept date with format yyyy-mm-dd
-                    $(".FechaDeInicio").val(formatDate(fechaDeInicio));
-                    $(".FechaDeFin").val(formatDate(fechaDeFin));
-
-
-                    $(".CostoDeGasolina").val(costoGasolina);
-                    $(".CostoDeAsistencia").val(costoAsistencia);
-                    $(".CostoDeMotorizado").val(costoMotorizado);
-
-                    $(".DistanciaBase").val(distancia);
-                    $(".PrecioPorKm").val(precioKm);
-                    $(".TipoDeServicio").val(tipoDeServicio);
-
-                    document.getElementById('EstadoDelCosto').switchButton(estado == true ? 'on' : 'off')
-                    $(".sequence").val(sequence);
-                    $(".PrecioDeRecargo").val(precioDeRecargo);
-
-                    $("#editModal").modal("show");
-                });
-            });
-
-    $(".send-edit").on("click", function (e) {
-
-        e.preventDefault();
-
-        var costo = new Object();
-
-        $.ajax(
-            {
-                url: "/Costos/getTipoDeServicioId",
-                type: "get",
-                data: {tp:$(".TipoDeServicio").val()},
-                success: function (result) {
-                    costo.TipoDeServicioId = result;
-                },
-                complete: function () {
-
-        costo.Id = $(".sequence").val();
-        costo.Descripcion = $(".Descripcion").val();
-        costo.FechaDeInicio = $(".FechaDeInicio").val();
-        costo.FechaDeFin = $(".FechaDeFin").val();
-        costo.CostoDeGasolina = $(".CostoDeGasolina").val();
-        costo.CostoDeAsistencia = $(".CostoDeAsistencia").val();
-        costo.CostoDeMotorizado = $(".CostoDeMotorizado").val();
-                    costo.DistanciaBase = $(".DistanciaBase").val();
-                    costo.PrecioPorKm = $(".PrecioPorKm").val();
-                    costo.EstadoDelCosto = $(".EstadoDelCosto").prop('checked')
-                    costo.PrecioDeRecargo = $(".PrecioDeRecargo").val();
-
-            let token = $('.edit-form input[name="__RequestVerificationToken"]').val()
-
-            if (costo != null) {
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("Edit", "Costos")",
-                    contentType: 'application/x-www-form-urlencoded',
-                    data: { __RequestVerificationToken: token, costo },
-                    success: function (response) {
-                        if (response != null) {
-
-                            $("#editModal").modal("hide");
-
-                            Swal.fire('Exito!', 'Se edito correctamente la información del costo!', 'success').then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.reload();
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Algo salio mal, disculpanos!',
-                                footer: 'Consulta con el administrador del sistema.'
-                            })
-                        }
-                    },
-                    failure: function (response) {
-                        alert("Consulte con el administrador del sistema sobre el siguiente error:" + response.responseText);
-                    },
-                    error: function (response) {
-                        alert("Consulte con el administrador del sistema sobre el siguiente error:"+response.responseText);
-                    }
-                    });
-                }
-                }//fin del complete
-            }
-        );
-
-        })
-
-            function formatDate(normalDate) {
-                var month = normalDate.format('M');
-                var day = normalDate.format('D');
-                var year = normalDate.format('YYYY');
-
-                var dateFormated = moment({ year: year, month: month - 1, day: day }).format("YYYY-MM-DD");
-                return dateFormated;
-    }
-    </script>
+    @Scripts.Render("~/bundles/IndexCosto")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
 }

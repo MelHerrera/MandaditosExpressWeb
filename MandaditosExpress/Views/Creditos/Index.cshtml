@@ -1,34 +1,17 @@
-﻿@model IEnumerable<MandaditosExpress.Models.Credito>
+﻿@model MandaditosExpress.Models.ViewModels.CreditoViewModel
 
 @{
     ViewBag.Title = "Créditos";
-    var Creditos = Html.HtmlConvertToJson(Model);
-
-    @Html.Hidden("dt", Creditos);
+    @Html.Hidden("dt");
 }
 
 @Styles.Render("~/Plugin/switches")
 
-
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Créditos</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Catálogos</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "Creditos")">Créditos</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Inicio</strong>
-            </li>
-        </ol>
-    </div>
-</div>
+<style>
+    .swal2-container {
+        z-index: 2051
+    }
+</style>
 
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -47,70 +30,111 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="row col-lg-12">
-                        <p>
-                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
-                        </p>
-                    </div>
-
-                    @if (Model.Count() > 0)
+                    @if (User.IsInRole("Admin"))
                     {
-
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayName("Nº")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeVencimiento)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeCancelacion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EstadoDelCredito)
-                                    </th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach:Creditos">
-                                <tr>
-                                    <td data-bind="text:$index()+1"></td>
-                                    <td data-bind="text:NombreCompleto"></td>
-                                    <td data-bind="text:FechaDeInicio"></td>
-                                    <td data-bind="text:FechaDeVencimiento"></td>
-                                    <td data-bind="text:FechaDeCancelacion"></td>
-
-                                    <td >
-                                        <input type="checkbox" data-bind="checked:EstadoDelCredito" disabled/>
-                                    </td>
-
-
-                                    <td>
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-
-                        <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 Créditos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                        <div class="row col-lg-12">
+                            <p>
+                                <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                            </p>
                         </div>
-
                     }
+
+                    <!--ko with:TablePagination-->
+                    <!--ko if:ItemsInPage().length > 0-->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Nº")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ClienteId)
+                                    </th>
+                                }
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeVencimiento)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeCancelacion)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:ItemsInPage">
+                            <tr>
+                                <td data-bind="text: (($parent.Pagination().CurrentPage() - 1) * $parent.Pagination().PageSize() + ($index() +1))"></td>
+                                <td data-bind="text:Descripcion"></td>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <td data-bind="text:NombreCompleto"></td>
+                                }
+                                <td data-bind="text:FechaDeInicio"></td>
+                                <td data-bind="text:FechaDeVencimiento"></td>
+                                <td data-bind="text:FechaDeCancelacion"></td>
+
+                                <td style="white-space:nowrap">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                    }
+                                    @if (User.IsInRole("Cliente") || User.IsInRole("Asistente"))
+                                    {
+                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--/ko-->
+                    <!--ko with:Pagination-->
+                    <nav aria-label="Páginas">
+                        <ul class="pagination text-success justify-content-center" data-bind="visible: NeedPaging">
+
+                            <li class="page-item" data-bind="css: { disabled: !FirstPageActive() }">
+                                <a class="page-link" data-bind="click: GoToFirst">Primera</a>
+                            </li>
+
+                            <li class="page-item" data-bind="css: { disabled: !PreviousPageActive() }">
+                                <a class="page-link" data-bind="click: GoToPrevious">Anterior</a>
+                            </li>
+
+                            <!-- ko foreach: GetPages() -->
+                            <li class="page-item" data-bind="css: { active: ko.unwrap($parent.CurrentPage()) === ko.unwrap($data) }">
+                                <a class="page-link" data-bind="click: $parent.GoToPage, text: $data">1</a>
+                            </li>
+                            <!-- /ko -->
+
+                            <li class="page-item" data-bind="css: { disabled: !NextPageActive() }">
+                                <a class="page-link" data-bind="click: GoToNext">Siguiente</a>
+                            </li>
+
+                            <li class="page-item" data-bind="css: { disabled: !LastPageActive() }">
+                                <a class="page-link" data-bind="click: GoToLast">última</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--/ko-->
+                    <!--ko ifnot: ItemsInPage().length > 0-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0 Créditos  para mostrar
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Create")" class="alert-link">Click aqui.</a>
+                            <span> Para Agregar uno.</span>
+                        }
+                    </div>
+                    <!--/ko-->
+                    <!--/ko-->
                 </div>
             </div>
         </div>
@@ -129,6 +153,8 @@
 @section Scripts{
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
+    <script src="~/Scripts/knockout/ViewModel/Shared/PaginacionViewModel.js"></script>
+    <script src="~/Scripts/knockout/ViewModel/Shared/TablePagination.js"></script>
     @Scripts.Render("~/bundles/IndexCreditos")
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")

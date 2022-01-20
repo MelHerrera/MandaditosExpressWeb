@@ -4,6 +4,7 @@
     {
         Solicitud=1,
         EnProceso=2,
-        Finalizado=3
+        Realizado=3,
+        Rechazado=4
     }
 }

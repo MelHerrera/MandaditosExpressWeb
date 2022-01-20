@@ -10,7 +10,7 @@ using MandaditosExpress.Models;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin, Asistente")]
     public class TipoDePagosController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -37,6 +37,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: TipoDePagos/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +48,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Descripcion,EstadoTipoDePago")] TipoDePago tipoDePago)
         {
             if (ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Descripcion,EstadoTipoDePago")] TipoDePago tipoDePago)
         {
             if (ModelState.IsValid)
@@ -79,9 +82,16 @@ namespace MandaditosExpress.Controllers
         // POST: TipoDePagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(TipoDePago tipoDePago)
         {
             TipoDePago OtipoDePago = db.TiposDePago.Find(tipoDePago.Id);
+
+            if(OtipoDePago.Pagos.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen pagos asociados a este registro" }, JsonRequestBehavior.AllowGet);
+            if (OtipoDePago.Envios.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen envios asociados a este registro" }, JsonRequestBehavior.AllowGet);
+
             db.TiposDePago.Remove(OtipoDePago);
 
             if(db.SaveChanges()>0)

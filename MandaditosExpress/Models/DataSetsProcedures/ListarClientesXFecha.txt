@@ -1,0 +1,36 @@
+﻿USE [MandaditosDB]
+GO
+
+/****** Objeto: SqlProcedure [dbo].[FltListCltsFech] Fecha del script: 08/12/2021 22:16:11 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+-- =============================================
+-- Author:		<email:melkinantonioh@gmail.com >
+-- Create date: <date:15-09-2021 10:25 Am>
+-- Description:	<Description: Obtener los Clientes en un periodo de tiempo dado>
+-- =============================================
+
+CREATE PROCEDURE FltListCltsFech
+	-- Add the parameters for the stored procedure here
+	@Desde datetime,
+	@Hasta datetime
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+   
+	select CONCAT(p.PrimerNombre,' ', p.PrimerApellido, ' ', p.SegundoApellido) as [Nombres], p.CorreoElectronico as Correo, p.Telefono, p.FechaIngreso as FechaDeIngreso, ISNULL(c.NombreDeLaEmpresa,'N/A') as Empresa from Personas as p 
+	inner join  Clientes as c on p.Id=c.Id
+	where p.FechaIngreso between @Desde and @Hasta
+	group by p.CorreoElectronico, p.PrimerNombre, p.PrimerApellido, p.SegundoApellido, p.Telefono, p.FechaIngreso, c.NombreDeLaEmpresa
+	order by p.FechaIngreso asc
+END

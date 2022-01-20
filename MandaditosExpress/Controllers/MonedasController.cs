@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Asistente")]
     public class MonedasController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
@@ -38,6 +38,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Monedas/Create
+         [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -48,10 +49,12 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,NombreDeMoneda,Abreviatura,EstadoMoneda")] Moneda moneda)
         {
             if (ModelState.IsValid)
             {
+                moneda.Estado = true;
                 db.Monedas.Add(moneda);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -60,61 +63,40 @@ namespace MandaditosExpress.Controllers
             return View(moneda);
         }
 
-        //// GET: Monedas/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Moneda moneda = db.Monedas.Find(id);
-        //    if (moneda == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(moneda);
-        //}
-
         // POST: Monedas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Moneda moneda)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(moneda).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { exito = true },JsonRequestBehavior.AllowGet);
             }
-            return View(moneda);
+            return Json(new { exito = false },JsonRequestBehavior.AllowGet);
         }
-
-        // GET: Monedas/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Moneda moneda = db.Monedas.Find(id);
-        //    if (moneda == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(moneda);
-        //}
 
         // POST: Monedas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(Moneda moneda)
         {
             Moneda Omoneda = db.Monedas.Find(moneda.Id);
+
+            if(Omoneda.Pagos.Count > 0)
+                return Json(new { exito = false, message = "No se puede eliminar porque existen pagos asociados a este registro" }, JsonRequestBehavior.AllowGet);
+
             db.Monedas.Remove(Omoneda);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            if (db.SaveChanges() > 0)
+                return Json(new { exito = true }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { exito = false }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

@@ -1,98 +1,146 @@
 ﻿@model MandaditosExpress.Models.CostoGestionBancaria
 
 @{
-    Layout = null;
+    ViewBag.Title = "Detalles costo de gestion bancaria";
 }
 
-<!DOCTYPE html>
+@section Styles{
+    @Styles.Render("~/Plugin/switches")
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>CostoGestionBancaria</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaDeInicio)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaDeInicio)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaDeFin)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaDeFin)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.MontoDesde)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.MontoDesde)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.MontoHasta)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.MontoHasta)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Porcentaje)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Porcentaje)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PrecioDeRecargo)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PrecioDeRecargo)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoDeServicioId)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TipoDeServicioId)
-            </dd>
-    
-        </dl>
+}
+
+<body> 
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Costos de Gestión Bancaria</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Catálogos</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index")">Costo de Gestion Bancaria</a>
+                </li>
+                <li class="active breadcrumb-item">
+                    <strong>Detalles</strong>
+                </li>
+            </ol>
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+
+    <div class="container">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-content align-items-center">
+                            <div class="form-horizontal">
+                                <h4><i class="fa fa-info-circle"></i>  Informacion detallada del costo de gestión bancaria.</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div>
+                                    <dl class="dl-horizontal">
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Descripcion)
+                                        </dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Descripcion)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.FechaDeInicio)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.FechaDeFin)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.FechaDeFin)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.MontoDesde)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.MontoDesde)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.MontoHasta)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.MontoHasta)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Porcentaje)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Porcentaje)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PrecioDeRecargo)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PrecioDeRecargo)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PrecioDeRegreso)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PrecioDeRegreso)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                        </dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => model.TipoDeServicio.DescripcionTipoDeServicio)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Estado)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Estado)
+                                        </dd>
+
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <div class="ibox-footer">
+                                <div>
+                                    @Html.ActionLink("  Regresar ", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
-</html>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/switch")
+}

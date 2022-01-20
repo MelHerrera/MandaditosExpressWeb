@@ -2,31 +2,11 @@
 
 @{
     ViewBag.Title = "Costos de la Gestion Bancaria";
+    var CostosGestionBancaria = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", CostosGestionBancaria);
 }
-
-@section Styles {
-    @Styles.Render("~/Content/dataTablesStyles")
-}
-
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Costos de la Gestion Bancaria</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Catálogos</a>
-            </li>
-            <li class="active breadcrumb-item">
-                <strong>Costos de Gestión Bancaria</strong>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
+@Styles.Render("~/Plugin/switches")
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -46,148 +26,102 @@
                 <div class="ibox-content">
                     <div class="row col-lg-12">
                         <p>
-                            <a class="btn btn-success float-left" href="@Url.Action("Create","CostosGestionBancaria")"><i class="fa fa-plus"></i> Agregar</a>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
                         </p>
                     </div>
-                    <table class="table table-bordered table-hover">
-                        <thead id="thead">
-                            <tr class="bg-primary">
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FechaDeFin)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Descripcion)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.MontoDesde)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.MontoHasta)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Estado)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Porcentaje)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PrecioDeRecargo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TipoDeServicioId)
-                                </th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr class="gradeX">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaDeInicio)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaDeFin)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MontoDesde)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MontoHasta)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Estado)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Porcentaje)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioDeRecargo)
-                                    </td>
-                                    <!--investiga con los videos del profe wollian como mostrar la descripcion de este tipo de servicio en lugar del ID-->
-                                    <td>
-                                        @*@Html.DisplayFor(modelItem => item.TipoDeServicioId)*@
-                                    </td>
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="table table-bordered table-CostosGestionBancaria">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Nº")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FechaDeFin)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MontoDesde)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MontoHasta)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Estado)
+                                    </th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:CostoGetionBancaria">
 
-                                    <td style="white-space:nowrap;">
-                                        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil" title="Editar"></i></a>
-                                        <a class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                        <a class="btn btn-danger" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                <tr>
+                                    <td data-bind="text:$index()+1"></td>
+                                    <td data-bind="text:Descripcion"></td>
+                                    <td data-bind="text:FechaDeInicio"></td>
+                                    <td data-bind="text:FechaDeFin"></td>
+                                    <td data-bind="text:MontoDesde"></td>
+                                    <td data-bind="text:MontoHasta"></td>
+                                    <td data-bind="text:DescripcionTipoDeServicio"></td>
+                                    <td>
+                                        <span data-bind="text:(ko.unwrap(Estado) ? 'Activo':'Inactivo'), class:(ko.unwrap(Estado) ? 'badge badge-success':'badge badge-warning')"></span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                            }
+                                            @if (User.IsInRole("Asistente"))
+                                            {
+                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                            }
+                                        </div>                                        
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                        <tfoot id="foot">
-                        </tfoot>
-                    </table>
+
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <!--ko if:mostrarAlertVacio-->
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            Se encontraron 0  costos de gestiones bancarias para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                        </div>
+                        <!--/ko-->
+                    }
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/plugins/dataTables")
 
-    <script type="text/javascript">
-        $(document).ready(function () {
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
 
-            $('.table').DataTable({
-                pageLength: 25,
-                scrollX: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [
-                    { extend: 'copy' },
-                    { extend: 'excel' },
-                    { extend: 'pdf' },
+@Html.Partial("~/Views/CostosGestionBancaria/Templates/_CostoGestionBancariaTemplate.cshtml")
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
 
-                    {
-                        extend: 'print',
-                        customize: function (win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
 
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ],
-                language: {
-                    search: "Buscar: ",
-                    lengthMenu: "Mostrar _MENU_ registros por página",
-                    zeroRecords: "No se encontró nada, lo siento",
-                    info: "Mostrando Página _PAGE_ de _PAGES_",
-                    infoEmpty: "No hay registros disponibles",
-                    infoFiltered: "(filtrado de _MAX_ registros en total)",
-                    paginate: {
-                        first: "Primero",
-                        last: "Último",
-                        next: "Siguiente",
-                        previous: "Anterior"
-                    },
-                    buttons: {
-                        copy: "Copiar",
-                        copySuccess: {
-                            1: "Copiada 1 fila al portapapeles",
-                            _: "Copiadas %d filas al portapapeles"
-                        },
-                        copyTitle: "Copiar al portapapeles",
-                        excel: "Excel",
-                        pdf: "PDF",
-                        print: "Imprimir"
-                    }
-                }//fin del lenguaje
-
-            });//fin del DataTable
-        });//fin del ready
-
-    </script>
+@section Scripts{
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    @Scripts.Render("~/bundles/IndexCostoGestionBancaria")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
 }

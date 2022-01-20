@@ -12,19 +12,28 @@ using MandaditosExpress.Models;
 using MandaditosExpress.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Asistente")]
     public class ClientesController : Controller
     {
         private MandaditosDB db = new MandaditosDB();
+        private IMapper _mapper;
+
+        public ClientesController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         // GET: Clientes
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
-
+            var data = GetUserList().ToList();
+            ViewBag.Clientes = JsonConvert.SerializeObject(data);
+            return View();
         }
 
         // GET: Clientes/Details/5
@@ -46,7 +55,7 @@ namespace MandaditosExpress.Controllers
         // GET: Clientes/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new ClienteViewModel());
         }
 
         // POST: Clientes/Create
@@ -57,14 +66,32 @@ namespace MandaditosExpress.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ClienteViewModel cliente)
         {
+            var user = new ApplicationUser();
+            var cl = new Cliente();
+            var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
             try
             {
                 if (ModelState.IsValid)
                 {
+                    //si esta chekeado como empresa entonces validar manualmente el RUC y Nombre de empresa
+                    if (cliente.EsEmpresa)
+                    {
+                        if(cliente.RUC==null || cliente.NombreDeLaEmpresa==null || cliente.NombreDeLaEmpresa.Length <= 0)
+                        {
+                            ModelState.AddModelError("", "El número RUC y nombre del negocio es obligatorio");
+                            return View(cliente);
+                        }
+                        if (cliente.RUC.Length != 14)
+                        {
+                            ModelState.AddModelError("", "El número RUC debe tener 14 caracteres de longitud");
+                            return View(cliente);
+                        }
+                    }
+
                     if (cliente.CorreoElectronico != null && cliente.Password != null)
                     {
-                        var user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
-                        var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        user = new ApplicationUser { UserName = cliente.CorreoElectronico, Email = cliente.CorreoElectronico, PhoneNumber = cliente.Telefono };
 
                         var UserInDb = UserManager.FindByEmail(user.Email);
 
@@ -74,17 +101,11 @@ namespace MandaditosExpress.Controllers
 
                             if (result.Succeeded)
                             {
-                                //Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                                //Enviar correo electrónico con este vínculo
-                                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                                string confirmationMessageBody = string.Format("Estimado cliente para confirmar tu cuenta, haz clic  {0}", "<a href='" + callbackUrl + "'>Aquí</a>");
-                                await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", confirmationMessageBody);
-
                                 //agregar a su correspondiente rol aqui
-                                //await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+                                await UserManager.AddToRoleAsync(user.Id, "Cliente");//el rol cliente debio ser creado en el startup.cs
+
                                 //Agregamos el cliente
-                                var cl = new Cliente
+                                cl = new Cliente
                                 {
                                     CorreoElectronico = cliente.CorreoElectronico,
                                     PrimerNombre = cliente.PrimerNombre,
@@ -96,7 +117,7 @@ namespace MandaditosExpress.Controllers
                                     Sexo = cliente.Sexo,
                                     Direccion = cliente.Direccion,
                                     Cedula = cliente.Cedula,
-                                    FechaIngreso = DateTime.Today,
+                                    FechaIngreso = DateTime.Now,
                                     EsEmpresa = cliente.EsEmpresa,
                                     NombreDeLaEmpresa = cliente.NombreDeLaEmpresa,
                                     RUC = cliente.RUC
@@ -106,10 +127,19 @@ namespace MandaditosExpress.Controllers
                                 {
                                     db.Clientes.Add(cl);
 
-                                // agregar la validacion del Rol cuando se esten manejando roles en el sistema
-                                if (db.SaveChanges() > 0)
-                                    return RedirectToAction("Login", "Account");
-                            }
+                                    if (db.SaveChanges() > 0)
+                                    {
+                                        //si se ha guardado bien el usuario, rol y cliente entonces enviar el correo
+                                        //Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                                        //Enviar correo electrónico con este vínculo
+                                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                                        string confirmationMessageBody = string.Format("Estimado cliente para confirmar tu cuenta, haz clic  {0}", "<a href='" + callbackUrl + "'>Aquí</a>");
+                                        await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", confirmationMessageBody);
+
+                                        return RedirectToAction("Login", "Account");
+                                    }
+                                }
 
                             }
                             else
@@ -122,19 +152,23 @@ namespace MandaditosExpress.Controllers
                         }
                     }
                 }
-                {
-                    if (cliente.RUC != null && cliente.RUC.Length > 14)
-                        ModelState.AddModelError("", "El número RUC no debe exeder los 14 caracteres de longitud");
-                }
 
                 return View(cliente);
             }
             catch (Exception ex)
             {
-                throw ex;
+                //si sucede algun error interno entonces quitar el cliente y el usuario
+                UserManager.RemoveFromRole(user.Id, "Cliente");
+                UserManager.Delete(user);
+
+                if(cl.Id > 0)
+                {
+                    db.Clientes.Remove(cl);
+                    db.SaveChanges();
+                }
+
+                throw new Exception("Ocurrio un error procesando tu solicitud!");
             }
-
-
         }
 
         // GET: Clientes/Edit/5
@@ -157,13 +191,18 @@ namespace MandaditosExpress.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,EsEmpresa,NombreDeLaEmpresa,RUC,FechaIngresoDelCliente,CorreoElectronico,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Telefono,Foto,Sexo,Direccion,Cedula,FechaIngreso")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(cliente).State = EntityState.Modified;
-                db.SaveChanges();
-                return View("Index", db.Clientes.ToList());
+                if (db.SaveChanges() > 0)
+                {
+                    var data = GetUserList().ToList();
+                    ViewBag.Clientes = JsonConvert.SerializeObject(data);
+                    return View("Index");
+                }
             }
             return View(cliente);
         }
@@ -186,6 +225,7 @@ namespace MandaditosExpress.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Cliente cliente = db.Clientes.Find(id);
@@ -208,6 +248,33 @@ namespace MandaditosExpress.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error);
+            }
+        }
+
+        public IEnumerable<IndexClienteViewModel> GetUserList()
+        {
+            using (var SecurityDb = new ApplicationDbContext())
+            {
+                var Usuarios = SecurityDb.Users.ToList();
+
+                var ListaClientes = from usuarios in Usuarios
+                               join clientes in db.Clientes on usuarios.Email equals clientes.CorreoElectronico
+                               select new IndexClienteViewModel
+                               {
+                                   Id = clientes.Id,
+                                   CorreoElectronico = clientes.CorreoElectronico,
+                                   Telefono = clientes.Telefono,
+                                   Foto = clientes.Foto,
+                                   Nombres = clientes.PrimerNombre + " " + clientes.PrimerApellido + " " + clientes.SegundoApellido,
+                                   Direccion= clientes.Direccion,
+                                   TipoDePersona = clientes.EsEmpresa ? "Negocio" : "Persona",
+                                   TipoDePersonaClass = clientes.EsEmpresa ? "badge badge-warning" : "badge badge-success",
+                                   EmailConfirmed = usuarios.EmailConfirmed,
+                                   EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
+                                   EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
+                               };
+
+                return ListaClientes;
             }
         }
     }

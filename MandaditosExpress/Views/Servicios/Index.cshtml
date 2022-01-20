@@ -1,45 +1,154 @@
-﻿@model IEnumerable<MandaditosExpress.Models.Servicio>
+﻿@model IEnumerable<MandaditosExpress.Models.ViewModels.ServicioViewModel>
 
 @{
     ViewBag.Title = "Servicios";
+    var Servicio = Html.HtmlConvertToJson(Model);
+
+    @Html.Hidden("dt", Servicio);
 }
 
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescripcionDelServicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>Opciones</th>
-        </tr>
-    
-    @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DescripcionDelServicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado)
-        </td>
-        <td>
-            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-success"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-            <a href=" @Url.Action("Delete", new { id = item.Id })" class="btn btn-danger" ><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-        </td>
-    </tr>
+@Styles.Render("~/Plugin/switches")
+<style>
+    .swal2-container {
+        z-index: 2051
     }
-    
-    </table>
-</body>
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="table-responsive">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Lista de Servicios</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row col-lg-12">
+                        <p>
+                            <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
+                        </p>
+                    </div>
+
+                    @if (Model.Count() > 0)
+                    {
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- ko with:TablePagination()-->
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("Nº")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.DescripcionDelServicio)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.Estado)
+                                                </th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:ItemsInPage">
+                                            <tr>
+                                                <td data-bind="text: (($parent.Pagination().CurrentPage() - 1) * $parent.Pagination().PageSize() + ($index() +1))"></td>
+                                                <td data-bind="text:DescripcionDelServicio"></td>
+                                                <td data-bind="text:DescripcionTipoDeServicio"></td>
+                                                <td>
+                                                    <span data-bind="text:(Estado() ? 'Activo' :'Inactivo'), class:(Estado() ? 'badge badge-success' : 'badge badge-warning' ) " />
+                                                </td>
+                                                <td>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                                        <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                                    }
+                                                    @if (User.IsInRole("Asistente"))
+                                                    {
+                                                        <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <!--ko with:Pagination-->
+                                    <nav aria-label="Páginas">
+                                        <ul class="pagination text-success justify-content-center" data-bind="visible: NeedPaging">
+
+                                            <li class="page-item" data-bind="css: { disabled: !FirstPageActive() }">
+                                                <a class="page-link" data-bind="click: GoToFirst">Primera</a>
+                                            </li>
+
+                                            <li class="page-item" data-bind="css: { disabled: !PreviousPageActive() }">
+                                                <a class="page-link" data-bind="click: GoToPrevious">Anterior</a>
+                                            </li>
+
+                                            <!-- ko foreach: GetPages() -->
+                                            <li class="page-item" data-bind="css: { active: ko.unwrap($parent.CurrentPage()) === ko.unwrap($data) }">
+                                                <a class="page-link" data-bind="click: $parent.GoToPage, text: $data">1</a>
+                                            </li>
+                                            <!-- /ko -->
+
+                                            <li class="page-item" data-bind="css: { disabled: !NextPageActive() }">
+                                                <a class="page-link" data-bind="click: GoToNext">Siguiente</a>
+                                            </li>
+
+                                            <li class="page-item" data-bind="css: { disabled: !LastPageActive() }">
+                                                <a class="page-link" data-bind="click: GoToLast">última</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <!--/ko-->
+
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!--ko if:mostrarAlertVacio-->
+                        <div class="alert alert-warning alert-Empty" role="alert">
+                            Se encontraron 0 servicios para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                        </div>
+                        <!--/ko-->
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Servicios/Templates/_ServicioTemplate.cshtml")
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/knockout")
+    @Scripts.Render("~/plugins/switch")
+    <script src="~/Scripts/knockout/ViewModel/Shared/PaginacionViewModel.js"></script>
+    <script src="~/Scripts/knockout/ViewModel/Shared/TablePagination.js"></script>
+    @Scripts.Render("~/bundles/IndexServicio")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/notify")
+
+}

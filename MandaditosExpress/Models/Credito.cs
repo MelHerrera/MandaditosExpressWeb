@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MandaditosExpress.Models.Enum;
 
 namespace MandaditosExpress.Models
 {
@@ -12,10 +13,21 @@ namespace MandaditosExpress.Models
         public Credito()
         {
             this.FechaDeCancelacion = DateTime.Parse("01/01/1900");
+            Pagos = new HashSet<Pago>();
+            Envios = new HashSet<Envio>();
+            CodigoDelCredito = "-";
         }
 
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Código")]
+        [StringLength(30)]
+        public string CodigoDelCredito { get; set; }
+
+        [Display(Name = "Descripción")]
+        [Required]
+        public string Descripcion { get; set; }
 
         [Display(Name = "Fecha De Inicio")]
         public DateTime FechaDeInicio { get; set; }
@@ -34,5 +46,9 @@ namespace MandaditosExpress.Models
         public int ClienteId { get; set; }
 
         public virtual Cliente Cliente { get; set; }
+
+        public virtual ICollection<Pago> Pagos { get; set; }
+
+        public virtual ICollection<Envio> Envios { get; set; }
     }
 }

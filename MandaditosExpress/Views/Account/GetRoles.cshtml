@@ -1,0 +1,238 @@
+﻿
+@{
+    ViewBag.Title = "Lista de Roles";
+    @Html.Hidden("Roles");
+}
+
+<style>
+    .swal2-container {
+        z-index: 2051
+    }
+</style>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">Fecha: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
+                    <h2>Roles</h2>
+                    <p>
+                        Listado de la información sobre los roles del sistema.
+                    </p>
+
+                    <div class="row">
+                        <div class="col-sm-6 float-right">
+                            <div class="input-group">
+                                <input type="text" placeholder="Ingrese el nombre del rol " class="input form-control" data-bind="value:$root.TextInputBusqueda">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarRoles">
+                                        <i class="fa fa-search"></i> Buscar
+                                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoRoles"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn btn-primary" data-bind="click: function(usuario, event){ $root.ShowModal(null, event) },attr:{href:'@Url.Action("/CreateRol")'}" id="btn-create">
+                                <i class="fa fa-plus"></i> Crear Rol
+                            </button>
+                        </div>
+                    </div>
+                    <div class="clients-list small">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Roles()).length )">0 </span>
+                            <span class="pull-right text-muted ml-2"> Roles(s)</span>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <!--ko if:ko.unwrap(Roles()).length > 0-->
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-striped table-hover">
+                                            <thead class="bg-primary">
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cant. Usuarios</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach:Roles">
+                                                <tr>
+                                                    <td data-bind="text:$index()+1"></td>
+                                                    <td data-bind="text:Name"></td>
+                                                    <td data-bind="text:ko.unwrap(Users).length"></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn btn-danger btn-sm" data-bind="click: $root.ShowModal, attr:{ href:'@Url.Action("/DeleteRol")'}" id="btn-delete">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:ko.unwrap(Roles()).length <= 0-->
+                                    <div class="justify-content-center" style="text-align:center;">
+                                        <img src="~/Images/5.png" />
+                                        <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                            Se encontraron 0 roles para mostrar.
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="template-roles">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Name" class="control-label font-weight-bold">Descripción del rol</label>
+                <input type="text" data-bind="value:$root.RoleName, disable: $root.Disable" name="Name" class="form-control" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<!--ko with: ModalViewModel-->
+<modal params="{ ModalViewModel : $data }"></modal>
+<!--/ko-->
+
+@Html.Partial("~/Views/Shared/KnockoutTemplates/_ModalTemplate.cshtml")
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/knockout/Componentes/ModalComponent.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
+    <script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
+
+    <script type="text/javascript">
+        function RolViewModel(data) {
+            const self = this;
+            data = data || {};
+
+            self.RoleName = ko.observable(data.Name || "");
+        }
+
+        function IndexRoles(data) {
+            const self = this;
+            data = data || {};
+
+            self.Roles = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
+            self.AllRoles = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
+            self.RolSelected = ko.observable();
+            self.TextInputBusqueda = ko.observable('');
+            self.ModalViewModel = ko.observable(new ModalViewModel({ }));
+            self.error = ko.observable('');
+            self.FiltrandoRoles = ko.observable(false);
+            self.RoleName = ko.observable('');
+            self.Disable = ko.observable(false);
+            self.Action = ko.observable();
+
+            self.ShowModal = function (usuario, event) {
+                self.RolSelected(usuario);
+                self.ModalViewModel().ModalId("#modal-role");
+
+                if (event.currentTarget.id == "btn-create") {
+                    self.Disable(false);
+                    self.RoleName('');
+                    self.RolSelected(new RolViewModel());
+                    self.Action("Create");
+
+                    self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Ingrese la información del rol.").ModalHeaderClass("bg-primary");
+                    self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-roles", Data: "" });
+                    self.ModalViewModel().FooterViewModel().ActionName("Guardar").UrlAction($(event.currentTarget).attr("href"));
+                }
+                if (event.currentTarget.id == "btn-delete") {
+                    self.Disable(true);
+                    self.RoleName(usuario.Name());
+                    self.Action("Delete");
+                    self.ModalViewModel().ModalHeaderViewModel().ModalTitle("¿Esta seguro(a) que desea eliminar el rol seleccionado?").ModalHeaderClass("bg-danger");
+                    self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "template-roles", Data: "" });
+                    self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
+                }
+
+                self.ModalViewModel().ShowModal();
+            };
+            self.GuardarCambios = function (data, event) {
+                let token = $('.modal-form-foot input[name="__RequestVerificationToken"]').val();
+
+                if (self.Action() == "Create")
+                    var head = { __RequestVerificationToken: token, Name: self.RolSelected().RoleName() };
+                else
+                    var head = { __RequestVerificationToken: token, Id: self.RolSelected().Id() };
+
+                $.ajax({
+                    url: ko.toJS(data).UrlAction,
+                    type: "Post",
+                    data: head,
+                    success: function (res) {
+                        self.ModalViewModel().HideModal();
+
+                        if (res.exito) {
+                            $.notify({
+                                icon: 'fa fa-check-circle',
+                                message: res.message
+                            });
+                            setTimeout(function () { location.reload(); }, 2000);
+                        }
+                        else {
+                            $.notify({
+                                icon: 'fa fa-exclamation-circle',
+                                message: res.message
+                            });
+                        }
+                    },
+                    error: function (e) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Ha sucedido un error procesando tu solicitud',
+                            footer: 'Contactese con el Administrador del Sistema'
+                        })
+                    }
+                });
+            }
+            self.FiltrarRoles = function () {
+                self.FiltrandoRoles(true);//mostrar progress de filtrando
+
+                if (self.TextInputBusqueda()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.AllRoles(), function (it) {
+                        if (it.Name().toUpperCase().includes(self.TextInputBusqueda().toUpperCase()) )
+                            return it;
+                    });
+                    self.Roles(arrayFiltered);
+                } else {
+                    self.Roles(self.AllRoles());
+                }
+
+                self.FiltrandoRoles(false);//ocultar progress
+            }
+
+        }
+
+        $(function () {
+            let data = $("#Roles").val();
+            $("#Roles").remove();
+
+            let IndexViewModel = new IndexRoles(JSON.parse(data));
+
+            ko.applyBindings(IndexViewModel);
+
+        });
+    </script>
+}
+

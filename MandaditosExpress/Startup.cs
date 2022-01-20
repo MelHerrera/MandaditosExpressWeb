@@ -36,6 +36,7 @@ namespace MandaditosExpress
                 usuario.UserName = "melkinantonioh@gmail.com";
                 usuario.Email = "melkinantonioh@gmail.com";
                 usuario.EmailConfirmed = true;
+                
 
 
                 var resultado = AdmUsuarios.Create(usuario, "Mel#123");

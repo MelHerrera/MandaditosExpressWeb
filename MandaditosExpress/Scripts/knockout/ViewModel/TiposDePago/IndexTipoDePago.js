@@ -2,6 +2,7 @@
 function IndexTipoDePago(TipoDePagoCollection) {
     const self = this;
     self.TiposDePago = ko.observableArray(TipoDePagoCollection || []);
+    self.Disable = ko.observable(false);
 
     self.ModalViewModel = ko.observable(new ModalViewModel({
         ModalId: "tipodepago-modal",
@@ -13,12 +14,14 @@ function IndexTipoDePago(TipoDePagoCollection) {
     self.ShowModal = function (TipoDePago, event) {
 
         if (event.currentTarget.id == "btn-edit") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del tipo de pago").ModalHeaderClass("bg-success");
+            self.Disable(false);
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Editar la información del método de pago").ModalHeaderClass("bg-success");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "tipodepago-modal-template", Data: new TipoDePagoViewModel(ko.toJS(TipoDePago)) });
             self.ModalViewModel().FooterViewModel().ActionName("Editar").UrlAction($(event.currentTarget).attr("href"));
         }
         if (event.currentTarget.id == "btn-del") {
-            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar el tipo de pago").ModalHeaderClass("bg-danger");
+            self.Disable(true);
+            self.ModalViewModel().ModalHeaderViewModel().ModalTitle("Eliminar el método de pago").ModalHeaderClass("bg-danger");
             self.ModalViewModel().ModalBodyViewModel().TemplateViewModel({ Name: "tipodepago-modal-template", Data: new TipoDePagoViewModel(ko.toJS(TipoDePago)) });
             self.ModalViewModel().FooterViewModel().ActionName("Eliminar").UrlAction($(event.currentTarget).attr("href"));
         }
@@ -50,11 +53,19 @@ function IndexTipoDePago(TipoDePagoCollection) {
             type: "Post",
             data: { __RequestVerificationToken: token, tipoDePago: TipoDePagoSelected },
             success: function (res) {
+                self.ModalViewModel().HideModal();
                 if (res.exito) {
-                    location.reload();
+                    setTimeout(function () { location.reload(); }, 2000);
+
                     $.notify({
                         icon: 'fa fa-check-circle',
                         message: "Se edito la informacion Correctamente"
+                    });
+                }
+                else {
+                    $.notify({
+                        icon: 'fa fa-exclamation-circle',
+                        message: res.message
                     });
                 }
             },
@@ -62,8 +73,7 @@ function IndexTipoDePago(TipoDePagoCollection) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops... Disculpa',
-                    text: 'Algo salio mal!',
-                    footer: 'Contactese con el Administrador del Sistema'
+                    text: 'Ha ocurrido un error procesando tu solicitud!'
                 })
             }
         });

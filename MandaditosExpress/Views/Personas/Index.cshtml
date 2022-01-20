@@ -1,114 +1,166 @@
-﻿@model IEnumerable<MandaditosExpress.Models.Persona>
-    <p>
-        @*@Html.ActionLink("Create New", "Create", new { @class = "btn btn-succes float-right" })*@
-        <a class="btn btn-success float-right" href="@Url.Action("Create","Personas")"><i class="fa fa-plus"></i> Agregar</a>
-    </p>
-    <div class="ibox-content">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CorreoElectronico)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NombreCompleto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Telefono)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Foto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Sexo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Direccion)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cedula)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaIngreso)
-                    </th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CorreoElectronico)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NombreCompleto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Telefono)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Foto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Sexo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Direccion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cedula)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaIngreso)
-                        </td>
-                        <td style="white-space:nowrap;">
-                            <a class="btn btn-primary" href="@Url.Action("Edit",new { id = item.Id})"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-info" href="@Url.Action("Details",new {id = item.Id})"><i class="fa fa-info-circle"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-@section Styles {
-    @Styles.Render("~/Content/dataTablesStyles")
+﻿
+@{
+    ViewBag.Title = "Lista de Personas";
+    @Html.Hidden("Personas");
 }
 
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">Fecha: <i class="fa fa-clock-o"></i> @DateTime.Now.ToString() </span>
+                    <h2>Usuarios</h2>
+                    <p>
+                        Lista de todos los usuarios registrados en el sistema.
+                    </p>
 
-@section Scripts 
-{
-    @Scripts.Render("~/plugins/jeditable")
-    @Scripts.Render("~/plugins/dataTables")
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-primary" data-bind="click:$root.FiltrarPersonas">
+                                        <i class="fa fa-search"></i> Buscar
+                                        <i class="fa fa-spinner fa-pulse" data-bind="visible: $root.FiltrandoPersonas"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <div class="col-auto">
+                                <a type="button" class="btn btn btn-primary" href="@Url.Action("/Create")">
+                                    <i class="fa fa-plus"></i> Crear Usario
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <div class="clients-list small">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right text-muted" data-bind="text:( ko.unwrap(Personas()).length )">0 </span>
+                            <span class="pull-right text-muted ml-2"> Usuario(s)</span>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <!--ko if:ko.unwrap(Personas()).length > 0-->
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-striped table-hover">
+                                            <thead class="bg-primary">
+                                                <tr>
+                                                    <th>Nº</th>
+                                                    <th>Foto</th>
+                                                    <th>Nombres</th>
+                                                    <th>Telefono</th>
+                                                    <th>Correo</th>
+                                                    <th>Confirmado</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach:Personas">
+                                                <tr>
+                                                    <td data-bind="text:$index()+1"></td>
+                                                    <td class="client-avatar">
+                                                        <!--ko if:Foto()!=null ? Foto().length >0 : false -->
+                                                        <img alt="" data-bind="attr: { src: 'data:image/png;base64,' + Foto() }" />
+                                                        <!--/ko-->
+                                                        <!--ko ifnot:Foto()!=null ? Foto().length >0 : false-->
+                                                        <img src="~/Images/default_profile.png" class="img-circle" height="40" width="40" />
+                                                        <!--/ko-->
+                                                    </td>
+                                                    <td data-bind="text:Nombres"></td>
+                                                    <td>
+                                                        <i class="fa fa-phone"></i>
+                                                        <span data-bind="text:Telefono"></span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-envelope"></i>
+                                                        <span data-bind="text:CorreoElectronico"></span>
+                                                    </td>
+
+                                                    <td class="client-status">
+                                                        <span data-bind="text:EmailConfirmedDescripcion, attr:{ class:EmailConfirmedClass}"></span>
+                                                    </td>
+
+                                                    <td>
+                                                        <a class="btn btn btn-primary btn-sm" data-bind="click: $root.ShowModal, attr:{ href:'@Url.Action("/Details/")' +Id() }">
+                                                            <i class="fa fa-info-circle"></i>
+                                                        </a>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:ko.unwrap(Personas()).length <= 0-->
+                                    <div class="justify-content-center" style="text-align:center;">
+                                        <img src="~/Images/5.png" />
+                                        <div class="alert alert-warning alert-Empty mx-3" role="alert">
+                                            Se encontraron 0 usuarios para mostrar.
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/knockout")
+    <script src="~/Scripts/knockout/knockout.mapping.js"></script>
+    <script src="~/Scripts/knockout/Componentes/ModalComponent.js"></script>
+    @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/sweetalert")
+    <script src="~/Scripts/knockout/extensions/CustomBindins.js"></script>
 
     <script type="text/javascript">
 
-        //f- entrada de filtrado y busqueda
-        //l- control para seleccionar cantidad de datos por pagina
-        //i- muestra la cantidad de datos por pagina
-        //r- control de procesamiento
-        //t-controles de paginacion abajo
-        //p - controles de paginacion
-        $(document).ready(function () {
-            $('.table').dataTable({
-                "dom": 'lfrtip',
-                "scrollX": true,
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "No se encontró nada, lo siento",
-                    "info": "Mostrando Página _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Último",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                }
-            });
-        });
+        function IndexResetPassword(data) {
+            const self = this;
+            data = data || {};
 
-      </script>
+            self.Personas = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
+            self.AllPersonas = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
+            self.PersonaSelected = ko.observable();
+            self.TextInputBusqueda = ko.observable('');
+            self.FiltrandoPersonas = ko.observable(false);
+            self.FiltrarPersonas = function () {
+                self.FiltrandoPersonas(true);//mostrar progress de filtrando
+
+                if (self.TextInputBusqueda()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.AllPersonas(), function (it) {
+                        if (it.CorreoElectronico().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1 ||
+                            it.Nombres().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1) {
+                            return it;
+                        }
+                    });
+                    self.Personas(arrayFiltered);
+                } else {
+                    self.Personas(self.AllPersonas());
+                }
+
+                self.FiltrandoPersonas(false);//ocultar progress
+            }
+
+        }
+
+        $(function () {
+            let data = $("#Personas").val();
+            $("#Personas").remove();
+
+            let IndexViewModel = new IndexResetPassword(JSON.parse(data));
+
+            ko.applyBindings(IndexViewModel);
+
+        });
+    </script>
 }

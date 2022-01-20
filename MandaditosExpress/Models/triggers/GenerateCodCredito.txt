@@ -1,0 +1,27 @@
+﻿
+use MandaditosDB
+go
+
+-- =============================================
+-- Author:		<email:melkinantonioh@gmail.com>
+-- Create date: <13/12/2021>
+-- Description:	<genera un codigo para el registro y actualiza el codigo del credito que acaba de ser insertado en la tabla de creditos>
+-- =============================================
+
+create trigger GenerateCodCred
+on Creditos
+after insert
+as
+begin
+set nocount on;
+
+--instruction sql trigger
+--Code format : CRED + current year + credito Id
+declare @creditoId int =  (select i.Id from inserted as i)
+
+--update code with generated code
+update Creditos
+set CodigoDelCredito = CONCAT('CRED', YEAR(getDate()), @creditoId) 
+where Id =@creditoId
+
+end

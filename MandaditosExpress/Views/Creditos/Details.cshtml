@@ -1,58 +1,102 @@
 ﻿@model MandaditosExpress.Models.Credito
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles del Crédito";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Credito</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Cliente.CorreoElectronico)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cliente.CorreoElectronico)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaDeInicio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaDeInicio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaDeVencimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaDeVencimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EstadoDelCredito)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EstadoDelCredito)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaDeCancelacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaDeCancelacion)
-        </dd>
-
-    </dl>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Detalle del crédito</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "HomeUser")">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catálogos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Monedas")">Créditos</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Detalles</strong>
+            </li>
+        </ol>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="container">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox ">
+                    <div class="ibox-content align-items-center">
+
+                        <div>
+                            <h4><i class="fa fa-info-circle"></i> Informacion detallada del crédito</h4>
+                            <hr />
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.CodigoDelCredito)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.CodigoDelCredito)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Descripcion)
+                                </dd>
+
+                                @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
+                                {
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ClienteId)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Cliente.NombreCompleto)
+                                    </dd>
+                                }
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FechaDeInicio)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.FechaDeVencimiento)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FechaDeVencimiento)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.FechaDeCancelacion)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FechaDeCancelacion)
+                                </dd>
+
+                            </dl>
+                        </div>
+
+                    </div>
+
+                    <div class="ibox-footer">
+                        <div class="col-md-12">
+                            @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-primary fa fa-arrow-left" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
