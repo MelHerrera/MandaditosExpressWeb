@@ -25,7 +25,7 @@ namespace MandaditosExpress.Models
         [Display(Name ="Descripción")]
         public string DescripcionTipoDeServicio { get; set; }
 
-        [Display(Name ="Estado")]
+        [Display(Name ="Activo")]
         public bool EstadoTipoDeServicio { get; set; }
 
         public virtual ICollection<Costo> Costos { get; set; }

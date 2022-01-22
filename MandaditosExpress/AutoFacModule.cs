@@ -53,9 +53,9 @@ public class MainMappingProfile : Profile
             var calc = DateTime.Now - e.FechaDelEnvio;
 
             if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).TotalMinutes > 45)//si es urgente y han pasado mas de 45 minutos entonces esta retrasado
-                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes -45;
+                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes - 45;
             if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && !e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).Minutes > 90)//si no es urgente y han pasado mas de 90 minutos entonces esta retrasado 
-                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes -90;
+                return (DateTime.Now - e.FechaDelEnvio).TotalMinutes - 90;
 
             return 0.0;
         };
@@ -90,8 +90,8 @@ public class MainMappingProfile : Profile
         CreateMap<Envio, EnvioPagoViewModel>().ForMember(x => x.DistanciaEntregaRecep, x => x.MapFrom(y => y.DistanciaEntregaRecep.ToString("0.##")))
             .ReverseMap();
 
-        CreateMap<Cliente, IndexClienteViewModel>().ForMember(x=> x.Nombres, x=> x.MapFrom(y=> y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido))
-            .ForMember(x=> x.TipoDePersona, x=> x.MapFrom(y=> y.EsEmpresa ? "Negocio":"Persona"))
+        CreateMap<Cliente, IndexClienteViewModel>().ForMember(x => x.Nombres, x => x.MapFrom(y => y.PrimerNombre + " " + y.PrimerApellido + " " + y.SegundoApellido))
+            .ForMember(x => x.TipoDePersona, x => x.MapFrom(y => y.EsEmpresa ? "Negocio" : "Persona"))
             .ForMember(x => x.TipoDePersonaClass, x => x.MapFrom(y => y.EsEmpresa ? "badge badge-warning" : "badge badge-success"));
 
         CreateMap<Moneda, MonedaViewModel>().ForMember(x => x.NombreDeMoneda, x => x.MapFrom(y => y.NombreDeMoneda + " " + y.Abreviatura)).ReverseMap();
@@ -119,9 +119,9 @@ public class MainMappingProfile : Profile
                             .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false))
                             .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false))
                             .ForMember(x => x.EstaRetrasado, x => x.MapFrom(y => EstaRetrasado(y)))
-                            .ForMember(x=> x.TiempoRetraso, x=> x.MapFrom(y=> TiempoDeRetraso(y).ToString("0")))
-                            .ForMember(x => x.Asignado, x => x.MapFrom(y => (y.MotorizadoId!=null && y.MotorizadoId > 0) ? true : false))
-                            .ForMember(x => x.NombresDelMotorizado, x=> x.MapFrom(y=> y.Motorizado.NombreCompleto)).ReverseMap();
+                            .ForMember(x => x.TiempoRetraso, x => x.MapFrom(y => TiempoDeRetraso(y).ToString("0")))
+                            .ForMember(x => x.Asignado, x => x.MapFrom(y => (y.MotorizadoId != null && y.MotorizadoId > 0) ? true : false))
+                            .ForMember(x => x.NombresDelMotorizado, x => x.MapFrom(y => y.Motorizado.NombreCompleto)).ReverseMap();
 
         CreateMap<Envio, EnvioHistorialViewModel>().ReverseMap();
         CreateMap<Envio, EnviosCreditoViewModel>().ReverseMap();
@@ -138,9 +138,58 @@ public class APIMappingProfile : Profile
     {
         CreateMap<Credito, ResponseWsCredito>().ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
             .ForMember(x => x.FechaDeInicio, x => x.MapFrom(y => y.FechaDeInicio.ToString("dd/MM/yyyy")))
-         .ForMember(x => x.FechaDeVencimiento, x => x.MapFrom(y => y.FechaDeVencimiento.ToString("dd/MM/yyyy")))
-         .ForMember(x => x.FechaDeCancelacion, x => x.MapFrom(y => y.FechaDeCancelacion.ToString("dd/MM/yyyy")))
-         .ForMember(x => x.Descripcion, x => x.MapFrom(y=> "Credito principal para christopher 2022-2"))
-          .ForMember(x => x.CodigoDelCredito, x => x.MapFrom(y => "CRED20211"));
+            .ForMember(x => x.FechaDeVencimiento, x => x.MapFrom(y => y.FechaDeVencimiento.ToString("dd/MM/yyyy")))
+            .ForMember(x => x.FechaDeCancelacion, x => x.MapFrom(y => y.FechaDeCancelacion.ToString("dd/MM/yyyy")))
+            .ForMember(x => x.MontoDelCredito, x => x.MapFrom(y => y.Envios.Where(w => w.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso || w.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado)
+            .Sum(z => z.MontoTotalDelEnvio))).ReverseMap();
+
+        CreateMap<Pago, ResponseWsPago>().ForMember(x => x.MonedaDescripcion, x => x.MapFrom(y => y.Moneda.NombreDeMoneda + " " + y.Moneda.Abreviatura))
+            .ForMember(x => x.TipoDePagoDescripcion, x => x.MapFrom(y => y.TipoDePago.Descripcion))
+            .ForMember(x => x.EnvioCodigo, x => x.MapFrom(y => y.Envio != null ? y.Envio.CodigoDeEnvio : null))
+            .ForMember(x => x.CreditoCodigo, x => x.MapFrom(y => y.Credito != null ? y.Credito.CodigoDelCredito : null))
+            .ForMember(x => x.ConceptoDelPago, x => x.MapFrom(y => y.Envio != null ? "Envio" : "Crédito"))
+            .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Envio != null ? y.Envio.Cliente.PrimerNombre + " " + y.Envio.Cliente.PrimerApellido + " " + y.Envio.Cliente.SegundoApellido :
+            y.Credito.Cliente.PrimerNombre + " " + y.Credito.Cliente.PrimerApellido + " " + y.Credito.Cliente.SegundoApellido)).ReverseMap();
+
+        CreateMap<Cotizacion, ResponseWsCotizacion>()
+            .ForMember(x => x.LugarDestino, x => x.MapFrom(y => y.LugarDestino != null ? y.LugarDestino.Direccion : ""))
+            .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
+            .ForMember(x => x.TipoDeServicioDescripción, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio))
+            .ReverseMap();
+
+        CreateMap<Envio, ResponseWsEnvio>()
+                    .ForMember(x => x.EstadoDelEnvioText, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString()
+                    : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? EstadoDelEnvioEnum.Realizado.ToString() : EstadoDelEnvioEnum.Rechazado.ToString()))
+                    .ForMember(x => x.Cliente, x => x.MapFrom(y => y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
+                    .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false))
+                    .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false))
+                    .ForMember(x => x.EstaRetrasado, x => x.MapFrom(y => EstaRetrasado(y)))
+                    .ForMember(x => x.TiempoRetraso, x => x.MapFrom(y => TiempoDeRetraso(y).ToString("0")))
+                    .ForMember(x => x.Asignado, x => x.MapFrom(y => (y.MotorizadoId != null && y.MotorizadoId > 0) ? true : false))
+                    .ForMember(x => x.NombresDelMotorizado, x => x.MapFrom(y => y.Motorizado.NombreCompleto)).ReverseMap();
+
+        CreateMap<TipoDeServicio, ResponseWsTipoDeServicio>();
     }
+
+    Func<Envio, bool> EstaRetrasado = (e) =>
+    {
+        if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).TotalMinutes > 45)//si es urgente y han pasado mas de 45 minutos entonces esta retrasado
+            return true;
+        if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && !e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).Minutes > 90)//si no es urgente y han pasado mas de 90 minutos entonces esta retrasado 
+            return true;
+
+        return false;
+    };
+
+    Func<Envio, double> TiempoDeRetraso = (e) =>
+    {
+        var calc = DateTime.Now - e.FechaDelEnvio;
+
+        if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).TotalMinutes > 45)//si es urgente y han pasado mas de 45 minutos entonces esta retrasado
+            return (DateTime.Now - e.FechaDelEnvio).TotalMinutes - 45;
+        if (e.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso && !e.EsUrgente && (DateTime.Now - e.FechaDelEnvio).Minutes > 90)//si no es urgente y han pasado mas de 90 minutos entonces esta retrasado 
+            return (DateTime.Now - e.FechaDelEnvio).TotalMinutes - 90;
+
+        return 0.0;
+    };
 }

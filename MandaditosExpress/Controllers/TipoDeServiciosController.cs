@@ -57,10 +57,11 @@ namespace MandaditosExpress.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "Id,DescripcionTipoDeServicio,EstadoTipoDeServicio")] TipoDeServicio tipoDeServicio)
+        public ActionResult Create([Bind(Include = "Id,DescripcionTipoDeServicio")] TipoDeServicio tipoDeServicio)
         {
             if (ModelState.IsValid)
             {
+                //se guarda el tipo de servicio como desactivado porque cada tipo de servicio puede tener una logica diferente, por ende, tendria que adaptar las pantallas al nuevo tipo de servicio
                 db.TiposDeServicio.Add(tipoDeServicio);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -58,11 +58,8 @@
                                             @Html.LabelFor(model => model.EstadoTipoDeServicio, htmlAttributes: new { @class = "control-label" })
                                             <div class="form-group">
                                                 <div class="checkbox">
-                                                    @*@Html.EditorFor(model => model.Estado)*@
+                                                    <input type="checkbox" data-toggle="switchbutton" value="false" data-onstyle="info" data-offlabel="No" data-onlabel="No" disabled>
                                                     @Html.ValidationMessageFor(model => model.EstadoTipoDeServicio, "", new { @class = "text-danger" })
-
-                                                    <input type="checkbox" value="true" name="EstadoTipoDeServicio" checked hidden>
-                                                    <input type="checkbox" data-toggle="switchbutton" value="true" data-onstyle="info" name="EstadoTipoDeServicio" disabled checked>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +91,4 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/plugins/switch")
-
-
-  
     }

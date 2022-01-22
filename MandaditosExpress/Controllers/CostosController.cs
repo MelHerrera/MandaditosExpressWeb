@@ -50,7 +50,7 @@ namespace MandaditosExpress.Controllers
         [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
-            var tiposservicio = db.TiposDeServicio.Where(tp => !(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC"))).ToList();
+            var tiposservicio = db.TiposDeServicio.Where(tp => !(tp.DescripcionTipoDeServicio.ToUpper().Contains("BANC")) && tp.EstadoTipoDeServicio).ToList();
 
             if (tiposservicio.Count <= 0)
                 tiposservicio.Insert(0, new TipoDeServicio { Id=0,DescripcionTipoDeServicio = "-- Sin Registros --" });

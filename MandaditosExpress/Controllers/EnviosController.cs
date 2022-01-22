@@ -149,7 +149,7 @@ namespace MandaditosExpress.Controllers
         {
             var EnvioViewModel = new SolicitudEnvioViewModel();
 
-            EnvioViewModel.TiposDeServicio = _mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio).ToList();
+            EnvioViewModel.TiposDeServicio = _mapper.Map<ICollection<TipoDeServicioViewModel>>(db.TiposDeServicio.Where(x=> x.EstadoTipoDeServicio)).ToList();
             EnvioViewModel.Servicios = _mapper.Map<ICollection<ServicioViewModel>>(db.Servicios).ToList();
             EnvioViewModel.TiposDePago = _mapper.Map<ICollection<TipoDePagoViewModel>>(db.TiposDePago).ToList();
 
