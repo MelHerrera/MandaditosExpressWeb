@@ -271,6 +271,7 @@
     <Compile Include="API\EnviosWSController.cs" />
     <Compile Include="API\LoginWSController.cs" />
     <Compile Include="API\PagosWSController.cs" />
+    <Compile Include="API\PersonaWSController.cs" />
     <Compile Include="API\TipoDeServicioWSController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -851,6 +852,7 @@
     <Folder Include="Views\CotizacionesWS\" />
     <Folder Include="Views\EnviosWS\" />
     <Folder Include="Views\PagosWS\" />
+    <Folder Include="Views\Persona\" />
     <Folder Include="Views\TipoDeServicioWS\" />
   </ItemGroup>
   <ItemGroup>

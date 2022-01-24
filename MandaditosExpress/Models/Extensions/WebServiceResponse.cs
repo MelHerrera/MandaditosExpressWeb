@@ -171,4 +171,11 @@ namespace MandaditosExpress.Models.Extensions
         public List<ResponseWsEnvio> Envios { get; set; }
     }
 
+    public partial class ResponseWsImagenPerfil
+    {
+        public bool Exito { get; set; }
+        public string Mensaje { get; set; }
+
+        public byte[] Imagen { get; set; }
+    }
 }
