@@ -23,7 +23,7 @@
                     <div class="ibox ">
                         <div class="ibox-content align-items-center">
 
-                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio", @class="frmEnvio" }))
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { data_bind = "submit:$root.SolicitarEnvio", @class = "frmEnvio" }))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -77,7 +77,7 @@
                                         <div class="col-md-6" data-bind="with:Servicio">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio"/>
+                                                <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" />
                                                 <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
                                                     <span id="DescripcionDelServicio-error" class=""></span>
                                                 </span>
@@ -114,7 +114,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.MontoDeDinero, htmlAttributes: new { @class = "control-label font-weight-bold" })
-                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @min = 120, @max=10000, @title = "Por seguridad solo aceptamos montos de 120 a 10,000. Para enviar una cantidad Mayor contacte con el negocio", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
+                                                @Html.EditorFor(model => model.MontoDeDinero, new { htmlAttributes = new { @class = "form-control", @min = 120, @max = 10000, @title = "Por seguridad solo aceptamos montos de 120 a 10,000. Para enviar una cantidad Mayor contacte con el negocio", data_bind = "enable: ($root.MostrarMonto() && !$root.EnvioMedianteCotizacion() ), value:MontoDeDinero" } })
                                                 @Html.ValidationMessageFor(model => model.MontoDeDinero, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -278,7 +278,7 @@
                                             </div>
 
                                             <div class="col">
-                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" data-bind="disable:$root.CargandoSolicitud"/>
+                                                <input type="submit" value="Solicitar Envío" class="btn btn-primary float-right ml-2" data-bind="disable:$root.CargandoSolicitud" />
                                                 <input type="submit" value="Ver Costo" class="btn btn-primary float-right" data-bind="click:$root.CalcularMonto, visible: !($root.EnvioMedianteCotizacion())" />
                                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw float-right mr-2" data-bind="visible: $root.CargandoSolicitud"></i>
                                             </div>
@@ -329,7 +329,7 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDmKbJfbvqtbp9AoRjEAn-90N75Wa2CdIg"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA_M5NmrnwhUBhn2MwT1JVUHTXbVaiVvbA"></script>
     @Scripts.Render("~/plugins/locationpicker")
     @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/plugins/knockout")
@@ -345,7 +345,7 @@
 
     function IndexEnvioViewmodel(initialData) {
         const self = this;
-        ///TODO validar que no se pueda dar solicitar envio multiples veces 
+        ///TODO validar que no se pueda dar solicitar envio multiples veces
 
         //formatear la fecha.
         let fechaFormatted = formatDate(initialData.FechaDelEnvio())

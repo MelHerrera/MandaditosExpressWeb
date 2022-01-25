@@ -848,13 +848,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\CotizacionesWS\" />
-    <Folder Include="Views\EnviosWS\" />
-    <Folder Include="Views\PagosWS\" />
-    <Folder Include="Views\Persona\" />
-    <Folder Include="Views\TipoDeServicioWS\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptCotizacion.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
