@@ -332,6 +332,7 @@ namespace MandaditosExpress.Controllers
 
         public IEnumerable<UsuarioViewModel> GetUserList()
         {
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var Usuarios = SecurityDB.Users.ToList();
 
             var Personas = from usuarios in Usuarios
@@ -345,7 +346,8 @@ namespace MandaditosExpress.Controllers
                                Foto = personas.Foto,
                                Nombres = personas.PrimerNombre + " " + personas.PrimerApellido + " " + personas.SegundoApellido,
                                EmailConfirmedClass = usuarios.EmailConfirmed ? "badge badge-primary" : "badge badge-warning",
-                               EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar"
+                               EmailConfirmedDescripcion = usuarios.EmailConfirmed ? "Confirmado" : "Sin confirmar",
+                               Rol = string.Join(" | ", UserManager.GetRoles(usuarios.Id))
                            };
 
             return Personas;

@@ -293,6 +293,9 @@ namespace MandaditosExpress.Models.ViewModels
 
         public string EmailConfirmedDescripcion { get; set; }
 
+        [Display(Name = "Rol(es)")]
+        public string Rol { get; set; }
+
         [NotMapped]
         public string Nombres { get; set; }
     }
