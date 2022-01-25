@@ -305,7 +305,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Asistente.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -848,7 +847,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptCotizacion.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />

@@ -40,10 +40,7 @@ namespace MandaditosExpress.Models
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Entity<Cotizacion>().Property(x => x.MontoTotal).HasPrecision(7, 2);
-            modelBuilder.Entity<CotizacionViewModel>().Property(x => x.MontoTotal).HasPrecision(7, 2);//establecerle la precision al correspóndiente viewmodel de la Cotizacion
-
             modelBuilder.Entity<Cotizacion>().Property(x => x.MontoDeDinero).HasPrecision(7, 2);
-            modelBuilder.Entity<CotizacionViewModel>().Property(x => x.MontoDeDinero).HasPrecision(7, 2);//establecerle la precision al correspóndiente viewmodel de la Cotizacion
 
             modelBuilder.Entity<CostoGestionBancaria>().Property(x => x.MontoDesde).HasPrecision(7, 2);
             modelBuilder.Entity<CostoGestionBancaria>().Property(x => x.MontoDesde).HasPrecision(7, 2);//establecerle la precision al correspóndiente viewmodel de la Cotizacion
