@@ -13,7 +13,7 @@ namespace MandaditosExpress.Models
             this.Envios = new HashSet<Envio>();
         }
 
-        public DateTime FechaIngresoDeAsistente { get; set; }
+        //public DateTime FechaIngresoDeAsistente { get; set; }
         public bool EstadoDeAsistente { get; set; }
         public DateTime FechaDeBaja { get; set; }
 

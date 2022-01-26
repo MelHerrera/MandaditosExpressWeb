@@ -314,7 +314,7 @@ else
                                         },
                                         success: function (response) {
                                             if (response.exito) {
-                                                let url = "/Envios/Create?CotizacionId=" + response.data;
+                                                let url = "/Envios/Create?Id=" + response.data;
                                                 window.location.replace(url);
                                             }
                                             else {
@@ -748,7 +748,7 @@ else
                                             success: function(response) {
                                 if (response.exito)
                                 {
-                                    let url = "/Envios/Create?CotizacionId=" + response.data;
+                                    let url = "/Envios/Create?Id=" + response.data;
                                     window.location.replace(url);
                                 }
                                 else

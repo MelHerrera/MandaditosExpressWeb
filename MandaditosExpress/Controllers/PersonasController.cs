@@ -97,23 +97,49 @@ namespace MandaditosExpress.Controllers
 
                         if (result.Succeeded)
                         {
-                            await UserManager.AddToRoleAsync(user.Id, Persona.Rol);//el rol cliente debio ser creado en el startup.cs
+                            await UserManager.AddToRoleAsync(user.Id, Persona.Rol);
 
-                            //Agregamos la persona
-                            PersonaToCreate = new Persona
+                            //Agregamos la persona correspondiente
+                            if (Persona.Rol.ToUpper() == MainRolesEnum.Asistente.ToString().ToUpper())
                             {
-                                CorreoElectronico = Persona.CorreoElectronico,
-                                PrimerNombre = Persona.PrimerNombre,
-                                SegundoNombre = Persona.SegundoNombre,
-                                PrimerApellido = Persona.PrimerApellido,
-                                SegundoApellido = Persona.SegundoApellido,
-                                Telefono = Persona.Telefono,
-                                Foto = new Utileria().getImageBytes(Request),
-                                Sexo = Persona.Sexo,
-                                Direccion = Persona.Direccion,
-                                Cedula = Persona.Cedula,
-                                FechaIngreso = DateTime.Now
-                            };
+                                PersonaToCreate = new Asistente
+                                {
+                                    CorreoElectronico = Persona.CorreoElectronico,
+                                    PrimerNombre = Persona.PrimerNombre,
+                                    SegundoNombre = Persona.SegundoNombre,
+                                    PrimerApellido = Persona.PrimerApellido,
+                                    SegundoApellido = Persona.SegundoApellido,
+                                    Telefono = Persona.Telefono,
+                                    Foto = new Utileria().getImageBytes(Request),
+                                    Sexo = Persona.Sexo,
+                                    Direccion = Persona.Direccion,
+                                    Cedula = Persona.Cedula,
+                                    FechaIngreso = DateTime.Now,
+                                    EstadoDeAsistente=true,
+                                    FechaDeBaja=DateTime.Parse("01/01/1900")
+                                };
+                            }
+
+                            if (Persona.Rol.ToUpper() == MainRolesEnum.Cliente.ToString().ToUpper())
+                            {
+                                PersonaToCreate = new Cliente
+                                {
+                                    CorreoElectronico = Persona.CorreoElectronico,
+                                    PrimerNombre = Persona.PrimerNombre,
+                                    SegundoNombre = Persona.SegundoNombre,
+                                    PrimerApellido = Persona.PrimerApellido,
+                                    SegundoApellido = Persona.SegundoApellido,
+                                    Telefono = Persona.Telefono,
+                                    Foto = new Utileria().getImageBytes(Request),
+                                    Sexo = Persona.Sexo,
+                                    Direccion = Persona.Direccion,
+                                    Cedula = Persona.Cedula,
+                                    FechaIngreso = DateTime.Now,
+                                    EsEmpresa = false,
+                                    NombreDeLaEmpresa = "-",
+                                    RUC = " - "
+                                };
+                            }
 
                             db.Personas.Add(PersonaToCreate);
 

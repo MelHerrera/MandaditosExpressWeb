@@ -287,7 +287,7 @@ namespace MandaditosExpress.Controllers
 
                     db.Cotizaciones.Add(mCotiza);
                     db.SaveChanges();
-                    return RedirectToAction("Create", "Envios", new { CotizacionId = mCotiza.Id });
+                    return RedirectToAction("Create", "Envios", new { Id = mCotiza.Id });
                     //return Json(new { exito = true, data = mCotiza.Id }, JsonRequestBehavior.AllowGet);
                 }
             }
