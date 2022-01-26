@@ -106,7 +106,7 @@ else
                                         <input type="text" class="LugarDestinoLongitud" name="LugarDestino.Longitud" hidden />
                                     </div>
 
-                                    <div class="form-check" data-toggle="tooltip" data-placement="bottom" title="Indica si el envío que se esta cotizando es urgente">
+                                    <div class="form-check" data-toggle="tooltip" data-trigger="hover" title="Indica si el envío que se esta cotizando es urgente">
                                         <input class="form-check-input" type="checkbox" id="EsEspecial" value="true" name="EsEspecial" data-bind="checked:EsEspecial">
                                         <label class="form-check-label" for="EsEspecial">
                                             Urgente
@@ -619,6 +619,11 @@ else
         data.FechaDeValidez = formatDate(data.FechaDeValidez);
         var indexViewModel = new IndexCotizacionViewModel(data);
         ko.applyBindings(indexViewModel);
+
+        $('[data-toggle="popover"]').popover({
+            trigger: 'hover'
+        });
+
 
         InicializarGrafico();
         indexViewModel.CargarMapa();
@@ -1164,6 +1169,10 @@ type: "bar",
         data.FechaDeValidez = formatDate(data.FechaDeValidez);
         var indexViewModel = new IndexCotizacionViewModel(data);
         ko.applyBindings(indexViewModel);
+
+            $('[data-toggle="popover"]').popover({
+                trigger: 'hover'
+            });
 
         InicializarGrafico();
         indexViewModel.CargarMapa();
