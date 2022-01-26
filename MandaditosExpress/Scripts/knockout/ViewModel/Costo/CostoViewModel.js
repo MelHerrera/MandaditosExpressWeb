@@ -11,7 +11,7 @@
     self.PrecioPorKm = ko.observable(costo.PrecioPorKm || 0);
     self.TipoDeServicioId = ko.observable(costo.TipoDeServicioId || -1);
     self.EstadoDelCosto = ko.observable(costo.EstadoDelCosto || false);
-    self.PrecioDeRecargo = ko.observable(costo.PrecioPorKm || 0);
+    self.PrecioDeRecargo = ko.observable(costo.PrecioDeRecargo || 0);
     self.PrecioDeRegreso = ko.observable(costo.PrecioDeRegreso || 0);
     self.DescripcionTipoDeServicio = ko.observable(costo.DescripcionTipoDeServicio ? costo.DescripcionTipoDeServicio : costo.TipoDeServicio ? costo.TipoDeServicio.DescripcionTipoDeServicio : "");
 };

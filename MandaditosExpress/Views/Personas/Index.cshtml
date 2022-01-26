@@ -1,4 +1,5 @@
-﻿
+﻿@model MandaditosExpress.Models.ViewModels.UsuarioViewModel
+
 @{
     ViewBag.Title = "Lista de Personas";
     @Html.Hidden("Personas");
@@ -16,7 +17,7 @@
                     </p>
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" placeholder="Ingrese el correo o nombres " class="input form-control" data-bind="value:$root.TextInputBusqueda">
                                 <span class="input-group-btn">
@@ -26,6 +27,13 @@
                                     </button>
                                 </span>
                             </div>
+                        </div>
+                        <div class="col-auto ">
+                            @Html.DropDownList("Rol", null, htmlAttributes: new
+                            {
+                                @class = "form-control form-control-sm bg-primary text-white",
+                           data_bind = "value:$root.RolSelected"
+                       })
                         </div>
                         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                         {
@@ -132,15 +140,26 @@
             self.Personas = ko.observable(ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }));
             self.AllPersonas = ko.observableArray(data ? ko.utils.arrayMap(data, function (item) { return ko.mapping.fromJS(item); }) : []);
             self.PersonaSelected = ko.observable();
+            self.RolSelected = ko.observable("Todos");
             self.TextInputBusqueda = ko.observable('');
             self.FiltrandoPersonas = ko.observable(false);
             self.FiltrarPersonas = function () {
+                FiltrarPersonas();
+            }
+
+            //Subscripciones
+            self.RolSelected.subscribe(function (rolSelected) {
+                FiltrarPersonas();
+            });
+            //Funciones
+            function FiltrarPersonas() {
                 self.FiltrandoPersonas(true);//mostrar progress de filtrando
 
+                //primero filtrar por termino de busqueda
                 if (self.TextInputBusqueda()) {
                     let arrayFiltered = ko.utils.arrayFilter(self.AllPersonas(), function (it) {
-                        if (it.CorreoElectronico().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1 ||
-                            it.Nombres().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) !=-1) {
+                        if (it.CorreoElectronico().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1 ||
+                            it.Nombres().toUpperCase().indexOf(self.TextInputBusqueda().toUpperCase()) != -1 ) {
                             return it;
                         }
                     });
@@ -149,9 +168,18 @@
                     self.Personas(self.AllPersonas());
                 }
 
+                //despues filtrar por el filtro del combo
+                if (self.RolSelected().toUpperCase() != "Todos".toUpperCase()) {
+                    let arrayFiltered = ko.utils.arrayFilter(self.Personas(), function (it) {
+                        if (it.Rol().toUpperCase().indexOf(self.RolSelected().toUpperCase()) != -1) {
+                            return it;
+                        }
+                    });
+                    self.Personas(arrayFiltered);
+                }
+
                 self.FiltrandoPersonas(false);//ocultar progress
             }
-
         }
 
         $(function () {

@@ -340,6 +340,7 @@
     <Compile Include="Models\Enum\EstadoDeAfiliadoEnum.cs" />
     <Compile Include="Models\Enum\EstadoDelCreditoEnum.cs" />
     <Compile Include="Models\Enum\EstadoDeMotorizadoEnum.cs" />
+    <Compile Include="Models\Enum\MainRolesEnum.cs" />
     <Compile Include="Models\Envio.cs" />
     <Compile Include="Models\Enum\EstadoDelEnvioEnum.cs" />
     <Compile Include="Models\Extensions\DecimalModelBinder.cs" />

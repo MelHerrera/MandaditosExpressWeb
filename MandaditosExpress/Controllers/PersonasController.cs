@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.Enum;
 using MandaditosExpress.Models.Utileria;
 using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
@@ -34,6 +35,10 @@ namespace MandaditosExpress.Controllers
         public ActionResult Index()
         {
             var Personas = GetUserList();
+            var Roles = dbSecurity.Roles.Where(it => it.Name != MainRolesEnum.Admin.ToString()).ToList();
+            Roles.Insert(0, new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Id="0", Name ="Todos"});
+
+            ViewBag.Rol = new SelectList(Roles, nameof(IRole.Name), nameof(IRole.Name));
 
             ViewBag.Personas = JsonConvert.SerializeObject(Personas.ToList());
             return View();
