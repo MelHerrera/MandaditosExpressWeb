@@ -68,7 +68,7 @@ else
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Password"><i class="fa fa-key"></i></label>
-                                            <input type="password" name="Password" placeholder="Contraseña*" data-bind="toggleValue: $root.TogglePassword" value="@Model.Password" />
+                                            <input type="password" name="Password" placeholder="Contraseña*" data-bind="toggleValue: $root.TogglePassword" value="@Model.Password"/>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                     </div>
@@ -280,6 +280,7 @@ else
     @Scripts.Render("~/plugins/jscolorpicker")
     @Scripts.Render("~/plugins/sweetalert")
     <script src="~/Scripts/plugins/jquerymask/jquery.mask.js"></script>
+    @Scripts.Render("~/plugins/knockout")
 
     @if (ViewBag.Exito != null)
     {
@@ -323,6 +324,12 @@ else
     }
 
     <script type="text/javascript">
+        function IndexMotorizados() {
+            const self = this;
+
+            self.TogglePassword = ko.observable(false);
+            self.ToggleConfirmPassword = ko.observable(false);
+        }
 
         $(document).ready(function () {
 
@@ -343,14 +350,8 @@ else
                 readURL(this);
             });
 
-            ////validar campo Estado de Afiliacion cuando el usuario lo manipule
-            //$(".chkAfiliado").on("change", function () {
-            //    if ($(".chkAfiliado").is(":checked")) {
-            //        $(".EstadoDeAfiliado").show();
-            //    } else {
-            //        $(".EstadoDeAfiliado").hide();
-            //    }
-            //});
+            let vm = new IndexMotorizados();
+            ko.applyBindings(vm);
         });
     </script>
 }
