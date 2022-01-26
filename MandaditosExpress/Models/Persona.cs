@@ -29,7 +29,6 @@ namespace MandaditosExpress.Models
         [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; }
 
-        [Required(ErrorMessage = "Campo Obligatorio")]
         [StringLength(30)]
         [Display(Name = "Segundo Apellido")]
         public string SegundoApellido { get; set; }

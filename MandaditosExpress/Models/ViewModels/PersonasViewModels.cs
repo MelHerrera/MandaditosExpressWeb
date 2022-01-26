@@ -26,7 +26,6 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; }
 
-        [Required]
         [StringLength(30)]
         [Display(Name = "Segundo Apellido")]
         public string SegundoApellido { get; set; }
@@ -138,7 +137,6 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; }
 
-        [Required]
         [StringLength(30)]
         [Display(Name = "Segundo Apellido")]
         public string SegundoApellido { get; set; }
@@ -370,7 +368,6 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; }
 
-        [Required]
         [StringLength(30)]
         [Display(Name = "Segundo Apellido")]
         public string SegundoApellido { get; set; }
