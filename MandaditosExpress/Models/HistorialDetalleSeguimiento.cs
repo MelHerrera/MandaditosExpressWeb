@@ -15,7 +15,5 @@ namespace MandaditosExpress.Models
 
         public string LongitudActual { get; set; }
         public string LatitudActual { get; set; }
-
-        public virtual HistorialSeguimiento HistorialSeguimientos { get; set; }
     }
 }

@@ -8,11 +8,6 @@ namespace MandaditosExpress.Models
     [Table("HistorialesDeSeguimiento")]
     public class HistorialSeguimiento
     {
-        public HistorialSeguimiento()
-        {
-            this.HistorialDetalleDeSeguimiento = new HashSet<HistorialDetalleSeguimiento>();
-        }
-
         [Key]
         public int Id { get; set; }
         public string LongitudDeOrigen { get; set; }
@@ -22,7 +17,7 @@ namespace MandaditosExpress.Models
         public TimeSpan HoraDeInicio { get; set; }
         public TimeSpan HoraDeFin { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialDetalleSeguimiento> HistorialDetalleDeSeguimiento { get; set; }
+        public int EnvioId { get; set; }
+
     }
 }
