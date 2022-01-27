@@ -11,8 +11,7 @@ namespace MandaditosExpress.Models
         [Key]
         public int Id { get; set; }
         public int SeguimientoId { get; set; }
-        public DateTime HoraDeInicio { get; set; }
-        public DateTime HoraDeEntrega { get; set; }
+        public TimeSpan HoraActual { get; set; }
         public string LongitudActual { get; set; }
         public string LatitudActual { get; set; }
 

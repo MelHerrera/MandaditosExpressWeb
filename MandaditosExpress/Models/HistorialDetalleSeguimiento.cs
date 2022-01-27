@@ -10,8 +10,9 @@ namespace MandaditosExpress.Models
         [Key]
         public int Id { get; set; }
         public int HistorialSeguimientoId { get; set; }
-        public TimeSpan HoraDeInicio { get; set; }
-        public TimeSpan HoraDeEntrega { get; set; }
+
+        public TimeSpan HoraActual { get; set; }
+
         public string LongitudActual { get; set; }
         public string LatitudActual { get; set; }
 
