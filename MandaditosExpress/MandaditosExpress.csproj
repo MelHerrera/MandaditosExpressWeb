@@ -357,7 +357,6 @@
     <Compile Include="Models\Motorizado.cs" />
     <Compile Include="Models\Pago.cs" />
     <Compile Include="Models\Persona.cs" />
-    <Compile Include="Models\Salario.cs" />
     <Compile Include="Models\Seguimiento.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\TipoDePago.cs" />

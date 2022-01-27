@@ -13,7 +13,6 @@ namespace MandaditosExpress.Models
         public Motorizado()
         {
             Motocicletas = new HashSet<Motocicleta>();
-            Salarios = new HashSet<Salario>();
             Envios = new HashSet<Envio>();
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
             FechaRechazoAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
@@ -46,6 +45,8 @@ namespace MandaditosExpress.Models
         [Display(Name = "Disponibilidad")]
         public int? DisponibilidadId { get; set; }
 
+        public bool Activo { get; set; }
+
         public virtual CalidadDeConexion VelocidadDeConexion { get; set; }
 
         public virtual Disponibilidad Disponibilidad { get; set; }
@@ -53,8 +54,7 @@ namespace MandaditosExpress.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Motocicleta> Motocicletas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Salario> Salarios { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
         public virtual ICollection<Envio> Envios { get; set; }
     }
 }
