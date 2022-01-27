@@ -1,6 +1,6 @@
 ﻿function IndexCosto(CostoCollection) {
     const self = this;
-    self.Costo = ko.observableArray(CostoCollection);
+    self.Costo = ko.observableArray(CostoCollection ? ko.utils.arrayMap(CostoCollection, (c) => { return new CostoViewModel(c) }) : []);
     self.Disable = ko.observable(false);
     self.DisableEver = ko.observable(true);
 

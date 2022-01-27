@@ -87,7 +87,7 @@ namespace MandaditosExpress.Models.ViewModels
         [Display(Name = "Método de Pago")]
         public int TipoDePagoId { get; set; }
 
-        public virtual  ICollection<MonedaViewModel> Monedas { get; set; }
+        public virtual ICollection<MonedaViewModel> Monedas { get; set; }
         public virtual ICollection<TipoDePagoViewModel> TiposDePago { get; set; }
         public virtual ICollection<ClientePagoViewModel> Clientes { get; set; }
         public virtual ICollection<EnvioPagoViewModel> Envios { get; set; }
@@ -160,7 +160,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         public CreditoViewModel()
         {
-           FechaDeCancelacion = DateTime.Parse("01/01/1900");
+            FechaDeCancelacion = DateTime.Parse("01/01/1900");
             CodigoDelCredito = "-";
         }
 
@@ -168,7 +168,7 @@ namespace MandaditosExpress.Models.ViewModels
         public int Id { get; set; }
 
         [StringLength(30)]
-        [Display(Name ="Código")]
+        [Display(Name = "Código")]
         public string CodigoDelCredito { get; set; }
 
         [Display(Name = "Descripción")]
@@ -237,5 +237,120 @@ namespace MandaditosExpress.Models.ViewModels
         public DateTime FechaDeValidez { get; set; }
         public int MotorizadoId { get; set; }
         public bool EstadoDeMotocicleta { get; set; }
+    }
+
+    public class CostoIndexViewModel
+    {
+        public CostoIndexViewModel()
+        {
+            FechaDeInicio = DateTime.Now;
+        }
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de Inicio")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDeInicio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de Fin")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDeFin { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        [DataType(DataType.MultilineText)]
+        public string Descripcion { get; set; }
+
+        [Display(Name = "Costo por Gasolina (CG)")]
+        public float CostoDeGasolina { get; set; }
+
+        [Display(Name = "Costo por Asistencia (CA)")]
+        public float CostoDeAsistencia { get; set; }
+
+        [Display(Name = "Costo por Motorizado (CM)")]
+        public float CostoDeMotorizado { get; set; }
+
+        [Required]
+        [Display(Name = "Distancia Base en Km (DB)")]
+        public float DistanciaBase { get; set; }
+
+        [Required]
+        [Display(Name = "Precio por Km en C$ (PK)")]
+        public float PrecioPorKm { get; set; }
+
+        [Display(Name = "Tipo De Servicio")]
+        [Required]
+        public int TipoDeServicioId { get; set; }
+
+        public string TipoDeServicioDescripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Estado")]
+        public bool EstadoDelCosto { get; set; }
+
+        [Required]
+        [Display(Name = "Precio De Recargo (PR)")]
+        public float PrecioDeRecargo { get; set; }
+
+        [Required]
+        [Display(Name = "Precio de ida y regreso (PIR)")]
+        public float PrecioDeRegreso { get; set; }
+    }
+
+    public class CostoBancarioIndexViewModel 
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de Inicio")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDeInicio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de Fin")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDeFin { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string Descripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Monto Desde C$ (MD)")]
+        [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
+        public decimal MontoDesde { get; set; }
+
+        [Required]
+        [Display(Name = "Monto Hasta C$ (MH)")]
+        [Range(120, 10000, ErrorMessage = "Por Seguridad solo hacemos gestiones de {1} a {2}. " +
+    "Contactate con nosotros si deseas enviar una cantidad mayor")]
+        public decimal MontoHasta { get; set; }
+
+        [Required]
+        public bool Estado { get; set; }
+
+        [Display(Name = "Porcentaje (P)")]
+        public float Porcentaje { get; set; }
+
+        [Display(Name = "Valor C$ (V)")]
+        public int Valor { get; set; }
+
+        [Required]
+        [Display(Name = "Precio De Recargo C$ (PR)")]
+        public float PrecioDeRecargo { get; set; }
+
+        [Required]
+        [Display(Name = "Precio ida y regreso C$ (PIR)")]
+        public float PrecioDeRegreso { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo De Servicio")]
+        public int TipoDeServicioId { get; set; }
+
+        public string TipoDeServicioDescripcion { get; set; }
     }
 }

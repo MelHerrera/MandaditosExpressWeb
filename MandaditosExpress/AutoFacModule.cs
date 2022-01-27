@@ -63,6 +63,11 @@ public class MainMappingProfile : Profile
         CreateMap<TipoDeServicio, TipoDeServicioViewModel>();
         CreateMap<Servicio, ServicioViewModel>().ForMember(x => x.DescripcionTipoDeServicio, x => x.MapFrom(y => y.TipoDeServicio != null ? y.TipoDeServicio.DescripcionTipoDeServicio : "")).ReverseMap();
         CreateMap<TipoDePago, TipoDePagoViewModel>();
+        CreateMap<Costo, CostoIndexViewModel>()
+            .ForMember(x => x.TipoDeServicioDescripcion, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio));
+
+        CreateMap<CostoGestionBancaria, CostoBancarioIndexViewModel>()
+             .ForMember(x => x.TipoDeServicioDescripcion, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio));
 
         CreateMap<Envio, EnvioViewModel>().ForMember(x => x.TipoDeServicioDescripcion, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio))
                                           .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))

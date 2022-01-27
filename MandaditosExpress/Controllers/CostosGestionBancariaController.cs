@@ -6,8 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using MandaditosExpress.Models;
+using MandaditosExpress.Models.ViewModels;
 using MandaditosExpress.Services;
+using Newtonsoft.Json;
 
 namespace MandaditosExpress.Controllers
 {
@@ -16,16 +19,20 @@ namespace MandaditosExpress.Controllers
     {
         private MandaditosDB db = new MandaditosDB();
         private CostoBancarioServices CostoBancarioServices;
+        private readonly IMapper mapper;
 
-        public CostosGestionBancariaController()
+        public CostosGestionBancariaController(IMapper mapper)
         {
             CostoBancarioServices = new CostoBancarioServices(db);
+            this.mapper = mapper;
         }
         // GET: CostosGestionBancaria
         public ActionResult Index()
         {
-            var data = db.CostoGestionBancaria.ToList();
-            return View(data);
+            var data = mapper.Map<ICollection<CostoBancarioIndexViewModel>>( db.CostoGestionBancaria.ToList()).ToList();
+
+            ViewBag.dt = JsonConvert.SerializeObject(data);
+            return View();
         }
 
         // GET: CostosGestionBancaria/Details/5

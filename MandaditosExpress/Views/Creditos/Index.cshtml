@@ -76,9 +76,9 @@
                                 {
                                     <td data-bind="text:NombreCompleto"></td>
                                 }
-                                <td data-bind="text:FechaDeInicio"></td>
-                                <td data-bind="text:FechaDeVencimiento"></td>
-                                <td data-bind="text:FechaDeCancelacion"></td>
+                                <td data-bind="text:FechaDeInicioFormatted"></td>
+                                <td data-bind="text:FechaDeVencimientoFormatted"></td>
+                                <td data-bind="text:FechaDeCancelacionFormatted"></td>
 
                                 <td style="white-space:nowrap">
                                     @if (User.IsInRole("Admin"))
@@ -158,4 +158,5 @@
     @Scripts.Render("~/bundles/IndexCreditos")
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/moment")
 }

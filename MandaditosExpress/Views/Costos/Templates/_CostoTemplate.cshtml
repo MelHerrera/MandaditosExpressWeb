@@ -13,7 +13,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="TipoServicioId" class="control-label">Tipo de Servicio</label>
-                <input type="text" data-bind="value:DescripcionTipoDeServicio, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" disabled />
+                <input type="text" data-bind="value:TipoDeServicioDescripcion, disable: $root.Disable, disable: $root.DisableEver" name="ClienteId" class="form-control" disabled />
             </div>
         </div>
         <div class="col-md-3">
@@ -42,7 +42,7 @@
                 <label for="FechaDeFin" class="control-label">Fecha De fin</label>
                 <input type="datetime-local" data-bind="value:FechaDeFin, disable: $root.Disable" name="FechaDeFin" class="form-control" required/>
             </div>
-        </div>
+        </div>  
     </div>
 
     <div class="row">

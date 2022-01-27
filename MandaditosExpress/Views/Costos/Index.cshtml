@@ -1,10 +1,9 @@
-﻿@model IEnumerable<MandaditosExpress.Models.Costo>
+﻿@model MandaditosExpress.Models.ViewModels.CostoIndexViewModel
 
 @{
     ViewBag.Title = "Costos";
-    var Costos = Html.HtmlConvertToJson(Model);
 
-    @Html.Hidden("dt", Costos);
+    @Html.Hidden("dt");
 }
 
 @Styles.Render("~/Plugin/switches")
@@ -35,72 +34,66 @@
                             <a class="btn btn-success float-left" href="@Url.Action("Create")"><i class="fa fa-plus"></i> Agregar</a>
                         </p>
                     </div>
+                    <!--ko if:Costo().length > 0-->
+                    <table class="table table-bordered costo ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Nº")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
 
-                    @if (Model.Count() > 0)
-                    {
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeFin)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoDelCosto)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
 
-                        <table class="table table-bordered costo ">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayName("Nº")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Descripcion)
-                                    </th>
+                        </thead>
+                        <tbody data-bind="foreach:Costo">
+                            <tr>
+                                <td data-bind="text:$index()+1"></td>
+                                <td data-bind="text:Descripcion"></td>
+                                <td data-bind="text:FechaDeInicioFormatted"></td>
+                                <td data-bind="text:FechaDeFinFormatted"></td>
+                                <td data-bind="text:TipoDeServicioDescripcion"></td>
+                                <td>
+                                    <span data-bind="text:(ko.unwrap(EstadoDelCosto) ? 'Activo':'Inactivo'), class:(ko.unwrap(EstadoDelCosto) ? 'badge badge-success':'badge badge-warning')"></span>
+                                </td>
 
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeFin)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.TipoDeServicioId)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EstadoDelCosto)
-                                    </th>
-                                    <th>Opciones</th>
-                                </tr>
-
-                            </thead>
-                            <tbody data-bind="foreach:Costo">
-                                <tr>
-                                    <td data-bind="text:$index()+1"></td>
-                                    <td data-bind="text:Descripcion"></td>
-                                    <td data-bind="text:FechaDeInicio"></td>
-                                    <td data-bind="text:FechaDeFin"></td>
-                                    <td data-bind="text:TipoDeServicio.DescripcionTipoDeServicio"></td>
-                                    <td>
-                                        <span data-bind="text:(ko.unwrap(EstadoDelCosto) ? 'Activo':'Inactivo'), class:(ko.unwrap(EstadoDelCosto) ? 'badge badge-success':'badge badge-warning')"></span>
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group">
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
-                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
-                                            }
-                                            @if (User.IsInRole("Asistente"))
-                                            {
-                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
-                                            }
-                                        </div>                                       
-                                    </td>
-                                </tr>
-                        </table>
-                    }
-                    else
-                    {
-
-                        <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0 Costos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
-                        </div>
-
-                    }
+                                <td>
+                                    <div class="btn-group">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i></a>
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                        }
+                                        @if (User.IsInRole("Asistente"))
+                                        {
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i></a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                    </table>
+                    <!--/ko-->
+                    <!--ko if:Costo().length <= 0-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0 Costos  para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                    </div>
+                    <!--/ko-->
                 </div>
             </div>
         </div>
@@ -115,11 +108,10 @@
 @Html.Partial("~/Views/Costos/Templates/_CostoTemplate.cshtml")
 
 @section Scripts{
-
-
     @Scripts.Render("~/plugins/knockout")
     @Scripts.Render("~/plugins/switch")
     @Scripts.Render("~/bundles/IndexCosto")
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/moment")
 }

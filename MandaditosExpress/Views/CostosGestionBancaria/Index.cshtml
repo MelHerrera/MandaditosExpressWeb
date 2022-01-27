@@ -1,10 +1,9 @@
-﻿@model IEnumerable<MandaditosExpress.Models.CostoGestionBancaria>
+﻿@model MandaditosExpress.Models.ViewModels.CostoBancarioIndexViewModel
 
 @{
     ViewBag.Title = "Costos de la Gestion Bancaria";
-    var CostosGestionBancaria = Html.HtmlConvertToJson(Model);
 
-    @Html.Hidden("dt", CostosGestionBancaria);
+    @Html.Hidden("dt");
 }
 @Styles.Render("~/Plugin/switches")
 
@@ -30,79 +29,74 @@
                         </p>
                     </div>
 
-                    @if (Model.Count() > 0)
-                    {
-                        <table class="table table-bordered table-CostosGestionBancaria">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayName("Nº")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Descripcion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeInicio)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FechaDeFin)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.MontoDesde)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.MontoHasta)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.TipoDeServicioId)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Estado)
-                                    </th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach:CostoGetionBancaria">
+                    <!--ko if:CostoGetionBancaria().length > 0-->
+                    <table class="table table-bordered table-CostosGestionBancaria">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Nº")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeInicio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FechaDeFin)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MontoDesde)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MontoHasta)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TipoDeServicioId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado)
+                                </th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:CostoGetionBancaria">
 
-                                <tr>
-                                    <td data-bind="text:$index()+1"></td>
-                                    <td data-bind="text:Descripcion"></td>
-                                    <td data-bind="text:FechaDeInicio"></td>
-                                    <td data-bind="text:FechaDeFin"></td>
-                                    <td data-bind="text:MontoDesde"></td>
-                                    <td data-bind="text:MontoHasta"></td>
-                                    <td data-bind="text:DescripcionTipoDeServicio"></td>
-                                    <td>
-                                        <span data-bind="text:(ko.unwrap(Estado) ? 'Activo':'Inactivo'), class:(ko.unwrap(Estado) ? 'badge badge-success':'badge badge-warning')"></span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
-                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                                <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
-                                            }
-                                            @if (User.IsInRole("Asistente"))
-                                            {
-                                                <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
-                                            }
-                                        </div>                                        
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td data-bind="text:$index()+1"></td>
+                                <td data-bind="text:Descripcion"></td>
+                                <td data-bind="text:FechaDeInicioFormatted"></td>
+                                <td data-bind="text:FechaDeFinFormatted"></td>
+                                <td data-bind="text:MontoDesde"></td>
+                                <td data-bind="text:MontoHasta"></td>
+                                <td data-bind="text:TipoDeServicioDescripcion"></td>
+                                <td>
+                                    <span data-bind="text:(ko.unwrap(Estado) ? 'Activo':'Inactivo'), class:(ko.unwrap(Estado) ? 'badge badge-success':'badge badge-warning')"></span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Edit")'}" class="btn btn-warning btn-sm" id="btn-edit"> <i class="fa fa-pencil" title="Editar"></i> Editar</a>
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                            <a data-bind="click:$root.ShowModal,attr:{href:'@Url.Action("/Delete")'}" class="btn btn-danger btn-sm" id="btn-del"><i class="fa fa-trash" title="Eliminar"></i> Eliminar</a>
+                                        }
+                                        @if (User.IsInRole("Asistente"))
+                                        {
+                                            <a data-bind="click:$root.MostrarDetalles,attr:{href:'@Url.Action("Details")'}" class="btn btn-success btn-sm"><i class="fa fa-info-circle" title="Detalles"></i> Detalles</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
 
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <!--ko if:mostrarAlertVacio-->
-                        <div class="alert alert-warning alert-Empty" role="alert">
-                            Se encontraron 0  costos de gestiones bancarias para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
-                        </div>
-                        <!--/ko-->
-                    }
-
+                        </tbody>
+                    </table>
+                    <!--/ko-->
+                    <!--ko if:mostrarAlertVacio-->
+                    <div class="alert alert-warning alert-Empty" role="alert">
+                        Se encontraron 0  costos de gestiones bancarias para mostrar <a href="@Url.Action("Create")" class="alert-link">Click aqui</a>. Para Agregar uno.
+                    </div>
+                    <!--/ko-->
                 </div>
             </div>
         </div>
@@ -124,4 +118,5 @@
     @Scripts.Render("~/bundles/IndexCostoGestionBancaria")
     @Scripts.Render("~/plugins/sweetalert")
     @Scripts.Render("~/plugins/notify")
+    @Scripts.Render("~/plugins/moment")
 }
