@@ -527,6 +527,8 @@
                                     icon: 'fa fa-exclamation-circle',
                                     message: response.message
                                 });
+                                //mostrar informacion de fin de la peticion
+                                self.CargandoSolicitud(false);
                             }
 
                         },
@@ -535,9 +537,7 @@
                                 icon: 'fa fa-exclamation-circle',
                                 message: "Ha ocurrido un error procesando su solicitud! error 500"
                             });
-                        },
-                        complete: function () {
-                           //mostrar informacion de fin de la peticion
+                            //mostrar informacion de fin de la peticion
                             self.CargandoSolicitud(false);
                         }
                     }
