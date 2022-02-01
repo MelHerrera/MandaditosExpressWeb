@@ -1,6 +1,6 @@
 ﻿
 @{
-    var response = ViewBag.SendEmail.ToString().ToLower();
+    var response = ViewBag.SendEmail != null ? ViewBag.SendEmail.ToString().ToLower() : false.ToString().ToLower();
 }
 
 <!DOCTYPE html>
