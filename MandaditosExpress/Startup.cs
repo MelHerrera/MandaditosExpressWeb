@@ -33,13 +33,13 @@ namespace MandaditosExpress
                 AdmRoles.Create(Rol);
 
                 var usuario = new ApplicationUser();
-                usuario.UserName = "melkinantonioh@gmail.com";
-                usuario.Email = "melkinantonioh@gmail.com";
+                usuario.UserName = "chriscouter@gmail.com";
+                usuario.Email = "chriscouter@gmail.com";
                 usuario.EmailConfirmed = true;
                 
 
 
-                var resultado = AdmUsuarios.Create(usuario, "Mel#123");
+                var resultado = AdmUsuarios.Create(usuario, "Chris#123");
                 if (resultado.Succeeded)
                 {
                     AdmUsuarios.AddToRole(usuario.Id, "Admin");
@@ -64,16 +64,6 @@ namespace MandaditosExpress
                 Rol = new IdentityRole();
                 Rol.Name = "Cliente";
                 AdmRoles.Create(Rol);
-
-                var usuario = new ApplicationUser();
-                usuario.UserName = "jcastillov@gmail.com";
-                usuario.Email = "jcastillov@gmail.com";
-
-                var resultado = AdmUsuarios.Create(usuario, "Jcas#123");
-                if (resultado.Succeeded)
-                {
-                    AdmUsuarios.AddToRole(usuario.Id, "Cliente");
-                }
             }
 
 
@@ -82,17 +72,6 @@ namespace MandaditosExpress
                 Rol = new IdentityRole();
                 Rol.Name = "Motorizado";
                 AdmRoles.Create(Rol);
-
-                var usuario = new ApplicationUser();
-                usuario.UserName = "paty@gmail.com";
-                usuario.Email = "paty@gmail.com";
-                usuario.EmailConfirmed = true;
-
-                var resultado = AdmUsuarios.Create(usuario, "Paty#123");
-                if (resultado.Succeeded)
-                {
-                    AdmUsuarios.AddToRole(usuario.Id, "Motorizado");
-                }
             }
 
             if (!AdmRoles.RoleExists("Asistente"))
@@ -100,30 +79,6 @@ namespace MandaditosExpress
                 Rol = new IdentityRole();
                 Rol.Name = "Asistente";
                 AdmRoles.Create(Rol);
-
-                var usuario = new ApplicationUser();
-                usuario.UserName = "asistente@gmail.com";
-                usuario.Email = "asistente@gmail.com";
-                usuario.EmailConfirmed = true;
-
-                var resultado = AdmUsuarios.Create(usuario, "Mel#123");
-                if (resultado.Succeeded)
-                {
-                    AdmUsuarios.AddToRole(usuario.Id, "Asistente");
-
-                    var Persona = new Persona();
-                    Persona.CorreoElectronico = usuario.UserName;
-                    Persona.PrimerNombre = "Asistente";
-                    Persona.PrimerApellido = "Herrera";
-                    Persona.SegundoApellido = "Mendoza";
-                    Persona.Telefono = "82415644";
-                    Persona.Sexo = "Masculino";
-                    Persona.Direccion = "Colonia Miguel Bonilla UNAN";
-                    Persona.FechaIngreso = DateTime.Now;
-
-                    db.Personas.Add(Persona);
-                    db.SaveChanges();
-                }
             }
         }
     }

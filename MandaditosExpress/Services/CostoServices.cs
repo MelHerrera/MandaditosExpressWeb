@@ -34,7 +34,7 @@ namespace MandaditosExpress.Services
 
         public string ValidarFechaCreate(DateTime FIncicio, DateTime Ffin, int TipoDeServicioId)
         {
-            // fecha de inicio no puede ser menor por mas de 3 minutos a la fecha actual
+            // fecha de inicio no puede ser menor que hoy
             // fecha inicio no puede ser mayor o igual a la fecha de fin
             // fecha fin no puede ser menor o igual a la fecha de inicio
             // fecha inicio no puede ser menos a una de las fechas de inicio de los costos vigentes para el mismo tipo de servicio
@@ -43,8 +43,8 @@ namespace MandaditosExpress.Services
 
             var error = string.Empty;
 
-            if (FIncicio.AddMinutes(3) < DateTime.Now)//permitirle que la fecha de inicio solo pueda ser 3 minutos antes de la hora y fecha actual
-                return error = "La fecha de inicio debe ser igual o mayor  a la fecha y hora actual. No puede iniciar un costo en un instante de tiempo pasado";
+            if (FIncicio < DateTime.Today)
+                return error = "La fecha de inicio debe ser igual o mayor  a la fecha actual";
             if (FIncicio >= Ffin)
                 return error = "La fecha de inicio no puede ser mayor o igual a la fecha de finalización del costo";
             if (Ffin <= FIncicio)

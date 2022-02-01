@@ -178,4 +178,39 @@ namespace MandaditosExpress.Models.Extensions
 
         public byte[] Imagen { get; set; }
     }
+
+    public partial class Registro
+    {
+        public string nombre { get; set; }
+        public string primerApellido { get; set; }
+
+        public string segundoApellido { get; set; }
+
+        public string cedula { get; set; }
+
+        public string correo { get; set; }
+
+        public string movil { get; set; }
+
+        public string genero { get; set; }
+
+        public string direccion { get; set; }
+
+        public string contrasena { get; set; }
+
+        public bool isEmpresa { get; set; }
+
+        public string nombreEmpresa { get; set; }
+
+        public string numeroRUC { get; set; }
+
+        public bool aceptaTerminos { get; set; }
+    }
+
+    public partial class ResponseWsRegistro
+    {
+        public bool Exito { get; set; }
+        public string Mensaje { get; set; }
+    }
+
 }

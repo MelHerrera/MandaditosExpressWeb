@@ -305,6 +305,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Asistente.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -679,6 +680,7 @@
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff" />
     <Content Include="Content\plugins\boxicons\fonts\boxicons.woff2" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -847,9 +849,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Reportes\RptCotizacion.rdlc" />
     <EmbeddedResource Include="Reportes\RptEnviosCredXClienteYFech.rdlc" />
