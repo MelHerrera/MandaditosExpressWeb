@@ -22,7 +22,7 @@ namespace MandaditosExpress.Models
         [Display(Name = "Nombre de Empresa")]
         public string NombreDeLaEmpresa { get; set; }
 
-        [StringLength(14,ErrorMessage ="Excedio la Longitud Permitida")]//J0130000006891
+        [StringLength(16,ErrorMessage ="Excedio la Longitud Permitida")]//J0130000006891--se extendio a 16, ya que, de algunas personas su ruc es la cedula
         [Display(Name = "Número RUC")]
         public string RUC { get; set; }
 

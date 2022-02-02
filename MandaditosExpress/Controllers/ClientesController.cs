@@ -82,9 +82,9 @@ namespace MandaditosExpress.Controllers
                             ModelState.AddModelError("", "El número RUC y nombre del negocio es obligatorio");
                             return View(cliente);
                         }
-                        if (cliente.RUC.Length != 14)
+                        if (cliente.RUC.Length < 14 || cliente.RUC.Length > 16)
                         {
-                            ModelState.AddModelError("", "El número RUC debe tener 14 caracteres de longitud");
+                            ModelState.AddModelError("", "El número RUC debe tener de 14 a 16 caracteres de longitud");
                             return View(cliente);
                         }
                     }
