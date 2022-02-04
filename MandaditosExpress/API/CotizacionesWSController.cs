@@ -39,7 +39,8 @@ namespace MandaditosExpress.API
                 {
                     if (TipoDeServicio == -1)//en la app movil mandar -1 cuando se necesite visualizarlas todas
                     {
-                        Response.Cotizaciones = mapper.Map<ICollection<ResponseWsCotizacion>>(db.Cotizaciones.Where(x => x.FechaDeValidez <= DateTime.Now && x.ClienteId == ClienteId)).ToList();
+                        var cotizaciones = db.Cotizaciones.Where(x => x.FechaDeValidez >= DateTime.Now && x.ClienteId == ClienteId).ToList();
+                        Response.Cotizaciones = mapper.Map<ICollection<ResponseWsCotizacion>>(cotizaciones).ToList();
                         Response.Exito = true;
                         Response.Mensaje = "Se cargó exitosamente la información";
                     }
@@ -51,7 +52,8 @@ namespace MandaditosExpress.API
                             Response.Mensaje = "Ha proporcionado un tipo de servicio inválido";
                         else
                         {
-                            Response.Cotizaciones = mapper.Map<ICollection<ResponseWsCotizacion>>(db.Cotizaciones.Where(it => it.TipoDeServicioId == TipoDeServicio && it.FechaDeValidez <= DateTime.Now && it.ClienteId == ClienteId)).ToList();
+                            var cotizaciones = db.Cotizaciones.Where(it => it.TipoDeServicioId == TipoDeServicio && it.FechaDeValidez >= DateTime.Now && it.ClienteId == ClienteId).ToList();
+                            Response.Cotizaciones = mapper.Map<ICollection<ResponseWsCotizacion>>(cotizaciones).ToList();
                             Response.Exito = true;
                             Response.Mensaje = "Se cargó exitosamente la información";
                         }
@@ -59,7 +61,7 @@ namespace MandaditosExpress.API
                 }
                 return Json(Response, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //no revelar información confidencial
                 return Json(new ResponseWsListaDeCotizaciones { Mensaje = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);

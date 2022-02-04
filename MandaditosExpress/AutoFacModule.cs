@@ -160,6 +160,8 @@ public class APIMappingProfile : Profile
             .ForMember(x => x.LugarDestino, x => x.MapFrom(y => y.LugarDestino != null ? y.LugarDestino.Direccion : ""))
             .ForMember(x => x.ClienteNombres, x => x.MapFrom(y => y.Cliente.NombreCompleto))
             .ForMember(x => x.TipoDeServicioDescripción, x => x.MapFrom(y => y.TipoDeServicio.DescripcionTipoDeServicio))
+            .ForMember(x=> x.FechaDeLaCotizacion, x=> x.MapFrom(y=> y.FechaDeLaCotizacion.ToString("dd/MM/yyyy")))
+            .ForMember(x => x.FechaDeValidez, x => x.MapFrom(y => y.FechaDeValidez.ToString("dd/MM/yyyy")))
             .ReverseMap();
 
         CreateMap<Envio, ResponseWsEnvio>()

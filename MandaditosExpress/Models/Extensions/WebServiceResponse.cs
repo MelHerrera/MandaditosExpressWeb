@@ -67,9 +67,9 @@ namespace MandaditosExpress.Models.Extensions
 
         public string CodigoDeCotizacion { get; set; }
 
-        public DateTime FechaDeLaCotizacion { get; set; }
+        public string FechaDeLaCotizacion { get; set; }
 
-        public DateTime FechaDeValidez { get; set; }
+        public string FechaDeValidez { get; set; }
 
         public string LugarDestino { get; set; }
 

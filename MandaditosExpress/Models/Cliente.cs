@@ -9,7 +9,7 @@ namespace MandaditosExpress.Models
     public class Cliente:Persona
     {
         public Cliente()
-        {
+        {     
             this.Envios = new HashSet<Envio>();
             this.Cotizaciones = new HashSet<Cotizacion>();
             this.Creditos = new HashSet<Credito>();
