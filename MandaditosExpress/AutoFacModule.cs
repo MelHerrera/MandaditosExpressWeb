@@ -165,8 +165,6 @@ public class APIMappingProfile : Profile
             .ReverseMap();
 
         CreateMap<Envio, ResponseWsEnvio>()
-                    .ForMember(x => x.EstadoDelEnvioText, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Solicitud ? EstadoDelEnvioEnum.Solicitud.ToString() : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.EnProceso ? EstadoDelEnvioEnum.EnProceso.ToString()
-                    : y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? EstadoDelEnvioEnum.Realizado.ToString() : EstadoDelEnvioEnum.Rechazado.ToString()))
                     .ForMember(x => x.Cliente, x => x.MapFrom(y => y.Cliente.PrimerNombre + " " + y.Cliente.PrimerApellido + " " + y.Cliente.SegundoApellido))
                     .ForMember(x => x.Finalizado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Realizado ? true : false))
                     .ForMember(x => x.Rechazado, x => x.MapFrom(y => y.EstadoDelEnvio == (short)EstadoDelEnvioEnum.Rechazado ? true : false))

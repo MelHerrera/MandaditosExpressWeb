@@ -96,7 +96,7 @@ namespace MandaditosExpress.Models.Extensions
 
         public string DescripcionDeEnvio { get; set; }
 
-        public DateTime FechaDelEnvio { get; set; }
+        public string FechaDelEnvio { get; set; }
 
         public double DistanciaEntregaRecep { get; set; }
 
@@ -106,7 +106,7 @@ namespace MandaditosExpress.Models.Extensions
 
         public bool EsUrgente { get; set; }
 
-        public string EstadoDelEnvioText { get; set; }
+        public int EstadoDelEnvio { get; set; }
 
         public bool Finalizado { get; set; }
         public bool Rechazado { get; set; }
