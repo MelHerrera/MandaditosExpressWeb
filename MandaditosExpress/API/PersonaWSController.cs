@@ -132,5 +132,39 @@ namespace MandaditosExpress.API
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> ResetPassword(string Email)
+        {
+            try
+            {
+                var respose = new ResponseWsResetPassword();
+                var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                var user = await UserManager.FindByNameAsync(Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    // No revelar que el usuario no existe o que no está confirmado
+                    respose.Exito = false;
+                    respose.Mensaje = "Si ha proporcionado un correo electrónico válido y confirmado, revise la bandeja de entrada de su correo para restablecer la contraseña";
+                }
+                else
+                {
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string confirmationMessageBody = string.Format("Estimado cliente para restablecer la contraseña de tu cuenta, haga clic  {0}", "<a href='" + callbackUrl + "'>Aquí</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", confirmationMessageBody);
+
+                    respose.Exito = true;
+                    respose.Mensaje = "Si ha proporcionado un correo electrónico válido y confirmado, revise la bandeja de entrada de su correo para restablecer la contraseña";
+                }
+                return Json(respose, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                //no revelar información confidencial
+                return Json(new ResponseWsResetPassword { Mensaje = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

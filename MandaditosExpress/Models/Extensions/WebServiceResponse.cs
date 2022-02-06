@@ -213,4 +213,9 @@ namespace MandaditosExpress.Models.Extensions
         public string Mensaje { get; set; }
     }
 
+    public partial class ResponseWsResetPassword
+    {
+        public bool Exito { get; set; }
+        public string Mensaje { get; set; }
+    }
 }
