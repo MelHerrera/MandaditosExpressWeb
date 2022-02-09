@@ -343,7 +343,7 @@ namespace MandaditosExpress.Controllers
         }
 
         // GET: Envios/Asignacion
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Asistente")]
         public ActionResult Asignacion(int? id)
         {
             var Envio = db.Envios.FirstOrDefault(it => it.Id == id);
@@ -369,7 +369,7 @@ namespace MandaditosExpress.Controllers
 
         // Post: Envios/Asignacion
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Asistente")]
         public ActionResult AsignacionConfirmed(int? MotorizadoId, int? EnvioId)
         {
             bool Reasignacion = false;
@@ -506,7 +506,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin, Asistente")]
         public ActionResult RechazarEnvio(int id, string motivo)
         {
             var envio = db.Envios.Find(id);
@@ -539,7 +539,7 @@ namespace MandaditosExpress.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Asistente")]
         public ActionResult FinalizarEnvio(int id)
         {
             var envio = db.Envios.Find(id);

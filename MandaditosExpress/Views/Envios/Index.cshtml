@@ -91,7 +91,7 @@
                             </div>
 
                             <div class="row p-0">
-                                @if (User.IsInRole("Admin"))
+                                @if (User.IsInRole("Admin") || User.IsInRole("Asistente") )
                                 {
                                     <div class="col-auto align-self-center">
                                         <div class="form-group align-self-center">
@@ -103,7 +103,7 @@
 
                                 <div class="col">
                                     <div class=" btn-group float-right">
-                                        @if (User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Asistente"))
                                         {
                                             <!--ko if:( !Rechazado() )-->
                                             <a class="btn btn-danger" href="#" data-bind="click:$root.Rechazar"><i class="fa fa-times-circle" title="Rechazar Envío"></i></a>
