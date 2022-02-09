@@ -193,7 +193,7 @@ namespace MandaditosExpress.Models.ViewModels
 
         public int? CreditoId { get; set; }
 
-        [Display(Name ="Descripción breve del Servicio")]
+        [Display(Name ="Servicio")]
         public int? ServicioId { get; set; }
 
         [Required]

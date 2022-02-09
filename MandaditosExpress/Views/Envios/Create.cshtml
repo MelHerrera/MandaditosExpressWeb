@@ -76,7 +76,8 @@
                                         <!--ko if:$root.NeedAddNewService-->
                                         <div class="col-md-6" data-bind="with:Servicio">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })
+                                                @*@Html.LabelFor(model => model.ServicioId, htmlAttributes: new { @class = "control-label font-weight-bold" })*@
+                                                <Label class="control-label font-weight-bold" name="ServicioId" id="ServicioId">Descripción breve del Servicio</Label>
                                                 <input type="text" id="DescripcionDelServicio" class="form-control" data-bind="value: DescripcionDelServicio" name="DescripcionDelServicio" />
                                                 <span class="text-danger field-validation-error" data-valmsg-for="DescripcionDelServicio" data-valmsg-replace="true">
                                                     <span id="DescripcionDelServicio-error" class=""></span>
