@@ -13,6 +13,7 @@ namespace MandaditosExpress.Models
         public Motorizado()
         {
             Motocicletas = new HashSet<Motocicleta>();
+            Pagos = new HashSet<Pago>();
             Envios = new HashSet<Envio>();
             FechaDeAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
             FechaRechazoAfiliacion = DateTime.Parse("01/01/1900 00:00:00");
@@ -56,5 +57,7 @@ namespace MandaditosExpress.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
         public virtual ICollection<Envio> Envios { get; set; }
+
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }

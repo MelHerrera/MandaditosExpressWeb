@@ -49,9 +49,13 @@ namespace MandaditosExpress.Models
         [Display(Name = "Estado")]
         public bool EstadoDelPago { get; set; }
 
+        public int? MotorizadoId { get; set; }
+
         public virtual Moneda Moneda { get; set; }
         public virtual TipoDePago TipoDePago { get; set; }
         public virtual Envio Envio { get; set; }
         public virtual Credito Credito { get; set; }
+        public virtual Motorizado Motorizado { get; set; }
+
     }
 }

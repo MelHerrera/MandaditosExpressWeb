@@ -47,5 +47,35 @@ namespace MandaditosExpress.API
                 return Json(new ResponseWsListaDePagos { Mensaje = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        // GET: PagosWS
+        public JsonResult GetPagosDelMotorizado(int MotorizadoId)
+        {
+            try
+            {
+                var Response = new ResponseWsListaDePagos();
+                var Motorizado = db.Motorizados.FirstOrDefault(x => x.Id == MotorizadoId);
+
+                if (Motorizado is null)
+                {
+                    Response.Exito = false;
+                    Response.Mensaje = "Ha proporcionado un motorizado inválido";
+                }
+                else
+                {
+                    var Pagos = db.Pagos.Where(x => x.Envio != null && x.MotorizadoId == MotorizadoId).ToList();
+                    Response.Pagos = mapper.Map<ICollection<ResponseWsPago>>(Pagos).ToList();
+                    Response.Exito = true;
+                    Response.Mensaje = "Se cargó la información correctamente";
+                }
+
+                return Json(Response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                //no revelar información confidencial
+                return Json(new ResponseWsListaDePagos { Mensaje = "Ha sucedido un error procesando tu solicitud" }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
