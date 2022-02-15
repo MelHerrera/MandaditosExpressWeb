@@ -218,4 +218,10 @@ namespace MandaditosExpress.Models.Extensions
         public bool Exito { get; set; }
         public string Mensaje { get; set; }
     }
+
+    public partial class ResponseWsFinalizarEnvio
+    {
+        public bool Exito { get; set; }
+        public string Mensaje { get; set; }
+    }
 }
